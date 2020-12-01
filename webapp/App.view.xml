@@ -1,0 +1,14 @@
+<mvc:View
+	controllerName="ERPFrontendUI5.App"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	<App id="app">
+		<Page title="Startseite">
+			<Label text="Hallo Welt"/>
+		</Page>
+	</App>
+</mvc:View>
