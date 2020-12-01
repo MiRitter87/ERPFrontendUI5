@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="ERPFrontendUI5.App"
+	controllerName="ERPFrontendUI5.controller.App"
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"

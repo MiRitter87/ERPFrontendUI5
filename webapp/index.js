@@ -3,7 +3,7 @@ sap.ui.define([
 ], function (XMLView) {
 	"use strict";
 
-	XMLView.create({viewName: "ERPFrontendUI5.App"}).then(function (oView) {
+	XMLView.create({viewName: "ERPFrontendUI5.view.App"}).then(function (oView) {
 		oView.placeAt("content");
 	});
 });
