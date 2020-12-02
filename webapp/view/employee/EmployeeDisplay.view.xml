@@ -1,0 +1,70 @@
+<mvc:View
+	controllerName="ERPFrontendUI5.controller.employee.EmployeeDisplay"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	
+	<Panel headerText="Anzeige von Mitarbeiterdaten">
+		<content>
+			<Label text="Personalnummer"/>
+			<Input id="queryEmployeeId" maxLength="4"/>
+			<Button icon="sap-icon://accept" text="Daten laden" press=".onPress" type="Emphasized"	class="sapUiSmallMargin"/>
+			
+			<f:Form id="employeeForm" editable="false">
+				<f:title>
+					<core:Title text="Daten des Mitabeiters" />
+				</f:title>
+				
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="Personalnummer">
+								<f:fields>
+									<Text id="employeeId" text="{/modelData/data/id}" />
+								</f:fields>
+							</f:FormElement>
+	
+							<f:FormElement label="Vorname">
+								<f:fields>
+									<Text id="firstName" text="{/modelData/data/firstName}" />
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="Nachname">
+								<f:fields>
+									<Text id="lastName" text="{/modelData/data/lastName}" />
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="Geschlecht">
+								<f:fields>
+									<Text id="gender" text="{/modelData/data/gender}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</content>
+	</Panel>
+</mvc:View>

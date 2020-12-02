@@ -45,7 +45,7 @@
 					</ScrollContainer>
 					
 					<ScrollContainer id="employeeDisplay">
-						<Text text="Mitarbeiter anzeigen"/>
+						<mvc:XMLView viewName="ERPFrontendUI5.view.employee.EmployeeDisplay"/>
 					</ScrollContainer>
 					
 					<ScrollContainer id="employeeOverview">
