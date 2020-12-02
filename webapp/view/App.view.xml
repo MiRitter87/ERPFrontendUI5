@@ -3,12 +3,38 @@
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:l="sap.ui.layout"
-	xmlns:f="sap.ui.layout.form"
+	xmlns:tnt="sap.tnt"
+	xmlns:f="sap.f"
 	xmlns:core="sap.ui.core">
-	<App id="app">
-		<Page title="Startseite">
-			<Label text="Hallo Welt"/>
-		</Page>
-	</App>
+	
+	<!-- Links ein Menü und rechts eine Content-Area: 
+	https://openui5.hana.ondemand.com/entity/sap.f.ShellBar/sample/sap.f.sample.ShellBarWithSplitApp -->
+	<tnt:ToolPage id="toolPage">
+		<!-- Application header -->
+		<tnt:header>
+			<f:ShellBar title="Micha's ERP">
+			</f:ShellBar>
+		</tnt:header>
+		
+		<!-- Navigation menu -->
+		<tnt:sideContent>
+			<tnt:SideNavigation>
+				<tnt:NavigationList>
+				</tnt:NavigationList>
+			</tnt:SideNavigation>
+		</tnt:sideContent>
+		
+		<!-- Content area -->
+		<tnt:mainContents>
+			<NavContainer id="pageContainer" initialPage="startPage">
+				<pages>
+					<ScrollContainer id="startPage">
+						<Text text="Hallo Welt"/>
+					</ScrollContainer>
+					<ScrollContainer>
+					</ScrollContainer>
+				</pages>
+			</NavContainer>
+		</tnt:mainContents>
+	</tnt:ToolPage>
 </mvc:View>
