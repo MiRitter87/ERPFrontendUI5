@@ -1,6 +1,8 @@
 {
 	"label" : "Hallo Welt aus dem JSON-Model",
 	
+	"selectedKey" : "startPage",
+	
 	"navigation": [
 		{
 			"title": "Mitarbeiter",

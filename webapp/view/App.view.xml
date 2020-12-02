@@ -18,7 +18,7 @@
 		
 		<!-- Navigation menu -->
 		<tnt:sideContent>
-			<tnt:SideNavigation>
+			<tnt:SideNavigation expanded="true" selectedKey="{/selectedKey}" itemSelect="onItemSelect">
 				<tnt:NavigationList items="{path: '/navigation', templateShareable : false}">
 					<tnt:NavigationListItem text="{title}" icon="{icon}" expanded="{expanded}" items="{path: 'items', templateShareable : false}" key="{key}">
 						<tnt:NavigationListItem text="{title}" key="{key}">
@@ -35,7 +35,21 @@
 					<ScrollContainer id="startPage">
 						<Text text="{/label}"/>
 					</ScrollContainer>
-					<ScrollContainer>
+					
+					<ScrollContainer id="employeeCreate">
+						<Text text="Mitarbeiter anlegen"/>
+					</ScrollContainer>
+					
+					<ScrollContainer id="employeeChange">
+						<Text text="Mitarbeiter ändern"/>
+					</ScrollContainer>
+					
+					<ScrollContainer id="employeeDisplay">
+						<Text text="Mitarbeiter anzeigen"/>
+					</ScrollContainer>
+					
+					<ScrollContainer id="employeeOverview">
+						<Text text="Mitarbeiter Übersicht"/>
 					</ScrollContainer>
 				</pages>
 			</NavContainer>
