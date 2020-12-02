@@ -29,7 +29,7 @@
 			<NavContainer id="pageContainer" initialPage="startPage">
 				<pages>
 					<ScrollContainer id="startPage">
-						<Text text="Hallo Welt"/>
+						<Text text="{/label}"/>
 					</ScrollContainer>
 					<ScrollContainer>
 					</ScrollContainer>

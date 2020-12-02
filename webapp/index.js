@@ -6,4 +6,5 @@ sap.ui.define([
 	XMLView.create({viewName: "ERPFrontendUI5.view.App"}).then(function (oView) {
 		oView.placeAt("content");
 	});
+	
 });
