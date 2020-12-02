@@ -19,7 +19,11 @@
 		<!-- Navigation menu -->
 		<tnt:sideContent>
 			<tnt:SideNavigation>
-				<tnt:NavigationList>
+				<tnt:NavigationList items="{path: '/navigation', templateShareable : false}">
+					<tnt:NavigationListItem text="{title}" icon="{icon}" expanded="{expanded}" items="{path: 'items', templateShareable : false}" key="{key}">
+						<tnt:NavigationListItem text="{title}" key="{key}">
+						</tnt:NavigationListItem>
+					</tnt:NavigationListItem>
 				</tnt:NavigationList>
 			</tnt:SideNavigation>
 		</tnt:sideContent>

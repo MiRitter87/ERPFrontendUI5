@@ -1,3 +1,30 @@
 {
-	"label" : "Hallo Welt aus dem JSON-Model"
+	"label" : "Hallo Welt aus dem JSON-Model",
+	
+	"navigation": [
+		{
+			"title": "Mitarbeiter",
+			"icon": "sap-icon://employee",
+			"expanded": true,
+			"key": "employee",
+			"items": [
+				{
+					"title": "anlegen",
+					"key": "employeeCreate"
+				},
+				{
+					"title": "ändern",
+					"key": "employeeChange"
+				},
+				{
+					"title": "anzeigen",
+					"key": "employeeDisplay"
+				},
+				{
+					"title": "Übersicht",
+					"key": "employeeOverview"
+				}
+			]
+		}
+	]
 }
