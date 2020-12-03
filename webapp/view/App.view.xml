@@ -37,7 +37,7 @@
 					</ScrollContainer>
 					
 					<ScrollContainer id="employeeCreate">
-						<Text text="Mitarbeiter anlegen"/>
+						<Text text="{i18n>navigation.employeeCreate}"/>
 					</ScrollContainer>
 					
 					<ScrollContainer id="employeeChange">
