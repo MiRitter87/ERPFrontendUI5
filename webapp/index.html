@@ -6,13 +6,14 @@
 		<script id="sap-ui-bootstrap"
 			src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
 			data-sap-ui-theme="sap_fiori_3"
-			data-sap-ui-libs="sap.m, sap.ui.layout"
 			data-sap-ui-resourceroots='{"ERPFrontendUI5": "./"}'
-			data-sap-ui-onInit="module:ERPFrontendUI5/index"
+			data-sap-ui-onInit="module:sap/ui/core/ComponentSupport"
 			data-sap-ui-compatVersion="edge"
 			data-sap-ui-async="true">
 		</script>
 	</head>
 	
-	<body class="sapUiBody" id="content"></body>
+	<body class="sapUiBody" id="content">
+		<div data-sap-ui-component data-name="ERPFrontendUI5" data-id="container" data-settings='{"id" : "ERPFrontendUI5"}'></div>
+	</body>
 </html>
