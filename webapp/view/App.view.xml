@@ -18,11 +18,13 @@
 		
 		<!-- Navigation menu -->
 		<tnt:sideContent>
-			<tnt:SideNavigation expanded="true" selectedKey="{/selectedKey}" itemSelect="onItemSelect">
-				<tnt:NavigationList items="{path: '/navigation', templateShareable : false}">
-					<tnt:NavigationListItem text="{title}" icon="{icon}" expanded="{expanded}" items="{path: 'items', templateShareable : false}" key="{key}">
-						<tnt:NavigationListItem text="{title}" key="{key}">
-						</tnt:NavigationListItem>
+			<tnt:SideNavigation expanded="true"  itemSelect="onItemSelect">
+				<tnt:NavigationList>
+					<tnt:NavigationListItem text="{i18n>navigation.employee}" icon="sap-icon://employee" expanded="true" key="employee">
+						<tnt:NavigationListItem text="{i18n>navigation.object.create}" key="employeeCreate"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.change}" key="employeeChange"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="employeeDisplay"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="employeeOverview"/>
 					</tnt:NavigationListItem>
 				</tnt:NavigationList>
 			</tnt:SideNavigation>
@@ -33,11 +35,11 @@
 			<NavContainer id="pageContainer" initialPage="startPage">
 				<pages>
 					<ScrollContainer id="startPage">
-						<Text text="{/label}"/>
+						<Text text="Ich bin die Startseite"/>
 					</ScrollContainer>
 					
 					<ScrollContainer id="employeeCreate">
-						<Text text="{i18n>navigation.employeeCreate}"/>
+						<Text text="Mitarbeiter anlegen"/>
 					</ScrollContainer>
 					
 					<ScrollContainer id="employeeChange">
