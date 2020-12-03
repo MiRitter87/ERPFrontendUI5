@@ -1,10 +1,13 @@
 sap.ui.define([
-	"sap/ui/core/mvc/XMLView"
-], function (XMLView) {
+	"sap/ui/core/ComponentContainer"
+], function (ComponentContainer) {
 	"use strict";
-
-	XMLView.create({viewName: "ERPFrontendUI5.view.App"}).then(function (oView) {
-		oView.placeAt("content");
-	});
-	
+		
+	new ComponentContainer({
+		name: "ERPFrontendUI5",
+		settings : {
+			id : "ERPFrontendUI5"
+		},
+		async: true
+	}).placeAt("content");	
 });
