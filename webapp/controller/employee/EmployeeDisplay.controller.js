@@ -5,6 +5,10 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeDisplay", {
+		onInit : function () {
+			alert("Init aufgerufen: EmployeeDisplay.");
+		},
+		
 		/**
 		 * Handles a click at the "load data" button.
 		 */

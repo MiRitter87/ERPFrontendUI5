@@ -39,7 +39,7 @@
 					</ScrollContainer>
 					
 					<ScrollContainer id="employeeCreate">
-						<Text text="Mitarbeiter anlegen"/>
+						<mvc:XMLView viewName="ERPFrontendUI5.view.employee.EmployeeCreate"/>
 					</ScrollContainer>
 					
 					<ScrollContainer id="employeeChange">
