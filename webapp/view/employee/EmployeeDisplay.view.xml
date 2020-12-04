@@ -7,15 +7,15 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
 	
-	<Panel headerText="Anzeige von Mitarbeiterdaten">
+	<Panel headerText="{i18n>employeeDisplay.header}">
 		<content>
-			<Label text="Personalnummer"/>
+			<Label text="{i18n>employee.id}"/>
 			<Input id="queryEmployeeId" maxLength="4"/>
-			<Button icon="sap-icon://accept" text="Daten laden" press=".onPress" type="Emphasized"	class="sapUiSmallMargin"/>
+			<Button icon="sap-icon://accept" text="{i18n>button.loadData}" press=".onPress" type="Emphasized"	class="sapUiSmallMargin"/>
 			
 			<f:Form id="employeeForm" editable="false">
 				<f:title>
-					<core:Title text="Daten des Mitabeiters" />
+					<core:Title text="{i18n>employeeDisplay.dataHeader}" />
 				</f:title>
 				
 				<f:layout>
@@ -38,25 +38,25 @@
 				<f:formContainers>
 					<f:FormContainer>
 						<f:formElements>
-							<f:FormElement label="Personalnummer">
+							<f:FormElement label="{i18n>employee.id}">
 								<f:fields>
 									<Text id="employeeId" text="{/modelData/data/id}" />
 								</f:fields>
 							</f:FormElement>
 	
-							<f:FormElement label="Vorname">
+							<f:FormElement label="{i18n>employee.firstName}">
 								<f:fields>
 									<Text id="firstName" text="{/modelData/data/firstName}" />
 								</f:fields>
 							</f:FormElement>
 							
-							<f:FormElement label="Nachname">
+							<f:FormElement label="{i18n>employee.lastName}">
 								<f:fields>
 									<Text id="lastName" text="{/modelData/data/lastName}" />
 								</f:fields>
 							</f:FormElement>
 							
-							<f:FormElement label="Geschlecht">
+							<f:FormElement label="{i18n>employee.gender}">
 								<f:fields>
 									<Text id="gender" text="{/modelData/data/gender}" />
 								</f:fields>
