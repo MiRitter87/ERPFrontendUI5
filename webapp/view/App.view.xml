@@ -7,8 +7,6 @@
 	xmlns:f="sap.f"
 	xmlns:core="sap.ui.core">
 	
-	<!-- Links ein Menü und rechts eine Content-Area: 
-	https://openui5.hana.ondemand.com/entity/sap.f.ShellBar/sample/sap.f.sample.ShellBarWithSplitApp -->
 	<tnt:ToolPage id="toolPage">
 		<!-- Application header -->
 		<tnt:header>
@@ -32,29 +30,7 @@
 		
 		<!-- Content area -->
 		<tnt:mainContents>
-			<NavContainer id="pageContainer" initialPage="startPage">
-				<pages>
-					<ScrollContainer id="startPage">
-						<Text text="Ich bin die Startseite"/>
-					</ScrollContainer>
-					
-					<ScrollContainer id="employeeCreate">
-						<mvc:XMLView viewName="ERPFrontendUI5.view.employee.EmployeeCreate"/>
-					</ScrollContainer>
-					
-					<ScrollContainer id="employeeChange">
-						<Text text="Mitarbeiter ändern"/>
-					</ScrollContainer>
-					
-					<ScrollContainer id="employeeDisplay">
-						<mvc:XMLView viewName="ERPFrontendUI5.view.employee.EmployeeDisplay"/>
-					</ScrollContainer>
-					
-					<ScrollContainer id="employeeOverview">
-						<Text text="Mitarbeiter Übersicht"/>
-					</ScrollContainer>
-				</pages>
-			</NavContainer>
+			<App id="contentPage"/>
 		</tnt:mainContents>
 	</tnt:ToolPage>
 </mvc:View>

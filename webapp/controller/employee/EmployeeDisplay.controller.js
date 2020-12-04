@@ -6,7 +6,7 @@ sap.ui.define([
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeDisplay", {
 		onInit : function () {
-			alert("Init aufgerufen: EmployeeDisplay.");
+
 		},
 		
 		/**

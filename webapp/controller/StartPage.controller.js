@@ -3,7 +3,7 @@ sap.ui.define([
 ], function (Controller) {
 	"use strict";
 
-	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeCreate", {
+	return Controller.extend("ERPFrontendUI5.controller.StartPage", {
 		onInit : function () {
 
 		}

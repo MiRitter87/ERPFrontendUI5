@@ -10,7 +10,15 @@ sap.ui.define([
 		 */
 		onItemSelect : function(oEvent) {
 			var item = oEvent.getParameter('item');
-			this.byId("pageContainer").to(this.getView().createId(item.getKey()));
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			
+			if(item.getKey() == "employeeCreate") {
+				oRouter.navTo("employeeCreateRoute");			
+			}
+			
+			if(item.getKey() == "employeeDisplay") {
+				oRouter.navTo("employeeDisplayRoute");			
+			}
 		},
 	});
 

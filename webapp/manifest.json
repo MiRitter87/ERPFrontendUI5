@@ -40,6 +40,47 @@
 		  			"fallbackLocale": "de"
 				}
 	  		}
-		}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "ERPFrontendUI5.view",
+				"controlId": "contentPage",
+				"controlAggregation": "pages",
+				"transition": "slide",
+				"async": true
+			},
+			"routes": [{
+				"pattern": "",
+				"name": "startPageRoute",
+				"target": "startPageTarget"
+			}, {
+				"pattern": "createEmployee",
+				"name": "employeeCreateRoute",
+				"target": "employeeCreateTarget"
+			}, {
+				"pattern": "displayEmployee",
+				"name": "employeeDisplayRoute",
+				"target": "employeeDisplayTarget"
+			}],
+			"targets": {
+				"startPageTarget": {
+					"viewId": "startPage",
+					"viewName": "StartPage",
+					"viewLevel" : 1
+            	},
+            	"employeeCreateTarget": {
+					"viewId": "employeeCreate",
+					"viewName": "employee.EmployeeCreate",
+					"viewLevel" : 1
+            	},
+            	"employeeDisplayTarget": {
+            		"viewId": "employeeDisplay",
+					"viewName": "employee.EmployeeDisplay",
+					"viewLevel" : 1
+            	}
+         	}
+      	}
   	}
 }
