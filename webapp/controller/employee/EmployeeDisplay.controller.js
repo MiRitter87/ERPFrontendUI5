@@ -5,52 +5,46 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeDisplay", {
+		/**
+		 * Initializes the Controller.
+		 */
 		onInit : function () {
-
+			this.queryEmployeeWebService();
 		},
 		
+		
 		/**
-		 * Handles a click at the "load data" button.
+		 * Handles the selection of an item in the employee ComboBox.
 		 */
-		onPress : function () {
+		employeeSelectionChange : function (oControlEvent) {
+			var selectedItem = oControlEvent.getParameters().selectedItem;
+			var oModel = this.getView().getModel();
+			var employees = oModel.oData.employees;
+			var employee;
 			
-			var employeeId = this.getView().byId("queryEmployeeId").getValue();
-			
-			//Check if user input is valid
-			if(this.isInputValid(employeeId) == false) {
-				MessageToast.show("Bitte geben Sie eine Personalnummer ein.");
-				return;
+			//Get the selected employee from the array of all employees according to the id.
+			for(var i = 0; i < employees.data.employee.length; i++) {
+    			var tempEmployee = employees.data.employee[i];
+    			
+				if(tempEmployee.id == selectedItem.getKey()) {
+					employee = tempEmployee;
+				}
 			}
 			
-			this.queryEmployeeWebService(employeeId);
+			//Set the model of the view according to the selected employee to allow binding of the UI elements.
+			oModel.setData({employees:employees, selectedEmployee : employee});
 		},
-		
-		
-		/**
-		 * Checks if the given string is a valid employee ID.
-		 */
-		isInputValid : function(employeeId)  {
-			//Is input empty?
-			if(employeeId == "")
-				return false;
-			
-			//Is input numeric?
-			if(isNaN(employeeId))
-				return false;
-			else
-				return true;
-		},
-		
+
 		
 		/**
 		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
 		 */
-		queryEmployeeWebService : function(employeeId) {
-			var queryUrl = "http://127.0.0.1:8080/backend/services/rest/employees/" + employeeId;
+		queryEmployeeWebService : function() {
+			var queryUrl = "http://127.0.0.1:8080/backend/services/rest/employees/";
 			var oModel = new sap.ui.model.json.JSONModel();
 			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : queryUrl, dataType : "json", 
 				success : function(data,textStatus, jqXHR) {
-					oModel.setData({modelData : data}); // not aData
+					oModel.setData({employees : data}); // not aData
 					
 					if(data.data != null) {
 						MessageToast.show("Mitarbeiterdaten wurden geladen.");						
