@@ -1,7 +1,8 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"sap/m/MessageToast"
-], function (Controller, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/ui/model/json/JSONModel"
+], function (Controller, MessageToast, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeDisplay", {
@@ -40,8 +41,8 @@ sap.ui.define([
 		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
 		 */
 		queryEmployeeWebService : function() {
-			var queryUrl = "http://127.0.0.1:8080/backend/services/rest/employees/";
-			var oModel = new sap.ui.model.json.JSONModel();
+			var queryUrl = this.getEmployeeWebServiceBaseUrl() + "/";
+			var oModel = new JSONModel();
 			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : queryUrl, dataType : "json", 
 				success : function(data,textStatus, jqXHR) {
 					oModel.setData({employees : data}); // not aData
@@ -57,6 +58,15 @@ sap.ui.define([
 			});                                                                 
 			
 			this.getView().setModel(oModel);
+		},
+		
+		
+		/**
+		 * Determines the base-URL of the employee WebService from the model.
+		 */
+		getEmployeeWebServiceBaseUrl : function() {
+			var webServiceBaseUrlModel = this.getOwnerComponent().getModel("webServiceBaseUrls");
+			return webServiceBaseUrlModel.getProperty("/employee");
 		}
 	});
 
