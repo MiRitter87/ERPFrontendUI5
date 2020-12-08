@@ -7,9 +7,53 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
 	
-	<Panel headerText="Mitarbeiter anlegen">
+	<Panel headerText="{i18n>employeeCreate.header}">
 		<content>
-			<Label text="Mitarbeiter anlegen"/>
+			<f:Form id="employeeForm" editable="true">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>employee.firstName}">
+								<f:fields>
+									<Input id="firstNameInput" maxLength="50"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>employee.lastName}">
+								<f:fields>
+									<Input id="lastNameInput" maxLength="50"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>employee.gender}">
+								<f:fields>
+									<ComboBox id="genderComboBox"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>	
 		</content>
+		
+		<Button text="{i18n>button.save}" class="sapUiSmallMargin"/>
+		<Button type="Reject" text="{i18n>button.cancel}" class="sapUiSmallMargin"/>
 	</Panel>
 </mvc:View>
