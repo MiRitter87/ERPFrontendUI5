@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller", 
 	"sap/ui/core/Item",
 	"sap/m/MessageToast",
+	"sap/m/MessageBox",
 	"sap/ui/model/json/JSONModel"
-], function (Controller, Item, MessageToast, JSONModel) {
+], function (Controller, Item, MessageToast, MessageBox, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeCreate", {
@@ -82,7 +83,14 @@ sap.ui.define([
 							MessageToast.show(data.message[0].text);
 							this.initializeEmployeeModel();	//Resets the input fields to the initial state.
 						}
-						//TODO: Show PopUp for errors or warnings			
+						
+						if(data.message[0].type == 'E') {
+							MessageBox.error(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'W') {
+							MessageBox.warning(data.message[0].text);
+						}
 					}
 				},
 				context : this
