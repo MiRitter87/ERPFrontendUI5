@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller", 
 	"sap/ui/core/Item",
+	"sap/m/MessageToast",
 	"sap/ui/model/json/JSONModel"
-], function (Controller, Item, JSONModel) {
+], function (Controller, Item, MessageToast, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeCreate", {
@@ -19,7 +20,7 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
-			
+			this.saveEmployeeByWebService();
 		},
 		
 		
@@ -64,7 +65,27 @@ sap.ui.define([
 		 * Saves the employee defined in the input form by using the RESTful WebService.
 		 */
 		saveEmployeeByWebService : function () {
+			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
+			var queryUrl = webServiceBaseUrl + "/";
+			var employeeModel = this.getView().getModel();
+			var jsonData = employeeModel.getJSON();
 			
+			//Use "POST" to create a resource.
+			var aData = jQuery.ajax({
+				type : "POST", 
+				contentType : "application/json", 
+				url : queryUrl,
+				data : jsonData, 
+				success : function(data,textStatus, jqXHR) {
+					if(data.message != null) {
+						if(data.message[0].type == 'S') {
+							MessageToast.show(data.message[0].text);
+							//TODO: Clear input fields if call was successful.
+						}
+						//TODO: Show PopUp for errors or warnings			
+					}
+				}                                                                                                              
+			});   
 		}
 	});
 

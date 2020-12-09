@@ -41,7 +41,8 @@ sap.ui.define([
 		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
 		 */
 		queryEmployeeWebService : function() {
-			var queryUrl = this.getEmployeeWebServiceBaseUrl() + "/";
+			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
+			var queryUrl = webServiceBaseUrl + "/";
 			var oModel = new JSONModel();
 			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : queryUrl, dataType : "json", 
 				success : function(data,textStatus, jqXHR) {
@@ -58,15 +59,6 @@ sap.ui.define([
 			});                                                                 
 			
 			this.getView().setModel(oModel);
-		},
-		
-		
-		/**
-		 * Determines the base-URL of the employee WebService from the model.
-		 */
-		getEmployeeWebServiceBaseUrl : function() {
-			var webServiceBaseUrlModel = this.getOwnerComponent().getModel("webServiceBaseUrls");
-			return webServiceBaseUrlModel.getProperty("/employee");
 		}
 	});
 
