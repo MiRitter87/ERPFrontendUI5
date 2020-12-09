@@ -29,7 +29,10 @@ sap.ui.define([
 		 * Handles a click at the cancel button.
 		 */
 		onCancelPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			
+			this.initializeEmployeeModel();
+			oRouter.navTo("startPageRoute");	
 		},
 		
 		
