@@ -80,11 +80,12 @@ sap.ui.define([
 					if(data.message != null) {
 						if(data.message[0].type == 'S') {
 							MessageToast.show(data.message[0].text);
-							//TODO: Clear input fields if call was successful.
+							this.initializeEmployeeModel();	//Resets the input fields to the initial state.
 						}
 						//TODO: Show PopUp for errors or warnings			
 					}
-				}                                                                                                              
+				},
+				context : this
 			});   
 		}
 	});
