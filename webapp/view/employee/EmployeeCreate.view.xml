@@ -32,19 +32,19 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>employee.firstName}">
 								<f:fields>
-									<Input id="firstNameInput" maxLength="50"/>
+									<Input id="firstNameInput" maxLength="50" value="{/firstName}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>employee.lastName}">
 								<f:fields>
-									<Input id="lastNameInput" maxLength="50"/>
+									<Input id="lastNameInput" maxLength="50" value="{/lastName}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>employee.gender}">
 								<f:fields>
-									<ComboBox id="genderComboBox"/>
+									<ComboBox id="genderComboBox" selectedKey="{/gender}"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>
@@ -53,7 +53,7 @@
 			</f:Form>	
 		</content>
 		
-		<Button text="{i18n>button.save}" class="sapUiSmallMargin"/>
-		<Button type="Reject" text="{i18n>button.cancel}" class="sapUiSmallMargin"/>
+		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
+		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 	</Panel>
 </mvc:View>

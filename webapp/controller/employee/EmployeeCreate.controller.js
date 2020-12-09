@@ -1,7 +1,8 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller", 
-	"sap/ui/core/Item"
-], function (Controller, Item) {
+	"sap/ui/core/Item",
+	"sap/ui/model/json/JSONModel"
+], function (Controller, Item, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeCreate", {
@@ -10,6 +11,23 @@ sap.ui.define([
 		 */
 		onInit : function () {
 			this.initializeGenderComboBox();
+			this.initializeEmployeeModel();
+		},
+		
+		
+		/**
+		 * Handles a click at the save button.
+		 */
+		onSavePressed : function () {
+			
+		},
+		
+		
+		/**
+		 * Handles a click at the cancel button.
+		 */
+		onCancelPressed : function () {
+			
 		},
 		
 		
@@ -28,6 +46,25 @@ sap.ui.define([
 			comboBoxItem.setKey("FEMALE");
 			comboBoxItem.setText(oResourceBundle.getText("gender.female"));
 			this.getView().byId("genderComboBox").addItem(comboBoxItem);
+		},
+		
+		
+		/**
+		 * Initializes the model to which the UI controls are bound.
+		 */
+		initializeEmployeeModel : function () {
+			var employeeModel = new JSONModel();
+			
+			employeeModel.loadData("model/employee/employeeCreate.json");
+			this.getView().setModel(employeeModel);
+		},
+		
+		
+		/**
+		 * Saves the employee defined in the input form by using the RESTful WebService.
+		 */
+		saveEmployeeByWebService : function () {
+			
 		}
 	});
 
