@@ -21,6 +21,11 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
+			if(this.getView().byId("genderComboBox").getSelectedKey() == "") {
+				this.showMessageOnUndefinedGender();
+				return;
+			}
+			
 			this.saveEmployeeByWebService();
 		},
 		
@@ -98,6 +103,15 @@ sap.ui.define([
 				},
 				context : this
 			});   
+		},
+		
+		
+		/**
+		 * Displays a message in case the gender has not been selected.
+		 */
+		showMessageOnUndefinedGender : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			MessageBox.error(oResourceBundle.getText("employeeCreate.noGenderSelected"));
 		}
 	});
 
