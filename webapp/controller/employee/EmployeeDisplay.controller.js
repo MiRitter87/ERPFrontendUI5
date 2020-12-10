@@ -46,16 +46,18 @@ sap.ui.define([
 			var oModel = new JSONModel();
 			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : queryUrl, dataType : "json", 
 				success : function(data,textStatus, jqXHR) {
+					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 					oModel.setData({employees : data}); // not aData
 					
 					if(data.data != null) {
-						MessageToast.show("Mitarbeiterdaten wurden geladen.");						
+						MessageToast.show(oResourceBundle.getText("employeeDisplay.dataLoaded"));
 					}
 					else {
 						if(data.message != null)
 							MessageToast.show(data.message[0].text);
 					}
-				}                                                                                                              
+				},
+				context : this
 			});                                                                 
 			
 			this.getView().setModel(oModel);
