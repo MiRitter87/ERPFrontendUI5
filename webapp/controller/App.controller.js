@@ -15,9 +15,11 @@ sap.ui.define([
 			if(item.getKey() == "employeeCreate") {
 				oRouter.navTo("employeeCreateRoute");			
 			}
-			
-			if(item.getKey() == "employeeDisplay") {
+			else if(item.getKey() == "employeeDisplay") {
 				oRouter.navTo("employeeDisplayRoute");			
+			}
+			else if(item.getKey() == "employeeOverview") {
+				oRouter.navTo("employeeOverviewRoute");	
 			}
 		},
 	});
