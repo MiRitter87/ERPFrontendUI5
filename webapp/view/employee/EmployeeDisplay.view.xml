@@ -43,25 +43,25 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>employee.id}">
 								<f:fields>
-									<Text id="employeeId" text="{/selectedEmployee/id}" />
+									<Label id="employeeId" text="{/selectedEmployee/id}" />
 								</f:fields>
 							</f:FormElement>
 	
 							<f:FormElement label="{i18n>employee.firstName}">
 								<f:fields>
-									<Text id="firstName" text="{/selectedEmployee/firstName}" />
+									<Label id="firstName" text="{/selectedEmployee/firstName}" />
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>employee.lastName}">
 								<f:fields>
-									<Text id="lastName" text="{/selectedEmployee/lastName}" />
+									<Label id="lastName" text="{/selectedEmployee/lastName}" />
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>employee.gender}">
 								<f:fields>
-									<Text id="gender" text="{/selectedEmployee/gender}" />
+									<Label id="gender"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

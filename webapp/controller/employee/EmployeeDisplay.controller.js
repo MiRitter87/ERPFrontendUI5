@@ -34,6 +34,9 @@ sap.ui.define([
 			
 			//Set the model of the view according to the selected employee to allow binding of the UI elements.
 			oModel.setData({employees:employees, selectedEmployee : employee});
+			
+			//Determine and set the localized gender name.
+			this.setLocalizedGender();
 		},
 
 		
@@ -61,6 +64,27 @@ sap.ui.define([
 			});                                                                 
 			
 			this.getView().setModel(oModel);
+		},
+		
+		
+		/**
+		 * Determines and sets the localized text of the selected employees gender.
+		 */
+		setLocalizedGender : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
+			//1. Get the gender of the selected employee.
+			var gender = this.getView().getModel().getProperty("/selectedEmployee/gender");
+			var genderText;
+			
+			//2. Determine the localized text of the gender.
+			if(gender == "MALE")
+				genderText = oResourceBundle.getText("gender.male");
+			else if(gender == "FEMALE")
+				genderText = oResourceBundle.getText("gender.female");
+			
+			//3. Apply the text to the gender label.
+			this.getView().byId("gender").setText(genderText);
 		}
 	});
 
