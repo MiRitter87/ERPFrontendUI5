@@ -21,6 +21,9 @@ sap.ui.define([
 			else if(item.getKey() == "employeeOverview") {
 				oRouter.navTo("employeeOverviewRoute");	
 			}
+			else if(item.getKey() == "employeeChange") {
+				oRouter.navTo("employeeEditRoute");	
+			}
 		},
 	});
 

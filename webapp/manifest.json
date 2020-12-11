@@ -77,6 +77,10 @@
 				"pattern": "employeeOverview",
 				"name": "employeeOverviewRoute",
 				"target": "employeeOverviewTarget"
+			}, {
+				"pattern": "employeeEdit",
+				"name": "employeeEditRoute",
+				"target": "employeeEditTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -98,7 +102,12 @@
             		"viewId": "employeeOverview",
 					"viewName": "employee.EmployeeOverview",
 					"viewLevel" : 1
-            	}
+            	},
+            	"employeeEditTarget": {
+            		"viewId": "employeeEdit",
+					"viewName": "employee.EmployeeEdit",
+					"viewLevel" : 1
+				}
          	}
       	}
   	}
