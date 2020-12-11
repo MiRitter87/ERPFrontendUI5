@@ -29,7 +29,7 @@
 							<ObjectIdentifier text="{id}"/>
 							<Text text="{firstName}"/>
 							<Text text="{lastName}"/>
-							<Text text="{gender}"/>
+							<Text text="{path: 'gender', formatter: '.genderTextFormatter'}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
