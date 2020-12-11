@@ -8,7 +8,32 @@
 	
 	<Panel headerText="{i18n>employeeOverview.header}">
 		<content>
-
+			<Table id="employeeTable" items="{path: '/employees/data/employee/'}">
+				<columns>
+					<Column>
+						<Text text="{i18n>employee.id}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>employee.firstName}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>employee.lastName}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>employee.gender}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{id}"/>
+							<Text text="{firstName}"/>
+							<Text text="{lastName}"/>
+							<Text text="{gender}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
 	</Panel>
 </mvc:View>
