@@ -9,7 +9,66 @@
 	
 	<Panel headerText="{i18n>employeeEdit.header}">
 		<content>
-
+			<l:VerticalLayout>
+				<Label text="{i18n>employeeEdit.selectionDescription}"/>
+				<ComboBox items="{path: '/employees/data/employee/'}" selectionChange=".onEmployeeSelectionChange">
+					<core:Item key="{id}" text="{id} - {firstName} {lastName}"/>
+				</ComboBox>
+			</l:VerticalLayout>
+			
+			<f:Form id="employeeForm" editable="true">
+				<f:title>
+					<core:Title text="{i18n>employeeEdit.dataHeader}" />
+				</f:title>
+				
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>employee.id}">
+								<f:fields>
+									<Input value="{/selectedEmployee/id}" enabled="false" editable="false"/>
+									<!-- <Label id="employeeId" text="{/selectedEmployee/id}" /> -->
+								</f:fields>
+							</f:FormElement>
+	
+							<f:FormElement label="{i18n>employee.firstName}">
+								<f:fields>
+									<Input id="firstNameInput" maxLength="50" value="{/selectedEmployee/firstName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>employee.lastName}">
+								<f:fields>
+									<Input id="lastNameInput" maxLength="50" value="{/selectedEmployee/lastName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>employee.gender}">
+								<f:fields>
+									<ComboBox id="genderComboBox" selectedKey="{/selectedEmployee/gender}"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 		</content>
 	</Panel>
 </mvc:View>
