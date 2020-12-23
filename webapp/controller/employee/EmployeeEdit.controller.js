@@ -17,6 +17,29 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles a click at the save button.
+		 */
+		onSavePressed : function () {
+			if(this.getView().byId("genderComboBox").getSelectedKey() == "") {
+				this.showMessageOnUndefinedGender();
+				return;
+			}
+			
+			this.saveEmployeeByWebService();
+		},
+		
+		
+		/**
+		 * Handles a click at the cancel button.
+		 */
+		onCancelPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			
+			oRouter.navTo("startPageRoute");	
+		},
+		
+		
+		/**
 		 * Initializes the ComboBox for gender selection with the description texts in the correct language.
 		 */
 		initializeGenderComboBox : function () {
@@ -81,6 +104,47 @@ sap.ui.define([
 			});                                                                 
 			
 			this.getView().setModel(oModel);
+		},
+		
+		
+		saveEmployeeByWebService : function() {
+			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
+			var queryUrl = webServiceBaseUrl + "/";
+			var employeeModel = new JSONModel(this.getView().getModel().getProperty("/selectedEmployee"));
+			var jsonData = employeeModel.getJSON();
+			
+			//Use "PUT" to update an existing resource.
+			var aData = jQuery.ajax({
+				type : "PUT", 
+				contentType : "application/json", 
+				url : queryUrl,
+				data : jsonData, 
+				success : function(data,textStatus, jqXHR) {
+					if(data.message != null) {
+						if(data.message[0].type == 'S') {
+							MessageToast.show(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'E') {
+							MessageBox.error(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'W') {
+							MessageBox.warning(data.message[0].text);
+						}
+					}
+				},
+				context : this
+			});  
+		},
+		
+		
+		/**
+		 * Displays a message in case the gender has not been selected.
+		 */
+		showMessageOnUndefinedGender : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			MessageBox.error(oResourceBundle.getText("employeeEdit.noGenderSelected"));
 		}
 	});
 
