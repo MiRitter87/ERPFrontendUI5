@@ -1,0 +1,13 @@
+<mvc:View
+	controllerName="ERPFrontendUI5.controller.employee.EmployeeSalaryDisplay"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	
+	<Panel headerText="{i18n>employeeSalaryDisplay.header}">
+
+	</Panel>
+</mvc:View>

@@ -15,6 +15,23 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the press-event of the salaryData button.
+		 */
+		onSalaryPressed : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			var salaryData = this.getEmployeeSalaryData();
+			
+			if(salaryData == null) {
+				MessageToast.show(oResourceBundle.getText("employeeDisplay.noSalaryDataExist"));
+				return;
+			}
+			
+			oRouter.navTo("employeeSalaryDisplayRoute");	
+		},
+		
+		
+		/**
 		 * Handles the selection of an item in the employee ComboBox.
 		 */
 		employeeSelectionChange : function (oControlEvent) {
@@ -85,6 +102,15 @@ sap.ui.define([
 			
 			//3. Apply the text to the gender label.
 			this.getView().byId("gender").setText(genderText);
+		},
+		
+		
+		/**
+		 * Gets the salary data of the selected employee.
+		 */
+		getEmployeeSalaryData : function () {
+			var salaryData = this.getView().getModel().getProperty("/selectedEmployee/salaryData");
+			return salaryData;
 		}
 	});
 

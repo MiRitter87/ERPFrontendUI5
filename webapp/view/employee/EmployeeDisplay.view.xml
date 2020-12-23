@@ -69,5 +69,7 @@
 				</f:formContainers>
 			</f:Form>
 		</content>
+		
+		<Button text="{i18n>employeeDisplay.salaryButton}" press=".onSalaryPressed" class="sapUiSmallMargin"/>
 	</Panel>
 </mvc:View>
