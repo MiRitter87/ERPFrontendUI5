@@ -10,7 +10,19 @@ sap.ui.define([
 		 * Initializes the Controller.
 		 */
 		onInit : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			
 			this.queryEmployeeWebService();
+			oRouter.getRoute("employeeSalaryDisplayRoute").attachMatched(this.onRouteMatched, this);
+		},
+		
+		
+		/**
+		 * Handles additional tasks to be performed when the user navigates to this view.
+		 */
+		onRouteMatched : function (oEvent) {
+			var oArguments = oEvent.getParameter("arguments");
+    		var sEmployeeId = oArguments.employeeId;
 		},
 		
 		
@@ -21,9 +33,10 @@ sap.ui.define([
 			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			var salaryData = this.getEmployeeSalaryData();
+			var employeeId = this.getView().byId("employeeComboBox").getSelectedKey();
 			
 			//No employee selected
-			if(this.getView().byId("employeeComboBox").getSelectedKey() == "") {
+			if(employeeId == "") {
 				MessageToast.show(oResourceBundle.getText("employeeDisplay.noEmployeeSelected"));
 				return;
 			}
@@ -34,7 +47,7 @@ sap.ui.define([
 				return;
 			}
 			
-			oRouter.navTo("employeeSalaryDisplayRoute");	
+			oRouter.navTo("employeeSalaryDisplayRoute", {"employeeId" : employeeId});
 		},
 		
 		

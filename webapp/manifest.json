@@ -82,7 +82,7 @@
 				"name": "employeeEditRoute",
 				"target": "employeeEditTarget"
 			}, {
-				"pattern": "employeeSalaryDisplay",
+				"pattern": "employeeSalaryDisplay/{employeeId}",
 				"name": "employeeSalaryDisplayRoute",
 				"target": "employeeSalaryDisplayTarget"
 			}],
