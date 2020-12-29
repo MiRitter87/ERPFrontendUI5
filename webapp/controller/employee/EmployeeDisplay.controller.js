@@ -22,6 +22,13 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			var salaryData = this.getEmployeeSalaryData();
 			
+			//No employee selected
+			if(this.getView().byId("employeeComboBox").getSelectedKey() == "") {
+				MessageToast.show(oResourceBundle.getText("employeeDisplay.noEmployeeSelected"));
+				return;
+			}
+			
+			//Employee has no salary defined
 			if(salaryData == null) {
 				MessageToast.show(oResourceBundle.getText("employeeDisplay.noSalaryDataExist"));
 				return;

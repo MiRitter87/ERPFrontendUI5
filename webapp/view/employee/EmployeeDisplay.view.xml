@@ -11,7 +11,7 @@
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>employeeDisplay.selectionDescription}"/>
-				<ComboBox items="{path: '/employees/data/employee/'}" selectionChange=".employeeSelectionChange">
+				<ComboBox id="employeeComboBox" items="{path: '/employees/data/employee/'}" selectionChange=".employeeSelectionChange">
 					<core:Item key="{id}" text="{id} - {firstName} {lastName}"/>
 				</ComboBox>
 			</l:VerticalLayout>
