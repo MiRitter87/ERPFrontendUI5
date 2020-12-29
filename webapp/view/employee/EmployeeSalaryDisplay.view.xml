@@ -3,6 +3,7 @@
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
 	
 	<Panel>
@@ -12,7 +13,42 @@
 		</Toolbar>
 
 		<content>
-			<Label id="test"/>
+			<f:Form id="salaryForm" editable="false">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>employeeSalaryDisplay.monthlySalary}">
+								<f:fields>
+									<Label text="{/employee/data/salaryData/monthlySalary}" />
+								</f:fields>
+							</f:FormElement>
+	
+							<f:FormElement label="{i18n>employeeSalaryDisplay.lastChange}">
+								<f:fields>
+									<Label text="{/employee/data/salaryData/salaryLastChange}" />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 		</content>
 	</Panel>
 </mvc:View>
