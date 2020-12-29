@@ -8,10 +8,11 @@
 	<Panel>
 		<Toolbar>
 			<Button type="Back" press=".onBackPress" />
-			<Title text="{i18n>employeeSalaryDisplay.header}" level="H3" titleStyle="H3"/>
+			<Title id="toolbarTitle" text="{i18n>employeeSalaryDisplay.header}" level="H3" titleStyle="H3"/>
 		</Toolbar>
 
 		<content>
+			<Label id="test"/>
 		</content>
 	</Panel>
 </mvc:View>

@@ -10,19 +10,7 @@ sap.ui.define([
 		 * Initializes the Controller.
 		 */
 		onInit : function () {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			
 			this.queryEmployeeWebService();
-			oRouter.getRoute("employeeSalaryDisplayRoute").attachMatched(this.onRouteMatched, this);
-		},
-		
-		
-		/**
-		 * Handles additional tasks to be performed when the user navigates to this view.
-		 */
-		onRouteMatched : function (oEvent) {
-			var oArguments = oEvent.getParameter("arguments");
-    		var sEmployeeId = oArguments.employeeId;
 		},
 		
 		
