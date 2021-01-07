@@ -40,6 +40,29 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the press-event of the salaryData button.
+		 */
+		onSalaryPressed : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			var salaryData = this.getEmployeeSalaryData();
+			var employeeId = this.getView().byId("employeeComboBox").getSelectedKey();
+			
+			//No employee selected
+			if(employeeId == "") {
+				MessageToast.show(oResourceBundle.getText("employeeEdit.noEmployeeSelected"));
+				return;
+			}
+			
+			//Employee has no salary defined
+			if(salaryData == null) {
+				MessageToast.show(oResourceBundle.getText("employeeEdit.noSalaryDataExist"));
+				return;
+			}
+		},
+		
+		
+		/**
 		 * Initializes the ComboBox for gender selection with the description texts in the correct language.
 		 */
 		initializeGenderComboBox : function () {
@@ -145,6 +168,15 @@ sap.ui.define([
 		showMessageOnUndefinedGender : function () {
 			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			MessageBox.error(oResourceBundle.getText("employeeEdit.noGenderSelected"));
+		},
+		
+		
+		/**
+		 * Gets the salary data of the selected employee.
+		 */
+		getEmployeeSalaryData : function () {
+			var salaryData = this.getView().getModel().getProperty("/selectedEmployee/salaryData");
+			return salaryData;
 		}
 	});
 

@@ -11,7 +11,7 @@
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>employeeEdit.selectionDescription}"/>
-				<ComboBox items="{path: '/employees/data/employee/'}" selectionChange=".onEmployeeSelectionChange">
+				<ComboBox id="employeeComboBox" items="{path: '/employees/data/employee/'}" selectionChange=".onEmployeeSelectionChange">
 					<core:Item key="{id}" text="{id} - {firstName} {lastName}"/>
 				</ComboBox>
 			</l:VerticalLayout>
@@ -73,5 +73,6 @@
 		
 		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
 		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
+		<Button text="{i18n>employeeEdit.salaryButton}" press=".onSalaryPressed" class="sapUiSmallMargin"/>
 	</Panel>
 </mvc:View>
