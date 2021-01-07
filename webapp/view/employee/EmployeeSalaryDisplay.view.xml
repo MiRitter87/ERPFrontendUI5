@@ -36,7 +36,13 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>employeeSalaryDisplay.monthlySalary}">
 								<f:fields>
-									<Label text="{/employee/data/salaryData/monthlySalary}" />
+									<ObjectNumber binding="{/employee/data/salaryData/}"
+										number="{
+												parts:[{path:'monthlySalary'}],
+												type: 'sap.ui.model.type.Currency',
+												formatOptions: {showMeasure: false}
+											}"
+										unit="EUR" emphasized="false"/>							
 								</f:fields>
 							</f:FormElement>
 	
