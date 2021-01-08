@@ -22,7 +22,7 @@ sap.ui.define([
 			var oArguments = oEvent.getParameter("arguments");
     		var sEmployeeId = oArguments.employeeId;
 			
-			this.queryEmployeeWebService(sEmployeeId);
+			this.queryEmployeeWebService(sEmployeeId, "employeeSalaryEdit.dataLoaded");
 		},
 		
 		
@@ -36,9 +36,27 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles a click at the save button.
+		 */
+		onSavePressed : function () {
+			//TODO: Call WebService to Persist salary changes.
+		},
+		
+		
+		/**
+		 * Handles a click at the cancel button.
+		 */
+		onCancelPressed : function () {
+			//Query WebService and overwrite the users changes with the current backend state
+			var sEmployeeId = this.getView().getModel().getProperty("/employee/data/id");
+			this.queryEmployeeWebService(sEmployeeId, "employeeSalaryEdit.originalStateRestored");
+		},
+		
+		
+		/**
 		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
 		 */
-		queryEmployeeWebService : function(employeeId) {
+		queryEmployeeWebService : function(employeeId, successMessageKey) {
 			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
 			var queryUrl = webServiceBaseUrl + "/" + employeeId;
 			var oModel = new JSONModel();
@@ -48,7 +66,7 @@ sap.ui.define([
 					oModel.setData({employee : data}); // not aData
 					
 					if(data.data != null) {
-						MessageToast.show(oResourceBundle.getText("employeeSalaryEdit.dataLoaded"));
+						MessageToast.show(oResourceBundle.getText(successMessageKey));
 						this.initializeTitleWithName();
 					}
 					else {
