@@ -13,7 +13,44 @@
 		</Toolbar>
 
 		<content>
-			
+			<f:Form id="salaryForm" editable="true">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>employeeSalaryEdit.monthlySalary}">
+								<f:fields>
+									<Input id="monthlySalaryInput" type="Number" 
+										value="{/employee/data/salaryData/monthlySalary}" description="EUR"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>employeeSalaryEdit.lastChange}">
+								<f:fields>
+									<Label text="{path: '/employee/data/salaryData/salaryLastChange', formatter: '.dateFormatter'}" 
+										class="sapUiSmallMarginTop"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 		</content>
 	</Panel>
 </mvc:View>

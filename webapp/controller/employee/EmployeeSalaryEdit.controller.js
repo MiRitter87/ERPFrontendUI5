@@ -75,5 +75,13 @@ sap.ui.define([
 			
 			oTitleControl.setText(sTitleText);
 		},
+		
+		
+		/**
+		 * Formats the date provided by the backend as milliseconds since 01/01/1970 to a human readable form.
+		 */
+		dateFormatter : function (timestamp) {
+			return new Date(parseInt(timestamp));
+		}
 	});
 });
