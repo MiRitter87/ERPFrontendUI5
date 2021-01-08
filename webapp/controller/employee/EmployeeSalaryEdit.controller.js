@@ -11,8 +11,17 @@ sap.ui.define([
 		 * Initializes the Controller.
 		 */
 		onInit : function () {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			var oRouter, oView, oMessageManager;
+			
+			//Initialize routing with callback on routeMatched.
+			oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.getRoute("employeeSalaryEditRoute").attachMatched(this.onRouteMatched, this);
+			
+			//Initialize message manager for input form validation.
+			oView = this.getView();
+			oMessageManager = sap.ui.getCore().getMessageManager();
+			oView.setModel(oMessageManager.getMessageModel(), "message");
+			oMessageManager.registerObject(oView, true);
 		},
 		
 		/**

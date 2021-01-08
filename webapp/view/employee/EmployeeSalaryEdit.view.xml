@@ -36,8 +36,14 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>employeeSalaryEdit.monthlySalary}">
 								<f:fields>
-									<Input id="monthlySalaryInput" type="Number" 
-										value="{/employee/data/salaryData/monthlySalary}" description="EUR"/>
+									<Input id="monthlySalaryInput" type="Number" description="EUR"
+										value="{
+											path : '/employee/data/salaryData/monthlySalary',
+											type : 'sap.ui.model.type.Integer',
+											constraints : {
+												minimum: 0,
+												maximum: 999999
+											}}"/>
 								</f:fields>
 							</f:FormElement>
 							
