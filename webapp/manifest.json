@@ -85,6 +85,10 @@
 				"pattern": "employeeSalaryDisplay/{employeeId}",
 				"name": "employeeSalaryDisplayRoute",
 				"target": "employeeSalaryDisplayTarget"
+			}, {
+				"pattern": "employeeSalaryEdit/{employeeId}",
+				"name": "employeeSalaryEditRoute",
+				"target": "employeeSalaryEditTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -115,6 +119,11 @@
 				"employeeSalaryDisplayTarget": {
 					"viewId": "employeeSalaryDisplay",
 					"viewName": "employee.EmployeeSalaryDisplay",
+					"viewLevel" : 1
+				},
+				"employeeSalaryEditTarget": {
+					"viewId": "employeeSalaryEdit",
+					"viewName": "employee.EmployeeSalaryEdit",
 					"viewLevel" : 1
 				}
          	}

@@ -1,0 +1,19 @@
+<mvc:View
+	controllerName="ERPFrontendUI5.controller.employee.EmployeeSalaryEdit"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	
+	<Panel>
+		<Toolbar>
+			<Button type="Back" press=".onBackPress" />
+			<Title id="toolbarTitle" text="{i18n>employeeSalaryEdit.header}" level="H3" titleStyle="H3"/>
+		</Toolbar>
+
+		<content>
+			
+		</content>
+	</Panel>
+</mvc:View>

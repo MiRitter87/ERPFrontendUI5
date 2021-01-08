@@ -59,6 +59,8 @@ sap.ui.define([
 				MessageToast.show(oResourceBundle.getText("employeeEdit.noSalaryDataExist"));
 				return;
 			}
+			
+			oRouter.navTo("employeeSalaryEditRoute", {"employeeId" : employeeId});
 		},
 		
 		
