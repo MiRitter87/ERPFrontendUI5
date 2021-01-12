@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/Title"
-], function (Controller, MessageToast, JSONModel, Title) {
+	"sap/m/Title",
+	"sap/ui/core/format/DateFormat"
+], function (Controller, MessageToast, JSONModel, Title, DateFormat) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeSalaryDisplay", {
@@ -82,7 +83,18 @@ sap.ui.define([
 		 * Formats the date provided by the backend as milliseconds since 01/01/1970 to a human readable form.
 		 */
 		dateFormatter : function (timestamp) {
-			return new Date(parseInt(timestamp));
+			var oDateFormat, oDate, sFormattedDate;
+			
+			if (typeof timestamp === 'undefined') {
+				return "";				
+			}
+			else {
+				oDateFormat = DateFormat.getDateInstance({pattern : "dd.MM.YYYY HH:mm:ss"});
+				oDate = new Date(parseInt(timestamp))
+				sFormattedDate = oDateFormat.format(oDate);
+				
+				return sFormattedDate;
+			}
 		}
 	});
 });
