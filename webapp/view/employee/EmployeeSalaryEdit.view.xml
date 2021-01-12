@@ -49,7 +49,7 @@
 							
 							<f:FormElement label="{i18n>employeeSalaryEdit.lastChange}">
 								<f:fields>
-									<Label text="{path: '/employee/data/salaryData/salaryLastChange', formatter: '.dateFormatter'}" 
+									<Label text="{path: '/employee/data/salaryData/salaryLastChange', formatter: '.formatter.wsDateFormatter'}" 
 										class="sapUiSmallMarginTop"/>
 								</f:fields>
 							</f:FormElement>

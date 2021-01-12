@@ -48,8 +48,7 @@
 	
 							<f:FormElement label="{i18n>employeeSalaryDisplay.lastChange}">
 								<f:fields>
-									<Label text="{path: '/employee/data/salaryData/salaryLastChange', 
-										formatter: '.dateFormatter'}" />
+									<Label text="{path: '/employee/data/salaryData/salaryLastChange', formatter: '.formatter.wsDateFormatter'}" />
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

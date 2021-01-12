@@ -3,11 +3,13 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/Title",
-	"sap/ui/core/format/DateFormat"
-], function (Controller, MessageToast, JSONModel, Title, DateFormat) {
+	"../../model/formatter"
+], function (Controller, MessageToast, JSONModel, Title, formatter) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeSalaryEdit", {
+		formatter: formatter,
+		
 		/**
 		 * Initializes the Controller.
 		 */
@@ -148,25 +150,6 @@ sap.ui.define([
 			var sTitleText = oResourceBundle.getText("employeeSalaryEdit.headerWithName", [sFirstName, sLastName]);
 			
 			oTitleControl.setText(sTitleText);
-		},
-		
-		
-		/**
-		 * Formats the date provided by the backend as milliseconds since 01/01/1970 to a human readable form.
-		 */
-		dateFormatter : function (timestamp) {
-			var oDateFormat, oDate, sFormattedDate;
-			
-			if (typeof timestamp === 'undefined') {
-				return "";				
-			}
-			else {
-				oDateFormat = DateFormat.getDateInstance({pattern : "dd.MM.YYYY HH:mm:ss"});
-				oDate = new Date(parseInt(timestamp))
-				sFormattedDate = oDateFormat.format(oDate);
-				
-				return sFormattedDate;
-			}
 		}
 	});
 });
