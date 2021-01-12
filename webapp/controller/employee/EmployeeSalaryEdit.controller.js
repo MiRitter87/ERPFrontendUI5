@@ -48,7 +48,8 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
-			//TODO: Call WebService to Persist salary changes.
+			this.updateSalaryLastChange();
+			this.saveEmployeeByWebService();
 		},
 		
 		
@@ -59,6 +60,16 @@ sap.ui.define([
 			//Query WebService and overwrite the users changes with the current backend state
 			var sEmployeeId = this.getView().getModel().getProperty("/employee/data/id");
 			this.queryEmployeeWebService(sEmployeeId, "employeeSalaryEdit.originalStateRestored");
+		},
+		
+		
+		/**
+		 * Updates the date and time of the last salary change.
+		 */
+		updateSalaryLastChange : function () {
+			var iLastChange = new Date().getTime();
+			
+			this.getView().getModel().setProperty("/employee/data/salaryData/salaryLastChange", iLastChange);
 		},
 		
 		
@@ -87,6 +98,41 @@ sap.ui.define([
 			});                                                                 
 			
 			this.getView().setModel(oModel);
+		},
+		
+		
+		/**
+		 * Updates changes of the employee data using the WebService.
+		 */
+		saveEmployeeByWebService : function() {
+			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
+			var queryUrl = webServiceBaseUrl + "/";
+			var employeeModel = new JSONModel(this.getView().getModel().getProperty("/employee/data"));
+			var jsonData = employeeModel.getJSON();
+			
+			//Use "PUT" to update an existing resource.
+			var aData = jQuery.ajax({
+				type : "PUT", 
+				contentType : "application/json", 
+				url : queryUrl,
+				data : jsonData, 
+				success : function(data,textStatus, jqXHR) {
+					if(data.message != null) {
+						if(data.message[0].type == 'S') {
+							MessageToast.show(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'E') {
+							MessageBox.error(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'W') {
+							MessageBox.warning(data.message[0].text);
+						}
+					}
+				},
+				context : this
+			});  
 		},
 		
 		

@@ -132,6 +132,9 @@ sap.ui.define([
 		},
 		
 		
+		/**
+		 * Updates changes of the employee data using the WebService.
+		 */
 		saveEmployeeByWebService : function() {
 			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
 			var queryUrl = webServiceBaseUrl + "/";
