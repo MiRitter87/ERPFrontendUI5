@@ -59,7 +59,9 @@
 			</f:Form>
 		</content>
 		
-		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
-		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
+		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin" 
+			enabled="{path: '/employee/data/id', formatter: '.employeeExistsFormatter'}"/>
+		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"
+			enabled="{path: '/employee/data/id', formatter: '.employeeExistsFormatter'}"/>
 	</Panel>
 </mvc:View>

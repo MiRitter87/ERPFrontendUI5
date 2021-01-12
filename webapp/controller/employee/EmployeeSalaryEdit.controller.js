@@ -87,10 +87,10 @@ sap.ui.define([
 				success : function(data,textStatus, jqXHR) {
 					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 					oModel.setData({employee : data}); // not aData
+					this.initializeTitleWithName();
 					
 					if(data.data != null) {
 						MessageToast.show(oResourceBundle.getText(successMessageKey));
-						this.initializeTitleWithName();
 					}
 					else {
 						if(data.message != null)
@@ -143,13 +143,32 @@ sap.ui.define([
 		 * Initializes the title with the name of the employee whose salary data are being displayed.
 		 */
 		initializeTitleWithName : function () {
-			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-			var oTitleControl = this.getView().byId("toolbarTitle");
-			var sFirstName = this.getView().getModel().getProperty("/employee/data/firstName");
-			var sLastName = this.getView().getModel().getProperty("/employee/data/lastName");
-			var sTitleText = oResourceBundle.getText("employeeSalaryEdit.headerWithName", [sFirstName, sLastName]);
+			var oResourceBundle, oTitleControl, sFirstName, sLastName, sTitleText;
+						
+			if(this.getView().getModel().getProperty("/employee/data") != null) {
+				sFirstName = this.getView().getModel().getProperty("/employee/data/firstName");
+				sLastName = this.getView().getModel().getProperty("/employee/data/lastName");
+			}
+			else {
+				sFirstName = "";
+				sLastName = "";
+			}
 			
+			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			oTitleControl = this.getView().byId("toolbarTitle");
+			sTitleText = oResourceBundle.getText("employeeSalaryEdit.headerWithName", [sFirstName, sLastName]);
 			oTitleControl.setText(sTitleText);
+		},
+		
+		
+		/**
+		 * Checks if an employee with the given ID exists and returns true if the employee exists; false otherwise.
+		 */
+		employeeExistsFormatter : function (employeeId) {
+			if(employeeId == null)
+				return false;
+			else
+				return true;
 		}
 	});
 });
