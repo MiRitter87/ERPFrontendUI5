@@ -8,7 +8,15 @@
 	
 	<Panel headerText="{i18n>employeeOverview.header}">
 		<content>
-			<Table id="employeeTable" items="{path: '/employees/data/employee/'}">
+			<Table id="employeeTable" items="{path: '/employees/data/employee/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://monitor-payments" tooltip="{i18n>employeeOverview.salaryButtonTooltip}"/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>employeeOverview.deleteSelected}"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
 				<columns>
 					<Column>
 						<Text text="{i18n>employee.id}"/>
