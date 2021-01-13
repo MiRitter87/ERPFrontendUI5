@@ -88,6 +88,7 @@ sap.ui.define([
 					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 					oModel.setData({employee : data}); // not aData
 					this.initializeTitleWithName();
+					this.initializeSalaryData();
 					
 					if(data.data != null) {
 						MessageToast.show(oResourceBundle.getText(successMessageKey));
@@ -158,6 +159,22 @@ sap.ui.define([
 			oTitleControl = this.getView().byId("toolbarTitle");
 			sTitleText = oResourceBundle.getText("employeeSalaryEdit.headerWithName", [sFirstName, sLastName]);
 			oTitleControl.setText(sTitleText);
+		},
+		
+		
+		/**
+		 * Checks if the given employee has salary data already defined. If not, the model is initialized to host newly defined salary data.
+		 */
+		initializeSalaryData : function () {
+			var salaryData;
+			var employeeId;
+			
+			salaryData = this.getView().getModel().getProperty("/employee/data/salaryData");
+			if(salaryData != null)
+				return;
+			
+			employeeId = this.getView().getModel().getProperty("/employee/data/id");
+			this.getView().getModel().setProperty("/employee/data/salaryData", {id: employeeId, monthlySalary: 0, salaryLastChange: null});
 		},
 		
 		

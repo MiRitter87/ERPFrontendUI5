@@ -9,7 +9,7 @@ sap.ui.define([
 		wsDateFormatter : function (timestamp) {
 			var oDateFormat, oDate, sFormattedDate;
 			
-			if (typeof timestamp === 'undefined') {
+			if (typeof timestamp === 'undefined' || timestamp == null) {
 				return "";				
 			}
 			else {
