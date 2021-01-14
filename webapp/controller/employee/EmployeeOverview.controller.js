@@ -28,7 +28,7 @@ sap.ui.define([
 				return;
 			}
 			
-			oSalaryData = this.getEmployeeSalaryData();
+			oSalaryData = this.getSelectedEmployee().salaryData;
 			
 			if(oSalaryData == null) {
 				MessageToast.show(oResourceBundle.getText("employeeOverview.noSalaryDataExist"));
@@ -44,14 +44,22 @@ sap.ui.define([
 		 * Handles the press-event of the delete button.
 		 */
 		onDeletePressed : function () {
+			var oResourceBundle;
+			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
+			if(this.isEmployeeSelected() == false) {
+				MessageToast.show(oResourceBundle.getText("employeeOverview.noEmployeeSelected"));
+				return;
+			}
+			
+			this.deleteEmployee(this.getSelectedEmployee());
 		},
 		
 		
 		/**
 		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
 		 */
-		queryEmployeeWebService : function() {
+		queryEmployeeWebService : function(bShowSuccessMessage) {
 			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
 			var queryUrl = webServiceBaseUrl + "/";
 			var oModel = new JSONModel();
@@ -61,7 +69,9 @@ sap.ui.define([
 					oModel.setData({employees : data}); // not aData
 					
 					if(data.data != null) {
-						MessageToast.show(oResourceBundle.getText("employeeOverview.dataLoaded"));
+						if(bShowSuccessMessage == true) {
+							MessageToast.show(oResourceBundle.getText("employeeOverview.dataLoaded"));							
+						}
 					}
 					else {
 						if(data.message != null)
@@ -72,6 +82,36 @@ sap.ui.define([
 			});                                                                 
 			
 			this.getView().setModel(oModel);
+		},
+		
+		
+		/**
+		 * Deletes the employee using the WebService.
+		 */
+		deleteEmployee : function(oEmployee) {
+			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
+			var sQueryUrl = sWebServiceBaseUrl + "/" + oEmployee.id;
+			
+			//Use "DELETE" to delete an existing resource.
+			var aData = jQuery.ajax({type : "DELETE", contentType : "application/json", url : sQueryUrl, dataType : "json", 
+				success : function(data,textStatus, jqXHR) {
+					if(data.message != null) {
+						if(data.message[0].type == 'S') {
+							MessageToast.show(data.message[0].text);
+							this.queryEmployeeWebService(false);
+						}
+						
+						if(data.message[0].type == 'E') {
+							MessageBox.error(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'W') {
+							MessageBox.warning(data.message[0].text);
+						}
+					}
+				},
+				context : this
+			}); 
 		},
 		
 		
@@ -95,7 +135,7 @@ sap.ui.define([
 		 */
 		_onRouteMatched: function (oEvent) {
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the table.
-			this.queryEmployeeWebService();
+			this.queryEmployeeWebService(true);
     	},
 
 
@@ -111,14 +151,14 @@ sap.ui.define([
 		
 		
 		/**
-		 * Gets the salary data of the selected employee.
+		 * Gets the the selected employee.
 		 */
-		getEmployeeSalaryData : function () {
+		getSelectedEmployee : function () {
 			var oListItem = this.getView().byId("employeeTable").getSelectedItem();
 			var oContext = oListItem.getBindingContext();
 			var oSelectedEmployee = oContext.getProperty(null, oContext);
 			
-			return oSelectedEmployee.salaryData;
+			return oSelectedEmployee;
 		}
 	});
 
