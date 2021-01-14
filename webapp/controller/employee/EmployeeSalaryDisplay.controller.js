@@ -3,8 +3,9 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/Title",
+	"sap/ui/core/routing/History",
 	"../../model/formatter"
-], function (Controller, MessageToast, JSONModel, Title, formatter) {
+], function (Controller, MessageToast, JSONModel, Title, History, formatter) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeSalaryDisplay", {
@@ -34,8 +35,16 @@ sap.ui.define([
 		 * Handles a press of the back-button in the header.
 		 */
 		onBackPress : function () {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			oRouter.navTo("employeeDisplayRoute");	
+			var oRouter;
+			var oHistory = History.getInstance();
+			var sPreviousHash = oHistory.getPreviousHash();
+			
+			if (sPreviousHash !== undefined) {
+				window.history.go(-1);
+			} else {
+				oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+				oRouter.navTo("startPageRoute");	
+			}
 		},
 		
 		
