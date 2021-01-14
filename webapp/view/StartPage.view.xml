@@ -7,9 +7,9 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
 	
-	<Panel headerText="Startseite">
+	<Panel headerText="{i18n>startPage.header}">
 		<content>
-			<Label text="Startseite"/>
+
 		</content>
 	</Panel>
 </mvc:View>

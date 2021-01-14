@@ -25,6 +25,15 @@ sap.ui.define([
 				oRouter.navTo("employeeEditRoute");	
 			}
 		},
+		
+		
+		/**
+		 * Handles the press-event of the home icon.
+		 */
+		onHomeIconPressed: function(oEvent) {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("startPageRoute");	
+		}
 	});
 
 });

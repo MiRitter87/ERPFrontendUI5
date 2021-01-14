@@ -10,8 +10,8 @@
 	<tnt:ToolPage id="toolPage">
 		<!-- Application header -->
 		<tnt:header>
-			<f:ShellBar title="Micha's ERP">
-			</f:ShellBar>
+			<f:ShellBar title="Micha's ERP" homeIcon="./resources/logo_ui5.png" 
+				homeIconPressed=".onHomeIconPressed" homeIconTooltip="{i18n>mainApp.homeIconTooltip}"/>
 		</tnt:header>
 		
 		<!-- Navigation menu -->
