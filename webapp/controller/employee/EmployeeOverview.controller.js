@@ -17,6 +17,38 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the press-event of the salary button.
+		 */
+		onSalaryPressed : function () {
+			var oSalaryData, oResourceBundle, oRouter;
+			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
+			if(this.isEmployeeSelected() == false) {
+				MessageToast.show(oResourceBundle.getText("employeeOverview.noEmployeeSelected"));
+				return;
+			}
+			
+			oSalaryData = this.getEmployeeSalaryData();
+			
+			if(oSalaryData == null) {
+				MessageToast.show(oResourceBundle.getText("employeeOverview.noSalaryDataExist"));
+				return;
+			}
+			
+			oRouter = this.getOwnerComponent().getRouter();
+			oRouter.navTo("employeeSalaryDisplayRoute", {"employeeId" : oSalaryData.id});
+		},
+		
+		
+		/**
+		 * Handles the press-event of the delete button.
+		 */
+		onDeletePressed : function () {
+			
+		},
+		
+		
+		/**
 		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
 		 */
 		queryEmployeeWebService : function() {
@@ -64,7 +96,30 @@ sap.ui.define([
 		_onRouteMatched: function (oEvent) {
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the table.
 			this.queryEmployeeWebService();
-    	}
+    	},
+
+
+		/**
+		 * Checks if an employee has been selected.
+		 */
+		isEmployeeSelected : function () {
+			if(this.getView().byId("employeeTable").getSelectedItem() == null)
+				return false;
+			else
+				return true;
+		},
+		
+		
+		/**
+		 * Gets the salary data of the selected employee.
+		 */
+		getEmployeeSalaryData : function () {
+			var oListItem = this.getView().byId("employeeTable").getSelectedItem();
+			var oContext = oListItem.getBindingContext();
+			var oSelectedEmployee = oContext.getProperty(null, oContext);
+			
+			return oSelectedEmployee.salaryData;
+		}
 	});
 
 });

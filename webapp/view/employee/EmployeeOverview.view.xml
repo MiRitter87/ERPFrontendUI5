@@ -12,7 +12,8 @@
 				<headerToolbar>
 					<OverflowToolbar>
 						<ToolbarSpacer/>
-						<Button icon="sap-icon://monitor-payments" tooltip="{i18n>employeeOverview.salaryButtonTooltip}"/>
+						<Button icon="sap-icon://monitor-payments" tooltip="{i18n>employeeOverview.salaryButtonTooltip}"
+							press=".onSalaryPressed"/>
 						<Button icon="sap-icon://delete" tooltip="{i18n>employeeOverview.deleteSelected}"/>
 					</OverflowToolbar>
 				</headerToolbar>
