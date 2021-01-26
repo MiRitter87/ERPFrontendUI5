@@ -9,6 +9,57 @@
 	
 	<Panel headerText="{i18n>departmentCreate.header}">
 		<content>
+			<f:Form id="DepartmentForm" editable="true">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>department.code}">
+								<f:fields>
+									<Input id="codeInput" maxLength="5" value="{/firstName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>department.name}">
+								<f:fields>
+									<Input id="nameInput" maxLength="50" value="{/firstName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>department.description}">
+								<f:fields>
+									<TextArea id="descriptionTextArea" maxLength="250" value="{/firstName}" rows="5"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>department.head}">
+								<f:fields>
+									<ComboBox id="headComboBox" selectedKey="{/gender}"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 		</content>
+			
+		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
+		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 	</Panel>
 </mvc:View>
