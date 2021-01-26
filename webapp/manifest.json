@@ -89,6 +89,10 @@
 				"pattern": "employeeSalaryEdit/{employeeId}",
 				"name": "employeeSalaryEditRoute",
 				"target": "employeeSalaryEditTarget"
+			}, {
+				"pattern": "createDepartment",
+				"name": "departmentCreateRoute",
+				"target": "departmentCreateTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -124,6 +128,11 @@
 				"employeeSalaryEditTarget": {
 					"viewId": "employeeSalaryEdit",
 					"viewName": "employee.EmployeeSalaryEdit",
+					"viewLevel" : 1
+				},
+				"departmentCreateTarget": {
+					"viewId": "departmentCreate",
+					"viewName": "department.DepartmentCreate",
 					"viewLevel" : 1
 				}
          	}
