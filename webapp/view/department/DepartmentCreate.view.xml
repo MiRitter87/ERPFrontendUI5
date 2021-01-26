@@ -50,7 +50,9 @@
 							
 							<f:FormElement label="{i18n>department.head}">
 								<f:fields>
-									<ComboBox id="headComboBox" selectedKey="{/gender}"/>
+									<ComboBox id="headComboBox" items="{path: '/employees/data/employee/'}">
+										<core:Item key="{id}" text="{id} - {firstName} {lastName}"/>
+									</ComboBox>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>
