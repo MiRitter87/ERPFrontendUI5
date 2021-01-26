@@ -24,6 +24,13 @@
 						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="employeeDisplay"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="employeeOverview"/>
 					</tnt:NavigationListItem>
+					
+					<tnt:NavigationListItem text="{i18n>navigation.department}" icon="sap-icon://group" expanded="true" key="department">
+						<tnt:NavigationListItem text="{i18n>navigation.object.create}" key="departmentCreate"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.change}" key="departmentChange"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="departmentDisplay"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="departmentOverview"/>
+					</tnt:NavigationListItem>
 				</tnt:NavigationList>
 			</tnt:SideNavigation>
 		</tnt:sideContent>
