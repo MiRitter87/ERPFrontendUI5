@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/core/Item",
 	"sap/m/MessageToast",
+	"sap/m/MessageBox",
 	"sap/ui/model/json/JSONModel"
-], function (Controller, Item, MessageToast, JSONModel) {
+], function (Controller, Item, MessageToast, MessageBox, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeEdit", {
@@ -20,8 +21,15 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
+			if(this.getView().byId("employeeComboBox").getSelectedKey() == "") {
+				MessageToast.show(oResourceBundle.getText("employeeEdit.noEmployeeSelected"));
+				return;
+			}
+			
 			if(this.getView().byId("genderComboBox").getSelectedKey() == "") {
-				this.showMessageOnUndefinedGender();
+				MessageToast.show(oResourceBundle.getText("employeeEdit.noGenderSelected"));
 				return;
 			}
 			
@@ -83,6 +91,9 @@ sap.ui.define([
 			var oModel = this.getView().getModel();
 			var employees = oModel.oData.employees;
 			var employee;
+			
+			if(selectedItem == null)
+				return;
 			
 			//Get the selected employee from the array of all employees according to the id.
 			for(var i = 0; i < employees.data.employee.length; i++) {
@@ -157,15 +168,6 @@ sap.ui.define([
 				},
 				context : this
 			});  
-		},
-		
-		
-		/**
-		 * Displays a message in case the gender has not been selected.
-		 */
-		showMessageOnUndefinedGender : function () {
-			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-			MessageBox.error(oResourceBundle.getText("employeeEdit.noGenderSelected"));
 		}
 	});
 

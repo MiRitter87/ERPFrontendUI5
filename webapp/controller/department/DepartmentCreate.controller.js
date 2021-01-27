@@ -52,6 +52,9 @@ sap.ui.define([
 			var oEmployees = oModel.oData.employees;
 			var oSelectedEmployee;
 			
+			if(oSelectedItem == null)
+				return;
+			
 			//Get the selected employee from the array of all employees according to the id.
 			for(var i = 0; i < oEmployees.data.employee.length; i++) {
     			var oTempEmployee = oEmployees.data.employee[i];
