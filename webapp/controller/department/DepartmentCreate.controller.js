@@ -10,6 +10,7 @@ sap.ui.define([
 		 * Initializes the controller.
 		 */
 		onInit : function () {
+			this.initializeDepartmentModel();
 			//Load all employees. Those are the candidates that can be selected in the head selection ComboBox.
 			this.queryEmployeeWebService();
 		},
@@ -19,7 +20,7 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
-			
+			var oNewDepartment = this.getView().getModel("newDepartment");
 		},
 		
 		
@@ -30,6 +31,17 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			
 			oRouter.navTo("startPageRoute");	
+		},
+		
+		
+		/**
+		 * Initializes the model to which the UI controls are bound.
+		 */
+		initializeDepartmentModel : function () {
+			var oDepartmentModel = new JSONModel();
+			
+			oDepartmentModel.loadData("model/department/departmentCreate.json");
+			this.getView().setModel(oDepartmentModel, "newDepartment");
 		},
 		
 		

@@ -32,19 +32,19 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>department.code}">
 								<f:fields>
-									<Input id="codeInput" maxLength="5" value="{/firstName}"/>
+									<Input id="codeInput" maxLength="5" value="{newDepartment>/code}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>department.name}">
 								<f:fields>
-									<Input id="nameInput" maxLength="50" value="{/firstName}"/>
+									<Input id="nameInput" maxLength="50" value="{newDepartment>/name}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>department.description}">
 								<f:fields>
-									<TextArea id="descriptionTextArea" maxLength="250" value="{/firstName}" rows="5"/>
+									<TextArea id="descriptionTextArea" maxLength="250" value="{newDepartment>/description}" rows="5"/>
 								</f:fields>
 							</f:FormElement>
 							
