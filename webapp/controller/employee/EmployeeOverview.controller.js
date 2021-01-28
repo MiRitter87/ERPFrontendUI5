@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
+	"sap/m/MessageBox",
 	"sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, JSONModel) {
+], function (Controller, MessageToast, MessageBox, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeOverview", {
@@ -24,14 +25,14 @@ sap.ui.define([
 			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
 			if(this.isEmployeeSelected() == false) {
-				MessageToast.show(oResourceBundle.getText("employeeOverview.noEmployeeSelected"));
+				MessageBox.error(oResourceBundle.getText("employeeOverview.noEmployeeSelected"));
 				return;
 			}
 			
 			oSalaryData = this.getSelectedEmployee().salaryData;
 			
 			if(oSalaryData == null) {
-				MessageToast.show(oResourceBundle.getText("employeeOverview.noSalaryDataExist"));
+				MessageBox.error(oResourceBundle.getText("employeeOverview.noSalaryDataExist"));
 				return;
 			}
 			
@@ -48,7 +49,7 @@ sap.ui.define([
 			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
 			if(this.isEmployeeSelected() == false) {
-				MessageToast.show(oResourceBundle.getText("employeeOverview.noEmployeeSelected"));
+				MessageBox.error(oResourceBundle.getText("employeeOverview.noEmployeeSelected"));
 				return;
 			}
 			

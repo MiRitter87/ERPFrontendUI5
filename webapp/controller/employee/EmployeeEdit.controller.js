@@ -24,12 +24,12 @@ sap.ui.define([
 			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
 			if(this.getView().byId("employeeComboBox").getSelectedKey() == "") {
-				MessageToast.show(oResourceBundle.getText("employeeEdit.noEmployeeSelected"));
+				MessageBox.error(oResourceBundle.getText("employeeEdit.noEmployeeSelected"));
 				return;
 			}
 			
 			if(this.getView().byId("genderComboBox").getSelectedKey() == "") {
-				MessageToast.show(oResourceBundle.getText("employeeEdit.noGenderSelected"));
+				MessageBox.error(oResourceBundle.getText("employeeEdit.noGenderSelected"));
 				return;
 			}
 			
@@ -57,7 +57,7 @@ sap.ui.define([
 			
 			//No employee selected
 			if(employeeId == "") {
-				MessageToast.show(oResourceBundle.getText("employeeEdit.noEmployeeSelected"));
+				MessageBox.error(oResourceBundle.getText("employeeEdit.noEmployeeSelected"));
 				return;
 			}
 			

@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
+	"sap/m/MessageBox",
 	"sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, JSONModel) {
+], function (Controller, MessageToast, MessageBox, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeDisplay", {
@@ -25,13 +26,13 @@ sap.ui.define([
 			
 			//No employee selected
 			if(employeeId == "") {
-				MessageToast.show(oResourceBundle.getText("employeeDisplay.noEmployeeSelected"));
+				MessageBox.error(oResourceBundle.getText("employeeDisplay.noEmployeeSelected"));
 				return;
 			}
 			
 			//Employee has no salary defined
 			if(salaryData == null) {
-				MessageToast.show(oResourceBundle.getText("employeeDisplay.noSalaryDataExist"));
+				MessageBox.error(oResourceBundle.getText("employeeDisplay.noSalaryDataExist"));
 				return;
 			}
 			
