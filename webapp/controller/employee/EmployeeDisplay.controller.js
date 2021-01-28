@@ -10,9 +10,22 @@ sap.ui.define([
 		/**
 		 * Initializes the Controller.
 		 */
-		onInit : function () {
+		onInit : function () {			
+			//Register an event handler that gets called every time the router navigates to this view.
+			var oRouter = this.getOwnerComponent().getRouter();
+			oRouter.getRoute("employeeDisplayRoute").attachMatched(this._onRouteMatched, this);
+			
 			this.queryEmployeeWebService();
 		},
+		
+		
+		/**
+		 * Handles the routeMatched-event when the router navigates to this view.
+		 */
+		_onRouteMatched: function (oEvent) {
+			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
+			this.queryEmployeeWebService();
+    	},
 		
 		
 		/**
