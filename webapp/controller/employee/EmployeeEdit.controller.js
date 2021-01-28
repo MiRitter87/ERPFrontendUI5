@@ -16,7 +16,6 @@ sap.ui.define([
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("employeeEditRoute").attachMatched(this._onRouteMatched, this);
 			
-			this.queryEmployeeWebService();
 			this.initializeGenderComboBox();
 		},
 		

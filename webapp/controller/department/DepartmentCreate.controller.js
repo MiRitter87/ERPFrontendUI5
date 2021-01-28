@@ -16,8 +16,6 @@ sap.ui.define([
 			oRouter.getRoute("departmentCreateRoute").attachMatched(this._onRouteMatched, this);
 			
 			this.initializeDepartmentModel();
-			//Load all employees. Those are the candidates that can be selected in the head selection ComboBox.
-			this.queryEmployeeWebService();
 		},
 		
 		
@@ -25,6 +23,7 @@ sap.ui.define([
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
 		_onRouteMatched: function (oEvent) {
+			//Load all employees. Those are the candidates that can be selected in the head selection ComboBox.
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			this.queryEmployeeWebService();
     	},

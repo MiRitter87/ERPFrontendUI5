@@ -14,8 +14,6 @@ sap.ui.define([
 			//Register an event handler that gets called every time the router navigates to this view.
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("employeeDisplayRoute").attachMatched(this._onRouteMatched, this);
-			
-			this.queryEmployeeWebService();
 		},
 		
 		
