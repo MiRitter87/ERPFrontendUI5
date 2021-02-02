@@ -165,7 +165,7 @@ sap.ui.define([
 				data : jsonData, 
 				success : function(data,textStatus, jqXHR) {
 					if(data.message != null) {
-						if(data.message[0].type == 'S') {
+						if(data.message[0].type == 'S' || data.message[0].type == 'I') {
 							MessageToast.show(data.message[0].text);
 						}
 						
