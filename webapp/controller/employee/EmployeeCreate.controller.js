@@ -12,9 +12,21 @@ sap.ui.define([
 		 * Initializes the controller.
 		 */
 		onInit : function () {
+			//Register an event handler that gets called every time the router navigates to this view.
+			var oRouter = this.getOwnerComponent().getRouter();
+			oRouter.getRoute("employeeCreateRoute").attachMatched(this._onRouteMatched, this);
+			
 			this.initializeGenderComboBox();
 			this.initializeEmployeeModel();
 		},
+		
+		
+		/**
+		 * Handles the routeMatched-event when the router navigates to this view.
+		 */
+		_onRouteMatched: function (oEvent) {
+			this.getView().byId("genderComboBox").setSelectedItem(null);
+    	},
 		
 		
 		/**

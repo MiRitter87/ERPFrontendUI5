@@ -44,7 +44,6 @@
 							<f:FormElement label="{i18n>employee.id}">
 								<f:fields>
 									<Input value="{/selectedEmployee/id}" enabled="false" editable="false"/>
-									<!-- <Label id="employeeId" text="{/selectedEmployee/id}" /> -->
 								</f:fields>
 							</f:FormElement>
 	

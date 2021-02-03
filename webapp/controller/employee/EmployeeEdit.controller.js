@@ -26,6 +26,7 @@ sap.ui.define([
 		_onRouteMatched: function (oEvent) {
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			this.queryEmployeeWebService();
+			this.getView().byId("employeeComboBox").setSelectedItem(null);
     	},
 		
 		
@@ -56,6 +57,7 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			
 			oRouter.navTo("startPageRoute");	
+			this.getView().byId("employeeComboBox").setSelectedItem(null);
 		},
 		
 		

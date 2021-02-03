@@ -26,6 +26,7 @@ sap.ui.define([
 			//Load all employees. Those are the candidates that can be selected in the head selection ComboBox.
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			this.queryEmployeeWebService();
+			this.deselectHeadSelection();
     	},
 		
 		
