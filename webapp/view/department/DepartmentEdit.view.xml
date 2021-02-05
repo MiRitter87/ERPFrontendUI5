@@ -9,7 +9,70 @@
 	
 	<Panel headerText="{i18n>departmentEdit.header}">
 		<content>
-
+			<l:VerticalLayout>
+				<Label text="{i18n>departmentEdit.selectionDescription}"/>
+				<ComboBox id="departmentComboBox" items="{path: '/departments/data/department/'}">
+					<core:Item key="{code}" text="{code} - {name}"/>
+				</ComboBox>
+			</l:VerticalLayout>
+			
+			<f:Form id="departmentForm" editable="true">
+				<f:title>
+					<core:Title text="{i18n>departmentEdit.dataHeader}" />
+				</f:title>
+				
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>department.code}">
+								<f:fields>
+									<Input value="{/selectedDepartment/code}" enabled="false" editable="false"/>
+								</f:fields>
+							</f:FormElement>
+	
+							<f:FormElement label="{i18n>department.name}">
+								<f:fields>
+									<Input id="nameInput" maxLength="50" value="{/selectedDepartment/name}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>department.description}">
+								<f:fields>
+									<TextArea id="descriptionTextArea" maxLength="250" value="{/selectedDepartment/description}" rows="5"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>department.head}">
+								<f:fields>
+									<ComboBox id="headComboBox" items="{path: '/employees/data/employee/'}">
+										<core:Item key="{id}" text="{id} - {firstName} {lastName}"/>
+									</ComboBox>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 		</content>
+		
+		<Button text="{i18n>button.save}" class="sapUiSmallMargin"/>
+		<Button type="Reject" text="{i18n>button.cancel}" class="sapUiSmallMargin"/>
 	</Panel>
 </mvc:View>
