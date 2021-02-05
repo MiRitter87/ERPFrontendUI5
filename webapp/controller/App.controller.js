@@ -27,6 +27,9 @@ sap.ui.define([
 			else if(item.getKey() == "departmentCreate") {
 				oRouter.navTo("departmentCreateRoute");
 			}
+			else if(item.getKey() == "departmentChange") {
+				oRouter.navTo("departmentEditRoute");
+			}
 		},
 		
 		

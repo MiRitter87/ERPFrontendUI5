@@ -93,6 +93,10 @@
 				"pattern": "createDepartment",
 				"name": "departmentCreateRoute",
 				"target": "departmentCreateTarget"
+			}, {
+				"pattern": "departmentEdit",
+				"name": "departmentEditRoute",
+				"target": "departmentEditTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -133,6 +137,11 @@
 				"departmentCreateTarget": {
 					"viewId": "departmentCreate",
 					"viewName": "department.DepartmentCreate",
+					"viewLevel" : 1
+				},
+				"departmentEditTarget": {
+					"viewId": "departmentEdit",
+					"viewName": "department.DepartmentEdit",
 					"viewLevel" : 1
 				}
          	}
