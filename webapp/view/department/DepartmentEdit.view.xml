@@ -74,7 +74,7 @@
 			</f:Form>
 		</content>
 		
-		<Button text="{i18n>button.save}" class="sapUiSmallMargin"/>
-		<Button type="Reject" text="{i18n>button.cancel}" class="sapUiSmallMargin"/>
+		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin" />
+		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 	</Panel>
 </mvc:View>

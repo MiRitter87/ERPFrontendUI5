@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
+	"sap/m/MessageBox",
 	"sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, JSONModel) {
+], function (Controller, MessageToast, MessageBox, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.department.DepartmentEdit", {
@@ -10,10 +11,22 @@ sap.ui.define([
 		 * Initializes the controller.
 		 */
 		onInit : function () {
+			var oRouter = this.getOwnerComponent().getRouter();
+			oRouter.getRoute("departmentEditRoute").attachMatched(this._onRouteMatched, this);
+		},
+		
+		
+		/**
+		 * Handles the routeMatched-event when the router navigates to this view.
+		 */
+		_onRouteMatched: function (oEvent) {
+			//Query department data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			this.getView().setModel(new JSONModel());
 			this.queryDepartmentWebService();
 			this.queryEmployeeWebService();
-		},
+			
+			this.getView().byId("departmentComboBox").setSelectedItem(null);
+    	},
 		
 		
 		/**
@@ -69,6 +82,37 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles a click at the save button.
+		 */
+		onSavePressed : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
+			if(this.getView().byId("departmentComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("departmentEdit.noDepartmentSelected"));
+				return;
+			}
+			
+			if(this.getView().byId("headComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("departmentEdit.noHeadSelected"));
+				return;
+			}
+			
+			this.saveDepartmentByWebService();
+		},
+		
+		
+		/**
+		 * Handles a click at the cancel button.
+		 */
+		onCancelPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			
+			oRouter.navTo("startPageRoute");	
+			this.getView().byId("departmentComboBox").setSelectedItem(null);
+		},
+		
+		
+		/**
 		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
 		 */
 		queryDepartmentWebService : function() {
@@ -116,5 +160,40 @@ sap.ui.define([
 			
 			this.getView().setModel(oModel);
 		},
+		
+		
+		/**
+		 * Updates changes of the department data using the WebService.
+		 */
+		saveDepartmentByWebService : function() {
+			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/department");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var oDepartmentModel = new JSONModel(this.getView().getModel().getProperty("/selectedDepartment"));
+			var sJSONData = oDepartmentModel.getJSON();
+			
+			//Use "PUT" to update an existing resource.
+			var aData = jQuery.ajax({
+				type : "PUT", 
+				contentType : "application/json", 
+				url : sQueryUrl,
+				data : sJSONData, 
+				success : function(data,textStatus, jqXHR) {
+					if(data.message != null) {
+						if(data.message[0].type == 'S' || data.message[0].type == 'I') {
+							MessageToast.show(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'E') {
+							MessageBox.error(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'W') {
+							MessageBox.warning(data.message[0].text);
+						}
+					}
+				},
+				context : this
+			});  
+		}
 	});
 });
