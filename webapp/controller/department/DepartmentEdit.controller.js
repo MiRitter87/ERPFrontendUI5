@@ -43,6 +43,32 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the selection of an item in the head of department ComboBox.
+		 */
+		onHeadSelectionChange : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oModel = this.getView().getModel();
+			var oSelectedDepartment = oModel.oData.selectedDepartment;
+			var oEmployees = oModel.oData.employees;
+			var oSelectedEmployee;
+			
+			if(oSelectedItem == null)
+				return;
+			
+			//Get the selected employee from the array of all employees according to the id.
+			for(var i = 0; i < oEmployees.data.employee.length; i++) {
+    			var oTempEmployee = oEmployees.data.employee[i];
+    			
+				if(oTempEmployee.id == oSelectedItem.getKey()) {
+					oSelectedEmployee = oTempEmployee;
+				}
+			}
+			
+			oSelectedDepartment.head = oSelectedEmployee;
+		},
+		
+		
+		/**
 		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
 		 */
 		queryDepartmentWebService : function() {
