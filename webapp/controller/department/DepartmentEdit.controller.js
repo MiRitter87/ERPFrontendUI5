@@ -17,6 +17,32 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the selection of an item in the department ComboBox.
+		 */
+		onDepartmentSelectionChange : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oModel = this.getView().getModel();
+			var oDepartments = oModel.oData.departments;
+			var oDepartment;
+			
+			if(oSelectedItem == null)
+				return;
+			
+			//Get the selected department from the array of all departments according to the code.
+			for(var i = 0; i < oDepartments.data.department.length; i++) {
+    			var oTempDepartment = oDepartments.data.department[i];
+    			
+				if(oTempDepartment.code == oSelectedItem.getKey()) {
+					oDepartment = oTempDepartment;
+				}
+			}
+			
+			//Set the model of the view according to the selected department to allow binding of the UI elements.
+			oModel.setData({departments:oDepartments, selectedDepartment : oDepartment}, true);
+		},
+		
+		
+		/**
 		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
 		 */
 		queryDepartmentWebService : function() {
