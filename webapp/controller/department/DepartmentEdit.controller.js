@@ -22,7 +22,7 @@ sap.ui.define([
 		_onRouteMatched: function (oEvent) {
 			//Query department data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			this.getView().setModel(new JSONModel());
-			this.queryDepartmentWebService();
+			this.queryDepartmentWebService(true);
 			this.queryEmployeeWebService();
 			
 			this.getView().byId("departmentComboBox").setSelectedItem(null);
@@ -115,7 +115,7 @@ sap.ui.define([
 		/**
 		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
 		 */
-		queryDepartmentWebService : function() {
+		queryDepartmentWebService : function(bShowSuccessMessage) {
 			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/department");
 			var queryUrl = webServiceBaseUrl + "/";
 			var oModel = this.getView().getModel();
@@ -125,7 +125,8 @@ sap.ui.define([
 					oModel.setData({departments : data}, true); // not aData
 					
 					if(data.data != null) {
-						MessageToast.show(oResourceBundle.getText("departmentEdit.dataLoaded"));
+						if(bShowSuccessMessage == true)
+							MessageToast.show(oResourceBundle.getText("departmentEdit.dataLoaded"));
 					}
 					else {
 						if(data.message != null)
@@ -179,7 +180,13 @@ sap.ui.define([
 				data : sJSONData, 
 				success : function(data,textStatus, jqXHR) {
 					if(data.message != null) {
-						if(data.message[0].type == 'S' || data.message[0].type == 'I') {
+						if(data.message[0].type == 'S') {
+							this.queryDepartmentWebService(false);	//Updates the data source of the ComboBox with the new department data.
+							this.getView().byId("departmentComboBox").setSelectedKey(null);
+							MessageToast.show(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'I') {
 							MessageToast.show(data.message[0].text);
 						}
 						
