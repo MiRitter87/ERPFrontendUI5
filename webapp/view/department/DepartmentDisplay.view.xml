@@ -9,7 +9,65 @@
 	
 	<Panel headerText="{i18n>departmentDisplay.header}">
 		<content>
-
+			<l:VerticalLayout>
+				<Label text="{i18n>departmentDisplay.selectionDescription}"/>
+				<ComboBox id="departmentComboBox" items="{path: '/departments/data/department/'}">
+					<core:Item key="{code}" text="{code} - {name}"/>
+				</ComboBox>
+			</l:VerticalLayout>
+			
+			<f:Form id="departmentForm" editable="false">
+				<f:title>
+					<core:Title text="{i18n>departmentDisplay.dataHeader}" />
+				</f:title>
+				
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>department.code}">
+								<f:fields>
+									<Label text="{/selectedDepartment/code}"/>
+								</f:fields>
+							</f:FormElement>
+	
+							<f:FormElement label="{i18n>department.name}">
+								<f:fields>
+									<Label text="{/selectedDepartment/name}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>department.description}">
+								<f:fields>
+									<Text text="{/selectedDepartment/description}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>department.head}">
+								<f:fields>
+									<Label text="{/selectedDepartment/head/firstName} {/selectedDepartment/head/lastName}"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 		</content>
 	</Panel>
 </mvc:View>
