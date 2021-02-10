@@ -181,8 +181,12 @@ sap.ui.define([
 				success : function(data,textStatus, jqXHR) {
 					if(data.message != null) {
 						if(data.message[0].type == 'S') {
-							this.queryDepartmentWebService(false);	//Updates the data source of the ComboBox with the new department data.
+							//Update the data source of the ComboBox with the new department data.
+							this.queryDepartmentWebService(false);
+							//Clear ComboBox preventing display of wrong data (Code - Name).
 							this.getView().byId("departmentComboBox").setSelectedKey(null);
+							//Clear selectedDepartment because no ComboBox item is selected.
+							this.getView().getModel().setProperty("/selectedDepartment", null);	
 							MessageToast.show(data.message[0].text);
 						}
 						
