@@ -25,7 +25,7 @@ sap.ui.define([
 		 */
 		_onRouteMatched: function (oEvent) {
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
-			this.queryEmployeeWebService();
+			this.queryEmployeeWebService(true);
 			this.getView().byId("employeeComboBox").setSelectedItem(null);
     	},
 		
@@ -119,14 +119,14 @@ sap.ui.define([
 			}
 			
 			//Set the model of the view according to the selected employee to allow binding of the UI elements.
-			oModel.setData({employees:employees, selectedEmployee : employee});
+			oModel.setData({employees:employees, selectedEmployee : employee}, true);
 		},
 		
 		
 		/**
 		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
 		 */
-		queryEmployeeWebService : function() {
+		queryEmployeeWebService : function(bShowSuccessMessage) {
 			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
 			var queryUrl = webServiceBaseUrl + "/";
 			var oModel = new JSONModel();
@@ -136,7 +136,8 @@ sap.ui.define([
 					oModel.setData({employees : data}); // not aData
 					
 					if(data.data != null) {
-						MessageToast.show(oResourceBundle.getText("employeeEdit.dataLoaded"));
+						if(bShowSuccessMessage == true)
+							MessageToast.show(oResourceBundle.getText("employeeEdit.dataLoaded"));
 					}
 					else {
 						if(data.message != null)
@@ -167,7 +168,13 @@ sap.ui.define([
 				data : jsonData, 
 				success : function(data,textStatus, jqXHR) {
 					if(data.message != null) {
-						if(data.message[0].type == 'S' || data.message[0].type == 'I') {
+						if(data.message[0].type == 'S') {
+							this.queryEmployeeWebService(false);	//Updates the data source of the ComboBox with the new employee data.
+							this.getView().byId("employeeComboBox").setSelectedKey(null);
+							MessageToast.show(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'I') {
 							MessageToast.show(data.message[0].text);
 						}
 						
