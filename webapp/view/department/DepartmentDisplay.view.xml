@@ -11,7 +11,7 @@
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>departmentDisplay.selectionDescription}"/>
-				<ComboBox id="departmentComboBox" items="{path: '/departments/data/department/'}">
+				<ComboBox id="departmentComboBox" items="{path: '/departments/data/department/'}" selectionChange=".onDepartmentSelectionChange">
 					<core:Item key="{code}" text="{code} - {name}"/>
 				</ComboBox>
 			</l:VerticalLayout>
@@ -43,13 +43,13 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>department.code}">
 								<f:fields>
-									<Label text="{/selectedDepartment/code}"/>
+									<Text text="{/selectedDepartment/code}"/>
 								</f:fields>
 							</f:FormElement>
 	
 							<f:FormElement label="{i18n>department.name}">
 								<f:fields>
-									<Label text="{/selectedDepartment/name}"/>
+									<Text text="{/selectedDepartment/name}"/>
 								</f:fields>
 							</f:FormElement>
 							
@@ -61,7 +61,7 @@
 							
 							<f:FormElement label="{i18n>department.head}">
 								<f:fields>
-									<Label text="{/selectedDepartment/head/firstName} {/selectedDepartment/head/lastName}"/>
+									<Text text="{/selectedDepartment/head/firstName} {/selectedDepartment/head/lastName}"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>
