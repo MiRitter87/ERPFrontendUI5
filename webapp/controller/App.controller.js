@@ -33,6 +33,9 @@ sap.ui.define([
 			else if(item.getKey() == "departmentDisplay") {
 				oRouter.navTo("departmentDisplayRoute");
 			}
+			else if(item.getKey() == "departmentOverview") {
+				oRouter.navTo("departmentOverviewRoute");
+			}
 		},
 		
 		
