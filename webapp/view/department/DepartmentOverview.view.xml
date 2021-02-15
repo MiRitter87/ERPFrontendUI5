@@ -8,7 +8,39 @@
 	
 	<Panel headerText="{i18n>departmentOverview.header}">
 		<content>
-
+			<Table id="departmentTable" items="{path: '/departments/data/department/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>departmentOverview.deleteSelected}" press=".onDeletePressed"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>department.code}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>department.name}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>department.description}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>department.head}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{code}"/>
+							<Text text="{name}"/>
+							<Text text="{description}"/>
+							<Text text="{head.firstName} {head.lastName}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
 	</Panel>
 </mvc:View>
