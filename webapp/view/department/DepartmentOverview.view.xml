@@ -36,7 +36,7 @@
 							<ObjectIdentifier text="{code}"/>
 							<Text text="{name}"/>
 							<Text text="{description}"/>
-							<Text text="{head.firstName} {head.lastName}"/>
+							<Text text="{head/firstName} {head/lastName}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
