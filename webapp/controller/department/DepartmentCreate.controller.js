@@ -106,7 +106,7 @@ sap.ui.define([
 		 */
 		queryEmployeeWebService : function() {
 			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
-			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var sQueryUrl = sWebServiceBaseUrl + "?employeeHeadQuery=NO_HEAD_ONLY";
 			var oModel = new JSONModel();
 			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : sQueryUrl, dataType : "json", 
 				success : function(data,textStatus, jqXHR) {
