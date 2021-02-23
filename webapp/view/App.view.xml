@@ -31,6 +31,13 @@
 						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="departmentDisplay"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="departmentOverview"/>
 					</tnt:NavigationListItem>
+					
+					<tnt:NavigationListItem text="{i18n>navigation.material}" icon="sap-icon://product" expanded="true" key="material">
+						<tnt:NavigationListItem text="{i18n>navigation.object.create}" key="materialCreate"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.change}" key="materialChange"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="materialDisplay"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="materialOverview"/>
+					</tnt:NavigationListItem>
 				</tnt:NavigationList>
 			</tnt:SideNavigation>
 		</tnt:sideContent>
