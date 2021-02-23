@@ -9,7 +9,79 @@
 	
 	<Panel headerText="{i18n>materialCreate.header}">
 		<content>
-
+			<f:Form id="materialForm" editable="true">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>material.name}">
+								<f:fields>
+									<Input maxLength="50" value="{/name}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>material.description}">
+								<f:fields>
+									<TextArea maxLength="250" value="{/description}" rows="5"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>material.unit}">
+								<f:fields>
+									<ComboBox id="unitComboBox" selectedKey="{/unit}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>material.price}">
+								<f:fields>
+									<Input id="priceInput" type="Number" description="EUR"
+										value="{
+											path : '/pricePerUnit',
+											type : 'sap.ui.model.type.Float',
+											constraints : {
+												minimum: 0,
+												maximum: 999999
+											},
+											formatOptions : {
+												decimalSeparator: ',',
+												minDecimals: 2,
+												maxDecimals: 2
+											}}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>material.inventory}">
+								<f:fields>
+									<Input id="inventoryInput" type="Number"
+										value="{
+											path : '/inventory',
+											type : 'sap.ui.model.type.Integer',
+											constraints : {
+												minimum: 0,
+												maximum: 999999
+											}}"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 		</content>
 	</Panel>
 </mvc:View>
