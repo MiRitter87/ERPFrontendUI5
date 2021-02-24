@@ -10,7 +10,11 @@ sap.ui.define([
 		 * Initializes the controller.
 		 */
 		onInit : function () {
-			var oView, oMessageManager;
+			var oView, oMessageManager, oRouter;
+			
+			//Register an event handler that gets called every time the router navigates to this view.
+			oRouter = this.getOwnerComponent().getRouter();
+			oRouter.getRoute("materialCreateRoute").attachMatched(this._onRouteMatched, this);
 			
 			//Initialize message manager for input form validation.
 			oView = this.getView();
@@ -18,9 +22,18 @@ sap.ui.define([
 			oView.setModel(oMessageManager.getMessageModel(), "message");
 			oMessageManager.registerObject(oView, true);
 			
-			this.initializeMaterialModel();
 			this.initializeUnitComboBox();
 		},
+		
+		
+		/**
+		 * Handles the routeMatched-event when the router navigates to this view.
+		 */
+		_onRouteMatched: function (oEvent) {
+			this.getView().byId("unitComboBox").setSelectedItem(null);
+			this.initializeMaterialModel();
+    	},
+		
 		
 		
 		/**
@@ -74,7 +87,9 @@ sap.ui.define([
 		 * Handles a click at the cancel button.
 		 */
 		onCancelPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			
+			oRouter.navTo("startPageRoute");	
 		},
 		
 		
