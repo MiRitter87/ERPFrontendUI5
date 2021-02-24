@@ -2,7 +2,7 @@
 	"name": "",
 	"description": "",
 	"unit": "",
-	"pricePerUnit": 0,
+	"pricePerUnit": 0.00,
 	"currency": "EUR",
 	"inventory": 0
 }

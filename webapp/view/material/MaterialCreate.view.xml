@@ -32,37 +32,25 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>material.name}">
 								<f:fields>
-									<Input maxLength="50" value="{/name}"/>
+									<Input maxLength="50" value="{newMaterial>/name}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>material.description}">
 								<f:fields>
-									<TextArea maxLength="250" value="{/description}" rows="5"/>
+									<TextArea maxLength="250" value="{newMaterial>/description}" rows="5"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>material.unit}">
 								<f:fields>
-									<ComboBox id="unitComboBox" selectedKey="{/unit}"/>
+									<ComboBox id="unitComboBox" selectedKey="{newMaterial>/unit}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>material.price}">
 								<f:fields>
-									<Input id="priceInput" type="Number" description="EUR"
-										value="{
-											path : '/pricePerUnit',
-											type : 'sap.ui.model.type.Float',
-											constraints : {
-												minimum: 0,
-												maximum: 999999
-											},
-											formatOptions : {
-												decimalSeparator: ',',
-												minDecimals: 2,
-												maxDecimals: 2
-											}}"/>
+									<Input id="priceInput" type="Number" description="EUR"/>
 								</f:fields>
 							</f:FormElement>
 							
@@ -70,7 +58,7 @@
 								<f:fields>
 									<Input id="inventoryInput" type="Number"
 										value="{
-											path : '/inventory',
+											path : 'newMaterial>/inventory',
 											type : 'sap.ui.model.type.Integer',
 											constraints : {
 												minimum: 0,
@@ -83,5 +71,8 @@
 				</f:formContainers>
 			</f:Form>
 		</content>
+		
+		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
+		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 	</Panel>
 </mvc:View>
