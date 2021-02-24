@@ -1,8 +1,8 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
-	"sap/ui/core/format/NumberFormat"
-], function (Controller, JSONModel, NumberFormat) {
+	"sap/ui/core/Item",
+], function (Controller, JSONModel, Item) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.material.MaterialCreate", {
@@ -19,6 +19,7 @@ sap.ui.define([
 			oMessageManager.registerObject(oView, true);
 			
 			this.initializeMaterialModel();
+			this.initializeUnitComboBox();
 		},
 		
 		
@@ -30,6 +31,34 @@ sap.ui.define([
 			
 			oMaterialModel.loadData("model/material/materialCreate.json");
 			this.getView().setModel(oMaterialModel, "newMaterial");
+		},
+		
+		
+		/**
+		 * Initializes the ComboBox for unit selection.
+		 */
+		initializeUnitComboBox : function () {
+			var comboBoxItem = new Item();
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
+			comboBoxItem.setKey("ST");
+			comboBoxItem.setText(oResourceBundle.getText("unit.st"));
+			this.getView().byId("unitComboBox").addItem(comboBoxItem);
+			
+			comboBoxItem = new Item();
+			comboBoxItem.setKey("L");
+			comboBoxItem.setText(oResourceBundle.getText("unit.l"));
+			this.getView().byId("unitComboBox").addItem(comboBoxItem);
+			
+			comboBoxItem = new Item();
+			comboBoxItem.setKey("KG");
+			comboBoxItem.setText(oResourceBundle.getText("unit.kg"));
+			this.getView().byId("unitComboBox").addItem(comboBoxItem);
+			
+			comboBoxItem = new Item();
+			comboBoxItem.setKey("T");
+			comboBoxItem.setText(oResourceBundle.getText("unit.t"));
+			this.getView().byId("unitComboBox").addItem(comboBoxItem);
 		},
 		
 		
