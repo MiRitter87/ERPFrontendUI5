@@ -9,6 +9,22 @@ sap.ui.define([
 		 */
 		onInit : function () {
 			
+		},
+		
+		
+		/**
+		 * Handles a click at the save button.
+		 */
+		onSavePressed : function () {
+			
+		},
+		
+		
+		/**
+		 * Handles a click at the cancel button.
+		 */
+		onCancelPressed : function () {
+			
 		}
 	});
 });

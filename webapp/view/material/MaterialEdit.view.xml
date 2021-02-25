@@ -9,7 +9,87 @@
 	
 	<Panel headerText="{i18n>materialEdit.header}">
 		<content>
+			<l:VerticalLayout>
+				<Label text="{i18n>materialEdit.selectionDescription}"/>
+				<ComboBox id="materialComboBox" items="{path: '/materials/data/material/'}">
+					<core:Item key="{id}" text="{id} - {name}"/>
+				</ComboBox>
+			</l:VerticalLayout>
 			
+			<f:Form id="materialForm" editable="true">
+				<f:title>
+					<core:Title text="{i18n>materialEdit.dataHeader}" />
+				</f:title>
+				
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>material.id}">
+								<f:fields>
+									<Input value="{/selectedMaterial/id}" enabled="false" editable="false"/>
+								</f:fields>
+							</f:FormElement>
+	
+							<f:FormElement label="{i18n>material.name}">
+								<f:fields>
+									<Input maxLength="50" value="{/selectedMaterial/name}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>material.description}">
+								<f:fields>
+									<TextArea maxLength="250" value="{/selectedMaterial/description}" rows="5"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>material.unit}">
+								<f:fields>
+									<ComboBox id="unitComboBox" selectedKey="{/selectedMaterial/unit}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>material.price}">
+								<f:fields>
+									<Input id="priceInput" type="Number" description="EUR"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>material.inventory}">
+								<f:fields>
+									<Input id="inventoryInput" type="Number"
+										value="{
+											path : '/selectedMaterial/inventory',
+											type : 'sap.ui.model.type.Integer',
+											constraints : {
+												minimum: 0,
+												maximum: 999999
+											}}"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 		</content>
+		
+		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin" />
+		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 	</Panel>
 </mvc:View>
