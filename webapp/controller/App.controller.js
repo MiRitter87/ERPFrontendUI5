@@ -15,19 +15,19 @@ sap.ui.define([
 			if(item.getKey() == "employeeCreate") {
 				oRouter.navTo("employeeCreateRoute");			
 			}
+			else if(item.getKey() == "employeeEdit") {
+				oRouter.navTo("employeeEditRoute");	
+			}
 			else if(item.getKey() == "employeeDisplay") {
 				oRouter.navTo("employeeDisplayRoute");			
 			}
 			else if(item.getKey() == "employeeOverview") {
 				oRouter.navTo("employeeOverviewRoute");	
 			}
-			else if(item.getKey() == "employeeChange") {
-				oRouter.navTo("employeeEditRoute");	
-			}
 			else if(item.getKey() == "departmentCreate") {
 				oRouter.navTo("departmentCreateRoute");
 			}
-			else if(item.getKey() == "departmentChange") {
+			else if(item.getKey() == "departmentEdit") {
 				oRouter.navTo("departmentEditRoute");
 			}
 			else if(item.getKey() == "departmentDisplay") {
@@ -39,7 +39,7 @@ sap.ui.define([
 			else if(item.getKey() == "materialCreate") {
 				oRouter.navTo("materialCreateRoute");
 			}
-			else if(item.getKey() == "materialChange") {
+			else if(item.getKey() == "materialEdit") {
 				oRouter.navTo("materialEditRoute");
 			}
 		},
