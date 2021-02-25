@@ -39,6 +39,9 @@ sap.ui.define([
 			else if(item.getKey() == "materialCreate") {
 				oRouter.navTo("materialCreateRoute");
 			}
+			else if(item.getKey() == "materialChange") {
+				oRouter.navTo("materialEditRoute");
+			}
 		},
 		
 		
