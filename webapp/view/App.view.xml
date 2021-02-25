@@ -16,23 +16,23 @@
 		
 		<!-- Navigation menu -->
 		<tnt:sideContent>
-			<tnt:SideNavigation expanded="true"  itemSelect="onItemSelect">
+			<tnt:SideNavigation itemSelect="onItemSelect">
 				<tnt:NavigationList>
-					<tnt:NavigationListItem text="{i18n>navigation.employee}" icon="sap-icon://employee" expanded="true" key="employee">
+					<tnt:NavigationListItem text="{i18n>navigation.employee}" expanded="false" icon="sap-icon://employee" key="employee">
 						<tnt:NavigationListItem text="{i18n>navigation.object.create}" key="employeeCreate"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.edit}" key="employeeEdit"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="employeeDisplay"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="employeeOverview"/>
 					</tnt:NavigationListItem>
 					
-					<tnt:NavigationListItem text="{i18n>navigation.department}" icon="sap-icon://group" expanded="true" key="department">
+					<tnt:NavigationListItem text="{i18n>navigation.department}" expanded="false" icon="sap-icon://group" key="department">
 						<tnt:NavigationListItem text="{i18n>navigation.object.create}" key="departmentCreate"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.edit}" key="departmentEdit"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="departmentDisplay"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="departmentOverview"/>
 					</tnt:NavigationListItem>
 					
-					<tnt:NavigationListItem text="{i18n>navigation.material}" icon="sap-icon://product" expanded="true" key="material">
+					<tnt:NavigationListItem text="{i18n>navigation.material}" expanded="false" icon="sap-icon://product" key="material">
 						<tnt:NavigationListItem text="{i18n>navigation.object.create}" key="materialCreate"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.edit}" key="materialEdit"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="materialDisplay"/>
