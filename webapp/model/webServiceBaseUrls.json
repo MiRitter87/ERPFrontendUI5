@@ -1,4 +1,5 @@
 {
 	"employee": "http://127.0.0.1:8080/backend/services/rest/employees",
-	"department": "http://127.0.0.1:8080/backend/services/rest/departments"
+	"department": "http://127.0.0.1:8080/backend/services/rest/departments",
+	"material": "http://127.0.0.1:8080/backend/services/rest/materials"
 }

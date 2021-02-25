@@ -2,7 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/core/Item",
-], function (Controller, JSONModel, Item) {
+	"sap/m/MessageBox",
+	"sap/m/MessageToast"
+], function (Controller, JSONModel, Item, MessageBox, MessageToast) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.material.MaterialCreate", {
@@ -79,7 +81,16 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
+			if(this.getView().byId("unitComboBox").getSelectedKey() == "") {
+				this.showMessageOnUndefinedUnit();
+				return;
+			}
+			
 			this.validatePriceInput();
+			if(this.isPriceValid() == false)
+				return;
+			
+			this.saveMaterialByWebService();
 		},
 		
 		
@@ -116,6 +127,77 @@ sap.ui.define([
 				this.getView().byId("priceInput").setValueState(sap.ui.core.ValueState.None);
 				this.getView().getModel("newMaterial").setProperty("/pricePerUnit", fPricePerUnit);			
 			}
-		}
+		},
+		
+		
+		/**
+		 * Checks if a valid price is filled in.
+		 */
+		isPriceValid : function () {
+			var sPriceInputString = this.getView().byId("priceInput").getValue();
+			var fPricePerUnit = parseFloat(sPriceInputString);
+			
+			if(isNaN(fPricePerUnit)) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		},
+		
+		
+		/**
+		 * Displays a message in case the unit has not been selected.
+		 */
+		showMessageOnUndefinedUnit : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			MessageBox.error(oResourceBundle.getText("materialCreate.noUnitSelected"));
+		},
+		
+		
+		/**
+		 * Saves the material defined in the input form by using the RESTful WebService.
+		 */
+		saveMaterialByWebService : function () {
+			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/material");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var oMaterialModel = this.getView().getModel("newMaterial");
+			var sJSONData = oMaterialModel.getJSON();
+			
+			//Use "POST" to create a resource.
+			var aData = jQuery.ajax({
+				type : "POST", 
+				contentType : "application/json", 
+				url : sQueryUrl,
+				data : sJSONData, 
+				success : function(data, textStatus, jqXHR) {
+					if(data.message != null) {
+						if(data.message[0].type == 'S') {
+							MessageToast.show(data.message[0].text);
+							this.resetFormFields();
+						}
+						
+						if(data.message[0].type == 'E') {
+							MessageBox.error(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'W') {
+							MessageBox.warning(data.message[0].text);
+						}
+					}
+				},
+				context : this
+			});    
+		},
+		
+		
+		/**
+		 * Resets the form fields to the initial state.
+		 */
+		resetFormFields : function () {
+			this.getView().byId("unitComboBox").setSelectedItem(null);
+			this.getView().byId("priceInput").setValue(0);
+			this.initializeMaterialModel();
+		},
 	});
 });
