@@ -113,7 +113,7 @@ sap.ui.define([
 		
 		
 		/**
-		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
+		 * Queries the department WebService. If the call is successful, the model is updated with the employee data.
 		 */
 		queryDepartmentWebService : function(bShowSuccessMessage) {
 			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/department");
