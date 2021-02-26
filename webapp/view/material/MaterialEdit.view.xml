@@ -11,7 +11,7 @@
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>materialEdit.selectionDescription}"/>
-				<ComboBox id="materialComboBox" items="{path: '/materials/data/material/'}">
+				<ComboBox id="materialComboBox" items="{path: '/materials/data/material/'}" selectionChange=".onMaterialSelectionChange">
 					<core:Item key="{id}" text="{id} - {name}"/>
 				</ComboBox>
 			</l:VerticalLayout>

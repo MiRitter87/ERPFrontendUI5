@@ -47,6 +47,35 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the selection of an item in the material ComboBox.
+		 */
+		onMaterialSelectionChange : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oModel = this.getView().getModel();
+			var oMaterials = oModel.oData.materials;
+			var oMaterial;
+			
+			if(oSelectedItem == null)
+				return;
+			
+			//Get the selected material from the array of all materials according to the id.
+			for(var i = 0; i < oMaterials.data.material.length; i++) {
+    			var oTempMaterial = oMaterials.data.material[i];
+    			
+				if(oTempMaterial.id == oSelectedItem.getKey()) {
+					oMaterial = oTempMaterial;
+				}
+			}
+			
+			//Set the model of the view according to the selected material to allow binding of the UI elements.
+			oModel.setData({selectedMaterial : oMaterial}, true);
+			
+			//Manually set the price of the Input field because the price is not directly bound due to validation reasons.
+			this.getView().byId("priceInput").setValue(oMaterial.pricePerUnit);
+		},
+		
+		
+		/**
 		 * Initializes the ComboBox for unit selection.
 		 */
 		initializeUnitComboBox : function () {
