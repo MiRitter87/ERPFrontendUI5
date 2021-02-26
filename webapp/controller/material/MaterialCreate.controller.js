@@ -3,8 +3,9 @@ sap.ui.define([
 	"sap/ui/model/json/JSONModel",
 	"sap/ui/core/Item",
 	"sap/m/MessageBox",
-	"sap/m/MessageToast"
-], function (Controller, JSONModel, Item, MessageBox, MessageToast) {
+	"sap/m/MessageToast",
+	"./MaterialController"
+], function (Controller, JSONModel, Item, MessageBox, MessageToast, MaterialController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.material.MaterialCreate", {
@@ -86,9 +87,10 @@ sap.ui.define([
 				return;
 			}
 			
-			this.validatePriceInput();
-			if(this.isPriceValid() == false)
+			if(MaterialController.isPriceValid(this.getView().byId("priceInput").getValue()) == false)
 				return;
+				
+			this.validatePriceInput();
 			
 			this.saveMaterialByWebService();
 		},
@@ -120,28 +122,12 @@ sap.ui.define([
 			
 			if(isNaN(fPricePerUnit)) {
 				this.getView().byId("priceInput").setValueState(sap.ui.core.ValueState.Error);
-				this.getView().byId("priceInput").setValueStateText(oResourceBundle.getText("departmentCreate.useDecimalPlacesError"));
+				this.getView().byId("priceInput").setValueStateText(oResourceBundle.getText("materialCreate.useDecimalPlacesError"));
 				this.getView().getModel("newMaterial").setProperty("/pricePerUnit", 0);
 			}
 			else {
 				this.getView().byId("priceInput").setValueState(sap.ui.core.ValueState.None);
 				this.getView().getModel("newMaterial").setProperty("/pricePerUnit", fPricePerUnit);			
-			}
-		},
-		
-		
-		/**
-		 * Checks if a valid price is filled in.
-		 */
-		isPriceValid : function () {
-			var sPriceInputString = this.getView().byId("priceInput").getValue();
-			var fPricePerUnit = parseFloat(sPriceInputString);
-			
-			if(isNaN(fPricePerUnit)) {
-				return false;
-			}
-			else {
-				return true;
 			}
 		},
 		

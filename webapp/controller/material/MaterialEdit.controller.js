@@ -2,11 +2,13 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/core/Item",
 	"sap/m/MessageToast",
-	"sap/ui/model/json/JSONModel"
-], function (Controller, Item, MessageToast, JSONModel) {
+	"sap/m/MessageBox",
+	"sap/ui/model/json/JSONModel",
+	"./MaterialController"
+], function (Controller, Item, MessageToast, MessageBox, JSONModel, MaterialController) {
 	"use strict";
 
-	return Controller.extend("ERPFrontendUI5.controller.material.MaterialEdit", {
+	return Controller.extend("ERPFrontendUI5.controller.material.MaterialEdit", {		
 		/**
 		 * Initializes the controller.
 		 */
@@ -34,7 +36,14 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
+			if(this.getView().byId("unitComboBox").getSelectedKey() == "") {
+				var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+				MessageBox.error(oResourceBundle.getText("materialEdit.noUnitSelected"));
+				return;
+			}
 			
+			if(MaterialController.isPriceValid(this.getView().byId("priceInput").getValue()) == false)
+				return;
 		},
 		
 		
