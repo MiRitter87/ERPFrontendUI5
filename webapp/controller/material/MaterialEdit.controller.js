@@ -42,6 +42,7 @@ sap.ui.define([
 				return;
 			}
 			
+			this.validatePriceInput();
 			if(MaterialController.isPriceValid(this.getView().byId("priceInput").getValue()) == false)
 				return;
 		},
@@ -109,6 +110,32 @@ sap.ui.define([
 			comboBoxItem.setKey("T");
 			comboBoxItem.setText(oResourceBundle.getText("unit.t"));
 			this.getView().byId("unitComboBox").addItem(comboBoxItem);
+		},
+		
+		
+		/**
+		 * Validates the price input field.
+		 *
+		 * There is a bug in german locale when defining an Input as Number of type float.
+		 * This is because the framework has a problem with the german delimiter ',' for fractional digits.
+		 * See ticket here: https://github.com/SAP/openui5/issues/2558.
+		 *
+         * Therefore the Input is set as type String and the price is parsed manually in this function.
+		 */
+		validatePriceInput : function () {
+			var sPriceInputString = this.getView().byId("priceInput").getValue();
+			var fPricePerUnit = parseFloat(sPriceInputString);
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
+			if(isNaN(fPricePerUnit)) {
+				this.getView().byId("priceInput").setValueState(sap.ui.core.ValueState.Error);
+				this.getView().byId("priceInput").setValueStateText(oResourceBundle.getText("materialEdit.useDecimalPlacesError"));
+				this.getView().getModel().setProperty("/newMaterial/pricePerUnit", 0);
+			}
+			else {
+				this.getView().byId("priceInput").setValueState(sap.ui.core.ValueState.None);
+				this.getView().getModel().setProperty("/newMaterial/pricePerUnit", fPricePerUnit);			
+			}
 		},
 		
 		

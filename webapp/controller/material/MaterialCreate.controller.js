@@ -87,10 +87,9 @@ sap.ui.define([
 				return;
 			}
 			
-			if(MaterialController.isPriceValid(this.getView().byId("priceInput").getValue()) == false)
-				return;
-				
 			this.validatePriceInput();
+			if(MaterialController.isPriceValid(this.getView().byId("priceInput").getValue()) == false)
+				return;				
 			
 			this.saveMaterialByWebService();
 		},
