@@ -45,6 +45,8 @@ sap.ui.define([
 			this.validatePriceInput();
 			if(MaterialController.isPriceValid(this.getView().byId("priceInput").getValue()) == false)
 				return;
+				
+			this.saveMaterialByWebService();
 		},
 		
 		
@@ -52,7 +54,11 @@ sap.ui.define([
 		 * Handles a click at the cancel button.
 		 */
 		onCancelPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			
+			oRouter.navTo("startPageRoute");	
+			this.getView().byId("materialComboBox").setSelectedItem(null);
+			this.setPriceInputValue(null);
 		},
 		
 		
@@ -81,7 +87,7 @@ sap.ui.define([
 			oModel.setData({selectedMaterial : oMaterial}, true);
 			
 			//Manually set the price of the Input field because the price is not directly bound due to validation reasons.
-			this.getView().byId("priceInput").setValue(oMaterial.pricePerUnit);
+			this.setPriceInputValue(oMaterial.pricePerUnit);
 		},
 		
 		
@@ -130,11 +136,10 @@ sap.ui.define([
 			if(isNaN(fPricePerUnit)) {
 				this.getView().byId("priceInput").setValueState(sap.ui.core.ValueState.Error);
 				this.getView().byId("priceInput").setValueStateText(oResourceBundle.getText("materialEdit.useDecimalPlacesError"));
-				this.getView().getModel().setProperty("/newMaterial/pricePerUnit", 0);
 			}
 			else {
 				this.getView().byId("priceInput").setValueState(sap.ui.core.ValueState.None);
-				this.getView().getModel().setProperty("/newMaterial/pricePerUnit", fPricePerUnit);			
+				this.getView().getModel().setProperty("/selectedMaterial/pricePerUnit", fPricePerUnit);			
 			}
 		},
 		
@@ -165,5 +170,60 @@ sap.ui.define([
 			
 			this.getView().setModel(oModel);
 		},
+		
+		
+		/**
+		 * Updates changes of the material data using the WebService.
+		 */
+		saveMaterialByWebService : function() {
+			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/material");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var oMaterialModel = new JSONModel(this.getView().getModel().getProperty("/selectedMaterial"));
+			var sJSONData = oMaterialModel.getJSON();
+			
+			//Use "PUT" to update an existing resource.
+			var aData = jQuery.ajax({
+				type : "PUT", 
+				contentType : "application/json", 
+				url : sQueryUrl,
+				data : sJSONData, 
+				success : function(data, textStatus, jqXHR) {
+					if(data.message != null) {
+						if(data.message[0].type == 'S') {
+							//Update the data source of the ComboBox with the new material data.
+							this.queryMaterialWebService(false);
+							//Clear ComboBox preventing display of wrong data (Id - Name).
+							this.getView().byId("materialComboBox").setSelectedKey(null);
+							//Clear selectedMaterial because no ComboBox item is selected.
+							this.getView().getModel().setProperty("/selectedMaterial", null);
+							//Clear the price which is not directly bound to the model.
+							this.setPriceInputValue(null);
+							MessageToast.show(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'I') {
+							MessageToast.show(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'E') {
+							MessageBox.error(data.message[0].text);
+						}
+						
+						if(data.message[0].type == 'W') {
+							MessageBox.warning(data.message[0].text);
+						}
+					}
+				},
+				context : this
+			});  
+		},
+		
+		
+		/**
+		 * Sets the value of the priceInput.
+		 */
+		setPriceInputValue : function(fValue) {
+			this.getView().byId("priceInput").setValue(fValue);
+		}
 	});
 });
