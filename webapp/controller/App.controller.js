@@ -42,6 +42,9 @@ sap.ui.define([
 			else if(item.getKey() == "materialEdit") {
 				oRouter.navTo("materialEditRoute");
 			}
+			else if(item.getKey() == "materialDisplay") {
+				oRouter.navTo("materialDisplayRoute");
+			}
 		},
 		
 		
