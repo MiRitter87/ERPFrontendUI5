@@ -5,8 +5,7 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:l="sap.ui.layout"
 	xmlns:f="sap.ui.layout.form"
-	xmlns:core="sap.ui.core"
-	xmlns:u="sap.ui.unified">
+	xmlns:core="sap.ui.core">
 	
 	<Panel headerText="{i18n>materialDisplay.header}">
 		<content>
@@ -68,7 +67,10 @@
 							
 							<f:FormElement label="{i18n>material.price}">
 								<f:fields>
-									<u:Currency stringValue="{/selectedMaterial/price}" currency="EUR" useSymbol="false"/>
+									<ObjectNumber binding="{/selectedMaterial}" unit="{currency}" number="{
+										parts:[{path:'pricePerUnit'},{path:'currency'}],
+										type: 'sap.ui.model.type.Currency',
+										formatOptions: {showMeasure: false}}"/>
 								</f:fields>
 							</f:FormElement>
 							
