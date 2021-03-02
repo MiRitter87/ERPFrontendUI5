@@ -1,0 +1,14 @@
+<mvc:View
+	controllerName="ERPFrontendUI5.controller.material.MaterialOverview"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core">
+	
+	<Panel headerText="{i18n>materialOverview.header}">
+		<content>
+
+		</content>
+	</Panel>
+</mvc:View>

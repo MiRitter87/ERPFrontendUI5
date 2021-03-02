@@ -117,6 +117,10 @@
 				"pattern": "materialDisplay",
 				"name": "materialDisplayRoute",
 				"target": "materialDisplayTarget"
+			}, {
+				"pattern": "materialOverview",
+				"name": "materialOverviewRoute",
+				"target": "materialOverviewTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -187,6 +191,11 @@
 				"materialDisplayTarget": {
 					"viewId": "materialDisplay",
 					"viewName": "material.MaterialDisplay",
+					"viewLevel" : 1
+				},
+				"materialOverviewTarget": {
+					"viewId": "materialOverview",
+					"viewName": "material.MaterialOverview",
 					"viewLevel" : 1
 				}
          	}
