@@ -49,7 +49,7 @@
 	
 							<f:FormElement label="{i18n>department.name}">
 								<f:fields>
-									<Input id="nameInput" maxLength="50" value="{/selectedDepartment/name}"/>
+									<Input id="nameInput" maxLength="50" value="{/selectedDepartment/name}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
@@ -62,7 +62,7 @@
 							<f:FormElement label="{i18n>department.head}">
 								<f:fields>
 									<ComboBox id="headComboBox" items="{path: '/employees/data/employee/'}" selectedKey="{/selectedDepartment/head/id}"
-										selectionChange=".onHeadSelectionChange">
+										selectionChange=".onHeadSelectionChange" required="true">
 										
 										<core:Item key="{id}" text="{id} - {firstName} {lastName}"/>
 									</ComboBox>

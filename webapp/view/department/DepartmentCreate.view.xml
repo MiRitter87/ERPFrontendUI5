@@ -32,13 +32,13 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>department.code}">
 								<f:fields>
-									<Input id="codeInput" maxLength="5" value="{newDepartment>/code}"/>
+									<Input id="codeInput" maxLength="5" value="{newDepartment>/code}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>department.name}">
 								<f:fields>
-									<Input id="nameInput" maxLength="50" value="{newDepartment>/name}"/>
+									<Input id="nameInput" maxLength="50" value="{newDepartment>/name}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
@@ -50,7 +50,9 @@
 							
 							<f:FormElement label="{i18n>department.head}">
 								<f:fields>
-									<ComboBox id="headComboBox" items="{path: '/employees/data/employee/'}" selectionChange=".onHeadSelectionChange">
+									<ComboBox id="headComboBox" items="{path: '/employees/data/employee/'}" 
+										selectionChange=".onHeadSelectionChange" required="true">
+												
 										<core:Item key="{id}" text="{id} - {firstName} {lastName}"/>
 									</ComboBox>
 								</f:fields>
