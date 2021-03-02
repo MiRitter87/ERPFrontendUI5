@@ -27,13 +27,13 @@
 						<Text text="{i18n>material.description}"/>
 					</Column>
 					<Column>
-						<Text text="{i18n>material.unit}"/>
-					</Column>
-					<Column>
 						<Text text="{i18n>material.price}"/>
 					</Column>
 					<Column>
 						<Text text="{i18n>material.inventory}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>material.unit}"/>
 					</Column>
 				</columns>
 				<items>
@@ -42,12 +42,12 @@
 							<ObjectIdentifier text="{id}"/>
 							<Text text="{name}"/>
 							<Text text="{description}"/>
-							<Text text="{unit}"/>
 							<ObjectNumber unit="{currency}" number="{
 										parts:[{path:'pricePerUnit'},{path:'currency'}],
 										type: 'sap.ui.model.type.Currency',
 										formatOptions: {showMeasure: false}}"/>
 							<Text text="{inventory}"/>
+							<Text text="{unit}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
