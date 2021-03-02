@@ -32,7 +32,7 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>material.name}">
 								<f:fields>
-									<Input maxLength="50" value="{newMaterial>/name}"/>
+									<Input maxLength="50" value="{newMaterial>/name}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
@@ -44,19 +44,19 @@
 							
 							<f:FormElement label="{i18n>material.unit}">
 								<f:fields>
-									<ComboBox id="unitComboBox" selectedKey="{newMaterial>/unit}"/>
+									<ComboBox id="unitComboBox" selectedKey="{newMaterial>/unit}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>material.price}">
 								<f:fields>
-									<Input id="priceInput" type="Number" description="EUR"/>
+									<Input id="priceInput" type="Number" description="EUR" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>material.inventory}">
 								<f:fields>
-									<Input id="inventoryInput" type="Number"
+									<Input id="inventoryInput" type="Number" required="true"
 										value="{
 											path : 'newMaterial>/inventory',
 											type : 'sap.ui.model.type.Integer',
