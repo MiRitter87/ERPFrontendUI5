@@ -5,11 +5,82 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:l="sap.ui.layout"
 	xmlns:f="sap.ui.layout.form"
-	xmlns:core="sap.ui.core">
+	xmlns:core="sap.ui.core"
+	xmlns:u="sap.ui.unified">
 	
 	<Panel headerText="{i18n>materialDisplay.header}">
 		<content>
-
+			<l:VerticalLayout>
+				<Label text="{i18n>materialDisplay.selectionDescription}"/>
+				<ComboBox id="materialComboBox" items="{path: '/materials/data/material/'}" selectionChange=".onMaterialSelectionChange">
+					<core:Item key="{id}" text="{id} - {name}"/>
+				</ComboBox>
+			</l:VerticalLayout>
+			
+			<f:Form id="materialForm" editable="false">
+				<f:title>
+					<core:Title text="{i18n>materialDisplay.dataHeader}" />
+				</f:title>
+				
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>material.id}">
+								<f:fields>
+									<Text text="{/selectedMaterial/id}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>material.name}">
+								<f:fields>
+									<Text text="{/selectedMaterial/name}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>material.description}">
+								<f:fields>
+									<Text text="{/selectedMaterial/description}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>material.unit}">
+								<f:fields>
+									<Text text="{/selectedMaterial/unit}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>material.price}">
+								<f:fields>
+									<u:Currency stringValue="{/selectedMaterial/price}" currency="EUR" useSymbol="false"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>material.inventory}">
+								<f:fields>
+									<Text text="{/selectedMaterial/inventory}"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 		</content>
 	</Panel>
 </mvc:View>

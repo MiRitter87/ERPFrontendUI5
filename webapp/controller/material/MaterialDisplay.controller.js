@@ -9,6 +9,14 @@ sap.ui.define([
 		 */
 		onInit : function () {
 			
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the material ComboBox.
+		 */
+		onMaterialSelectionChange : function (oControlEvent) {
+			
 		}
 	});
 });
