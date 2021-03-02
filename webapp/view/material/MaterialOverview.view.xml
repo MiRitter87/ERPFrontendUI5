@@ -8,7 +8,50 @@
 	
 	<Panel headerText="{i18n>materialOverview.header}">
 		<content>
-
+			<Table id="materialTable" items="{path: '/materials/data/material/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>materialOverview.deleteSelected}" press=".onDeletePressed"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>material.id}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>material.name}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>material.description}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>material.unit}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>material.price}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>material.inventory}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{id}"/>
+							<Text text="{name}"/>
+							<Text text="{description}"/>
+							<Text text="{unit}"/>
+							<ObjectNumber unit="{currency}" number="{
+										parts:[{path:'pricePerUnit'},{path:'currency'}],
+										type: 'sap.ui.model.type.Currency',
+										formatOptions: {showMeasure: false}}"/>
+							<Text text="{inventory}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
 	</Panel>
 </mvc:View>

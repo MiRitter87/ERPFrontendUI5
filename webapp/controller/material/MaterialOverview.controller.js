@@ -9,6 +9,14 @@ sap.ui.define([
 		 */
 		onInit : function () {
 			
+		},
+		
+		
+		/**
+		 * Handles the press-event of the delete button.
+		 */
+		onDeletePressed : function () {
+			
 		}
 	});
 
