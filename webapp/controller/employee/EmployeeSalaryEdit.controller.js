@@ -51,6 +51,9 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
+			if(this.getView().byId("monthlySalaryInput").getValue() == "")
+				return;
+			
 			this.updateSalaryLastChange();
 			this.saveEmployeeByWebService();
 		},

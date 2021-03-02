@@ -49,19 +49,19 @@
 	
 							<f:FormElement label="{i18n>employee.firstName}">
 								<f:fields>
-									<Input id="firstNameInput" maxLength="50" value="{/selectedEmployee/firstName}"/>
+									<Input id="firstNameInput" maxLength="50" value="{/selectedEmployee/firstName}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>employee.lastName}">
 								<f:fields>
-									<Input id="lastNameInput" maxLength="50" value="{/selectedEmployee/lastName}"/>
+									<Input id="lastNameInput" maxLength="50" value="{/selectedEmployee/lastName}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>employee.gender}">
 								<f:fields>
-									<ComboBox id="genderComboBox" selectedKey="{/selectedEmployee/gender}"/>
+									<ComboBox id="genderComboBox" selectedKey="{/selectedEmployee/gender}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

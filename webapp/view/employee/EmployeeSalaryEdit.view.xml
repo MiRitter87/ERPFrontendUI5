@@ -36,7 +36,7 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>employeeSalaryEdit.monthlySalary}">
 								<f:fields>
-									<Input id="monthlySalaryInput" type="Number" description="EUR"
+									<Input id="monthlySalaryInput" type="Number" description="EUR" required="true"
 										value="{
 											path : '/employee/data/salaryData/monthlySalary',
 											type : 'sap.ui.model.type.Integer',
