@@ -1,11 +1,10 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	"sap/ui/core/Item",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
 	"sap/ui/model/json/JSONModel",
 	"./MaterialController"
-], function (Controller, Item, MessageToast, MessageBox, JSONModel, MaterialController) {
+], function (Controller, MessageToast, MessageBox, JSONModel, MaterialController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.material.MaterialEdit", {		
@@ -16,7 +15,8 @@ sap.ui.define([
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("materialEditRoute").attachMatched(this._onRouteMatched, this);
 			
-			this.initializeUnitComboBox();
+			MaterialController.initializeUnitComboBox(this.getView().byId("unitComboBox"), 
+				this.getOwnerComponent().getModel("i18n").getResourceBundle());
 		},
 		
 		
@@ -88,34 +88,6 @@ sap.ui.define([
 			
 			//Manually set the price of the Input field because the price is not directly bound due to validation reasons.
 			this.setPriceInputValue(oMaterial.pricePerUnit);
-		},
-		
-		
-		/**
-		 * Initializes the ComboBox for unit selection.
-		 */
-		initializeUnitComboBox : function () {
-			var comboBoxItem = new Item();
-			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-			
-			comboBoxItem.setKey("ST");
-			comboBoxItem.setText(oResourceBundle.getText("unit.st"));
-			this.getView().byId("unitComboBox").addItem(comboBoxItem);
-			
-			comboBoxItem = new Item();
-			comboBoxItem.setKey("L");
-			comboBoxItem.setText(oResourceBundle.getText("unit.l"));
-			this.getView().byId("unitComboBox").addItem(comboBoxItem);
-			
-			comboBoxItem = new Item();
-			comboBoxItem.setKey("KG");
-			comboBoxItem.setText(oResourceBundle.getText("unit.kg"));
-			this.getView().byId("unitComboBox").addItem(comboBoxItem);
-			
-			comboBoxItem = new Item();
-			comboBoxItem.setKey("T");
-			comboBoxItem.setText(oResourceBundle.getText("unit.t"));
-			this.getView().byId("unitComboBox").addItem(comboBoxItem);
 		},
 		
 		
