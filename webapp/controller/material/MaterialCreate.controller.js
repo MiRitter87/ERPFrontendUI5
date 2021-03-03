@@ -64,7 +64,9 @@ sap.ui.define([
 			if(MaterialController.isPriceValid(this.getView().byId("priceInput").getValue()) == false)
 				return;				
 			
-			this.saveMaterialByWebService();
+			MaterialController.createMaterialbyWebService(
+				this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/material"), 
+				this.getView().getModel("newMaterial"), this.saveMaterialCallback);
 		},
 		
 		
@@ -88,38 +90,24 @@ sap.ui.define([
 		
 		
 		/**
-		 * Saves the material defined in the input form by using the RESTful WebService.
+		 * Callback function of the saveMaterial RESTful WebService call in the MaterialController.
 		 */
-		saveMaterialByWebService : function () {
-			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/material");
-			var sQueryUrl = sWebServiceBaseUrl + "/";
-			var oMaterialModel = this.getView().getModel("newMaterial");
-			var sJSONData = oMaterialModel.getJSON();
-			
-			//Use "POST" to create a resource.
-			var aData = jQuery.ajax({
-				type : "POST", 
-				contentType : "application/json", 
-				url : sQueryUrl,
-				data : sJSONData, 
-				success : function(data, textStatus, jqXHR) {
-					if(data.message != null) {
-						if(data.message[0].type == 'S') {
-							MessageToast.show(data.message[0].text);
-							this.resetFormFields();
-						}
-						
-						if(data.message[0].type == 'E') {
-							MessageBox.error(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'W') {
-							MessageBox.warning(data.message[0].text);
-						}
-					}
-				},
-				context : this
-			});    
+		saveMaterialCallback : function (oReturnData) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					//TODO: Call the correct controller instance for the reset function. This is unknown in the callback context.
+					//this.resetFormFields();
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			} 
 		},
 		
 		
