@@ -123,6 +123,26 @@ sap.ui.define([
 					callbackFunction(data, oCallingController);
 				}
 			}); 
+		},
+		
+		
+		/**
+		 * Deletes the given material using the WebService.
+		 */
+		deleteMaterialByWebService : function(oMaterial, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/material");
+			var sQueryUrl = sWebServiceBaseUrl + "/" + oMaterial.id;
+			
+			//Use "DELETE" to delete an existing resource.
+			jQuery.ajax({
+				type : "DELETE", 
+				contentType : "application/json", 
+				url : sQueryUrl, 
+				dataType : "json", 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			});
 		}
 	};
 });
