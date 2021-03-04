@@ -83,6 +83,45 @@ sap.ui.define([
 					callbackFunction(data, callingController);
 				}
 			});
+		},
+		
+		
+		/**
+		 * Queries the material WebService for all materials.
+		 */
+		queryMaterialsByWebService : function(callbackFunction, oCallingController, bShowSuccessMessage) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/material");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			jQuery.ajax({
+				type : "GET", 
+				contentType : "application/json", 
+				url : sQueryUrl, 
+				dataType : "json", 
+				success : function(data) {
+					callbackFunction(data, oCallingController, bShowSuccessMessage);
+				}
+			});                                                                 
+		},
+		
+		
+		/**
+		 * Updates changes of the material data using the WebService.
+		 */
+		saveMaterialByWebService : function(oMaterialModel, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/material");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var sJSONData = oMaterialModel.getJSON();
+			
+			//Use "PUT" to update an existing resource.
+			jQuery.ajax({
+				type : "PUT", 
+				contentType : "application/json", 
+				url : sQueryUrl,
+				data : sJSONData, 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			}); 
 		}
 	};
 });

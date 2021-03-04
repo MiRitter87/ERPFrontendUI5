@@ -26,7 +26,7 @@ sap.ui.define([
 		_onRouteMatched: function (oEvent) {
 			//Query material data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			this.getView().setModel(new JSONModel());
-			this.queryMaterialWebService(true);
+			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, true);
 			
 			this.getView().byId("unitComboBox").setSelectedItem(null);
     	},
@@ -47,7 +47,8 @@ sap.ui.define([
 			if(MaterialController.isPriceValid(this.getView().byId("priceInput").getValue()) == false)
 				return;
 				
-			this.saveMaterialByWebService();
+			MaterialController.saveMaterialByWebService(new JSONModel(this.getView().getModel().getProperty("/selectedMaterial")),
+				this.saveMaterialCallback, this);
 		},
 		
 		
@@ -95,75 +96,54 @@ sap.ui.define([
 		/**
 		 * Queries the material WebService. If the call is successful, the model is updated with the employee data.
 		 */
-		queryMaterialWebService : function(bShowSuccessMessage) {
-			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/material");
-			var sQueryUrl = sWebServiceBaseUrl + "/";
-			var oModel = this.getView().getModel();
-			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : sQueryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-					oModel.setData({materials : data}, true); // not aData
-					
-					if(data.data != null) {
-						if(bShowSuccessMessage == true)
-							MessageToast.show(oResourceBundle.getText("materialEdit.dataLoaded"));
-					}
-					else {
-						if(data.message != null)
-							MessageToast.show(data.message[0].text);
-					}
-				},
-				context : this
-			});                                                                 
+		queryMaterialsCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
+			var oModel = oCallingController.getView().getModel();
 			
-			this.getView().setModel(oModel);
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
+			oModel.setData({materials : oReturnData}, true);
+			
+			if(oReturnData.data != null) {
+				if(bShowSuccessMessage == true)
+					MessageToast.show(oResourceBundle.getText("materialEdit.dataLoaded"));
+			}
+			else {
+				if(oReturnData.message != null)
+					MessageToast.show(data.message[0].text);
+			}                                                          
+	
+			oCallingController.getView().setModel(oModel);
 		},
 		
 		
 		/**
 		 * Updates changes of the material data using the WebService.
 		 */
-		saveMaterialByWebService : function() {
-			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/material");
-			var sQueryUrl = sWebServiceBaseUrl + "/";
-			var oMaterialModel = new JSONModel(this.getView().getModel().getProperty("/selectedMaterial"));
-			var sJSONData = oMaterialModel.getJSON();
-			
-			//Use "PUT" to update an existing resource.
-			var aData = jQuery.ajax({
-				type : "PUT", 
-				contentType : "application/json", 
-				url : sQueryUrl,
-				data : sJSONData, 
-				success : function(data, textStatus, jqXHR) {
-					if(data.message != null) {
-						if(data.message[0].type == 'S') {
-							//Update the data source of the ComboBox with the new material data.
-							this.queryMaterialWebService(false);
-							//Clear ComboBox preventing display of wrong data (Id - Name).
-							this.getView().byId("materialComboBox").setSelectedKey(null);
-							//Clear selectedMaterial because no ComboBox item is selected.
-							this.getView().getModel().setProperty("/selectedMaterial", null);
-							//Clear the price which is not directly bound to the model.
-							this.setPriceInputValue(null);
-							MessageToast.show(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'I') {
-							MessageToast.show(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'E') {
-							MessageBox.error(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'W') {
-							MessageBox.warning(data.message[0].text);
-						}
-					}
-				},
-				context : this
-			});  
+		saveMaterialCallback : function(oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					//Update the data source of the ComboBox with the new material data.
+					MaterialController.queryMaterialsByWebService(oCallingController.queryMaterialsCallback, oCallingController, false);
+					//Clear ComboBox preventing display of wrong data (Id - Name).
+					oCallingController.getView().byId("materialComboBox").setSelectedKey(null);
+					//Clear selectedMaterial because no ComboBox item is selected.
+					oCallingController.getView().getModel().setProperty("/selectedMaterial", null);
+					//Clear the price which is not directly bound to the model.
+					oCallingController.setPriceInputValue(null);
+					MessageToast.show(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'I') {
+					MessageToast.show(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}
 		},
 		
 		
