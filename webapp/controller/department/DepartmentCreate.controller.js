@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
-	"sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, MessageBox, JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"./DepartmentController"
+], function (Controller, MessageToast, MessageBox, JSONModel, DepartmentController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.department.DepartmentCreate", {
@@ -25,7 +26,7 @@ sap.ui.define([
 		_onRouteMatched: function (oEvent) {
 			//Load all employees. Those are the candidates that can be selected in the head selection ComboBox.
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
-			this.queryEmployeeWebService();
+			DepartmentController.queryEmployeesByWebService(this.queryEmployeesCallback, this);
 			this.deselectHeadSelection();
     	},
 		
@@ -39,7 +40,7 @@ sap.ui.define([
 				return;
 			}
 			
-			this.saveDepartmentByWebService();
+			DepartmentController.createDepartmentByWebService(this.getView().getModel("newDepartment"), this.createDepartmentCallback, this);
 		},
 		
 		
@@ -102,62 +103,40 @@ sap.ui.define([
 		
 		
 		/**
-		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
+		 * Callback function of the queryEmployees RESTful WebService call in the DepartmentController.
 		 */
-		queryEmployeeWebService : function() {
-			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
-			var sQueryUrl = sWebServiceBaseUrl + "?employeeHeadQuery=NO_HEAD_ONLY";
+		queryEmployeesCallback : function(oReturnData, oCallingController) {
 			var oModel = new JSONModel();
-			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : sQueryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-					oModel.setData({employees : data}); // not aData
-					
-					if(data.data == null && data.message != null)  {
-						MessageToast.show(data.message[0].text);
-					}
-				},
-				context : this
-			});                                                                 
 			
-			this.getView().setModel(oModel);
+			oModel.setData({employees : oReturnData});
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+			}                                                               
+			
+			oCallingController.getView().setModel(oModel);
 		},
 		
 		
 		/**
-		 * Saves the department defined in the input form by using the RESTful WebService.
+		 * Callback function of the createDepartment RESTful WebService call in the DepartmentController.
 		 */
-		saveDepartmentByWebService : function () {
-			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/department");
-			var sQueryUrl = sWebServiceBaseUrl + "/";
-			var oDepartmentModel = this.getView().getModel("newDepartment");
-			var sJSONData = oDepartmentModel.getJSON();
-			
-			//Use "POST" to create a resource.
-			var aData = jQuery.ajax({
-				type : "POST", 
-				contentType : "application/json", 
-				url : sQueryUrl,
-				data : sJSONData, 
-				success : function(data,textStatus, jqXHR) {
-					if(data.message != null) {
-						if(data.message[0].type == 'S') {
-							MessageToast.show(data.message[0].text);
-							this.initializeDepartmentModel();	//Resets the input fields to the initial state.
-							this.deselectHeadSelection();
-						}
-						
-						if(data.message[0].type == 'E') {
-							MessageBox.error(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'W') {
-							MessageBox.warning(data.message[0].text);
-						}
-					}
-				},
-				context : this
-			});   
+		createDepartmentCallback : function (oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					oCallingController.initializeDepartmentModel();	//Resets the input fields to the initial state.
+					oCallingController.deselectHeadSelection();
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}
 		},
 		
 		
