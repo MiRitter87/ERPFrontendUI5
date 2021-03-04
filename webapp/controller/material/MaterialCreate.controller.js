@@ -66,7 +66,7 @@ sap.ui.define([
 			
 			MaterialController.createMaterialbyWebService(
 				this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/material"), 
-				this.getView().getModel("newMaterial"), this.saveMaterialCallback);
+				this.getView().getModel("newMaterial"), this.saveMaterialCallback, this);
 		},
 		
 		
@@ -92,12 +92,12 @@ sap.ui.define([
 		/**
 		 * Callback function of the saveMaterial RESTful WebService call in the MaterialController.
 		 */
-		saveMaterialCallback : function (oReturnData) {
+		saveMaterialCallback : function (oReturnData, callingController) {
 			if(oReturnData.message != null) {
 				if(oReturnData.message[0].type == 'S') {
 					MessageToast.show(oReturnData.message[0].text);
-					//TODO: Call the correct controller instance for the reset function. This is unknown in the callback context.
-					//this.resetFormFields();
+					//"this" is unknown in the success function of the ajax call. Therefore the calling controller is provided.
+					callingController.resetFormFields();
 				}
 				
 				if(oReturnData.message[0].type == 'E') {
