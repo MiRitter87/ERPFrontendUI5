@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
-	"sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"./MaterialController"
+], function (Controller, MessageToast, JSONModel, MaterialController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.material.MaterialDisplay", {
@@ -21,7 +22,7 @@ sap.ui.define([
 		 */
 		_onRouteMatched: function (oEvent) {
 			//Query material data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
-			this.queryMaterialWebService();
+			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this);
 			this.getView().byId("materialComboBox").setSelectedItem(null);
     	},
 		
@@ -53,29 +54,23 @@ sap.ui.define([
 		
 		
 		/**
-		 * Queries the material WebService. If the call is successful, the model is updated with the department data.
+		 * Callback function of the queryMaterial RESTful WebService call in the MaterialController.
 		 */
-		queryMaterialWebService : function() {
-			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/material");
-			var sQueryUrl = sWebServiceBaseUrl + "/";
+		queryMaterialsCallback : function(oReturnData, oCallingController) {
 			var oModel = new JSONModel();
-			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : sQueryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-					oModel.setData({materials : data}); // not aData
-					
-					if(data.data != null) {
-						MessageToast.show(oResourceBundle.getText("materialDisplay.dataLoaded"));
-					}
-					else {
-						if(data.message != null)
-							MessageToast.show(data.message[0].text);
-					}
-				},
-				context : this
-			});                                                                 
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
-			this.getView().setModel(oModel);
+			oModel.setData({materials : oReturnData});
+			
+			if(oReturnData.data != null) {
+				MessageToast.show(oResourceBundle.getText("materialDisplay.dataLoaded"));
+			}
+			else {
+				if(oReturnData.message != null)
+					MessageToast.show(oReturnData.message[0].text);
+			}
+
+			oCallingController.getView().setModel(oModel);
 		}
 	});
 });

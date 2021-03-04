@@ -94,12 +94,12 @@ sap.ui.define([
 		
 		
 		/**
-		 * Queries the material WebService. If the call is successful, the model is updated with the employee data.
+		 * Callback function of the queryMaterial RESTful WebService call in the MaterialController.
 		 */
 		queryMaterialsCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
 			var oModel = oCallingController.getView().getModel();
-			
 			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
 			oModel.setData({materials : oReturnData}, true);
 			
 			if(oReturnData.data != null) {
@@ -116,7 +116,7 @@ sap.ui.define([
 		
 		
 		/**
-		 * Updates changes of the material data using the WebService.
+		 *  Callback function of the saveMaterial RESTful WebService call in the MaterialController.
 		 */
 		saveMaterialCallback : function(oReturnData, oCallingController) {
 			if(oReturnData.message != null) {
