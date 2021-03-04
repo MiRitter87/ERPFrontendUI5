@@ -64,9 +64,7 @@ sap.ui.define([
 			if(MaterialController.isPriceValid(this.getView().byId("priceInput").getValue()) == false)
 				return;				
 			
-			MaterialController.createMaterialbyWebService(
-				this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/material"), 
-				this.getView().getModel("newMaterial"), this.saveMaterialCallback, this);
+			MaterialController.createMaterialbyWebService(this.getView().getModel("newMaterial"), this.saveMaterialCallback, this);
 		},
 		
 		

@@ -69,7 +69,8 @@ sap.ui.define([
 		/**
 		 * Calls a WebService operation to create a material.
 		 */
-		createMaterialbyWebService : function(sWebServiceBaseUrl, oMaterialModel, callbackFunction, callingController) {
+		createMaterialbyWebService : function(oMaterialModel, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/material");
 			var sQueryUrl = sWebServiceBaseUrl + "/";
 			var sJSONData = oMaterialModel.getJSON();
 			
@@ -80,7 +81,7 @@ sap.ui.define([
 				url : sQueryUrl,
 				data : sJSONData, 
 				success : function(data) {
-					callbackFunction(data, callingController);
+					callbackFunction(data, oCallingController);
 				}
 			});
 		},
