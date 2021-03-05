@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
-	"sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"./DepartmentController"
+], function (Controller, MessageToast, JSONModel, DepartmentController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.department.DepartmentDisplay", {
@@ -21,7 +22,7 @@ sap.ui.define([
 		 */
 		_onRouteMatched: function (oEvent) {
 			//Query department data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
-			this.queryDepartmentWebService();
+			DepartmentController.queryDepartmentsByWebService(this.queryDepartmentsCallback, this);
 			this.getView().byId("departmentComboBox").setSelectedItem(null);
     	},
 
@@ -53,29 +54,23 @@ sap.ui.define([
 
 
 		/**
-		 * Queries the department WebService. If the call is successful, the model is updated with the department data.
+		 * Callback function of the queryDepartments RESTful WebService call in the DepartmentController.
 		 */
-		queryDepartmentWebService : function() {
-			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/department");
-			var sQueryUrl = sWebServiceBaseUrl + "/";
+		queryDepartmentsCallback : function(oReturnData, oCallingController) {
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oModel = new JSONModel();
-			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : sQueryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-					oModel.setData({departments : data}); // not aData
-					
-					if(data.data != null) {
-						MessageToast.show(oResourceBundle.getText("departmentDisplay.dataLoaded"));
-					}
-					else {
-						if(data.message != null)
-							MessageToast.show(data.message[0].text);
-					}
-				},
-				context : this
-			});                                                                 
 			
-			this.getView().setModel(oModel);
+			oModel.setData({departments : oReturnData});
+			
+			if(oReturnData.data != null) {
+				MessageToast.show(oResourceBundle.getText("departmentDisplay.dataLoaded"));
+			}
+			else {
+				if(oReturnData.message != null)
+					MessageToast.show(oReturnData.message[0].text);
+			}
+                                                              
+			oCallingController.getView().setModel(oModel);
 		}
 	});
 });
