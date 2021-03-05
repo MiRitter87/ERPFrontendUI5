@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
-	"sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, MessageBox, JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"./DepartmentController"
+], function (Controller, MessageToast, MessageBox, JSONModel, DepartmentController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.department.DepartmentOverview", {
@@ -22,7 +23,7 @@ sap.ui.define([
 		 */
 		_onRouteMatched: function (oEvent) {
 			//Query department data every time a user navigates to this view. This assures that changes are being displayed in the table.
-			this.queryDepartmentWebService(true);
+			DepartmentController.queryDepartmentsByWebService(this.queryDepartmentsCallback, this, true);
     	},
 		
 		
@@ -38,7 +39,7 @@ sap.ui.define([
 				return;
 			}
 			
-			this.deleteDepartment(this.getSelectedDepartment());
+			DepartmentController.deleteDepartmentByWebService(this.getSelectedDepartment(), this.deleteDepartmentCallback, this);
 		},
 		
 		
@@ -66,61 +67,46 @@ sap.ui.define([
 		
 		
 		/**
-		 * Queries the department WebService. If the call is successful, the model is updated with the department data.
+		 * Callback function of the queryDepartments RESTful WebService call in the DepartmentController.
 		 */
-		queryDepartmentWebService : function(bShowSuccessMessage) {
-			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/department");
-			var sQueryUrl = sWebServiceBaseUrl + "/";
+		queryDepartmentsCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oModel = new JSONModel();
-			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : sQueryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-					oModel.setData({departments : data}); // not aData
-					
-					if(data.data != null) {
-						if(bShowSuccessMessage == true) {
-							MessageToast.show(oResourceBundle.getText("departmentOverview.dataLoaded"));
-						}					
-					}
-					else {
-						if(data.message != null)
-							MessageToast.show(data.message[0].text);
-					}
-				},
-				context : this
-			});                                                                 
+
+			oModel.setData({departments : oReturnData});
 			
-			this.getView().setModel(oModel);
+			if(oReturnData.data != null) {
+				if(bShowSuccessMessage == true) {
+					MessageToast.show(oResourceBundle.getText("departmentOverview.dataLoaded"));
+				}					
+			}
+			else {
+				if(oReturnData.message != null)
+					MessageToast.show(oReturnData.message[0].text);
+			}                                                              
+			
+			oCallingController.getView().setModel(oModel);
 		},
 		
 		
 		/**
-		 * Deletes the given department using the WebService.
+		 * Callback function of the deleteDepartments RESTful WebService call in the DepartmentController.
 		 */
-		deleteDepartment : function(oDepartment) {
-			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/department");
-			var sQueryUrl = sWebServiceBaseUrl + "/" + oDepartment.code;
-			
-			//Use "DELETE" to delete an existing resource.
-			var aData = jQuery.ajax({type : "DELETE", contentType : "application/json", url : sQueryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					if(data.message != null) {
-						if(data.message[0].type == 'S') {
-							MessageToast.show(data.message[0].text);
-							this.queryDepartmentWebService(false);
-						}
-						
-						if(data.message[0].type == 'E') {
-							MessageBox.error(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'W') {
-							MessageBox.warning(data.message[0].text);
-						}
-					}
-				},
-				context : this
-			}); 
+		deleteDepartmentCallback : function(oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					DepartmentController.queryDepartmentsByWebService(oCallingController.queryDepartmentsCallback, oCallingController, false);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}
 		},
 	});
 

@@ -78,6 +78,26 @@ sap.ui.define([
 					callbackFunction(data, oCallingController);
 				}
 			});  
+		},
+		
+		
+		/**
+		 * Calls a WebService operation to delete an existing department.
+		 */
+		deleteDepartmentByWebService : function(oDepartment, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/department");
+			var sQueryUrl = sWebServiceBaseUrl + "/" + oDepartment.code;
+			
+			//Use "DELETE" to delete an existing resource.
+			jQuery.ajax({
+				type : "DELETE", 
+				contentType : "application/json", 
+				url : sQueryUrl, 
+				dataType : "json", 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			});
 		}
 	};
 });
