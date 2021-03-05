@@ -1,10 +1,10 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller", 
-	"sap/ui/core/Item",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
-	"sap/ui/model/json/JSONModel"
-], function (Controller, Item, MessageToast, MessageBox, JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"./EmployeeController"
+], function (Controller, MessageToast, MessageBox, JSONModel, EmployeeController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeCreate", {
@@ -16,7 +16,8 @@ sap.ui.define([
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("employeeCreateRoute").attachMatched(this._onRouteMatched, this);
 			
-			this.initializeGenderComboBox();
+			EmployeeController.initializeGenderComboBox(this.getView().byId("genderComboBox"),
+				this.getOwnerComponent().getModel("i18n").getResourceBundle());
 			this.initializeEmployeeModel();
 		},
 		
@@ -50,24 +51,6 @@ sap.ui.define([
 			
 			this.initializeEmployeeModel();
 			oRouter.navTo("startPageRoute");	
-		},
-		
-		
-		/**
-		 * Initializes the ComboBox for gender selection with the description texts in the correct language.
-		 */
-		initializeGenderComboBox : function () {
-			var comboBoxItem = new Item();
-			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-			
-			comboBoxItem.setKey("MALE");
-			comboBoxItem.setText(oResourceBundle.getText("gender.male"));
-			this.getView().byId("genderComboBox").addItem(comboBoxItem);
-			
-			comboBoxItem = new Item();
-			comboBoxItem.setKey("FEMALE");
-			comboBoxItem.setText(oResourceBundle.getText("gender.female"));
-			this.getView().byId("genderComboBox").addItem(comboBoxItem);
 		},
 		
 		
