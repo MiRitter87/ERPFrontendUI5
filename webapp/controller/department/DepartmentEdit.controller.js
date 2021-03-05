@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
-	"sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, MessageBox, JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"./DepartmentController"
+], function (Controller, MessageToast, MessageBox, JSONModel, DepartmentController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.department.DepartmentEdit", {
@@ -22,8 +23,8 @@ sap.ui.define([
 		_onRouteMatched: function (oEvent) {
 			//Query department data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			this.getView().setModel(new JSONModel());
-			this.queryDepartmentWebService(true);
-			this.queryEmployeeWebService();
+			DepartmentController.queryDepartmentsByWebService(this.queryDepartmentsCallback, this, true);
+			DepartmentController.queryEmployeesByWebService(this.queryEmployeesCallback, this, "ALL");
 			
 			this.getView().byId("departmentComboBox").setSelectedItem(null);
     	},
@@ -97,7 +98,8 @@ sap.ui.define([
 				return;
 			}
 			
-			this.saveDepartmentByWebService();
+			DepartmentController.saveDepartmentByWebService(
+				new JSONModel(this.getView().getModel().getProperty("/selectedDepartment")), this.saveDepartmentCallback, this);
 		},
 		
 		
@@ -113,98 +115,70 @@ sap.ui.define([
 		
 		
 		/**
-		 * Queries the department WebService. If the call is successful, the model is updated with the employee data.
+		 * Callback function of the queryDepartments RESTful WebService call in the DepartmentController.
 		 */
-		queryDepartmentWebService : function(bShowSuccessMessage) {
-			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/department");
-			var queryUrl = webServiceBaseUrl + "/";
-			var oModel = this.getView().getModel();
-			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : queryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-					oModel.setData({departments : data}, true); // not aData
-					
-					if(data.data != null) {
-						if(bShowSuccessMessage == true)
-							MessageToast.show(oResourceBundle.getText("departmentEdit.dataLoaded"));
-					}
-					else {
-						if(data.message != null)
-							MessageToast.show(data.message[0].text);
-					}
-				},
-				context : this
-			});                                                                 
+		queryDepartmentsCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oModel = oCallingController.getView().getModel();
+			
+			oModel.setData({departments : oReturnData}, true);
+			
+			if(oReturnData.data != null) {
+				if(bShowSuccessMessage == true)
+					MessageToast.show(oResourceBundle.getText("departmentEdit.dataLoaded"));
+			}
+			else {
+				if(oReturnData.message != null)
+					MessageToast.show(oReturnData.message[0].text);
+			}                                                 
 			
 			this.getView().setModel(oModel);
 		},
 		
 		
 		/**
-		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
+		 * Callback function of the queryEmployees RESTful WebService call in the DepartmentController.
 		 */
-		queryEmployeeWebService : function() {
-			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
-			var sQueryUrl = sWebServiceBaseUrl + "/";
-			var oModel = this.getView().getModel();
-			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : sQueryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-					oModel.setData({employees : data}, true); // not aData
-					
-					if(data.data == null && data.message != null)  {
-						MessageToast.show(data.message[0].text);
-					}
-				},
-				context : this
-			});                                                                 
+		queryEmployeesCallback : function(oReturnData, oCallingController) {
+			var oModel = oCallingController.getView().getModel();
+
+			oModel.setData({employees : oReturnData}, true);
+
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+			}
 			
-			this.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel);	                                                                 
 		},
 		
 		
 		/**
-		 * Updates changes of the department data using the WebService.
+		 * Callback function of the saveDepartment RESTful WebService call in the DepartmentController.
 		 */
-		saveDepartmentByWebService : function() {
-			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/department");
-			var sQueryUrl = sWebServiceBaseUrl + "/";
-			var oDepartmentModel = new JSONModel(this.getView().getModel().getProperty("/selectedDepartment"));
-			var sJSONData = oDepartmentModel.getJSON();
-			
-			//Use "PUT" to update an existing resource.
-			var aData = jQuery.ajax({
-				type : "PUT", 
-				contentType : "application/json", 
-				url : sQueryUrl,
-				data : sJSONData, 
-				success : function(data,textStatus, jqXHR) {
-					if(data.message != null) {
-						if(data.message[0].type == 'S') {
-							//Update the data source of the ComboBox with the new department data.
-							this.queryDepartmentWebService(false);
-							//Clear ComboBox preventing display of wrong data (Code - Name).
-							this.getView().byId("departmentComboBox").setSelectedKey(null);
-							//Clear selectedDepartment because no ComboBox item is selected.
-							this.getView().getModel().setProperty("/selectedDepartment", null);	
-							MessageToast.show(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'I') {
-							MessageToast.show(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'E') {
-							MessageBox.error(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'W') {
-							MessageBox.warning(data.message[0].text);
-						}
-					}
-				},
-				context : this
-			});  
+		saveDepartmentCallback : function(oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					//Update the data source of the ComboBox with the new department data.
+					DepartmentController.queryDepartmentsByWebService(oCallingController.queryDepartmentsCallback, oCallingController, false);
+					//Clear ComboBox preventing display of wrong data (Code - Name).
+					oCallingController.getView().byId("departmentComboBox").setSelectedKey(null);
+					//Clear selectedDepartment because no ComboBox item is selected.
+					oCallingController.getView().getModel().setProperty("/selectedDepartment", null);	
+					MessageToast.show(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'I') {
+					MessageToast.show(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}
 		}
 	});
 });

@@ -26,7 +26,7 @@ sap.ui.define([
 		_onRouteMatched: function (oEvent) {
 			//Load all employees. Those are the candidates that can be selected in the head selection ComboBox.
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
-			DepartmentController.queryEmployeesByWebService(this.queryEmployeesCallback, this);
+			DepartmentController.queryEmployeesByWebService(this.queryEmployeesCallback, this, "NO_HEAD_ONLY");
 			this.deselectHeadSelection();
     	},
 		
