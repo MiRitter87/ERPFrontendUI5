@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
-	"sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, MessageBox, JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"./EmployeeController"
+], function (Controller, MessageToast, MessageBox, JSONModel, EmployeeController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeOverview", {
@@ -15,6 +16,15 @@ sap.ui.define([
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("employeeOverviewRoute").attachMatched(this._onRouteMatched, this);
 		},
+		
+		
+		/**
+		 * Handles the routeMatched-event when the router navigates to this view.
+		 */
+		_onRouteMatched: function (oEvent) {
+			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the table.
+			EmployeeController.queryEmployeesByWebService(this.queryEmployeesCallback, this, true);
+    	},
 		
 		
 		/**
@@ -53,66 +63,51 @@ sap.ui.define([
 				return;
 			}
 			
-			this.deleteEmployee(this.getSelectedEmployee());
+			EmployeeController.deleteEmployeeByWebService(this.getSelectedEmployee(), this.deleteEmployeeCallback, this);
 		},
 		
 		
 		/**
-		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
+		 * Callback function of the queryEmployees RESTful WebService call in the EmployeeController.
 		 */
-		queryEmployeeWebService : function(bShowSuccessMessage) {
-			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
-			var queryUrl = webServiceBaseUrl + "/";
+		queryEmployeesCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oModel = new JSONModel();
-			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : queryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-					oModel.setData({employees : data}); // not aData
-					
-					if(data.data != null) {
-						if(bShowSuccessMessage == true) {
-							MessageToast.show(oResourceBundle.getText("employeeOverview.dataLoaded"));							
-						}
-					}
-					else {
-						if(data.message != null)
-							MessageToast.show(data.message[0].text);
-					}
-				},
-				context : this
-			});                                                                 
+
+			oModel.setData({employees : oReturnData});
 			
-			this.getView().setModel(oModel);
+			if(oReturnData.data != null) {
+				if(bShowSuccessMessage == true) {
+					MessageToast.show(oResourceBundle.getText("employeeOverview.dataLoaded"));							
+				}
+			}
+			else {
+				if(oReturnData.message != null)
+					MessageToast.show(oReturnData.message[0].text);
+			}                                                              
+			
+			oCallingController.getView().setModel(oModel);
 		},
 		
 		
 		/**
-		 * Deletes the employee using the WebService.
+		 * Callback function of the deleteEmployee RESTful WebService call in the EmployeeController.
 		 */
-		deleteEmployee : function(oEmployee) {
-			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
-			var sQueryUrl = sWebServiceBaseUrl + "/" + oEmployee.id;
-			
-			//Use "DELETE" to delete an existing resource.
-			var aData = jQuery.ajax({type : "DELETE", contentType : "application/json", url : sQueryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					if(data.message != null) {
-						if(data.message[0].type == 'S') {
-							MessageToast.show(data.message[0].text);
-							this.queryEmployeeWebService(false);
-						}
-						
-						if(data.message[0].type == 'E') {
-							MessageBox.error(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'W') {
-							MessageBox.warning(data.message[0].text);
-						}
-					}
-				},
-				context : this
-			}); 
+		deleteEmployeeCallback : function(oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					EmployeeController.queryEmployeesByWebService(oCallingController.queryEmployeesCallback, oCallingController, false);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}
 		},
 		
 		
@@ -129,15 +124,6 @@ sap.ui.define([
 					return oResourceBundle.getText("gender.female");
 			}
 		},
-		
-		
-		/**
-		 * Handles the routeMatched-event when the router navigates to this view.
-		 */
-		_onRouteMatched: function (oEvent) {
-			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the table.
-			this.queryEmployeeWebService(true);
-    	},
 
 
 		/**

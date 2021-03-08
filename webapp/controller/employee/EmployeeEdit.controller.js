@@ -26,7 +26,7 @@ sap.ui.define([
 		 */
 		_onRouteMatched: function (oEvent) {
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
-			this.queryEmployeeWebService(true);
+			EmployeeController.queryEmployeesByWebService(this.queryEmployeesCallback, this, true);
 			this.getView().byId("employeeComboBox").setSelectedItem(null);
     	},
 		
@@ -47,7 +47,8 @@ sap.ui.define([
 				return;
 			}
 			
-			this.saveEmployeeByWebService();
+			EmployeeController.saveEmployeeByWebService(new JSONModel(this.getView().getModel().getProperty("/selectedEmployee")),
+				this.saveEmployeeCallback, this);
 		},
 		
 		
@@ -107,71 +108,51 @@ sap.ui.define([
 		
 		
 		/**
-		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
+		 * Callback function of the queryEmployees RESTful WebService call in the EmployeeController.
 		 */
-		queryEmployeeWebService : function(bShowSuccessMessage) {
-			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
-			var queryUrl = webServiceBaseUrl + "/";
+		queryEmployeesCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
 			var oModel = new JSONModel();
-			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : queryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-					oModel.setData({employees : data}); // not aData
-					
-					if(data.data != null) {
-						if(bShowSuccessMessage == true)
-							MessageToast.show(oResourceBundle.getText("employeeEdit.dataLoaded"));
-					}
-					else {
-						if(data.message != null)
-							MessageToast.show(data.message[0].text);
-					}
-				},
-				context : this
-			});                                                                 
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
-			this.getView().setModel(oModel);
+			oModel.setData({employees : oReturnData});
+			
+			if(oReturnData.data != null) {
+				if(bShowSuccessMessage == true)
+					MessageToast.show(oResourceBundle.getText("employeeEdit.dataLoaded"));
+			}
+			else {
+				if(oReturnData.message != null)
+					MessageToast.show(oReturnData.message[0].text);
+			}
+				                                                                
+			oCallingController.getView().setModel(oModel);
 		},
 		
 		
 		/**
-		 * Updates changes of the employee data using the WebService.
+		 * Callback function of the saveEmployee RESTful WebService call in the EmployeeController.
 		 */
-		saveEmployeeByWebService : function() {
-			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
-			var queryUrl = webServiceBaseUrl + "/";
-			var employeeModel = new JSONModel(this.getView().getModel().getProperty("/selectedEmployee"));
-			var jsonData = employeeModel.getJSON();
-			
-			//Use "PUT" to update an existing resource.
-			var aData = jQuery.ajax({
-				type : "PUT", 
-				contentType : "application/json", 
-				url : queryUrl,
-				data : jsonData, 
-				success : function(data,textStatus, jqXHR) {
-					if(data.message != null) {
-						if(data.message[0].type == 'S') {
-							this.queryEmployeeWebService(false);	//Updates the data source of the ComboBox with the new employee data.
-							this.getView().byId("employeeComboBox").setSelectedKey(null);
-							MessageToast.show(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'I') {
-							MessageToast.show(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'E') {
-							MessageBox.error(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'W') {
-							MessageBox.warning(data.message[0].text);
-						}
-					}
-				},
-				context : this
-			});  
+		saveEmployeeCallback : function(oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					//Updates the data source of the ComboBox with the new employee data.
+					EmployeeController.queryEmployeesByWebService(oCallingController.queryEmployeesCallback, oCallingController, false);
+					oCallingController.getView().byId("employeeComboBox").setSelectedKey(null);
+					MessageToast.show(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'I') {
+					MessageToast.show(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}	
 		}
 	});
 

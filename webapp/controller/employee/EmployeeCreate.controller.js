@@ -39,7 +39,7 @@ sap.ui.define([
 				return;
 			}
 			
-			this.saveEmployeeByWebService();
+			EmployeeController.createEmployeebyWebService(this.getView().getModel(), this.createEmployeeCallback, this);
 		},
 		
 		
@@ -66,38 +66,23 @@ sap.ui.define([
 		
 		
 		/**
-		 * Saves the employee defined in the input form by using the RESTful WebService.
+		 * Callback function of the createEmployee RESTful WebService call in the EmployeeController.
 		 */
-		saveEmployeeByWebService : function () {
-			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
-			var queryUrl = webServiceBaseUrl + "/";
-			var employeeModel = this.getView().getModel();
-			var jsonData = employeeModel.getJSON();
-			
-			//Use "POST" to create a resource.
-			var aData = jQuery.ajax({
-				type : "POST", 
-				contentType : "application/json", 
-				url : queryUrl,
-				data : jsonData, 
-				success : function(data,textStatus, jqXHR) {
-					if(data.message != null) {
-						if(data.message[0].type == 'S') {
-							MessageToast.show(data.message[0].text);
-							this.initializeEmployeeModel();	//Resets the input fields to the initial state.
-						}
-						
-						if(data.message[0].type == 'E') {
-							MessageBox.error(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'W') {
-							MessageBox.warning(data.message[0].text);
-						}
-					}
-				},
-				context : this
-			});   
+		createEmployeeCallback : function (oReturnData, oCalingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					oCalingController.initializeEmployeeModel();	//Resets the input fields to the initial state.
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}
 		},
 		
 		

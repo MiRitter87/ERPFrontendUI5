@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
-	"sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, MessageBox, JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"./EmployeeController"
+], function (Controller, MessageToast, MessageBox, JSONModel, EmployeeController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeDisplay", {
@@ -22,9 +23,8 @@ sap.ui.define([
 		 */
 		_onRouteMatched: function (oEvent) {
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
-			this.queryEmployeeWebService();
+			EmployeeController.queryEmployeesByWebService(this.queryEmployeesCallback, this);
 			this.getView().byId("employeeComboBox").setSelectedItem(null);
-			this.setLocalizedGender();
     	},
 		
 		
@@ -83,29 +83,23 @@ sap.ui.define([
 
 		
 		/**
-		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
+		 * Callback function of the queryEmployees RESTful WebService call in the EmployeeController.
 		 */
-		queryEmployeeWebService : function() {
-			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
-			var queryUrl = webServiceBaseUrl + "/";
+		queryEmployeesCallback : function(oReturnData, oCallingController) {
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oModel = new JSONModel();
-			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : queryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-					oModel.setData({employees : data}); // not aData
-					
-					if(data.data != null) {
-						MessageToast.show(oResourceBundle.getText("employeeDisplay.dataLoaded"));
-					}
-					else {
-						if(data.message != null)
-							MessageToast.show(data.message[0].text);
-					}
-				},
-				context : this
-			});                                                                 
 			
-			this.getView().setModel(oModel);
+			oModel.setData({employees : oReturnData});
+			
+			if(oReturnData.data != null) {
+				MessageToast.show(oResourceBundle.getText("employeeDisplay.dataLoaded"));
+			}
+			else {
+				if(oReturnData.message != null)
+					MessageToast.show(oReturnData.message[0].text);
+			}				                                                                
+			
+			oCallingController.getView().setModel(oModel);
 		},
 		
 		
