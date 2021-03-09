@@ -1,3 +1,4 @@
+<!DOCTYPE xml>
 <mvc:View
 	controllerName="ERPFrontendUI5.controller.department.DepartmentOverview"
 	displayBlock="true"
