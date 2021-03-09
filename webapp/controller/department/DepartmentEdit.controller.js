@@ -20,7 +20,7 @@ sap.ui.define([
 		/**
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
-		_onRouteMatched: function (oEvent) {
+		_onRouteMatched: function () {
 			//Query department data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			this.getView().setModel(new JSONModel());
 			DepartmentController.queryDepartmentsByWebService(this.queryDepartmentsCallback, this, true);
@@ -132,7 +132,7 @@ sap.ui.define([
 					MessageToast.show(oReturnData.message[0].text);
 			}                                                 
 			
-			this.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel);
 		},
 		
 		
