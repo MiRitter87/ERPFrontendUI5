@@ -29,6 +29,8 @@ sap.ui.define([
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, true);
 			
 			this.getView().byId("unitComboBox").setSelectedItem(null);
+			this.getView().byId("materialComboBox").setSelectedItem(null);
+			this.setPriceInputValue(0);
     	},
 		
 		
