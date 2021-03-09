@@ -25,7 +25,7 @@ sap.ui.define([
 		/**
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
-		_onRouteMatched: function (oEvent) {
+		_onRouteMatched: function () {
 			this.getView().byId("genderComboBox").setSelectedItem(null);
     	},
 		

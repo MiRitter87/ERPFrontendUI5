@@ -21,7 +21,7 @@ sap.ui.define([
 		/**
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
-		_onRouteMatched: function (oEvent) {
+		_onRouteMatched: function () {
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			EmployeeController.queryEmployeesByWebService(this.queryEmployeesCallback, this);
 			this.getView().byId("employeeComboBox").setSelectedItem(null);

@@ -21,7 +21,7 @@ sap.ui.define([
 		/**
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
-		_onRouteMatched: function (oEvent) {
+		_onRouteMatched: function () {
 			//Query material data every time a user navigates to this view. This assures that changes are being displayed in the table.
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, true);
     	},
