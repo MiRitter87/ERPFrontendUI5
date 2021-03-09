@@ -2,9 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/Title",
-	"../../model/formatter"
-], function (Controller, MessageToast, JSONModel, Title, formatter) {
+	"../../model/formatter",
+	"./EmployeeController"
+], function (Controller, MessageToast, JSONModel, formatter, EmployeeController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeSalaryEdit", {
@@ -34,7 +34,7 @@ sap.ui.define([
 			var oArguments = oEvent.getParameter("arguments");
     		var sEmployeeId = oArguments.employeeId;
 			
-			this.queryEmployeeWebService(sEmployeeId, "employeeSalaryEdit.dataLoaded");
+			EmployeeController.queryEmployeeById(this.queryEmployeeByIdCallback, this, sEmployeeId);
 		},
 		
 		
@@ -55,7 +55,8 @@ sap.ui.define([
 				return;
 			
 			this.updateSalaryLastChange();
-			this.saveEmployeeByWebService();
+			EmployeeController.saveEmployeeByWebService(new JSONModel(this.getView().getModel().getProperty("/employee/data")),
+				this.saveEmployeeCallback, this);
 		},
 		
 		
@@ -80,104 +81,62 @@ sap.ui.define([
 		
 		
 		/**
-		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
+		 * Callback function of the queryEmployeeById RESTful WebService call in the EmployeeController.
 		 */
-		queryEmployeeWebService : function(employeeId, successMessageKey) {
-			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
-			var queryUrl = webServiceBaseUrl + "/" + employeeId;
+		queryEmployeeByIdCallback : function(oReturnData, oCallingController) {
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oModel = new JSONModel();
-			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : queryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-					oModel.setData({employee : data}); // not aData
-					this.initializeTitleWithName();
-					this.initializeSalaryData();
-					
-					if(data.data != null) {
-						MessageToast.show(oResourceBundle.getText(successMessageKey));
-					}
-					else {
-						if(data.message != null)
-							MessageToast.show(data.message[0].text);
-					}
-				},
-				context : this
-			});                                                                 
+
+			oModel.setData({employee : oReturnData});
+			oCallingController.getView().setModel(oModel);
 			
-			this.getView().setModel(oModel);
-		},
-		
-		
-		/**
-		 * Updates changes of the employee data using the WebService.
-		 */
-		saveEmployeeByWebService : function() {
-			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
-			var queryUrl = webServiceBaseUrl + "/";
-			var employeeModel = new JSONModel(this.getView().getModel().getProperty("/employee/data"));
-			var jsonData = employeeModel.getJSON();
+			EmployeeController.initializeSalaryTitleWithName(oReturnData.data, oCallingController, 
+				oCallingController.getView().byId("toolbarTitle"));
+				
+			oCallingController.initializeSalaryData(oCallingController);
 			
-			//Use "PUT" to update an existing resource.
-			var aData = jQuery.ajax({
-				type : "PUT", 
-				contentType : "application/json", 
-				url : queryUrl,
-				data : jsonData, 
-				success : function(data,textStatus, jqXHR) {
-					if(data.message != null) {
-						if(data.message[0].type == 'S') {
-							MessageToast.show(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'E') {
-							MessageBox.error(data.message[0].text);
-						}
-						
-						if(data.message[0].type == 'W') {
-							MessageBox.warning(data.message[0].text);
-						}
-					}
-				},
-				context : this
-			});  
-		},
-		
-		
-		/**
-		 * Initializes the title with the name of the employee whose salary data are being displayed.
-		 */
-		initializeTitleWithName : function () {
-			var oResourceBundle, oTitleControl, sFirstName, sLastName, sTitleText;
-						
-			if(this.getView().getModel().getProperty("/employee/data") != null) {
-				sFirstName = this.getView().getModel().getProperty("/employee/data/firstName");
-				sLastName = this.getView().getModel().getProperty("/employee/data/lastName");
+			if(oReturnData.data != null) {
+				MessageToast.show(oResourceBundle.getText("employeeSalaryEdit.dataLoaded"));
 			}
 			else {
-				sFirstName = "";
-				sLastName = "";
-			}
-			
-			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-			oTitleControl = this.getView().byId("toolbarTitle");
-			sTitleText = oResourceBundle.getText("employeeSalaryEdit.headerWithName", [sFirstName, sLastName]);
-			oTitleControl.setText(sTitleText);
+				if(oReturnData.message != null)
+					MessageToast.show(oReturnData.message[0].text);
+			}				                                                              
+		},
+		
+		
+		/**
+		 * Callback function of the saveEmployee RESTful WebService call in the EmployeeController.
+		 */
+		saveEmployeeCallback : function(oReturnData) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			} 
 		},
 		
 		
 		/**
 		 * Checks if the given employee has salary data already defined. If not, the model is initialized to host newly defined salary data.
 		 */
-		initializeSalaryData : function () {
-			var salaryData;
-			var employeeId;
+		initializeSalaryData : function (oCallingController) {
+			var oSalaryData, sEmployeeId;
 			
-			salaryData = this.getView().getModel().getProperty("/employee/data/salaryData");
-			if(salaryData != null)
+			oSalaryData = oCallingController.getView().getModel().getProperty("/employee/data/salaryData");
+			if(oSalaryData != null)
 				return;
 			
-			employeeId = this.getView().getModel().getProperty("/employee/data/id");
-			this.getView().getModel().setProperty("/employee/data/salaryData", {id: employeeId, monthlySalary: 0, salaryLastChange: null});
+			sEmployeeId = oCallingController.getView().getModel().getProperty("/employee/data/id");
+			oCallingController.getView().getModel().setProperty("/employee/data/salaryData", {id: sEmployeeId, monthlySalary: 0, salaryLastChange: null});
 		},
 		
 		

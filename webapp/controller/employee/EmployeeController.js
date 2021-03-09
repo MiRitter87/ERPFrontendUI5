@@ -25,6 +25,27 @@ sap.ui.define([
 		
 		
 		/**
+		 * Initializes the title of a salary view with the name of the employee.
+		 */
+		initializeSalaryTitleWithName : function(oEmployee, oCallingController, oTitleControl) {
+			var oResourceBundle, sFirstName, sLastName, sTitleText;
+			
+			if(oEmployee != null) {
+				sFirstName = oEmployee.firstName;
+				sLastName = oEmployee.lastName;
+			}
+			else {
+				sFirstName = "";
+				sLastName = "";
+			}
+			
+			oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
+			sTitleText = oResourceBundle.getText("employeeSalaryDisplay.headerWithName", [sFirstName, sLastName]);
+			oTitleControl.setText(sTitleText);
+		},
+		
+		
+		/**
 		 * Calls a WebService operation to create a new employee.
 		 */
 		createEmployeebyWebService : function(oEmployeeModel, callbackFunction, oCallingController) {
@@ -60,6 +81,25 @@ sap.ui.define([
 					callbackFunction(data, oCallingController, bShowSuccessMessage);
 				}
 			});                                                                 
+		},
+		
+		
+		/**
+		 * Queries the employee WebService for the employee with the given ID.
+		 */
+		queryEmployeeById : function(callbackFunction, oCallingController, sEmployeeId) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
+			var sQueryUrl = sWebServiceBaseUrl + "/" + sEmployeeId;
+			
+			jQuery.ajax({
+				type : "GET", 
+				contentType : "application/json", 
+				url : sQueryUrl, 
+				dataType : "json", 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			});
 		},
 		
 		

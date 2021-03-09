@@ -2,10 +2,10 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/Title",
 	"sap/ui/core/routing/History",
-	"../../model/formatter"
-], function (Controller, MessageToast, JSONModel, Title, History, formatter) {
+	"../../model/formatter",
+	"./EmployeeController"
+], function (Controller, MessageToast, JSONModel, History, formatter, EmployeeController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeSalaryDisplay", {
@@ -27,7 +27,7 @@ sap.ui.define([
 			var oArguments = oEvent.getParameter("arguments");
     		var sEmployeeId = oArguments.employeeId;
 			
-			this.queryEmployeeWebService(sEmployeeId);
+			EmployeeController.queryEmployeeById(this.queryEmployeeByIdCallback, this, sEmployeeId);
 		},
 		
 		
@@ -49,54 +49,25 @@ sap.ui.define([
 		
 		
 		/**
-		 * Queries the employee WebService. If the call is successful, the model is updated with the employee data.
+		 * Callback function of the queryEmployeeById RESTful WebService call in the EmployeeController.
 		 */
-		queryEmployeeWebService : function(employeeId) {
-			var webServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/employee");
-			var queryUrl = webServiceBaseUrl + "/" + employeeId;
+		queryEmployeeByIdCallback : function(oReturnData, oCallingController) {
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oModel = new JSONModel();
-			var aData = jQuery.ajax({type : "GET", contentType : "application/json", url : queryUrl, dataType : "json", 
-				success : function(data,textStatus, jqXHR) {
-					var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-					oModel.setData({employee : data}); // not aData
-					this.initializeTitleWithName();
-					
-					if(data.data != null) {
-						MessageToast.show(oResourceBundle.getText("employeeSalaryDisplay.dataLoaded"));
-					}
-					else {
-						if(data.message != null)
-							MessageToast.show(data.message[0].text);
-					}
-				},
-				context : this
-			});                                                                 
+
+			oModel.setData({employee : oReturnData});
+			EmployeeController.initializeSalaryTitleWithName(oReturnData.data, oCallingController, 
+				oCallingController.getView().byId("toolbarTitle"));
 			
-			this.getView().setModel(oModel);
-		},
-		
-		
-		/**
-		 * Initializes the title with the name of the employee whose salary data are being displayed.
-		 */
-		initializeTitleWithName : function () {
-			var oResourceBundle, oTitleControl, sFirstName, sLastName, sTitleText;
-			
-			if(this.getView().getModel().getProperty("/employee/data") != null) {
-				sFirstName = this.getView().getModel().getProperty("/employee/data/firstName");
-				sLastName = this.getView().getModel().getProperty("/employee/data/lastName");
+			if(oReturnData.data != null) {
+				MessageToast.show(oResourceBundle.getText("employeeSalaryDisplay.dataLoaded"));
 			}
 			else {
-				sFirstName = "";
-				sLastName = "";
+				if(oReturnData.message != null)
+					MessageToast.show(oReturnData.message[0].text);
 			}
-			
-			
-			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-			oTitleControl = this.getView().byId("toolbarTitle");
-			sTitleText = oResourceBundle.getText("employeeSalaryDisplay.headerWithName", [sFirstName, sLastName]);
-			
-			oTitleControl.setText(sTitleText);
+                                                              			
+			oCallingController.getView().setModel(oModel);
 		}
 	});
 });
