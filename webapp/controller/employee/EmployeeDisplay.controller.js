@@ -25,6 +25,7 @@ sap.ui.define([
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			EmployeeController.queryEmployeesByWebService(this.queryEmployeesCallback, this);
 			this.getView().byId("employeeComboBox").setSelectedItem(null);
+			this.getView().byId("gender").setText("");
     	},
 		
 		
@@ -108,19 +109,21 @@ sap.ui.define([
 		 */
 		setLocalizedGender : function () {
 			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oModel = this.getView().getModel();
+			var sGenderText = "", sGender = "";
 			
 			//1. Get the gender of the selected employee.
-			var gender = this.getView().getModel().getProperty("/selectedEmployee/gender");
-			var genderText;
+			if(oModel != null)
+				sGender = oModel.getProperty("/selectedEmployee/gender");
 			
 			//2. Determine the localized text of the gender.
-			if(gender == "MALE")
-				genderText = oResourceBundle.getText("gender.male");
-			else if(gender == "FEMALE")
-				genderText = oResourceBundle.getText("gender.female");
+			if(sGender == "MALE")
+				sGenderText = oResourceBundle.getText("gender.male");
+			else if(sGender == "FEMALE")
+				sGenderText = oResourceBundle.getText("gender.female");
 			
 			//3. Apply the text to the gender label.
-			this.getView().byId("gender").setText(genderText);
+			this.getView().byId("gender").setText(sGenderText);
 		},
 		
 		
