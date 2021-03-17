@@ -10,7 +10,78 @@
 	
 	<Panel headerText="{i18n>businessPartnerCreate.header}">
 		<content>
-
+			<f:Form editable="true">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>businessPartner.companyName}">
+								<f:fields>
+									<Input maxLength="100" value="{newBusinessPartner>/companyName}" required="true"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.firstName}">
+								<f:fields>
+									<Input maxLength="50" value="{newBusinessPartner>/firstName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.lastName}">
+								<f:fields>
+									<Input maxLength="50" value="{newBusinessPartner>/lastName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.streetName}">
+								<f:fields>
+									<Input maxLength="100" value="{newBusinessPartner>/streetName}" required="true"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.houseNumber}">
+								<f:fields>
+									<Input maxLength="6" value="{newBusinessPartner>/houseNumber}" required="true"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.zipCode}">
+								<f:fields>
+									<Input maxLength="5" value="{newBusinessPartner>/houseNumber}" required="true"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.cityName}">
+								<f:fields>
+									<Input maxLength="100" value="{newBusinessPartner>/cityName}" required="true"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.phoneNumber}">
+								<f:fields>
+									<Input maxLength="40" value="{newBusinessPartner>/phoneNumber}" required="true"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 		</content>
 	</Panel>
 </mvc:View>
