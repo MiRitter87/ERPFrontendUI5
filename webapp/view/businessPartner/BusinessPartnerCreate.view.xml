@@ -63,7 +63,7 @@
 							
 							<f:FormElement label="{i18n>businessPartner.zipCode}">
 								<f:fields>
-									<Input maxLength="5" value="{newBusinessPartner>/houseNumber}" required="true"/>
+									<Input maxLength="5" value="{newBusinessPartner>/zipCode}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
@@ -83,5 +83,8 @@
 				</f:formContainers>
 			</f:Form>
 		</content>
+		
+		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
+		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 	</Panel>
 </mvc:View>
