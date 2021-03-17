@@ -18,36 +18,24 @@
 						labelSpanM="3"
 						labelSpanS="12"
 						adjustLabelSpan="false"
-						emptySpanXL="4"
+						emptySpanXL="2"
 						emptySpanL="4"
 						emptySpanM="4"
 						emptySpanS="0"
-						columnsXL="1"
+						columnsXL="2"
 						columnsL="1"
 						columnsM="1"
 						singleContainerFullSize="false" />
 				</f:layout>
 				
 				<f:formContainers>
-					<f:FormContainer>
+					<f:FormContainer title="{i18n>businessPartnerCreate.titleAddress}">
 						<f:formElements>
 							<f:FormElement label="{i18n>businessPartner.companyName}">
 								<f:fields>
 									<Input maxLength="100" value="{newBusinessPartner>/companyName}" required="true"/>
 								</f:fields>
-							</f:FormElement>
-							
-							<f:FormElement label="{i18n>businessPartner.firstName}">
-								<f:fields>
-									<Input maxLength="50" value="{newBusinessPartner>/firstName}"/>
-								</f:fields>
-							</f:FormElement>
-							
-							<f:FormElement label="{i18n>businessPartner.lastName}">
-								<f:fields>
-									<Input maxLength="50" value="{newBusinessPartner>/lastName}"/>
-								</f:fields>
-							</f:FormElement>
+							</f:FormElement>					
 							
 							<f:FormElement label="{i18n>businessPartner.streetName}">
 								<f:fields>
@@ -72,13 +60,27 @@
 									<Input maxLength="100" value="{newBusinessPartner>/cityName}" required="true"/>
 								</f:fields>
 							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>businessPartnerCreate.titleContact}">
+						<f:FormElement label="{i18n>businessPartner.firstName}">
+							<f:fields>
+								<Input maxLength="50" value="{newBusinessPartner>/firstName}"/>
+							</f:fields>
+						</f:FormElement>
 							
-							<f:FormElement label="{i18n>businessPartner.phoneNumber}">
+						<f:FormElement label="{i18n>businessPartner.lastName}">
+							<f:fields>
+								<Input maxLength="50" value="{newBusinessPartner>/lastName}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>businessPartner.phoneNumber}">
 								<f:fields>
 									<Input maxLength="40" value="{newBusinessPartner>/phoneNumber}" required="true"/>
 								</f:fields>
-							</f:FormElement>
-						</f:formElements>
+						</f:FormElement>
 					</f:FormContainer>
 				</f:formContainers>
 			</f:Form>
