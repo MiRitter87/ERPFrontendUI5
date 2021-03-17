@@ -125,6 +125,10 @@
 				"pattern": "createBusinessPartner",
 				"name": "businessPartnerCreateRoute",
 				"target": "businessPartnerCreateTarget"
+			}, {
+				"pattern": "businessPartnerEdit",
+				"name": "businessPartnerEditRoute",
+				"target": "businessPartnerEditTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -205,6 +209,11 @@
 				"businessPartnerCreateTarget": {
 					"viewId": "businessPartnerCreate",
 					"viewName": "businessPartner.BusinessPartnerCreate",
+					"viewLevel" : 1
+				},
+				"businessPartnerEditTarget": {
+					"viewId": "businessPartnerEdit",
+					"viewName": "businessPartner.BusinessPartnerEdit",
 					"viewLevel" : 1
 				}
          	}

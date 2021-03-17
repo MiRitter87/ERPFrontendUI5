@@ -51,6 +51,9 @@ sap.ui.define([
 			else if(item.getKey() == "businessPartnerCreate") {
 				oRouter.navTo("businessPartnerCreateRoute");
 			}
+			else if(item.getKey() == "businessPartnerEdit") {
+				oRouter.navTo("businessPartnerEditRoute");
+			}
 		},
 		
 		
