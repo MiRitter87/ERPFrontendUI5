@@ -48,6 +48,9 @@ sap.ui.define([
 			else if(item.getKey() == "materialOverview") {
 				oRouter.navTo("materialOverviewRoute");
 			}
+			else if(item.getKey() == "businessPartnerCreate") {
+				oRouter.navTo("businessPartnerCreateRoute");
+			}
 		},
 		
 		

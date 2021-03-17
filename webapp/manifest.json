@@ -121,6 +121,10 @@
 				"pattern": "materialOverview",
 				"name": "materialOverviewRoute",
 				"target": "materialOverviewTarget"
+			}, {
+				"pattern": "createBusinessPartner",
+				"name": "businessPartnerCreateRoute",
+				"target": "businessPartnerCreateTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -196,6 +200,11 @@
 				"materialOverviewTarget": {
 					"viewId": "materialOverview",
 					"viewName": "material.MaterialOverview",
+					"viewLevel" : 1
+				},
+				"businessPartnerCreateTarget": {
+					"viewId": "businessPartnerCreate",
+					"viewName": "businessPartner.BusinessPartnerCreate",
 					"viewLevel" : 1
 				}
          	}
