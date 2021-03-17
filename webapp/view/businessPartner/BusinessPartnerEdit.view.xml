@@ -10,7 +10,100 @@
 	
 	<Panel headerText="{i18n>businessPartnerEdit.header}">
 		<content>
-
+			<l:VerticalLayout>
+				<Label text="{i18n>businessPartnerEdit.selectionDescription}"/>
+				<ComboBox id="businessPartnerComboBox" items="{path: '/businessPartners/data/businessPartner/'}" 
+					selectionChange=".onBusinessPartnerSelectionChange">
+					
+					<core:Item key="{id}" text="{id} - {companyName}"/>
+				</ComboBox>
+			</l:VerticalLayout>
+		
+			<f:Form editable="true">
+				<f:title>
+					<core:Title text="{i18n>businessPartnerEdit.dataHeader}" />
+				</f:title>
+			
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>businessPartner.id}">
+								<f:fields>
+									<Input value="{/selectedBusinessPartner/id}" enabled="false" editable="false"/>
+								</f:fields>
+							</f:FormElement>
+						
+							<f:FormElement label="{i18n>businessPartner.companyName}">
+								<f:fields>
+									<Input maxLength="50" value="{/selectedBusinessPartner/companyName}" required="true"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.firstName}">
+								<f:fields>
+									<Input maxLength="50" value="{/selectedBusinessPartner/firstName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.lastName}">
+								<f:fields>
+									<Input maxLength="50" value="{/selectedBusinessPartner/lastName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.streetName}">
+								<f:fields>
+									<Input maxLength="100" value="{/selectedBusinessPartner/streetName}" required="true"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.houseNumber}">
+								<f:fields>
+									<Input maxLength="6" value="{/selectedBusinessPartner/houseNumber}" required="true"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.zipCode}">
+								<f:fields>
+									<Input maxLength="5" value="{/selectedBusinessPartner/zipCode}" required="true"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.cityName}">
+								<f:fields>
+									<Input maxLength="100" value="{/selectedBusinessPartner/cityName}" required="true"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.phoneNumber}">
+								<f:fields>
+									<Input maxLength="40" value="{/selectedBusinessPartner/phoneNumber}" required="true"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 		</content>
+		
+		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin" />
+		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 	</Panel>
 </mvc:View>
