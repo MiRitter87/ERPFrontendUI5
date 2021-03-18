@@ -9,7 +9,59 @@
 	
 	<Panel headerText="{i18n>businessPartnerOverview.header}">
 		<content>
-
+			<Table id="businessPartnerTable" items="{path: '/businessPartners/data/businessPartner/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>businessPartnerOverview.deleteSelected}" press=".onDeletePressed"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>businessPartner.id}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>businessPartner.companyName}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>businessPartner.streetName}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>businessPartner.houseNumber}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>businessPartner.zipCode}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>businessPartner.cityName}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>businessPartner.firstName}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>businessPartner.lastName}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>businessPartner.phoneNumber}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{id}"/>
+							<Text text="{companyName}"/>
+							<Text text="{streetName}"/>
+							<Text text="{houseNumber}"/>
+							<Text text="{zipCode}"/>
+							<Text text="{cityName}"/>
+							<Text text="{firstName}"/>
+							<Text text="{lastName}"/>
+							<Text text="{phoneNumber}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
 	</Panel>
 </mvc:View>
