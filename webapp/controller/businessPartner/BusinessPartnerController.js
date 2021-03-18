@@ -59,6 +59,26 @@ sap.ui.define([
 					callbackFunction(data, oCallingController);
 				}
 			}); 
+		},
+		
+		
+		/**
+		 * Deletes the given business partner using the WebService.
+		 */
+		deleteBusinessPartnerByWebService : function(oBusinessPartner, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/businessPartner");
+			var sQueryUrl = sWebServiceBaseUrl + "/" + oBusinessPartner.id;
+			
+			//Use "DELETE" to delete an existing resource.
+			jQuery.ajax({
+				type : "DELETE", 
+				contentType : "application/json", 
+				url : sQueryUrl, 
+				dataType : "json", 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			});
 		}
 	};
 });
