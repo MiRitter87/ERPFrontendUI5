@@ -38,6 +38,12 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
+			if(this.getView().byId("materialComboBox").getSelectedKey() == "") {
+				var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+				MessageBox.error(oResourceBundle.getText("materialEdit.noMaterialSelected"));
+				return;
+			}
+			
 			if(this.getView().byId("unitComboBox").getSelectedKey() == "") {
 				var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				MessageBox.error(oResourceBundle.getText("materialEdit.noUnitSelected"));
