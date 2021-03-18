@@ -10,7 +10,93 @@
 	
 	<Panel headerText="{i18n>businessPartnerDisplay.header}">
 		<content>
-
+			<l:VerticalLayout>
+				<Label text="{i18n>businessPartnerDisplay.selectionDescription}"/>
+				<ComboBox id="businessPartnerComboBox" items="{path: '/businessPartners/data/businessPartner/'}" 
+					selectionChange=".onBusinessPartnerSelectionChange">
+					
+					<core:Item key="{id}" text="{id} - {companyName}"/>
+				</ComboBox>
+			</l:VerticalLayout>
+			
+			<f:Form editable="false">
+				<f:title>
+					<core:Title text="{i18n>businessPartnerDisplay.dataHeader}" />
+				</f:title>
+			
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>businessPartnerDisplay.titleAddress}">
+						<f:formElements>
+							<f:FormElement label="{i18n>businessPartner.companyName}">
+								<f:fields>
+									<Text text="{/selectedBusinessPartner/companyName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.streetName}">
+								<f:fields>
+									<Text text="{/selectedBusinessPartner/streetName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.houseNumber}">
+								<f:fields>
+									<Text text="{/selectedBusinessPartner/houseNumber}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.zipCode}">
+								<f:fields>
+									<Text text="{/selectedBusinessPartner/zipCode}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>businessPartner.cityName}">
+								<f:fields>
+									<Text text="{/selectedBusinessPartner/cityName}"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>businessPartnerDisplay.titleContact}">
+						<f:FormElement label="{i18n>businessPartner.firstName}">
+							<f:fields>
+								<Text text="{/selectedBusinessPartner/firstName}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>businessPartner.lastName}">
+							<f:fields>
+								<Text text="{/selectedBusinessPartner/lastName}"/>
+							</f:fields>
+						</f:FormElement>
+				
+						<f:FormElement label="{i18n>businessPartner.phoneNumber}">
+							<f:fields>
+								<Text text="{/selectedBusinessPartner/phoneNumber}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 		</content>
 	</Panel>
 </mvc:View>

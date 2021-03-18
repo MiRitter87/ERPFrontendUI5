@@ -42,7 +42,7 @@
 				</f:layout>
 				
 				<f:formContainers>
-					<f:FormContainer title="{i18n>businessPartnerCreate.titleAddress}">
+					<f:FormContainer title="{i18n>businessPartnerEdit.titleAddress}">
 						<f:formElements>
 							<f:FormElement label="{i18n>businessPartner.companyName}">
 								<f:fields>
@@ -76,7 +76,7 @@
 						</f:formElements>
 					</f:FormContainer>
 					
-					<f:FormContainer title="{i18n>businessPartnerCreate.titleContact}">
+					<f:FormContainer title="{i18n>businessPartnerEdit.titleContact}">
 						<f:FormElement label="{i18n>businessPartner.firstName}">
 							<f:fields>
 								<Input maxLength="50" value="{/selectedBusinessPartner/firstName}"/>
