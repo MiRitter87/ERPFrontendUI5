@@ -57,6 +57,9 @@ sap.ui.define([
 			else if(item.getKey() == "businessPartnerDisplay") {
 				oRouter.navTo("businessPartnerDisplayRoute");
 			}
+			else if(item.getKey() == "businessPartnerOverview") {
+				oRouter.navTo("businessPartnerOverviewRoute");
+			}
 		},
 		
 		

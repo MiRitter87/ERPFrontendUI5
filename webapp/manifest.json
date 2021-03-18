@@ -133,6 +133,10 @@
 				"pattern": "businessPartnerDisplay",
 				"name": "businessPartnerDisplayRoute",
 				"target": "businessPartnerDisplayTarget"
+			}, {
+				"pattern": "businessPartnerOverview",
+				"name": "businessPartnerOverviewRoute",
+				"target": "businessPartnerOverviewTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -223,6 +227,11 @@
 				"businessPartnerDisplayTarget": {
 					"viewId": "businessPartnerDisplay",
 					"viewName": "businessPartner.BusinessPartnerDisplay",
+					"viewLevel" : 1
+				},
+				"businessPartnerOverviewTarget": {
+					"viewId": "businessPartnerOverview",
+					"viewName": "businessPartner.BusinessPartnerOverview",
 					"viewLevel" : 1
 				}
          	}
