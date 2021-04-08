@@ -137,6 +137,10 @@
 				"pattern": "businessPartnerOverview",
 				"name": "businessPartnerOverviewRoute",
 				"target": "businessPartnerOverviewTarget"
+			}, {
+				"pattern": "createSalesOrder",
+				"name": "salesOrderCreateRoute",
+				"target": "salesOrderCreateTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -232,6 +236,11 @@
 				"businessPartnerOverviewTarget": {
 					"viewId": "businessPartnerOverview",
 					"viewName": "businessPartner.BusinessPartnerOverview",
+					"viewLevel" : 1
+				},
+				"salesOrderCreateTarget": {
+					"viewId": "salesOrderCreate",
+					"viewName": "salesOrder.SalesOrderCreate",
 					"viewLevel" : 1
 				}
          	}

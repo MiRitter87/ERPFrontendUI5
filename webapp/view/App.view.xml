@@ -46,6 +46,13 @@
 						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="businessPartnerDisplay"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="businessPartnerOverview"/>
 					</tnt:NavigationListItem>
+					
+					<tnt:NavigationListItem text="{i18n>navigation.salesOrder}" expanded="false" icon="sap-icon://sales-order" key="salesOrder">
+						<tnt:NavigationListItem text="{i18n>navigation.object.create}" key="salesOrderCreate"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.edit}" key="salesOrderEdit"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="salesOrderDisplay"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="salesOrderOverview"/>
+					</tnt:NavigationListItem>
 				</tnt:NavigationList>
 			</tnt:SideNavigation>
 		</tnt:sideContent>
