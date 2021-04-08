@@ -10,7 +10,101 @@
 	
 	<Panel headerText="{i18n>salesOrderCreate.header}">
 		<content>
+			<f:Form editable="true">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>salesOrderCreate.titleBusinessPartner}">
+						<f:FormElement label="{i18n>salesOrder.soldToParty}">
+								<f:fields>
+									<ComboBox id="soldToComboBox" items="{path: '/businessPartners/data/businessPartner/'}" 
+										selectionChange=".onSoldToSelectionChange" required="true">
+												
+										<core:Item key="{id}" text="{id} - {companyName}"/>
+									</ComboBox>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.shipToParty}">
+								<f:fields>
+									<ComboBox id="shipToComboBox" items="{path: '/businessPartners/data/businessPartner/'}" 
+										selectionChange=".onShipToSelectionChange" required="true">
+												
+										<core:Item key="{id}" text="{id} - {companyName}"/>
+									</ComboBox>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.billToParty}">
+								<f:fields>
+									<ComboBox id="billToComboBox" items="{path: '/businessPartners/data/businessPartner/'}" 
+										selectionChange=".onBillToSelectionChange" required="true">
+												
+										<core:Item key="{id}" text="{id} - {companyName}"/>
+									</ComboBox>
+								</f:fields>
+							</f:FormElement>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>salesOrderCreate.titleDates}">
+						<f:FormElement label="{i18n>salesOrder.orderDate}">
+							<f:fields>
+								<DatePicker id="orderDatePicker"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>salesOrder.requestedDeliveryDate}">
+							<f:fields>
+								<DatePicker id="requestedDeliveryDatePicker"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			
+			<Table id="itemTable" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>salesOrderCreate.titleItems}"/>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>salesOrderCreate.deleteSelected}" press=".onDeletePressed"/>
+						<Button icon="sap-icon://add" tooltip="{i18n>salesOrderCreate.addItem}" press=".onAddItemPressed"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>salesOrder.itemId}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.material}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.itemQuantity}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.itemPrice}"/>
+					</Column>
+				</columns>
+				<items>
 
+				</items>
+			</Table>
 		</content>
 	</Panel>
 </mvc:View>
