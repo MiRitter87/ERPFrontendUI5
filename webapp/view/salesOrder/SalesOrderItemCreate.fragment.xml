@@ -1,0 +1,18 @@
+<!DOCTYPE xml>
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core" >
+
+	<Dialog id="newItemDialog" title="{i18n>salesOrderCreate.newItemHeader}">
+		<content>
+        	
+      	</content>
+	
+		<beginButton>
+			<Button text="{i18n>button.save}" press=".onSaveDialog" class="sapUiSmallMargin"/>
+      	</beginButton>
+      	<endButton>
+         	<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelDialog" class="sapUiSmallMargin"/>
+      	</endButton>
+   	</Dialog>
+</core:FragmentDefinition>
