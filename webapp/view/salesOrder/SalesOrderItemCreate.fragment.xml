@@ -1,18 +1,79 @@
 <!DOCTYPE xml>
 <core:FragmentDefinition
 	xmlns="sap.m"
-	xmlns:core="sap.ui.core" >
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
 
 	<Dialog id="newItemDialog" title="{i18n>salesOrderCreate.newItemHeader}">
 		<content>
-        	
+        	<f:Form id="itemForm" editable="true">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="4"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="1"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>salesOrder.itemId}">
+								<f:fields>
+									<Text />
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.material}">
+								<f:fields>
+									<ComboBox id="materialComboBox" items="{path: '/materials/data/material/'}" 
+										selectionChange=".onMaterialSelectionChange" required="true">
+												
+										<core:Item key="{id}" text="{id} - {name}"/>
+									</ComboBox>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.itemQuantity}">
+								<f:fields>
+									<Input required="true"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.itemUnit}">
+								<f:fields>
+									<Text />
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.itemPrice}">
+								<f:fields>
+									<Text />
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.itemCurrency}">
+								<f:fields>
+									<Text />
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
       	</content>
 	
-		<beginButton>
-			<Button text="{i18n>button.save}" press=".onSaveDialog" class="sapUiSmallMargin"/>
-      	</beginButton>
-      	<endButton>
-         	<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelDialog" class="sapUiSmallMargin"/>
-      	</endButton>
+		<Button text="{i18n>button.save}" press=".onSaveDialog" class="sapUiSmallMargin"/>
+        <Button type="Reject" text="{i18n>button.cancel}" press=".onCancelDialog" class="sapUiSmallMargin"/>
+
    	</Dialog>
 </core:FragmentDefinition>
