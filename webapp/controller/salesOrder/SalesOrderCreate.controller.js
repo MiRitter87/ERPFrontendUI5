@@ -14,7 +14,9 @@ sap.ui.define([
 		onInit : function () {
 			//Register an event handler that gets called every time the router navigates to this view.
 			var oRouter = this.getOwnerComponent().getRouter();
-			oRouter.getRoute("salesOrderCreateRoute").attachMatched(this._onRouteMatched, this);	
+			oRouter.getRoute("salesOrderCreateRoute").attachMatched(this._onRouteMatched, this);
+			
+			this.initializeSalesOrderModel();
 		},
 		
 		
@@ -50,6 +52,61 @@ sap.ui.define([
 			this.pDialog.then(function(oDialog) {
 				oDialog.open();
 			});
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the sold-To party ComboBox.
+		 */
+		onSoldToSelectionChange : function (oControlEvent) {
+			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
+			var iPartnerId = this.getSelectedPartnerId(oControlEvent);
+			
+			oSalesOrderModel.setData({soldToId: iPartnerId}, true);
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the ship-To party ComboBox.
+		 */
+		onShipToSelectionChange : function (oControlEvent) {
+			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
+			var iPartnerId = this.getSelectedPartnerId(oControlEvent);
+			
+			oSalesOrderModel.setData({shipToId: iPartnerId}, true);
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the bill-To party ComboBox.
+		 */
+		onBillToSelectionChange : function (oControlEvent) {
+			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
+			var iPartnerId = this.getSelectedPartnerId(oControlEvent);
+			
+			oSalesOrderModel.setData({billToId: iPartnerId}, true);
+		},
+		
+		
+		/**
+		 * Gets the ID of the selected business partner from a ComboBox.
+		 */
+		getSelectedPartnerId : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oModel = this.getView().getModel();
+			var oBusinessPartners = oModel.oData.businessPartners;
+			
+			if(oSelectedItem == null)
+				return null;
+			
+			//Get the selected business partner from the array of all partners according to the id.
+			for(var i = 0; i < oBusinessPartners.data.businessPartner.length; i++) {
+    			var oTempBusinessPartner = oBusinessPartners.data.businessPartner[i];
+    			
+				if(oTempBusinessPartner.id == oSelectedItem.getKey()) {
+					return oTempBusinessPartner.id;
+				}
+			}
 		},
 
 
@@ -92,6 +149,17 @@ sap.ui.define([
 			this.getView().byId("soldToComboBox").setSelectedItem(null);
 			this.getView().byId("shipToComboBox").setSelectedItem(null);
 			this.getView().byId("billToComboBox").setSelectedItem(null);
-		}
+		},
+		
+		
+		/**
+		 * Initializes the model to which the UI controls are bound.
+		 */
+		initializeSalesOrderModel : function () {
+			var oSalesOrderModel = new JSONModel();
+			
+			oSalesOrderModel.loadData("model/salesOrder/salesOrderCreate.json");
+			this.getView().setModel(oSalesOrderModel, "newSalesOrder");
+		},
 	});
 });
