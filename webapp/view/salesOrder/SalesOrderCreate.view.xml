@@ -64,7 +64,8 @@
 					<f:FormContainer title="{i18n>salesOrderCreate.titleDates}">
 						<f:FormElement label="{i18n>salesOrder.orderDate}">
 							<f:fields>
-								<DatePicker id="orderDatePicker"/>
+								<DatePicker id="orderDatePicker" value="{path: 'newSalesOrder>/orderDate', type:'sap.ui.model.type.Date', 
+									formatOptions: { style: 'medium', strictParsing: true}}"/>
 							</f:fields>
 						</f:FormElement>
 						

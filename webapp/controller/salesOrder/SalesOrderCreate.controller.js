@@ -159,7 +159,12 @@ sap.ui.define([
 			var oSalesOrderModel = new JSONModel();
 			
 			oSalesOrderModel.loadData("model/salesOrder/salesOrderCreate.json");
-			this.getView().setModel(oSalesOrderModel, "newSalesOrder");
-		},
+			oSalesOrderModel.attachRequestCompleted(function() {
+				//Wait for orderDate initialization until the JSON data have been loaded. Otherwise the orderDate would be overwritten.
+				oSalesOrderModel.setProperty("/orderDate", new Date());
+   			 });
+			
+			this.getView().setModel(oSalesOrderModel, "newSalesOrder");	
+		}
 	});
 });
