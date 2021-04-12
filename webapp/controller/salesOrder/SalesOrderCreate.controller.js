@@ -160,8 +160,9 @@ sap.ui.define([
 			
 			oSalesOrderModel.loadData("model/salesOrder/salesOrderCreate.json");
 			oSalesOrderModel.attachRequestCompleted(function() {
-				//Wait for orderDate initialization until the JSON data have been loaded. Otherwise the orderDate would be overwritten.
+				//Wait for date initialization until the JSON data have been loaded. Otherwise the date would be overwritten.
 				oSalesOrderModel.setProperty("/orderDate", new Date());
+				oSalesOrderModel.setProperty("/requestedDeliveryDate", new Date());
    			 });
 			
 			this.getView().setModel(oSalesOrderModel, "newSalesOrder");	
