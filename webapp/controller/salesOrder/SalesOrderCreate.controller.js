@@ -141,6 +141,7 @@ sap.ui.define([
 		onMaterialSelectionChange : function (oControlEvent) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
 			var oModel = this.getView().getModel();
+			var oItemModel = this.getView().getModel("newSalesOrderItem");
 			var oMaterials = oModel.oData.materials;
 			var oMaterial;
 			
@@ -158,6 +159,11 @@ sap.ui.define([
 			
 			//Set the model of the view according to the selected material to allow binding of the UI elements.
 			oModel.setData({selectedMaterial : oMaterial}, true);
+			
+			//Update the material ID of the item model that is bound to the view.
+			oItemModel.setProperty("/materialId", oMaterial.id);
+			
+			this.updatePriceTotal();
 		},
 		
 		
@@ -210,7 +216,9 @@ sap.ui.define([
 		 */
 		initializeSalesOrderModel : function () {
 			var oSalesOrderModel = new JSONModel();
+			var oItemModel = new JSONModel();
 			
+			//Load and set order model
 			oSalesOrderModel.loadData("model/salesOrder/salesOrderCreate.json");
 			oSalesOrderModel.attachRequestCompleted(function() {
 				//Wait for date initialization until the JSON data have been loaded. Otherwise the date would be overwritten.
@@ -219,6 +227,26 @@ sap.ui.define([
    			 });
 			
 			this.getView().setModel(oSalesOrderModel, "newSalesOrder");	
+			
+			//Load and set item model
+			oItemModel.loadData("model/salesOrder/salesOrderItemCreate.json");
+			this.getView().setModel(oItemModel, "newSalesOrderItem");	
+		},
+		
+		
+		/**
+		 * Updates the total price of the sales order item based on the materials price per unit and the quantity ordered.
+		 */
+		updatePriceTotal : function () {
+			var oModel = this.getView().getModel();
+			var oItemModel = this.getView().getModel("newSalesOrderItem");
+			var fPricePerUnit, fPriceTotal, iQuantity;
+			
+			fPricePerUnit = oModel.getProperty("/selectedMaterial/pricePerUnit");
+			iQuantity = oItemModel.getProperty("/quantity");
+			fPriceTotal = fPricePerUnit * iQuantity;
+			
+			oItemModel.setProperty("/priceTotal", fPriceTotal);
 		}
 	});
 });

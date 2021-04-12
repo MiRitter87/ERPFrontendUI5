@@ -47,6 +47,7 @@
 								<f:fields>
 									<Input id="quantityInput" type="Number" required="true" 
 									value="{
+										path : 'newSalesOrderItem>/quantity',
 										type : 'sap.ui.model.type.Integer',
 										constraints : {
 											minimum: 0,
@@ -64,7 +65,7 @@
 							
 							<f:FormElement label="{i18n>salesOrder.itemPrice}">
 								<f:fields>
-									<Text />
+									<Text text="{newSalesOrderItem>/priceTotal}"/>
 								</f:fields>
 							</f:FormElement>
 							
