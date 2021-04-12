@@ -45,13 +45,20 @@
 							
 							<f:FormElement label="{i18n>salesOrder.itemQuantity}">
 								<f:fields>
-									<Input required="true"/>
+									<Input id="quantityInput" type="Number" required="true" 
+									value="{
+										type : 'sap.ui.model.type.Integer',
+										constraints : {
+											minimum: 0,
+												maximum: 999999
+										}
+									}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>salesOrder.itemUnit}">
 								<f:fields>
-									<Text />
+									<Text text="{/selectedMaterial/unit}"/>
 								</f:fields>
 							</f:FormElement>
 							
@@ -63,7 +70,7 @@
 							
 							<f:FormElement label="{i18n>salesOrder.itemCurrency}">
 								<f:fields>
-									<Text />
+									<Text text="{/selectedMaterial/currency}"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

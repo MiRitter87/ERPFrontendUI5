@@ -1,10 +1,11 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"../businessPartner/BusinessPartnerController",
+	"../material/MaterialController",
 	"sap/ui/core/Fragment",
 	"sap/m/MessageToast",
 	"sap/ui/model/json/JSONModel"
-], function (Controller, BusinessPartnerController, Fragment, MessageToast, JSONModel) {
+], function (Controller, BusinessPartnerController, MaterialController, Fragment, MessageToast, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.salesOrder.SalesOrderCreate", {
@@ -13,8 +14,15 @@ sap.ui.define([
 		 */
 		onInit : function () {
 			//Register an event handler that gets called every time the router navigates to this view.
-			var oRouter = this.getOwnerComponent().getRouter();
+			var oView, oMessageManager, oRouter;
+			oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("salesOrderCreateRoute").attachMatched(this._onRouteMatched, this);
+			
+			//Initialize message manager for input form validation.
+			oView = this.getView();
+			oMessageManager = sap.ui.getCore().getMessageManager();
+			oView.setModel(oMessageManager.getMessageModel(), "message");
+			oMessageManager.registerObject(oView, true);
 			
 			this.initializeSalesOrderModel();
 		},
@@ -24,8 +32,9 @@ sap.ui.define([
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
 		_onRouteMatched: function () {
-			//Query business partner data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
+			//Query business partner and material data every time a user navigates to this view. This assures that changes are being displayed in the ComboBoxes.
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this);
+			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
 			this.deselectPartnerSelection();
     	},
 		
@@ -127,18 +136,62 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the selection of an item in the material ComboBox.
+		 */
+		onMaterialSelectionChange : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oModel = this.getView().getModel();
+			var oMaterials = oModel.oData.materials;
+			var oMaterial;
+			
+			if(oSelectedItem == null)
+				return;
+			
+			//Get the selected material from the array of all materials according to the id.
+			for(var i = 0; i < oMaterials.data.material.length; i++) {
+    			var oTempMaterial = oMaterials.data.material[i];
+    			
+				if(oTempMaterial.id == oSelectedItem.getKey()) {
+					oMaterial = oTempMaterial;
+				}
+			}
+			
+			//Set the model of the view according to the selected material to allow binding of the UI elements.
+			oModel.setData({selectedMaterial : oMaterial}, true);
+		},
+		
+		
+		/**
 		 * Callback function of the queryBusinessPartners RESTful WebService call in the BusinessPartnerController.
 		 */
 		queryBusinessPartnersCallback : function(oReturnData, oCallingController) {
 			var oModel = new JSONModel();
 			
-			oModel.setData({businessPartners : oReturnData});
+			if(oReturnData.data != null) {
+				oModel.setData({businessPartners : oReturnData});				
+			}
 			
 			if(oReturnData.data == null && oReturnData.message != null)  {
 				MessageToast.show(oReturnData.message[0].text);
 			}                                                               
 			
 			oCallingController.getView().setModel(oModel);
+		},
+		
+		
+		/**
+		 * Callback function of the queryMaterialsByWebService RESTful WebService call in the MaterialController.
+		 */
+		queryMaterialsCallback : function(oReturnData, oCallingController) {
+			var oModel = oCallingController.getView().getModel();
+			
+			if(oReturnData.data != null) {
+				oModel.setData({materials : oReturnData}, true);
+			}
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+			}  
 		},
 		
 		
