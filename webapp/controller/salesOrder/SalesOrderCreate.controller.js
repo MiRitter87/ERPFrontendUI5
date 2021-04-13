@@ -139,17 +139,17 @@ sap.ui.define([
 		 */
 		onMaterialSelectionChange : function (oControlEvent) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
-			var oModel = this.getView().getModel();
+			var oSelectedMaterialModel = new JSONModel();
 			var oItemModel = this.getView().getModel("newSalesOrderItem");
-			var oMaterials = oModel.oData.materials;
+			var oMaterials = this.getView().getModel("materials");
 			var oMaterial;
 			
 			if(oSelectedItem == null)
 				return;
 			
 			//Get the selected material from the array of all materials according to the id.
-			for(var i = 0; i < oMaterials.data.material.length; i++) {
-    			var oTempMaterial = oMaterials.data.material[i];
+			for(var i = 0; i < oMaterials.oData.material.length; i++) {
+    			var oTempMaterial = oMaterials.oData.material[i];
     			
 				if(oTempMaterial.id == oSelectedItem.getKey()) {
 					oMaterial = oTempMaterial;
@@ -157,7 +157,8 @@ sap.ui.define([
 			}
 			
 			//Set the model of the view according to the selected material to allow binding of the UI elements.
-			oModel.setData({selectedMaterial : oMaterial}, true);
+			oSelectedMaterialModel.setData(oMaterial);
+			this.getView().setModel(oSelectedMaterialModel, "selectedMaterial");
 			
 			//Update the material ID of the item model that is bound to the view.
 			oItemModel.setProperty("/materialId", oMaterial.id);
@@ -188,15 +189,17 @@ sap.ui.define([
 		 * Callback function of the queryMaterialsByWebService RESTful WebService call in the MaterialController.
 		 */
 		queryMaterialsCallback : function(oReturnData, oCallingController) {
-			var oModel = oCallingController.getView().getModel();
+			var oModel = new JSONModel();
 			
 			if(oReturnData.data != null) {
-				oModel.setData({materials : oReturnData}, true);
+				oModel.setData(oReturnData.data);
 			}
 			
 			if(oReturnData.data == null && oReturnData.message != null)  {
 				MessageToast.show(oReturnData.message[0].text);
-			}  
+			}
+			
+			oCallingController.getView().setModel(oModel, "materials");
 		},
 		
 		
@@ -237,11 +240,11 @@ sap.ui.define([
 		 * Updates the total price of the sales order item based on the materials price per unit and the quantity ordered.
 		 */
 		updatePriceTotal : function () {
-			var oModel = this.getView().getModel();
+			var oSelectedMaterialModel = this.getView().getModel("selectedMaterial");
 			var oItemModel = this.getView().getModel("newSalesOrderItem");
 			var fPricePerUnit, fPriceTotal, iQuantity;
 			
-			fPricePerUnit = oModel.getProperty("/selectedMaterial/pricePerUnit");
+			fPricePerUnit = oSelectedMaterialModel.getProperty("/pricePerUnit");
 			iQuantity = oItemModel.getProperty("/quantity");
 			fPriceTotal = fPricePerUnit * iQuantity;
 			

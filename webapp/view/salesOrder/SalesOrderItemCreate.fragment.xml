@@ -35,10 +35,10 @@
 							
 							<f:FormElement label="{i18n>salesOrder.material}">
 								<f:fields>
-									<ComboBox id="materialComboBox" items="{path: '/materials/data/material/'}" 
+									<ComboBox id="materialComboBox" items="{path: 'materials>/material/'}" 
 										selectionChange=".onMaterialSelectionChange" required="true">
 												
-										<core:Item key="{id}" text="{id} - {name}"/>
+										<core:Item key="{materials>id}" text="{materials>id} - {materials>name}"/>
 									</ComboBox>
 								</f:fields>
 							</f:FormElement>
