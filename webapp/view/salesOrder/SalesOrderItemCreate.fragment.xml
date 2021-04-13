@@ -59,19 +59,19 @@
 							
 							<f:FormElement label="{i18n>salesOrder.itemUnit}">
 								<f:fields>
-									<Text text="{selectedMaterial>/unit}"/>
+									<Text id="itemUnitText" text="{selectedMaterial>/unit}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>salesOrder.itemPrice}">
 								<f:fields>
-									<Text text="{newSalesOrderItem>/priceTotal}"/>
+									<Text id="itemPriceTotalText" text="{newSalesOrderItem>/priceTotal}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>salesOrder.itemCurrency}">
 								<f:fields>
-									<Text text="{selectedMaterial>/currency}"/>
+									<Text id="itemCurrencyText" text="{selectedMaterial>/currency}"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

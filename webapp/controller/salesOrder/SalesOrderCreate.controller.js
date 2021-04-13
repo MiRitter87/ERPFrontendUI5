@@ -123,14 +123,16 @@ sap.ui.define([
 		 */
 		onSaveDialog : function () {
 			this.byId("newItemDialog").close();
+			this.clearItemPopUpFields();
 		},
 
 		
 		/**
-		 * Handles the closing of the new item Dialog.
+		 * Handles the closing by cancelation of the new item Dialog.
 		 */
 		onCancelDialog : function () {
 			this.byId("newItemDialog").close();
+			this.clearItemPopUpFields();			
 		},
 		
 		
@@ -257,6 +259,18 @@ sap.ui.define([
 			fPriceTotal = parseFloat((fPricePerUnit * iQuantity).toFixed(2));	//Round to two decimal places
 			
 			oItemModel.setProperty("/priceTotal", fPriceTotal);
+		},
+		
+		
+		/**
+		 * Clears the fields and CheckBox of the PopUp for item creation.
+		 */
+		clearItemPopUpFields : function () {
+			this.byId("materialComboBox").setSelectedItem(null);
+			this.byId("quantityInput").setValue(0);
+			this.byId("itemUnitText").setText("");
+			this.byId("itemPriceTotalText").setText("");
+			this.byId("itemCurrencyText").setText("");
 		}
 	});
 });
