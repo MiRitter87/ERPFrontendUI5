@@ -32,30 +32,30 @@
 					<f:FormContainer title="{i18n>salesOrderCreate.titleBusinessPartner}">
 						<f:FormElement label="{i18n>salesOrder.soldToParty}">
 								<f:fields>
-									<ComboBox id="soldToComboBox" items="{path: '/businessPartners/data/businessPartner/'}" 
+									<ComboBox id="soldToComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
 										selectionChange=".onSoldToSelectionChange" required="true">
 												
-										<core:Item key="{id}" text="{id} - {companyName}"/>
+										<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
 									</ComboBox>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>salesOrder.shipToParty}">
 								<f:fields>
-									<ComboBox id="shipToComboBox" items="{path: '/businessPartners/data/businessPartner/'}" 
+									<ComboBox id="shipToComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
 										selectionChange=".onShipToSelectionChange" required="true">
 												
-										<core:Item key="{id}" text="{id} - {companyName}"/>
+										<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
 									</ComboBox>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>salesOrder.billToParty}">
 								<f:fields>
-									<ComboBox id="billToComboBox" items="{path: '/businessPartners/data/businessPartner/'}" 
+									<ComboBox id="billToComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
 										selectionChange=".onBillToSelectionChange" required="true">
 												
-										<core:Item key="{id}" text="{id} - {companyName}"/>
+										<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
 									</ComboBox>
 								</f:fields>
 							</f:FormElement>

@@ -102,15 +102,14 @@ sap.ui.define([
 		 */
 		getSelectedPartnerId : function (oControlEvent) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
-			var oModel = this.getView().getModel();
-			var oBusinessPartners = oModel.oData.businessPartners;
+			var oBusinessPartners = this.getView().getModel("businessPartners");
 			
 			if(oSelectedItem == null)
 				return null;
 			
 			//Get the selected business partner from the array of all partners according to the id.
-			for(var i = 0; i < oBusinessPartners.data.businessPartner.length; i++) {
-    			var oTempBusinessPartner = oBusinessPartners.data.businessPartner[i];
+			for(var i = 0; i < oBusinessPartners.oData.businessPartner.length; i++) {
+    			var oTempBusinessPartner = oBusinessPartners.oData.businessPartner[i];
     			
 				if(oTempBusinessPartner.id == oSelectedItem.getKey()) {
 					return oTempBusinessPartner.id;
@@ -174,14 +173,14 @@ sap.ui.define([
 			var oModel = new JSONModel();
 			
 			if(oReturnData.data != null) {
-				oModel.setData({businessPartners : oReturnData});				
+				oModel.setData(oReturnData.data);				
 			}
 			
 			if(oReturnData.data == null && oReturnData.message != null)  {
 				MessageToast.show(oReturnData.message[0].text);
 			}                                                               
 			
-			oCallingController.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel, "businessPartners");
 		},
 		
 		
