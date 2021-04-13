@@ -25,6 +25,7 @@ sap.ui.define([
 			oMessageManager.registerObject(oView, true);
 			
 			this.initializeSalesOrderModel();
+			this.initializeSalesOrderItemModel();
 		},
 		
 		
@@ -122,6 +123,13 @@ sap.ui.define([
 		 * Handles the saving of the new item Dialog.
 		 */
 		onSaveDialog : function () {
+			var oItemData = this.getView().getModel("newSalesOrderItem");
+			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
+			
+			//Add the item to the sales order model. Then re-initialize the item model that is bound to the "new item PopUp".
+			oSalesOrderModel.getProperty("/items").push(oItemData.oData);
+			this.initializeSalesOrderItemModel();
+			
 			this.byId("newItemDialog").close();
 			this.clearItemPopUpFields();
 		},
@@ -224,11 +232,10 @@ sap.ui.define([
 		
 		
 		/**
-		 * Initializes the model to which the UI controls are bound.
+		 * Initializes the model of the sales order to which the UI controls are bound.
 		 */
 		initializeSalesOrderModel : function () {
 			var oSalesOrderModel = new JSONModel();
-			var oItemModel = new JSONModel();
 			
 			//Load and set order model
 			oSalesOrderModel.loadData("model/salesOrder/salesOrderCreate.json");
@@ -239,6 +246,14 @@ sap.ui.define([
    			 });
 			
 			this.getView().setModel(oSalesOrderModel, "newSalesOrder");	
+		},
+		
+		
+		/**
+		 * Initializes the model of the sales order item to which the UI controls are bound.
+		 */
+		initializeSalesOrderItemModel : function () {
+			var oItemModel = new JSONModel();
 			
 			//Load and set item model
 			oItemModel.loadData("model/salesOrder/salesOrderItemCreate.json");
@@ -267,9 +282,7 @@ sap.ui.define([
 		 */
 		clearItemPopUpFields : function () {
 			this.byId("materialComboBox").setSelectedItem(null);
-			this.byId("quantityInput").setValue(0);
 			this.byId("itemUnitText").setText("");
-			this.byId("itemPriceTotalText").setText("");
 			this.byId("itemCurrencyText").setText("");
 		}
 	});
