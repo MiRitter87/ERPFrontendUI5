@@ -168,6 +168,14 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles changes of the input for sales order item quantity.
+		 */
+		onQuantityChange : function () {
+			this.updatePriceTotal();
+		},
+		
+		
+		/**
 		 * Callback function of the queryBusinessPartners RESTful WebService call in the BusinessPartnerController.
 		 */
 		queryBusinessPartnersCallback : function(oReturnData, oCallingController) {
@@ -246,7 +254,7 @@ sap.ui.define([
 			
 			fPricePerUnit = oSelectedMaterialModel.getProperty("/pricePerUnit");
 			iQuantity = oItemModel.getProperty("/quantity");
-			fPriceTotal = fPricePerUnit * iQuantity;
+			fPriceTotal = parseFloat((fPricePerUnit * iQuantity).toFixed(2));	//Round to two decimal places
 			
 			oItemModel.setProperty("/priceTotal", fPriceTotal);
 		}

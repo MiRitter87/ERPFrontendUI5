@@ -45,7 +45,7 @@
 							
 							<f:FormElement label="{i18n>salesOrder.itemQuantity}">
 								<f:fields>
-									<Input id="quantityInput" type="Number" required="true" 
+									<Input id="quantityInput" type="Number" required="true" change=".onQuantityChange"
 									value="{
 										path : 'newSalesOrderItem>/quantity',
 										type : 'sap.ui.model.type.Integer',
@@ -59,7 +59,7 @@
 							
 							<f:FormElement label="{i18n>salesOrder.itemUnit}">
 								<f:fields>
-									<Text text="{/selectedMaterial/unit}"/>
+									<Text text="{selectedMaterial>/unit}"/>
 								</f:fields>
 							</f:FormElement>
 							
@@ -71,7 +71,7 @@
 							
 							<f:FormElement label="{i18n>salesOrder.itemCurrency}">
 								<f:fields>
-									<Text text="{/selectedMaterial/currency}"/>
+									<Text text="{selectedMaterial>/currency}"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>
