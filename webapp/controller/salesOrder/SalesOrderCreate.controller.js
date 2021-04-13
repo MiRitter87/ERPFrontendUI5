@@ -44,24 +44,8 @@ sap.ui.define([
 		 * Opens the dialog to add a new sales order item.
 		 */
 		onAddItemPressed : function () {
-			var oView = this.getView();
-
-			//create dialog lazily
-			if (!this.pDialog) {
-				this.pDialog = Fragment.load({
-					id: oView.getId(),
-					name: "ERPFrontendUI5.view.salesOrder.SalesOrderItemCreate",
-					controller: this
-				}).then(function (oDialog) {
-					//connect dialog to the root view of this component (models, lifecycle)
-					oView.addDependent(oDialog);
-					return oDialog;
-				});
-			}
-
-			this.pDialog.then(function(oDialog) {
-				oDialog.open();
-			});
+			this.setIdOfNewItem();
+			this.openNewItemPopUp();
 		},
 		
 		
@@ -284,6 +268,44 @@ sap.ui.define([
 			this.byId("materialComboBox").setSelectedItem(null);
 			this.byId("itemUnitText").setText("");
 			this.byId("itemCurrencyText").setText("");
+		},
+		
+		
+		/**
+		 * Opens the PopUp for item creation.
+		 */
+		openNewItemPopUp : function () {
+			var oView = this.getView();
+			
+			//create dialog lazily
+			if (!this.pDialog) {
+				this.pDialog = Fragment.load({
+					id: oView.getId(),
+					name: "ERPFrontendUI5.view.salesOrder.SalesOrderItemCreate",
+					controller: this
+				}).then(function (oDialog) {
+					//connect dialog to the root view of this component (models, lifecycle)
+					oView.addDependent(oDialog);
+					return oDialog;
+				});
+			}
+
+			this.pDialog.then(function(oDialog) {
+				oDialog.open();
+			});
+		},
+		
+		
+		/**
+		 * Sets the ID of the new sales order item based on the number of already existing items.
+		 */
+		setIdOfNewItem : function () {
+			var iExistingItemCount;
+			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
+			var oSalesOrderItemModel = this.getView().getModel("newSalesOrderItem");
+			
+			iExistingItemCount = oSalesOrderModel.oData.items.length;
+			oSalesOrderItemModel.setProperty("/itemId", iExistingItemCount + 1);
 		}
 	});
 });
