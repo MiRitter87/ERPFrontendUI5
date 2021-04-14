@@ -79,7 +79,7 @@
 				</f:formContainers>
 			</f:Form>
 			
-			<Table id="itemTable" mode="SingleSelectMaster">
+			<Table id="itemTable" items="{path: 'newSalesOrder>/items/'}" mode="SingleSelectMaster">
 				<headerToolbar>
 					<OverflowToolbar>
 						<Title text="{i18n>salesOrderCreate.titleItems}"/>
@@ -104,7 +104,14 @@
 					</Column>
 				</columns>
 				<items>
-
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{newSalesOrder>itemId}"/>
+							<Text text="{newSalesOrder>materialId}"/>
+							<Text text="{newSalesOrder>quantity}"/>
+							<Text text="{newSalesOrder>priceTotal}"/>
+						</cells>
+					</ColumnListItem>
 				</items>
 			</Table>
 		</content>

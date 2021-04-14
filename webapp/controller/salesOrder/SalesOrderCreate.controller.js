@@ -109,9 +109,11 @@ sap.ui.define([
 		onSaveDialog : function () {
 			var oItemData = this.getView().getModel("newSalesOrderItem");
 			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
+			var oSalesOrderItems = oSalesOrderModel.getProperty("/items");
 			
 			//Add the item to the sales order model. Then re-initialize the item model that is bound to the "new item PopUp".
-			oSalesOrderModel.getProperty("/items").push(oItemData.oData);
+			oSalesOrderItems.push(oItemData.oData);
+			oSalesOrderModel.setProperty("/items", oSalesOrderItems);
 			this.initializeSalesOrderItemModel();
 			
 			this.byId("newItemDialog").close();
