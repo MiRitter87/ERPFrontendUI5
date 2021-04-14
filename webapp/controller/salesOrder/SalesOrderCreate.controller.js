@@ -308,6 +308,37 @@ sap.ui.define([
 			
 			iExistingItemCount = oSalesOrderModel.oData.items.length;
 			oSalesOrderItemModel.setProperty("/itemId", iExistingItemCount + 1);
+		},
+		
+		
+		/**
+		 * Formatter of the material text in the item table. Provides the name of a material based on the given ID.
+		 */
+		materialNameFormatter : function(iMaterialId) {
+			var oMaterial = this.getMaterialById(iMaterialId);
+			
+			if(oMaterial != null)	
+				return oMaterial.name;
+			else
+				return "";
+		},
+		
+		
+		/**
+		 * Gets the material data of the material with the given ID.
+		 */
+		getMaterialById : function(iMaterialId) {
+			var oMaterials = this.getView().getModel("materials");
+			
+			for(var i = 0; i < oMaterials.oData.material.length; i++) {
+    			var tempMaterial = oMaterials.oData.material[i];
+    			
+				if(tempMaterial.id == iMaterialId) {
+					return tempMaterial;
+				}
+			}
+			
+			return null;
 		}
 	});
 });

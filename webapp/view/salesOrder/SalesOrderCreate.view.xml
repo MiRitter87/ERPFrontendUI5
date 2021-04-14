@@ -107,7 +107,7 @@
 					<ColumnListItem>
 						<cells>
 							<ObjectIdentifier text="{newSalesOrder>itemId}"/>
-							<Text text="{newSalesOrder>materialId}"/>
+							<Text text="{path: 'newSalesOrder>materialId', formatter: '.materialNameFormatter'}"/>
 							<Text text="{newSalesOrder>quantity}"/>
 							<Text text="{newSalesOrder>priceTotal}"/>
 						</cells>
