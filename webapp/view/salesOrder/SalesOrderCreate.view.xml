@@ -108,8 +108,14 @@
 						<cells>
 							<ObjectIdentifier text="{newSalesOrder>itemId}"/>
 							<Text text="{path: 'newSalesOrder>materialId', formatter: '.materialNameFormatter'}"/>
-							<Text text="{newSalesOrder>quantity}"/>
-							<Text text="{newSalesOrder>priceTotal}"/>
+							<ObjectNumber unit="{path: 'newSalesOrder>materialId', formatter: '.materialUnitFormatter'}" number="{
+										parts:[{path:'newSalesOrder>quantity'}],
+										type: 'sap.ui.model.type.Unit',
+										formatOptions: {showMeasure: false}}"/>
+							<ObjectNumber unit="{path: 'newSalesOrder>materialId', formatter: '.materialCurrencyFormatter'}" number="{
+										parts:[{path:'newSalesOrder>priceTotal'}],
+										type: 'sap.ui.model.type.Currency',
+										formatOptions: {showMeasure: false}}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
