@@ -4,8 +4,9 @@ sap.ui.define([
 	"../material/MaterialController",
 	"sap/ui/core/Fragment",
 	"sap/m/MessageToast",
+	"sap/m/MessageBox",
 	"sap/ui/model/json/JSONModel"
-], function (Controller, BusinessPartnerController, MaterialController, Fragment, MessageToast, JSONModel) {
+], function (Controller, BusinessPartnerController, MaterialController, Fragment, MessageToast, MessageBox, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.salesOrder.SalesOrderCreate", {
@@ -107,9 +108,22 @@ sap.ui.define([
 		 * Handles the saving of the new item Dialog.
 		 */
 		onSaveDialog : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oItemData = this.getView().getModel("newSalesOrderItem");
 			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
 			var oSalesOrderItems = oSalesOrderModel.getProperty("/items");
+			
+			//Check if a material has been selected.
+			if(this.getView().byId("materialComboBox").getSelectedItem() == null) {
+				MessageBox.error(oResourceBundle.getText("salesOrderCreate.noMaterialSelected"));
+				return;
+			}
+			
+			//Do not allow adding an item with quantity 0.
+			if(oItemData.oData.quantity < 1) {
+				MessageBox.error(oResourceBundle.getText("salesOrderCreate.quantityIsZero"));
+				return;
+			}
 			
 			//Add the item to the sales order model. Then re-initialize the item model that is bound to the "new item PopUp".
 			oSalesOrderItems.push(oItemData.oData);
