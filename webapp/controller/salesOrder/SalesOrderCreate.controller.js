@@ -2,11 +2,12 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"../businessPartner/BusinessPartnerController",
 	"../material/MaterialController",
+	"./SalesOrderController",
 	"sap/ui/core/Fragment",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
 	"sap/ui/model/json/JSONModel"
-], function (Controller, BusinessPartnerController, MaterialController, Fragment, MessageToast, MessageBox, JSONModel) {
+], function (Controller, BusinessPartnerController, MaterialController, SalesOrderController, Fragment, MessageToast, MessageBox, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.salesOrder.SalesOrderCreate", {
@@ -182,6 +183,27 @@ sap.ui.define([
 		 */
 		onQuantityChange : function () {
 			this.updatePriceTotal();
+		},
+		
+		
+		/**
+		 * Handles a click at the save button.
+		 */
+		onSavePressed : function () {
+			var bInputValid = this.verifyObligatoryFields();
+			
+			if(bInputValid == false)
+				return;
+				
+			SalesOrderController.createSalesOrderByWebService(this.getView().getModel("newSalesOrder"), this.saveSalesOrderCallback, this);
+		},
+		
+		
+		/**
+		 * Handles a click at the cancel button.
+		 */
+		onCancelPressed : function () {
+				
 		},
 		
 		
@@ -379,6 +401,76 @@ sap.ui.define([
 			}
 			
 			return null;
-		}
+		},
+		
+		
+		/**
+		 * Verifies input of obligatory fields.
+		 * Returns true if input is valid. Returns false if input is invalid.
+		 */
+		verifyObligatoryFields : function() {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var iExistingItemCount;
+			var oSalesOrderModel;
+			
+			if(this.getView().byId("soldToComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("salesOrderCreate.noSoldToSelected"));
+				return false;
+			}
+			
+			if(this.getView().byId("shipToComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("salesOrderCreate.noShipToSelected"));
+				return false;
+			}
+			
+			if(this.getView().byId("billToComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("salesOrderCreate.noBillToSelected"));
+				return false;
+			}
+			
+			//The order has to have at least one item.
+			oSalesOrderModel = this.getView().getModel("newSalesOrder");
+			iExistingItemCount = oSalesOrderModel.oData.items.length;
+			
+			if(iExistingItemCount < 1) {
+				MessageBox.error(oResourceBundle.getText("salesOrderCreate.noItemsExist"));
+				return false;
+			}
+			
+			return true;
+		},
+		
+		
+		/**
+		 * Resets the form fields to the initial state.
+		 */
+		resetFormFields : function () {
+			this.getView().byId("soldToComboBox").setSelectedItem(null);
+			this.getView().byId("shipToComboBox").setSelectedItem(null);
+			this.getView().byId("billToComboBox").setSelectedItem(null);
+		},
+		
+		
+		/**
+		 * Callback function of the createSalesOrderbyWebService RESTful WebService call in the SalesOrderController.
+		 */
+		saveSalesOrderCallback : function (oReturnData, callingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					callingController.resetFormFields();
+					callingController.initializeSalesOrderModel();
+					callingController.initializeSalesOrderItemModel();
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			} 
+		},
 	});
 });
