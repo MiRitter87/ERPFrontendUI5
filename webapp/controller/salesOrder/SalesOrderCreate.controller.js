@@ -25,9 +25,6 @@ sap.ui.define([
 			oMessageManager = sap.ui.getCore().getMessageManager();
 			oView.setModel(oMessageManager.getMessageModel(), "message");
 			oMessageManager.registerObject(oView, true);
-			
-			this.initializeSalesOrderModel();
-			this.initializeSalesOrderItemModel();
 		},
 		
 		
@@ -38,7 +35,10 @@ sap.ui.define([
 			//Query business partner and material data every time a user navigates to this view. This assures that changes are being displayed in the ComboBoxes.
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this);
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
+			
 			this.deselectPartnerSelection();
+			this.initializeSalesOrderModel();
+			this.initializeSalesOrderItemModel();
     	},
 		
 		
@@ -203,7 +203,9 @@ sap.ui.define([
 		 * Handles a click at the cancel button.
 		 */
 		onCancelPressed : function () {
-				
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			
+			oRouter.navTo("startPageRoute");
 		},
 		
 		
