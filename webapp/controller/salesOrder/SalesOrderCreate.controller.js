@@ -139,19 +139,11 @@ sap.ui.define([
 		 */
 		getSelectedPartnerId : function (oControlEvent) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
-			var oBusinessPartners = this.getView().getModel("businessPartners");
 			
 			if(oSelectedItem == null)
 				return null;
-			
-			//Get the selected business partner from the array of all partners according to the id.
-			for(var i = 0; i < oBusinessPartners.oData.businessPartner.length; i++) {
-    			var oTempBusinessPartner = oBusinessPartners.oData.businessPartner[i];
-    			
-				if(oTempBusinessPartner.id == oSelectedItem.getKey()) {
-					return oTempBusinessPartner.id;
-				}
-			}
+				
+			return oSelectedItem.getKey();
 		},
 
 
@@ -516,7 +508,7 @@ sap.ui.define([
 		
 		
 		/**
-		 * Checks if an item with the given material is already existing.
+		 * Checks if an item with the given material is already existing. Returns true, if item exists; false otherwise.
 		 */
 		isItemWithMaterialExisting : function (oSalesOrderItems, iMaterialId) {
 			for(var i = 0; i < oSalesOrderItems.length; i++) {
