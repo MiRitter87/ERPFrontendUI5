@@ -84,7 +84,7 @@
 					<OverflowToolbar>
 						<Title text="{i18n>salesOrderCreate.titleItems}"/>
 						<ToolbarSpacer/>
-						<Button icon="sap-icon://delete" tooltip="{i18n>salesOrderCreate.deleteSelected}" press=".onDeletePressed"/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>salesOrderCreate.deleteSelected}" press=".onDeleteItemPressed"/>
 						<Button icon="sap-icon://add" tooltip="{i18n>salesOrderCreate.addItem}" press=".onAddItemPressed"/>
 					</OverflowToolbar>
 				</headerToolbar>

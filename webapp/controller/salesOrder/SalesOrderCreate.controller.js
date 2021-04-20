@@ -52,6 +52,44 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the deletion of an item.
+		 */
+		onDeleteItemPressed : function () {
+			var oSelectedItem, oResourceBundle,  oSalesOrderModel, oSalesOrderItems, oSalesOrderItem;
+			
+			//Check if an item has been selected.
+			oSelectedItem = this.getView().byId("itemTable").getSelectedItem();
+			if(oSelectedItem == null) {
+				oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+				MessageBox.error(oResourceBundle.getText("salesOrderCreate.noItemSelected"));
+				return;
+			}
+			
+			//Remove the selected item from the model.
+			oSalesOrderModel = this.getView().getModel("newSalesOrder");
+			oSalesOrderItems = oSalesOrderModel.getProperty("/items");
+			oSalesOrderItem = this.getSelectedItem();
+			
+			for(var i = 0; i < oSalesOrderItems.length; i++) {
+    			var oTempItem = oSalesOrderItems[i];
+    			
+				if(oTempItem.itemId == oSalesOrderItem.itemId) {
+					oSalesOrderItems.splice(i, 1);
+				}
+			}
+			
+			//Update the item IDs accounting for the deleted item.
+			for(var i = 0; i < oSalesOrderItems.length; i++) {
+				var oTempItem = oSalesOrderItems[i];
+				oTempItem.itemId = i+1;
+			}
+			
+			oSalesOrderModel.refresh();						//Assures that the changes are being displayed in the view.
+			this.getView().byId("itemTable").rerender();	//Assures that the formatters are called again.
+		},
+		
+		
+		/**
 		 * Handles the selection of an item in the sold-To party ComboBox.
 		 */
 		onSoldToSelectionChange : function (oControlEvent) {
@@ -81,6 +119,18 @@ sap.ui.define([
 			var iPartnerId = this.getSelectedPartnerId(oControlEvent);
 			
 			oSalesOrderModel.setData({billToId: iPartnerId}, true);
+		},
+		
+		
+		/**
+		 * Gets the the selected sales order item.
+		 */
+		getSelectedItem : function () {
+			var oListItem = this.getView().byId("itemTable").getSelectedItem();
+			var oContext = oListItem.getBindingContext("newSalesOrder");
+			var oSelectedItem = oContext.getProperty(null, oContext);
+			
+			return oSelectedItem;
 		},
 		
 		
@@ -125,6 +175,10 @@ sap.ui.define([
 				MessageBox.error(oResourceBundle.getText("salesOrderCreate.quantityIsZero"));
 				return;
 			}
+			
+			//Remove the binding of the UI to the selectedMaterial. 
+			//Otherwhise the selectedMaterial is updated by databinding when the input fields are being cleared.
+			this.getView().setModel(null, "selectedMaterial");
 			
 			//Add the item to the sales order model. Then re-initialize the item model that is bound to the "new item PopUp".
 			oSalesOrderItems.push(oItemData.oData);
