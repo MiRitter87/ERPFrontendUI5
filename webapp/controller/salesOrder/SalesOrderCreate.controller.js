@@ -163,6 +163,7 @@ sap.ui.define([
 			var oItemData = this.getView().getModel("newSalesOrderItem");
 			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
 			var oSalesOrderItems = oSalesOrderModel.getProperty("/items");
+			var itemWithMaterialExists;
 			
 			//Check if a material has been selected.
 			if(this.getView().byId("materialComboBox").getSelectedItem() == null) {
@@ -173,6 +174,13 @@ sap.ui.define([
 			//Do not allow adding an item with quantity 0.
 			if(oItemData.oData.quantity < 1) {
 				MessageBox.error(oResourceBundle.getText("salesOrderCreate.quantityIsZero"));
+				return;
+			}
+			
+			//Check if a sales order item with the same material already exists.
+			itemWithMaterialExists = this.isItemWithMaterialExisting(oSalesOrderItems, oItemData.oData.materialId);
+			if(itemWithMaterialExists == true) {
+				MessageBox.error(oResourceBundle.getText("salesOrderCreate.itemWithMaterialExists", [oItemData.oData.materialId]));
 				return;
 			}
 			
@@ -504,6 +512,22 @@ sap.ui.define([
 			this.getView().byId("soldToComboBox").setSelectedItem(null);
 			this.getView().byId("shipToComboBox").setSelectedItem(null);
 			this.getView().byId("billToComboBox").setSelectedItem(null);
+		},
+		
+		
+		/**
+		 * Checks if an item with the given material is already existing.
+		 */
+		isItemWithMaterialExisting : function (oSalesOrderItems, iMaterialId) {
+			for(var i = 0; i < oSalesOrderItems.length; i++) {
+    			var oTempItem = oSalesOrderItems[i];
+    			
+				if(oTempItem.materialId == iMaterialId) {
+					return true;
+				}
+			}
+			
+			return false;
 		},
 		
 		
