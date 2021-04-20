@@ -63,6 +63,9 @@ sap.ui.define([
 			else if(item.getKey() == "salesOrderCreate") {
 				oRouter.navTo("salesOrderCreateRoute");
 			}
+			else if(item.getKey() == "salesOrderEdit") {
+				oRouter.navTo("salesOrderEditRoute");
+			}
 		},
 		
 		

@@ -141,6 +141,10 @@
 				"pattern": "createSalesOrder",
 				"name": "salesOrderCreateRoute",
 				"target": "salesOrderCreateTarget"
+			}, {
+				"pattern": "SalesOrderEdit",
+				"name": "salesOrderEditRoute",
+				"target": "salesOrderEditTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -241,6 +245,11 @@
 				"salesOrderCreateTarget": {
 					"viewId": "salesOrderCreate",
 					"viewName": "salesOrder.SalesOrderCreate",
+					"viewLevel" : 1
+				},
+				"salesOrderEditTarget": {
+					"viewId": "salesOrderEdit",
+					"viewName": "salesOrder.SalesOrderEdit",
 					"viewLevel" : 1
 				}
          	}
