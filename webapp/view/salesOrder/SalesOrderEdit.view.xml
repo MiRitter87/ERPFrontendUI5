@@ -10,7 +10,130 @@
 	
 	<Panel headerText="{i18n>salesOrderEdit.header}">
 		<content>
-
+			<l:VerticalLayout>
+				<Label text="{i18n>salesOrderEdit.selectionDescription}"/>
+				<ComboBox id="salesOrderComboBox" items="{path: 'salesOrders>/salesOrder/'}" selectionChange=".onSalesOrderSelectionChange">
+					<core:Item key="{salesOrders>id}" text="{salesOrders>id}"/>
+				</ComboBox>
+			</l:VerticalLayout>
+			
+			<f:Form id="salesOrderForm" editable="true">
+				<f:title>
+					<core:Title text="{i18n>salesOrderEdit.dataHeader}" />
+				</f:title>
+				
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>salesOrderEdit.titleBusinessPartner}">
+						<f:FormElement label="{i18n>salesOrder.soldToParty}">
+								<f:fields>
+									<ComboBox id="soldToComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
+										selectionChange=".onSoldToSelectionChange" required="true">
+												
+										<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
+									</ComboBox>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.shipToParty}">
+								<f:fields>
+									<ComboBox id="shipToComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
+										selectionChange=".onShipToSelectionChange" required="true">
+												
+										<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
+									</ComboBox>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.billToParty}">
+								<f:fields>
+									<ComboBox id="billToComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
+										selectionChange=".onBillToSelectionChange" required="true">
+												
+										<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
+									</ComboBox>
+								</f:fields>
+							</f:FormElement>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>salesOrderEdit.titleDates}">
+						<f:FormElement label="{i18n>salesOrder.orderDate}">
+							<f:fields>
+								<DatePicker id="orderDatePicker" enabled="false" value="{path: 'selectedSalesOrder>/orderDate', type:'sap.ui.model.type.Date', 
+									formatOptions: { style: 'medium', strictParsing: true}}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>salesOrder.requestedDeliveryDate}">
+							<f:fields>
+								<DatePicker id="requestedDeliveryDatePicker" value="{path: 'selectedSalesOrder>/requestedDeliveryDate', type:'sap.ui.model.type.Date', 
+									formatOptions: { style: 'medium', strictParsing: true}}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			
+			<Table id="itemTable" items="{path: 'selectedSalesOrder>/items/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>salesOrderEdit.titleItems}"/>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>salesOrderEdit.deleteSelected}" press=".onDeleteItemPressed"/>
+						<Button icon="sap-icon://add" tooltip="{i18n>salesOrderEdit.addItem}" press=".onAddItemPressed"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>salesOrder.itemId}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.material}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.itemQuantity}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.itemPrice}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{selectedSalesOrder>itemId}"/>
+							<Text text="{path: 'selectedSalesOrder>materialId', formatter: '.materialNameFormatter'}"/>
+							<ObjectNumber unit="{path: 'selectedSalesOrder>materialId', formatter: '.materialUnitFormatter'}" number="{
+										parts:[{path:'selectedSalesOrder>quantity'}],
+										type: 'sap.ui.model.type.Unit',
+										formatOptions: {showMeasure: false}}"/>
+							<ObjectNumber unit="{path: 'selectedSalesOrder>materialId', formatter: '.materialCurrencyFormatter'}" number="{
+										parts:[{path:'selectedSalesOrder>priceTotal'}],
+										type: 'sap.ui.model.type.Currency',
+										formatOptions: {showMeasure: false}}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
+		
+		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
+		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 	</Panel>
 </mvc:View>
