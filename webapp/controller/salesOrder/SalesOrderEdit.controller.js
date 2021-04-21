@@ -26,6 +26,34 @@ sap.ui.define([
 
 
 		/**
+		 * Handles the selection of an item in the sales order ComboBox.
+		 */
+		onSalesOrderSelectionChange : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oSalesOrdersModel = this.getView().getModel("salesOrders");
+			var oSalesOrders = oSalesOrdersModel.oData.salesOrder;
+			var oSalesOrder;
+			var oSelectedOrderModel = new JSONModel();
+			
+			if(oSelectedItem == null)
+				return;
+			
+			//Get the selected sales order from the array of all sales orders according to the id.
+			for(var i = 0; i < oSalesOrders.length; i++) {
+    			var oTempSalesOrder = oSalesOrders[i];
+    			
+				if(oTempSalesOrder.id == oSelectedItem.getKey()) {
+					oSalesOrder = oTempSalesOrder;
+				}
+			}
+			
+			//Set the model of the view according to the selected sales order to allow binding of the UI elements.
+			oSelectedOrderModel.setData(oSalesOrder);
+			this.getView().setModel(oSelectedOrderModel, "selectedSalesOrder");
+		},
+
+
+		/**
 		 * Callback function of the queryMaterial RESTful WebService call in the MaterialController.
 		 */
 		querySalesOrdersCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {

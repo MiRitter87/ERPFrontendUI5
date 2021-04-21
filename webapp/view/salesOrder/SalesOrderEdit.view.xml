@@ -117,7 +117,7 @@
 				<items>
 					<ColumnListItem>
 						<cells>
-							<ObjectIdentifier text="{selectedSalesOrder>itemId}"/>
+							<ObjectIdentifier text="{selectedSalesOrder>id}"/>
 							<Text text="{path: 'selectedSalesOrder>materialId', formatter: '.materialNameFormatter'}"/>
 							<ObjectNumber unit="{path: 'selectedSalesOrder>materialId', formatter: '.materialUnitFormatter'}" number="{
 										parts:[{path:'selectedSalesOrder>quantity'}],
