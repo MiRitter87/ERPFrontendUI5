@@ -20,6 +20,24 @@ sap.ui.define([
 					callbackFunction(data, oCallingController);
 				}
 			});
-		}
+		},
+		
+		
+		/**
+		 * Queries the sales order WebService for all sales orders.
+		 */
+		querySalesOrdersByWebService : function(callbackFunction, oCallingController, bShowSuccessMessage) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/salesOrder");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			jQuery.ajax({
+				type : "GET", 
+				contentType : "application/json", 
+				url : sQueryUrl, 
+				dataType : "json", 
+				success : function(data) {
+					callbackFunction(data, oCallingController, bShowSuccessMessage);
+				}
+			});                                                                 
+		},
 	};
 });
