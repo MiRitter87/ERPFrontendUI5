@@ -44,7 +44,7 @@
 						<f:FormElement label="{i18n>salesOrder.soldToParty}">
 								<f:fields>
 									<ComboBox id="soldToComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
-										selectionChange=".onSoldToSelectionChange" selectedKey="{selectedSalesOrder>/soldToParty/id}" required="true">
+										selectionChange=".onSoldToSelectionChange" selectedKey="{selectedSalesOrder>/soldToId}" required="true">
 												
 										<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
 									</ComboBox>
@@ -54,7 +54,7 @@
 							<f:FormElement label="{i18n>salesOrder.shipToParty}">
 								<f:fields>
 									<ComboBox id="shipToComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
-										selectionChange=".onShipToSelectionChange" selectedKey="{selectedSalesOrder>/shipToParty/id}" required="true">
+										selectionChange=".onShipToSelectionChange" selectedKey="{selectedSalesOrder>/shipToId}" required="true">
 												
 										<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
 									</ComboBox>
@@ -64,7 +64,7 @@
 							<f:FormElement label="{i18n>salesOrder.billToParty}">
 								<f:fields>
 									<ComboBox id="billToComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
-										selectionChange=".onBillToSelectionChange" selectedKey="{selectedSalesOrder>/billToParty/id}" required="true">
+										selectionChange=".onBillToSelectionChange" selectedKey="{selectedSalesOrder>/billToId}" required="true">
 												
 										<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
 									</ComboBox>
