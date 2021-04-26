@@ -34,8 +34,8 @@ sap.ui.define([
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
 			var oSalesOrdersModel = this.getView().getModel("salesOrders");
 			var oSalesOrders = oSalesOrdersModel.oData.salesOrder;
-			var oSalesOrder;
 			var oSelectedOrderModel = new JSONModel();
+			var wsSalesOrder;
 			
 			if(oSelectedItem == null)
 				return;
@@ -45,12 +45,12 @@ sap.ui.define([
     			var oTempSalesOrder = oSalesOrders[i];
     			
 				if(oTempSalesOrder.id == oSelectedItem.getKey()) {
-					oSalesOrder = oTempSalesOrder;
+					wsSalesOrder = this.getSalesOrderForWebService(oTempSalesOrder);
 				}
 			}
 			
 			//Set the model of the view according to the selected sales order to allow binding of the UI elements.
-			oSelectedOrderModel.setData(oSalesOrder);
+			oSelectedOrderModel.setData(wsSalesOrder);
 			this.getView().setModel(oSelectedOrderModel, "selectedSalesOrder");
 		},
 
@@ -115,6 +115,40 @@ sap.ui.define([
 					oTempSalesOrder.requestedDeliveryDate = oDate;					
 				}
 			}
+		},
+		
+		
+		/**
+		 * Creates a representation of a sales order that can be processed by the WebService.
+		 */
+		getSalesOrderForWebService : function(oSalesOrder) {
+			var wsSalesOrder = new JSONModel();
+			var wsSalesOrderItem;
+			
+			//Data at head level
+			wsSalesOrder.setProperty("/id", oSalesOrder.id);
+			wsSalesOrder.setProperty("/soldToId", oSalesOrder.soldToParty.id);
+			wsSalesOrder.setProperty("/shipToId", oSalesOrder.shipToParty.id);
+			wsSalesOrder.setProperty("/billToId", oSalesOrder.billToParty.id);
+			wsSalesOrder.setProperty("/orderDate", oSalesOrder.orderDate);
+			wsSalesOrder.setProperty("/requestedDeliveryDate", oSalesOrder.requestedDeliveryDate);
+			
+			//Data at item level
+			wsSalesOrder.setProperty("/items", new Array());
+			
+			for(var i = 0; i < oSalesOrder.items.length; i++) {
+				var oTempSalesOrderItem = oSalesOrder.items[i];
+				
+				wsSalesOrderItem = new JSONModel();
+				wsSalesOrderItem.setProperty("/itemId", oTempSalesOrderItem.id);
+				wsSalesOrderItem.setProperty("/materialId", oTempSalesOrderItem.material.id);
+				wsSalesOrderItem.setProperty("/quantity", oTempSalesOrderItem.quantity);
+				wsSalesOrderItem.setProperty("/priceTotal", oTempSalesOrderItem.priceTotal);
+				
+				wsSalesOrder.oData.items.push(wsSalesOrderItem);
+			}
+			
+			return wsSalesOrder;
 		}
 	});
 });
