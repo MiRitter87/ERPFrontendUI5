@@ -85,10 +85,15 @@ sap.ui.define([
     			var oTempSalesOrder = oSalesOrders[i];
 				var oDate;
     			
-				oDate = new Date(oTempSalesOrder.orderDate);
-				oTempSalesOrder.orderDate = oDate;
-				oDate = new Date(oTempSalesOrder.requestedDeliveryDate);
-				oTempSalesOrder.requestedDeliveryDate = oDate;
+				if(oTempSalesOrder.orderDate != null) {
+					oDate = new Date(oTempSalesOrder.orderDate);
+					oTempSalesOrder.orderDate = oDate;					
+				}
+				
+				if(oTempSalesOrder.requestedDeliveryDate != null) {
+					oDate = new Date(oTempSalesOrder.requestedDeliveryDate);
+					oTempSalesOrder.requestedDeliveryDate = oDate;					
+				}
 			}
 		}
 	});
