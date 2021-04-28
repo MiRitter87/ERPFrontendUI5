@@ -1,5 +1,6 @@
 sap.ui.define([
-], function () {
+	"sap/ui/core/Fragment"
+], function (Fragment) {
 	"use strict";
 	return {
 		/**
@@ -54,6 +55,31 @@ sap.ui.define([
 			}
 			
 			return null;
+		},
+		
+		
+		/**
+		 * Opens the PopUp for item creation.
+		 */
+		openNewItemPopUp : function (oController) {
+			var oView = oController.getView();
+			
+			//create dialog lazily
+			if (!oController.pDialog) {
+				oController.pDialog = Fragment.load({
+					id: oView.getId(),
+					name: "ERPFrontendUI5.view.salesOrder.SalesOrderItemCreate",
+					controller: oController
+				}).then(function (oDialog) {
+					//connect dialog to the root view of this component (models, lifecycle)
+					oView.addDependent(oDialog);
+					return oDialog;
+				});
+			}
+
+			oController.pDialog.then(function(oDialog) {
+				oDialog.open();
+			});
 		},
 		
 		

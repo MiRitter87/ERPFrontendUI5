@@ -3,11 +3,10 @@ sap.ui.define([
 	"../businessPartner/BusinessPartnerController",
 	"../material/MaterialController",
 	"./SalesOrderController",
-	"sap/ui/core/Fragment",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
 	"sap/ui/model/json/JSONModel"
-], function (Controller, BusinessPartnerController, MaterialController, SalesOrderController, Fragment, MessageToast, MessageBox, JSONModel) {
+], function (Controller, BusinessPartnerController, MaterialController, SalesOrderController, MessageToast, MessageBox, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.salesOrder.SalesOrderCreate", {
@@ -47,7 +46,7 @@ sap.ui.define([
 		 */
 		onAddItemPressed : function () {
 			this.setIdOfNewItem();
-			this.openNewItemPopUp();
+			SalesOrderController.openNewItemPopUp(this);
 		},
 		
 		
@@ -362,31 +361,6 @@ sap.ui.define([
 			this.byId("materialComboBox").setSelectedItem(null);
 			this.byId("itemUnitText").setText("");
 			this.byId("itemCurrencyText").setText("");
-		},
-		
-		
-		/**
-		 * Opens the PopUp for item creation.
-		 */
-		openNewItemPopUp : function () {
-			var oView = this.getView();
-			
-			//create dialog lazily
-			if (!this.pDialog) {
-				this.pDialog = Fragment.load({
-					id: oView.getId(),
-					name: "ERPFrontendUI5.view.salesOrder.SalesOrderItemCreate",
-					controller: this
-				}).then(function (oDialog) {
-					//connect dialog to the root view of this component (models, lifecycle)
-					oView.addDependent(oDialog);
-					return oDialog;
-				});
-			}
-
-			this.pDialog.then(function(oDialog) {
-				oDialog.open();
-			});
 		},
 		
 		

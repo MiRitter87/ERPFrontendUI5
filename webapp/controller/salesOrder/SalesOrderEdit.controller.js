@@ -56,6 +56,33 @@ sap.ui.define([
 		
 		
 		/**
+		 * Opens the dialog to add a new sales order item.
+		 */
+		onAddItemPressed : function () {
+			
+			SalesOrderController.openNewItemPopUp(this);
+			
+			/*this.setIdOfNewItem();*/
+		},
+		
+		
+		/**
+		 * Handles the saving of the new item Dialog.
+		 */
+		onSaveDialog : function () {
+			this.byId("newItemDialog").close();
+		},
+
+		
+		/**
+		 * Handles the closing by cancelation of the new item Dialog.
+		 */
+		onCancelDialog : function () {
+			this.byId("newItemDialog").close();
+		},
+		
+		
+		/**
 		 * Formatter of the material text in the item table. Provides the name of a material based on the given ID.
 		 */
 		materialNameFormatter : function(iMaterialId) {
