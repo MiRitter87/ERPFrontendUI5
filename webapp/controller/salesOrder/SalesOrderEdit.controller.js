@@ -2,9 +2,10 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./SalesOrderController",
 	"../businessPartner/BusinessPartnerController",
+	"../material/MaterialController",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast"
-], function (Controller, SalesOrderController, BusinessPartnerController, JSONModel, MessageToast) {
+], function (Controller, SalesOrderController, BusinessPartnerController, MaterialController, JSONModel, MessageToast) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.salesOrder.SalesOrderEdit", {		
@@ -23,6 +24,7 @@ sap.ui.define([
 		_onRouteMatched: function () {
 			//Query sales order and business partner data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this);
+			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
 			SalesOrderController.querySalesOrdersByWebService(this.querySalesOrdersCallback, this, true);
     	},
 
@@ -50,6 +52,63 @@ sap.ui.define([
 			
 			//Set the model of the view according to the selected sales order to allow binding of the UI elements.
 			this.getView().setModel(wsSalesOrder, "selectedSalesOrder");
+		},
+		
+		
+		/**
+		 * Formatter of the material text in the item table. Provides the name of a material based on the given ID.
+		 */
+		materialNameFormatter : function(iMaterialId) {
+			var oMaterial = this.getMaterialById(iMaterialId);
+			
+			if(oMaterial != null)	
+				return oMaterial.name;
+			else
+				return "";
+		},
+		
+		
+		/**
+		 * Formatter of the material unit in the item table. Provides the unit of a material based on the given ID.
+		 */
+		materialUnitFormatter: function(iMaterialId) {
+			var oMaterial = this.getMaterialById(iMaterialId);
+			
+			if(oMaterial != null)	
+				return oMaterial.unit;
+			else
+				return "";
+		},
+		
+		
+		/**
+		 * Formatter of the material currency in the item table. Provides the currency of a material based on the given ID.
+		 */
+		materialCurrencyFormatter: function(iMaterialId) {
+			var oMaterial = this.getMaterialById(iMaterialId);
+			
+			if(oMaterial != null)	
+				return oMaterial.currency;
+			else
+				return "";
+		},
+		
+		
+		/**
+		 * Gets the material data of the material with the given ID.
+		 */
+		getMaterialById : function(iMaterialId) {
+			var oMaterials = this.getView().getModel("materials");
+			
+			for(var i = 0; i < oMaterials.oData.material.length; i++) {
+    			var tempMaterial = oMaterials.oData.material[i];
+    			
+				if(tempMaterial.id == iMaterialId) {
+					return tempMaterial;
+				}
+			}
+			
+			return null;
 		},
 
 
@@ -91,6 +150,24 @@ sap.ui.define([
 			}                                                               
 			
 			oCallingController.getView().setModel(oModel, "businessPartners");
+		},
+		
+		
+		/**
+		 * Callback function of the queryMaterialsByWebService RESTful WebService call in the MaterialController.
+		 */
+		queryMaterialsCallback : function(oReturnData, oCallingController) {
+			var oModel = new JSONModel();
+			
+			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+			}
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+			}
+			
+			oCallingController.getView().setModel(oModel, "materials");
 		},
 		
 		
@@ -143,7 +220,7 @@ sap.ui.define([
 				wsSalesOrderItem.setProperty("/quantity", oTempSalesOrderItem.quantity);
 				wsSalesOrderItem.setProperty("/priceTotal", oTempSalesOrderItem.priceTotal);
 				
-				wsSalesOrder.oData.items.push(wsSalesOrderItem);
+				wsSalesOrder.oData.items.push(wsSalesOrderItem.oData);
 			}
 			
 			return wsSalesOrder;
