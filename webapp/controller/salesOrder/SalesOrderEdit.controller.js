@@ -4,8 +4,9 @@ sap.ui.define([
 	"../businessPartner/BusinessPartnerController",
 	"../material/MaterialController",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/MessageToast"
-], function (Controller, SalesOrderController, BusinessPartnerController, MaterialController, JSONModel, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/m/MessageBox"
+], function (Controller, SalesOrderController, BusinessPartnerController, MaterialController, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.salesOrder.SalesOrderEdit", {		
@@ -26,6 +27,8 @@ sap.ui.define([
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this);
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
 			SalesOrderController.querySalesOrdersByWebService(this.querySalesOrdersCallback, this, true);
+			
+			SalesOrderController.initializeSalesOrderItemModel(this);
     	},
 
 
@@ -59,10 +62,16 @@ sap.ui.define([
 		 * Opens the dialog to add a new sales order item.
 		 */
 		onAddItemPressed : function () {
+			var oResourceBundle;
 			
-			SalesOrderController.openNewItemPopUp(this);
+			if(this.byId("salesOrderComboBox").getSelectedKey() == "") {
+				oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+				MessageBox.error(oResourceBundle.getText("salesOrderEdit.noOrderSelected"));
+				return;
+			}
 			
-			/*this.setIdOfNewItem();*/
+			SalesOrderController.setIdOfNewItem(this.getView().getModel("selectedSalesOrder"), this);
+			SalesOrderController.openNewItemPopUp(this);			
 		},
 		
 		

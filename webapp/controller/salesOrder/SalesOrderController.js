@@ -1,6 +1,7 @@
 sap.ui.define([
-	"sap/ui/core/Fragment"
-], function (Fragment) {
+	"sap/ui/core/Fragment",
+	"sap/ui/model/json/JSONModel"
+], function (Fragment, JSONModel) {
 	"use strict";
 	return {
 		/**
@@ -80,6 +81,31 @@ sap.ui.define([
 			oController.pDialog.then(function(oDialog) {
 				oDialog.open();
 			});
+		},
+		
+		
+		/**
+		 * Initializes the model of the sales order item to which the UI controls are bound.
+		 * Since the item creation fragment is being reused in several views, the name of the model is always the same.
+		 */
+		initializeSalesOrderItemModel : function (oController) {
+			var oItemModel = new JSONModel();
+			
+			//Load and set item model
+			oItemModel.loadData("model/salesOrder/salesOrderItemCreate.json");
+			oController.getView().setModel(oItemModel, "newSalesOrderItem");	
+		},
+		
+		
+		/**
+		 * Sets the ID of the new sales order item based on the number of already existing items.
+		 */
+		setIdOfNewItem : function (oSalesOrderModel, oController) {
+			var iExistingItemCount;
+			var oSalesOrderItemModel = oController.getView().getModel("newSalesOrderItem");
+			
+			iExistingItemCount = oSalesOrderModel.oData.items.length;
+			oSalesOrderItemModel.setProperty("/itemId", iExistingItemCount + 1);
 		},
 		
 		

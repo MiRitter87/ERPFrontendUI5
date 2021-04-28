@@ -37,7 +37,7 @@ sap.ui.define([
 			
 			this.deselectPartnerSelection();
 			this.initializeSalesOrderModel();
-			this.initializeSalesOrderItemModel();
+			SalesOrderController.initializeSalesOrderItemModel(this);
     	},
 		
 		
@@ -45,7 +45,7 @@ sap.ui.define([
 		 * Opens the dialog to add a new sales order item.
 		 */
 		onAddItemPressed : function () {
-			this.setIdOfNewItem();
+			SalesOrderController.setIdOfNewItem(this.getView().getModel("newSalesOrder"), this);
 			SalesOrderController.openNewItemPopUp(this);
 		},
 		
@@ -182,7 +182,7 @@ sap.ui.define([
 			//Add the item to the sales order model. Then re-initialize the item model that is bound to the "new item PopUp".
 			oSalesOrderItems.push(oItemData.oData);
 			oSalesOrderModel.setProperty("/items", oSalesOrderItems);
-			this.initializeSalesOrderItemModel();
+			SalesOrderController.initializeSalesOrderItemModel(this);
 			
 			this.byId("newItemDialog").close();
 			this.clearItemPopUpFields();
@@ -327,18 +327,6 @@ sap.ui.define([
 		
 		
 		/**
-		 * Initializes the model of the sales order item to which the UI controls are bound.
-		 */
-		initializeSalesOrderItemModel : function () {
-			var oItemModel = new JSONModel();
-			
-			//Load and set item model
-			oItemModel.loadData("model/salesOrder/salesOrderItemCreate.json");
-			this.getView().setModel(oItemModel, "newSalesOrderItem");	
-		},
-		
-		
-		/**
 		 * Updates the total price of the sales order item based on the materials price per unit and the quantity ordered.
 		 */
 		updatePriceTotal : function () {
@@ -361,19 +349,6 @@ sap.ui.define([
 			this.byId("materialComboBox").setSelectedItem(null);
 			this.byId("itemUnitText").setText("");
 			this.byId("itemCurrencyText").setText("");
-		},
-		
-		
-		/**
-		 * Sets the ID of the new sales order item based on the number of already existing items.
-		 */
-		setIdOfNewItem : function () {
-			var iExistingItemCount;
-			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
-			var oSalesOrderItemModel = this.getView().getModel("newSalesOrderItem");
-			
-			iExistingItemCount = oSalesOrderModel.oData.items.length;
-			oSalesOrderItemModel.setProperty("/itemId", iExistingItemCount + 1);
 		},
 		
 		
@@ -473,7 +448,7 @@ sap.ui.define([
 					MessageToast.show(oReturnData.message[0].text);
 					callingController.resetFormFields();
 					callingController.initializeSalesOrderModel();
-					callingController.initializeSalesOrderItemModel();
+					SalesOrderController.initializeSalesOrderItemModel(callingController);
 				}
 				
 				if(oReturnData.message[0].type == 'E') {
