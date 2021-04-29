@@ -92,6 +92,27 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the selection of an item in the material ComboBox.
+		 */
+		onMaterialSelectionChange : function (oControlEvent) {
+			SalesOrderController.onMaterialSelectionChange(oControlEvent, this,
+				this.getView().getModel("newSalesOrderItem"),
+				this.getView().getModel("materials"),
+				new JSONModel());
+		},
+		
+		
+		/**
+		 * Handles changes of the input for sales order item quantity.
+		 */
+		onQuantityChange : function () {
+			SalesOrderController.updatePriceTotal(
+				this.getView().getModel("selectedMaterial"),
+				this.getView().getModel("newSalesOrderItem"));
+		},
+		
+		
+		/**
 		 * Formatter of the material text in the item table. Provides the name of a material based on the given ID.
 		 */
 		materialNameFormatter : function(iMaterialId) {

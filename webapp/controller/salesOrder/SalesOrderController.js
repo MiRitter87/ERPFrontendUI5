@@ -5,6 +5,50 @@ sap.ui.define([
 	"use strict";
 	return {
 		/**
+		 * Handles the selection of an item in the material ComboBox of the "new item"-dialog.
+		 */
+		onMaterialSelectionChange : function (oControlEvent, oController, oItemModel, oMaterials, oSelectedMaterialModel) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oMaterial;
+			
+			if(oSelectedItem == null)
+				return;
+			
+			//Get the selected material from the array of all materials according to the id.
+			for(var i = 0; i < oMaterials.oData.material.length; i++) {
+    			var oTempMaterial = oMaterials.oData.material[i];
+    			
+				if(oTempMaterial.id == oSelectedItem.getKey()) {
+					oMaterial = oTempMaterial;
+				}
+			}
+			
+			//Set the model of the view according to the selected material to allow binding of the UI elements.
+			oSelectedMaterialModel.setData(oMaterial);
+			oController.getView().setModel(oSelectedMaterialModel, "selectedMaterial");
+			
+			//Update the material ID of the item model that is bound to the view.
+			oItemModel.setProperty("/materialId", oMaterial.id);
+			
+			this.updatePriceTotal(oSelectedMaterialModel, oItemModel);
+		},
+		
+		
+		/**
+		 * Updates the total price of the sales order item based on the materials price per unit and the quantity ordered.
+		 */
+		updatePriceTotal : function (oSelectedMaterialModel, oItemModel) {
+			var fPricePerUnit, fPriceTotal, iQuantity;
+			
+			fPricePerUnit = oSelectedMaterialModel.getProperty("/pricePerUnit");
+			iQuantity = oItemModel.getProperty("/quantity");
+			fPriceTotal = parseFloat((fPricePerUnit * iQuantity).toFixed(2));	//Round to two decimal places
+			
+			oItemModel.setProperty("/priceTotal", fPriceTotal);
+		},
+		
+		
+		/**
 		 * Formatter of the material text in the item table. Provides the name of a material based on the given ID.
 		 */
 		materialNameFormatter : function(iMaterialId, oMaterials) {
