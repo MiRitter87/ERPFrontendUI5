@@ -154,6 +154,32 @@ sap.ui.define([
 		
 		
 		/**
+		 * Checks if an item with the given material is already existing. Returns true, if item exists; false otherwise.
+		 */
+		isItemWithMaterialExisting : function (oSalesOrderItems, iMaterialId) {
+			for(var i = 0; i < oSalesOrderItems.length; i++) {
+    			var oTempItem = oSalesOrderItems[i];
+    			
+				if(oTempItem.materialId == iMaterialId) {
+					return true;
+				}
+			}
+			
+			return false;
+		},
+		
+		
+		/**
+		 * Clears the fields and CheckBox of the PopUp for item creation.
+		 */
+		clearItemPopUpFields : function (oController) {
+			oController.byId("materialComboBox").setSelectedItem(null);
+			oController.byId("itemUnitText").setText("");
+			oController.byId("itemCurrencyText").setText("");
+		},
+		
+		
+		/**
 		 * Calls a WebService operation to create a sales order.
 		 */
 		createSalesOrderByWebService : function(oSalesOrderModel, callbackFunction, oCallingController) {

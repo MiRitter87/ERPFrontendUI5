@@ -79,7 +79,42 @@ sap.ui.define([
 		 * Handles the saving of the new item Dialog.
 		 */
 		onSaveDialog : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oItemData = this.getView().getModel("newSalesOrderItem");
+			var oSalesOrderModel = this.getView().getModel("selectedSalesOrder");
+			var oSalesOrderItems = oSalesOrderModel.getProperty("/items");
+			var itemWithMaterialExists;
+			
+			//Check if a material has been selected.
+			if(this.getView().byId("materialComboBox").getSelectedItem() == null) {
+				MessageBox.error(oResourceBundle.getText("salesOrderEdit.noMaterialSelected"));
+				return;
+			}
+			
+			//Do not allow adding an item with quantity 0.
+			if(oItemData.oData.quantity < 1) {
+				MessageBox.error(oResourceBundle.getText("salesOrderEdit.quantityIsZero"));
+				return;
+			}
+			
+			//Check if a sales order item with the same material already exists.
+			itemWithMaterialExists = SalesOrderController.isItemWithMaterialExisting(oSalesOrderItems, oItemData.oData.materialId);
+			if(itemWithMaterialExists == true) {
+				MessageBox.error(oResourceBundle.getText("salesOrderEdit.itemWithMaterialExists", [oItemData.oData.materialId]));
+				return;
+			}
+			
+			//Remove the binding of the UI to the selectedMaterial. 
+			//Otherwhise the selectedMaterial is updated by databinding when the input fields are being cleared.
+			this.getView().setModel(null, "selectedMaterial");
+			
+			//Add the item to the sales order model. Then re-initialize the item model that is bound to the "new item PopUp".
+			oSalesOrderItems.push(oItemData.oData);
+			oSalesOrderModel.setProperty("/items", oSalesOrderItems);
+			SalesOrderController.initializeSalesOrderItemModel(this);
+			
 			this.byId("newItemDialog").close();
+			SalesOrderController.clearItemPopUpFields(this);
 		},
 
 		

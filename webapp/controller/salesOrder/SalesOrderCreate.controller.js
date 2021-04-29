@@ -169,7 +169,7 @@ sap.ui.define([
 			}
 			
 			//Check if a sales order item with the same material already exists.
-			itemWithMaterialExists = this.isItemWithMaterialExisting(oSalesOrderItems, oItemData.oData.materialId);
+			itemWithMaterialExists = SalesOrderController.isItemWithMaterialExisting(oSalesOrderItems, oItemData.oData.materialId);
 			if(itemWithMaterialExists == true) {
 				MessageBox.error(oResourceBundle.getText("salesOrderCreate.itemWithMaterialExists", [oItemData.oData.materialId]));
 				return;
@@ -185,7 +185,7 @@ sap.ui.define([
 			SalesOrderController.initializeSalesOrderItemModel(this);
 			
 			this.byId("newItemDialog").close();
-			this.clearItemPopUpFields();
+			SalesOrderController.clearItemPopUpFields(this);
 		},
 
 		
@@ -194,7 +194,7 @@ sap.ui.define([
 		 */
 		onCancelDialog : function () {
 			this.byId("newItemDialog").close();
-			this.clearItemPopUpFields();			
+			SalesOrderController.clearItemPopUpFields(this);			
 		},
 		
 		
@@ -307,16 +307,6 @@ sap.ui.define([
 		
 		
 		/**
-		 * Clears the fields and CheckBox of the PopUp for item creation.
-		 */
-		clearItemPopUpFields : function () {
-			this.byId("materialComboBox").setSelectedItem(null);
-			this.byId("itemUnitText").setText("");
-			this.byId("itemCurrencyText").setText("");
-		},
-		
-		
-		/**
 		 * Formatter of the material text in the item table. Provides the name of a material based on the given ID.
 		 */
 		materialNameFormatter : function(iMaterialId) {
@@ -384,22 +374,6 @@ sap.ui.define([
 			this.getView().byId("soldToComboBox").setSelectedItem(null);
 			this.getView().byId("shipToComboBox").setSelectedItem(null);
 			this.getView().byId("billToComboBox").setSelectedItem(null);
-		},
-		
-		
-		/**
-		 * Checks if an item with the given material is already existing. Returns true, if item exists; false otherwise.
-		 */
-		isItemWithMaterialExisting : function (oSalesOrderItems, iMaterialId) {
-			for(var i = 0; i < oSalesOrderItems.length; i++) {
-    			var oTempItem = oSalesOrderItems[i];
-    			
-				if(oTempItem.materialId == iMaterialId) {
-					return true;
-				}
-			}
-			
-			return false;
 		},
 		
 		
