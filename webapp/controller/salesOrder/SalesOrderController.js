@@ -216,5 +216,26 @@ sap.ui.define([
 				}
 			});                                                                 
 		},
+		
+		
+		/**
+		 * Updates changes of the sales order data using the WebService.
+		 */
+		saveSalesOrderByWebService : function(oSalesOrderModel, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/salesOrder");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var sJSONData = oSalesOrderModel.getJSON();
+			
+			//Use "PUT" to update an existing resource.
+			jQuery.ajax({
+				type : "PUT", 
+				contentType : "application/json", 
+				url : sQueryUrl,
+				data : sJSONData, 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			}); 
+		}
 	};
 });
