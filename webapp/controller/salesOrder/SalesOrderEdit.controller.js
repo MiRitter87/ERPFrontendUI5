@@ -28,7 +28,9 @@ sap.ui.define([
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
 			SalesOrderController.querySalesOrdersByWebService(this.querySalesOrdersCallback, this, true);
 			
+			this.getView().setModel(null, "selectedSalesOrder");
 			SalesOrderController.initializeSalesOrderItemModel(this);
+			this.resetUIElements();
     	},
 
 
@@ -285,6 +287,24 @@ sap.ui.define([
 			}
 			
 			return wsSalesOrder;
-		}
+		},
+		
+		
+		/**
+		 * Resets the selection of the business partners. No item in the ComboBox is selected afterwards.
+		 */
+		resetUIElements : function () {
+			this.getView().byId("salesOrderComboBox").setSelectedItem(null);
+			
+			this.getView().byId("soldToComboBox").setSelectedItem(null);
+			this.getView().byId("shipToComboBox").setSelectedItem(null);
+			this.getView().byId("billToComboBox").setSelectedItem(null);
+			
+			this.getView().byId("orderDatePicker").setDateValue(null);
+			this.getView().byId("requestedDeliveryDatePicker").setDateValue(null);
+			
+			
+			this.getView().byId("itemTable").destroyItems();
+		},
 	});
 });
