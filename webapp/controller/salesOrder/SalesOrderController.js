@@ -104,6 +104,19 @@ sap.ui.define([
 		
 		
 		/**
+		 * Gets the ID of the selected business partner from a ComboBox.
+		 */
+		getSelectedPartnerId : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			
+			if(oSelectedItem == null)
+				return null;
+				
+			return oSelectedItem.getKey();
+		},
+		
+		
+		/**
 		 * Opens the PopUp for item creation.
 		 */
 		openNewItemPopUp : function (oController) {

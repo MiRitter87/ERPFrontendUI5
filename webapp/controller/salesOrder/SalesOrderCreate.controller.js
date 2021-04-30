@@ -93,7 +93,7 @@ sap.ui.define([
 		 */
 		onSoldToSelectionChange : function (oControlEvent) {
 			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
-			var iPartnerId = this.getSelectedPartnerId(oControlEvent);
+			var iPartnerId = SalesOrderController.getSelectedPartnerId(oControlEvent);
 			
 			oSalesOrderModel.setData({soldToId: iPartnerId}, true);
 		},
@@ -104,7 +104,7 @@ sap.ui.define([
 		 */
 		onShipToSelectionChange : function (oControlEvent) {
 			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
-			var iPartnerId = this.getSelectedPartnerId(oControlEvent);
+			var iPartnerId = SalesOrderController.getSelectedPartnerId(oControlEvent);
 			
 			oSalesOrderModel.setData({shipToId: iPartnerId}, true);
 		},
@@ -115,7 +115,7 @@ sap.ui.define([
 		 */
 		onBillToSelectionChange : function (oControlEvent) {
 			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
-			var iPartnerId = this.getSelectedPartnerId(oControlEvent);
+			var iPartnerId = SalesOrderController.getSelectedPartnerId(oControlEvent);
 			
 			oSalesOrderModel.setData({billToId: iPartnerId}, true);
 		},
@@ -130,19 +130,6 @@ sap.ui.define([
 			var oSelectedItem = oContext.getProperty(null, oContext);
 			
 			return oSelectedItem;
-		},
-		
-		
-		/**
-		 * Gets the ID of the selected business partner from a ComboBox.
-		 */
-		getSelectedPartnerId : function (oControlEvent) {
-			var oSelectedItem = oControlEvent.getParameters().selectedItem;
-			
-			if(oSelectedItem == null)
-				return null;
-				
-			return oSelectedItem.getKey();
 		},
 
 

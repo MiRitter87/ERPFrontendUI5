@@ -61,6 +61,39 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the selection of an item in the sold-To party ComboBox.
+		 */
+		onSoldToSelectionChange : function (oControlEvent) {
+			var oSalesOrderModel = this.getView().getModel("selectedSalesOrder");
+			var iPartnerId = SalesOrderController.getSelectedPartnerId(oControlEvent);
+			
+			oSalesOrderModel.setData({soldToId: iPartnerId}, true);
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the ship-To party ComboBox.
+		 */
+		onShipToSelectionChange : function (oControlEvent) {
+			var oSalesOrderModel = this.getView().getModel("selectedSalesOrder");
+			var iPartnerId = SalesOrderController.getSelectedPartnerId(oControlEvent);
+			
+			oSalesOrderModel.setData({shipToId: iPartnerId}, true);
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the bill-To party ComboBox.
+		 */
+		onBillToSelectionChange : function (oControlEvent) {
+			var oSalesOrderModel = this.getView().getModel("selectedSalesOrder");
+			var iPartnerId = SalesOrderController.getSelectedPartnerId(oControlEvent);
+			
+			oSalesOrderModel.setData({billToId: iPartnerId}, true);
+		},
+		
+		
+		/**
 		 * Opens the dialog to add a new sales order item.
 		 */
 		onAddItemPressed : function () {
@@ -294,9 +327,9 @@ sap.ui.define([
 					//Update the data source of the ComboBox with the new sales order data.
 					SalesOrderController.querySalesOrdersByWebService(oCallingController.querySalesOrdersCallback, oCallingController, false);
 					
-					this.getView().setModel(null, "selectedSalesOrder");
-					SalesOrderController.initializeSalesOrderItemModel(this);
-					this.resetUIElements();
+					oCallingController.getView().setModel(null, "selectedSalesOrder");
+					SalesOrderController.initializeSalesOrderItemModel(oCallingController);
+					oCallingController.resetUIElements();
 					
 					MessageToast.show(oReturnData.message[0].text);
 				}
