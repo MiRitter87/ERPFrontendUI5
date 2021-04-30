@@ -78,6 +78,44 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the deletion of an item.
+		 */
+		onDeleteItemPressed : function () {
+			var oSelectedItem, oResourceBundle,  oSalesOrderModel, oSalesOrderItems, oSalesOrderItem;
+			
+			//Check if an item has been selected.
+			oSelectedItem = this.getView().byId("itemTable").getSelectedItem();
+			if(oSelectedItem == null) {
+				oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+				MessageBox.error(oResourceBundle.getText("salesOrderEdit.noItemSelected"));
+				return;
+			}
+			
+			//Remove the selected item from the model.
+			oSalesOrderModel = this.getView().getModel("selectedSalesOrder");
+			oSalesOrderItems = oSalesOrderModel.getProperty("/items");
+			oSalesOrderItem = this.getSelectedItem();
+			
+			for(var i = 0; i < oSalesOrderItems.length; i++) {
+    			var oTempItem = oSalesOrderItems[i];
+    			
+				if(oTempItem.itemId == oSalesOrderItem.itemId) {
+					oSalesOrderItems.splice(i, 1);
+				}
+			}
+			
+			//Update the item IDs accounting for the deleted item.
+			for(var i = 0; i < oSalesOrderItems.length; i++) {
+				var oTempItem = oSalesOrderItems[i];
+				oTempItem.itemId = i+1;
+			}
+			
+			oSalesOrderModel.refresh();						//Assures that the changes are being displayed in the view.
+			this.getView().byId("itemTable").rerender();	//Assures that the formatters are called again.
+		},
+		
+		
+		/**
 		 * Handles the saving of the new item Dialog.
 		 */
 		onSaveDialog : function () {
@@ -287,6 +325,18 @@ sap.ui.define([
 			}
 			
 			return wsSalesOrder;
+		},
+		
+		
+		/**
+		 * Gets the the selected sales order item.
+		 */
+		getSelectedItem : function () {
+			var oListItem = this.getView().byId("itemTable").getSelectedItem();
+			var oContext = oListItem.getBindingContext("selectedSalesOrder");
+			var oSelectedItem = oContext.getProperty(null, oContext);
+			
+			return oSelectedItem;
 		},
 		
 		
