@@ -346,7 +346,7 @@ sap.ui.define([
 			var wsSalesOrderItem;
 			
 			//Data at head level
-			wsSalesOrder.setProperty("/id", oSalesOrder.id);
+			wsSalesOrder.setProperty("/salesOrderId", oSalesOrder.id);
 			wsSalesOrder.setProperty("/soldToId", oSalesOrder.soldToParty.id);
 			wsSalesOrder.setProperty("/shipToId", oSalesOrder.shipToParty.id);
 			wsSalesOrder.setProperty("/billToId", oSalesOrder.billToParty.id);
