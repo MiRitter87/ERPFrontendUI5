@@ -170,6 +170,16 @@ sap.ui.define([
 		
 		
 		/**
+		 * Clears the fields and CheckBox of the PopUp for item creation.
+		 */
+		clearItemPopUpFields : function (oController) {
+			oController.byId("materialComboBox").setSelectedItem(null);
+			oController.byId("itemUnitText").setText("");
+			oController.byId("itemCurrencyText").setText("");
+		},
+		
+		
+		/**
 		 * Calls a WebService operation to create a sales order.
 		 */
 		createSalesOrderByWebService : function(oSalesOrderModel, callbackFunction, oCallingController) {
