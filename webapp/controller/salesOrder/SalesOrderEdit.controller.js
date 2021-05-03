@@ -278,7 +278,7 @@ sap.ui.define([
 			
 			if(oReturnData.data != null) {
 				oModel.setData(oReturnData.data);
-				oCallingController.initializeDatesAsObject(oModel.oData.salesOrder);
+				SalesOrderController.initializeDatesAsObject(oModel.oData.salesOrder);
 				
 				if(bShowSuccessMessage == true)
 					MessageToast.show(oResourceBundle.getText("salesOrderEdit.dataLoaded"));			
@@ -354,28 +354,6 @@ sap.ui.define([
 				
 				if(oReturnData.message[0].type == 'W') {
 					MessageBox.warning(oReturnData.message[0].text);
-				}
-			}
-		},
-		
-		
-		/**
-		 * The WebService provides dates as milliseconds since 01.01.1970.
-	     * This function initializes the date properties as Date objects based on the given values.
-		 */
-		initializeDatesAsObject : function(oSalesOrders) {			
-			for(var i = 0; i < oSalesOrders.length; i++) {
-    			var oTempSalesOrder = oSalesOrders[i];
-				var oDate;
-    			
-				if(oTempSalesOrder.orderDate != null) {
-					oDate = new Date(oTempSalesOrder.orderDate);
-					oTempSalesOrder.orderDate = oDate;					
-				}
-				
-				if(oTempSalesOrder.requestedDeliveryDate != null) {
-					oDate = new Date(oTempSalesOrder.requestedDeliveryDate);
-					oTempSalesOrder.requestedDeliveryDate = oDate;					
 				}
 			}
 		},

@@ -155,6 +155,28 @@ sap.ui.define([
 		
 		
 		/**
+		 * The WebService provides dates as milliseconds since 01.01.1970.
+	     * This function initializes the date properties as Date objects based on the given values.
+		 */
+		initializeDatesAsObject : function(oSalesOrders) {			
+			for(var i = 0; i < oSalesOrders.length; i++) {
+    			var oTempSalesOrder = oSalesOrders[i];
+				var oDate;
+    			
+				if(oTempSalesOrder.orderDate != null) {
+					oDate = new Date(oTempSalesOrder.orderDate);
+					oTempSalesOrder.orderDate = oDate;					
+				}
+				
+				if(oTempSalesOrder.requestedDeliveryDate != null) {
+					oDate = new Date(oTempSalesOrder.requestedDeliveryDate);
+					oTempSalesOrder.requestedDeliveryDate = oDate;					
+				}
+			}
+		},
+		
+		
+		/**
 		 * Sets the ID of the new sales order item based on the number of already existing items.
 		 */
 		setIdOfNewItem : function (oSalesOrderModel, oController) {
