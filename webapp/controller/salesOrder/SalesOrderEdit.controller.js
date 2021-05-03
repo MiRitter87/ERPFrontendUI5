@@ -236,6 +236,16 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles a click at the cancel button.
+		 */
+		onCancelPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			
+			oRouter.navTo("startPageRoute");
+		},
+		
+		
+		/**
 		 * Formatter of the material text in the item table. Provides the name of a material based on the given ID.
 		 */
 		materialNameFormatter : function(iMaterialId) {
