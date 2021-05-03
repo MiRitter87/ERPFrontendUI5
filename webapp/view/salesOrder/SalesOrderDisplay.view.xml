@@ -10,7 +10,110 @@
 	
 	<Panel headerText="{i18n>salesOrderDisplay.header}">
 		<content>
-
+			<l:VerticalLayout>
+				<Label text="{i18n>salesOrderDisplay.selectionDescription}"/>
+				<ComboBox id="salesOrderComboBox" items="{path: 'salesOrders>/salesOrder/'}" selectionChange=".onSalesOrderSelectionChange">
+					<core:Item key="{salesOrders>id}" text="{salesOrders>id}"/>
+				</ComboBox>
+			</l:VerticalLayout>
+			
+			<f:Form id="salesOrderForm" editable="false">
+				<f:title>
+					<core:Title text="{i18n>salesOrderDisplay.dataHeader}" />
+				</f:title>
+				
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>salesOrderDisplay.titleBusinessPartner}">
+						<f:FormElement label="{i18n>salesOrder.soldToParty}">
+								<f:fields>
+									<Text text="{selectedSalesOrder>/soldToParty/companyName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.shipToParty}">
+								<f:fields>
+									<Text text="{selectedSalesOrder>/shipToParty/companyName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.billToParty}">
+								<f:fields>
+									<Text text="{selectedSalesOrder>/billToParty/companyName}"/>
+								</f:fields>
+							</f:FormElement>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>salesOrderDisplay.titleDates}">
+						<f:FormElement label="{i18n>salesOrder.orderDate}">
+							<f:fields>
+								<Text text="{path: 'selectedSalesOrder>/orderDate', formatter: '.formatter.wsDateFormatter'}" />
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>salesOrder.requestedDeliveryDate}">
+							<f:fields>
+								<Text text="{path: 'selectedSalesOrder>/requestedDeliveryDate', formatter: '.formatter.wsDateFormatter'}" />
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			
+			<Table id="itemTable" items="{path: 'selectedSalesOrder>/items/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>salesOrderDisplay.titleItems}"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>salesOrder.itemId}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.material}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.itemQuantity}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.itemPrice}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{selectedSalesOrder>itemId}"/>
+							<Text text="{path: 'selectedSalesOrder>materialId', formatter: '.materialNameFormatter'}"/>
+							<ObjectNumber unit="{path: 'selectedSalesOrder>materialId', formatter: '.materialUnitFormatter'}" number="{
+										parts:[{path:'selectedSalesOrder>quantity'}],
+										type: 'sap.ui.model.type.Unit',
+										formatOptions: {showMeasure: false}}"/>
+							<ObjectNumber unit="{path: 'selectedSalesOrder>materialId', formatter: '.materialCurrencyFormatter'}" number="{
+										parts:[{path:'selectedSalesOrder>priceTotal'}],
+										type: 'sap.ui.model.type.Currency',
+										formatOptions: {showMeasure: false}}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
 	</Panel>
 </mvc:View>
