@@ -40,20 +40,14 @@ sap.ui.define([
 		onSalesOrderSelectionChange : function (oControlEvent) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
 			var oSalesOrdersModel = this.getView().getModel("salesOrders");
-			var oSalesOrders = oSalesOrdersModel.oData.salesOrder;
-			var wsSalesOrder;
+			var oSalesOrder, wsSalesOrder;
 			
 			if(oSelectedItem == null)
 				return;
-			
-			//Get the selected sales order from the array of all sales orders according to the id.
-			for(var i = 0; i < oSalesOrders.length; i++) {
-    			var oTempSalesOrder = oSalesOrders[i];
-    			
-				if(oTempSalesOrder.id == oSelectedItem.getKey()) {
-					wsSalesOrder = this.getSalesOrderForWebService(oTempSalesOrder);
-				}
-			}
+				
+			oSalesOrder = SalesOrderController.getSalesOrderById(oSelectedItem.getKey(), oSalesOrdersModel.oData.salesOrder);
+			if(oSalesOrder != null)
+				wsSalesOrder = this.getSalesOrderForWebService(oSalesOrder);
 			
 			//Set the model of the view according to the selected sales order to allow binding of the UI elements.
 			this.getView().setModel(wsSalesOrder, "selectedSalesOrder");
