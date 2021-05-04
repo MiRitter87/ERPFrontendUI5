@@ -29,6 +29,7 @@ sap.ui.define([
 			SalesOrderController.querySalesOrdersByWebService(this.querySalesOrdersCallback, this, true);
 			
 			this.getView().setModel(null, "selectedSalesOrder");
+			this.resetUIElements();
     	},
 
 
@@ -50,6 +51,23 @@ sap.ui.define([
 			
 			//Set the model of the view according to the selected sales order to allow binding of the UI elements.
 			this.getView().setModel(oSalesOrderModel, "selectedSalesOrder");
+		},
+		
+		
+		/**
+		 * Resets the selection of the business partners. No item in the ComboBox is selected afterwards.
+		 */
+		resetUIElements : function () {
+			this.getView().byId("salesOrderComboBox").setSelectedItem(null);
+			
+			this.getView().byId("soldToText").setText("");
+			this.getView().byId("shipToText").setText("");
+			this.getView().byId("billToText").setText("");
+			
+			this.getView().byId("orderDateText").setText("");
+			this.getView().byId("requestedDeliveryDateText").setText("");
+			
+			this.getView().byId("itemTable").destroyItems();
 		},
 		
 		

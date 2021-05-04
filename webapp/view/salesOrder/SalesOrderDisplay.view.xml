@@ -43,19 +43,19 @@
 					<f:FormContainer title="{i18n>salesOrderDisplay.titleBusinessPartner}">
 						<f:FormElement label="{i18n>salesOrder.soldToParty}">
 								<f:fields>
-									<Text text="{selectedSalesOrder>/soldToParty/companyName}"/>
+									<Text id="soldToText" text="{selectedSalesOrder>/soldToParty/companyName}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>salesOrder.shipToParty}">
 								<f:fields>
-									<Text text="{selectedSalesOrder>/shipToParty/companyName}"/>
+									<Text id="shipToText" text="{selectedSalesOrder>/shipToParty/companyName}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>salesOrder.billToParty}">
 								<f:fields>
-									<Text text="{selectedSalesOrder>/billToParty/companyName}"/>
+									<Text id="billToText" text="{selectedSalesOrder>/billToParty/companyName}"/>
 								</f:fields>
 							</f:FormElement>
 					</f:FormContainer>
@@ -63,13 +63,14 @@
 					<f:FormContainer title="{i18n>salesOrderDisplay.titleDates}">
 						<f:FormElement label="{i18n>salesOrder.orderDate}">
 							<f:fields>
-								<Text text="{path: 'selectedSalesOrder>/orderDate', formatter: '.formatter.wsDateFormatter'}" />
+								<Text id="orderDateText" text="{path: 'selectedSalesOrder>/orderDate', formatter: '.formatter.wsDateFormatter'}" />
 							</f:fields>
 						</f:FormElement>
 						
 						<f:FormElement label="{i18n>salesOrder.requestedDeliveryDate}">
 							<f:fields>
-								<Text text="{path: 'selectedSalesOrder>/requestedDeliveryDate', formatter: '.formatter.wsDateFormatter'}" />
+								<Text id="requestedDeliveryDateText" 
+									text="{path: 'selectedSalesOrder>/requestedDeliveryDate', formatter: '.formatter.wsDateFormatter'}" />
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>
