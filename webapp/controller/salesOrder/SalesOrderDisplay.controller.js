@@ -28,6 +28,27 @@ sap.ui.define([
 			
 			this.getView().setModel(null, "selectedSalesOrder");
     	},
+
+
+		/**
+		 * Handles the selection of an item in the sales order ComboBox.
+		 */
+		onSalesOrderSelectionChange : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oSalesOrdersModel = this.getView().getModel("salesOrders");
+			var oSalesOrder;
+			var oSalesOrderModel;
+			
+			if(oSelectedItem == null)
+				return;
+						
+			oSalesOrder = SalesOrderController.getSalesOrderById(oSelectedItem.getKey(), oSalesOrdersModel.oData.salesOrder);
+			oSalesOrderModel = new JSONModel();
+			oSalesOrderModel.setData(oSalesOrder);
+			
+			//Set the model of the view according to the selected sales order to allow binding of the UI elements.
+			this.getView().setModel(oSalesOrderModel, "selectedSalesOrder");
+		},
 		
 		
 		/**
@@ -63,7 +84,6 @@ sap.ui.define([
 			
 			if(oReturnData.data != null) {
 				oModel.setData(oReturnData.data);
-				SalesOrderController.initializeDatesAsObject(oModel.oData.salesOrder);
 				
 				if(bShowSuccessMessage == true)
 					MessageToast.show(oResourceBundle.getText("salesOrderDisplay.dataLoaded"));			

@@ -104,6 +104,23 @@ sap.ui.define([
 		
 		
 		/**
+		 * Gets the sales order data of the sales order with the given ID.
+		 */
+		getSalesOrderById : function(iSalesOrderId, oSalesOrders) {
+			//Get the selected sales order from the array of all sales orders according to the id.
+			for(var i = 0; i < oSalesOrders.length; i++) {
+    			var oTempSalesOrder = oSalesOrders[i];
+    			
+				if(oTempSalesOrder.id == iSalesOrderId) {
+					return oTempSalesOrder;
+				}
+			}
+			
+			return null;
+		},
+		
+		
+		/**
 		 * Gets the ID of the selected business partner from a ComboBox.
 		 */
 		getSelectedPartnerId : function (oControlEvent) {
