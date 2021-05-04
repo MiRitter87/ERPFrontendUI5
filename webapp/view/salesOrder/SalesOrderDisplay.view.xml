@@ -100,13 +100,13 @@
 				<items>
 					<ColumnListItem>
 						<cells>
-							<ObjectIdentifier text="{selectedSalesOrder>itemId}"/>
-							<Text text="{path: 'selectedSalesOrder>materialId', formatter: '.materialNameFormatter'}"/>
-							<ObjectNumber unit="{path: 'selectedSalesOrder>materialId', formatter: '.materialUnitFormatter'}" number="{
+							<ObjectIdentifier text="{selectedSalesOrder>id}"/>
+							<Text text="{selectedSalesOrder>material/name}"/>
+							<ObjectNumber unit="{selectedSalesOrder>material/unit}" number="{
 										parts:[{path:'selectedSalesOrder>quantity'}],
 										type: 'sap.ui.model.type.Unit',
 										formatOptions: {showMeasure: false}}"/>
-							<ObjectNumber unit="{path: 'selectedSalesOrder>materialId', formatter: '.materialCurrencyFormatter'}" number="{
+							<ObjectNumber unit="{selectedSalesOrder>material/currency}" number="{
 										parts:[{path:'selectedSalesOrder>priceTotal'}],
 										type: 'sap.ui.model.type.Currency',
 										formatOptions: {showMeasure: false}}"/>
