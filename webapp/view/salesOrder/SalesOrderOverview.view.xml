@@ -41,11 +41,11 @@
 					<ColumnListItem>
 						<cells>
 							<ObjectIdentifier text="{salesOrders>id}"/>
-							<Text text="{path: 'salesOrders>/orderDate', formatter: '.formatter.wsDateFormatter'}"/>
-							<Text text="{path: 'salesOrders>/requestedDeliveryDate', formatter: '.formatter.wsDateFormatter'}"/>
-							<Text text="{salesOrders>/soldToParty/companyName}"/>
-							<Text text="{salesOrders>/shipToParty/companyName}"/>
-							<Text text="{salesOrders>/billToParty/companyName}"/>
+							<Text text="{path: 'salesOrders>orderDate', formatter: '.formatter.wsDateFormatter'}"/>
+							<Text text="{path: 'salesOrders>requestedDeliveryDate', formatter: '.formatter.wsDateFormatter'}"/>
+							<Text text="{salesOrders>soldToParty/companyName}"/>
+							<Text text="{salesOrders>shipToParty/companyName}"/>
+							<Text text="{salesOrders>billToParty/companyName}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
