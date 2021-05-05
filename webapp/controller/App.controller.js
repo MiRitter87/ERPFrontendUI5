@@ -69,6 +69,9 @@ sap.ui.define([
 			else if(item.getKey() == "salesOrderDisplay") {
 				oRouter.navTo("salesOrderDisplayRoute");
 			}
+			else if(item.getKey() == "salesOrderOverview") {
+				oRouter.navTo("salesOrderOverviewRoute");
+			}
 		},
 		
 		

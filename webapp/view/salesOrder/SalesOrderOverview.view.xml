@@ -1,0 +1,15 @@
+<!DOCTYPE xml>
+<mvc:View
+	controllerName="ERPFrontendUI5.controller.salesOrder.SalesOrderOverview"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core">
+	
+	<Panel headerText="{i18n>salesOrderOverview.header}">
+		<content>
+
+		</content>
+	</Panel>
+</mvc:View>
