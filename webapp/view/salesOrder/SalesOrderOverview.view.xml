@@ -9,7 +9,47 @@
 	
 	<Panel headerText="{i18n>salesOrderOverview.header}">
 		<content>
-
+			<Table id="salesOrderTable" items="{path: 'salesOrders>/salesOrder/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>salesOrderOverview.deleteSelected}" press=".onDeletePressed"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>salesOrder.id}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.orderDate}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.requestedDeliveryDate}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.soldToParty}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.shipToParty}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.billToParty}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{salesOrders>id}"/>
+							<Text text="{path: 'salesOrders>/orderDate', formatter: '.formatter.wsDateFormatter'}"/>
+							<Text text="{path: 'salesOrders>/requestedDeliveryDate', formatter: '.formatter.wsDateFormatter'}"/>
+							<Text text="{salesOrders>/soldToParty/companyName}"/>
+							<Text text="{salesOrders>/shipToParty/companyName}"/>
+							<Text text="{salesOrders>/billToParty/companyName}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
 	</Panel>
 </mvc:View>
