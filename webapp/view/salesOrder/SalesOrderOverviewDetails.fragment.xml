@@ -6,7 +6,100 @@
 
 	<Dialog id="orderDetailsDialog" title="{i18n>salesOrderOverview.detailsHeader}">
 		<content>
-
+			<f:Form id="salesOrderForm" editable="false">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>salesOrderOverview.titleBusinessPartner}">
+						<f:FormElement label="{i18n>salesOrder.soldToParty}">
+								<f:fields>
+									<Text id="soldToText" text="{selectedSalesOrder>/soldToParty/companyName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.shipToParty}">
+								<f:fields>
+									<Text id="shipToText" text="{selectedSalesOrder>/shipToParty/companyName}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.billToParty}">
+								<f:fields>
+									<Text id="billToText" text="{selectedSalesOrder>/billToParty/companyName}"/>
+								</f:fields>
+							</f:FormElement>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>salesOrderOverview.titleDates}">
+						<f:FormElement label="{i18n>salesOrder.orderDate}">
+							<f:fields>
+								<Text id="orderDateText" text="{path: 'selectedSalesOrder>/orderDate', formatter: '.formatter.wsDateFormatter'}" />
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>salesOrder.requestedDeliveryDate}">
+							<f:fields>
+								<Text id="requestedDeliveryDateText" 
+									text="{path: 'selectedSalesOrder>/requestedDeliveryDate', formatter: '.formatter.wsDateFormatter'}" />
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			
+			<Table id="itemTable" items="{path: 'selectedSalesOrder>/items/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>salesOrderOverview.titleItems}"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>salesOrder.itemId}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.material}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.itemQuantity}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.itemPrice}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{selectedSalesOrder>id}"/>
+							<Text text="{selectedSalesOrder>material/name}"/>
+							<ObjectNumber unit="{selectedSalesOrder>material/unit}" number="{
+										parts:[{path:'selectedSalesOrder>quantity'}],
+										type: 'sap.ui.model.type.Unit',
+										formatOptions: {showMeasure: false}}"/>
+							<ObjectNumber unit="{selectedSalesOrder>material/currency}" number="{
+										parts:[{path:'selectedSalesOrder>priceTotal'}],
+										type: 'sap.ui.model.type.Currency',
+										formatOptions: {showMeasure: false}}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
       	</content>
       	
       	<Button text="{i18n>button.close}" press=".onCloseDialog" class="sapUiSmallMargin"/>
