@@ -51,11 +51,16 @@ sap.ui.define([
 		onShowDetailsPressed : function () {
 			var oResourceBundle;
 			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oSelectedSalesOrderModel
 			
 			if(this.isSalesOrderSelected() == false) {
 				MessageBox.error(oResourceBundle.getText("salesOrderOverview.noSalesOrderSelected"));
 				return;
 			}
+			
+			oSelectedSalesOrderModel = new JSONModel();
+			oSelectedSalesOrderModel.setData(this.getSelectedSalesOrder());
+			this.getView().setModel(oSelectedSalesOrderModel, "selectedSalesOrder");		
 			
 			SalesOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.salesOrder.SalesOrderOverviewDetails");
 		},
