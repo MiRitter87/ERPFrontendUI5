@@ -100,7 +100,7 @@ sap.ui.define([
 			}
 			
 			SalesOrderController.setIdOfNewItem(this.getView().getModel("selectedSalesOrder"), this);
-			SalesOrderController.openNewItemPopUp(this);			
+			SalesOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.salesOrder.SalesOrderItemCreate");		
 		},
 		
 		

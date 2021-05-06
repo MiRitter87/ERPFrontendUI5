@@ -13,6 +13,7 @@
 				<headerToolbar>
 					<OverflowToolbar>
 						<ToolbarSpacer/>
+						<Button icon="sap-icon://detail-view" tooltip="{i18n>salesOrderOverview.showDetails}" press=".onShowDetailsPressed"/>
 						<Button icon="sap-icon://delete" tooltip="{i18n>salesOrderOverview.deleteSelected}" press=".onDeletePressed"/>
 					</OverflowToolbar>
 				</headerToolbar>

@@ -46,6 +46,30 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the press-event of the show details button.
+		 */
+		onShowDetailsPressed : function () {
+			var oResourceBundle;
+			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
+			if(this.isSalesOrderSelected() == false) {
+				MessageBox.error(oResourceBundle.getText("salesOrderOverview.noSalesOrderSelected"));
+				return;
+			}
+			
+			SalesOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.salesOrder.SalesOrderOverviewDetails");
+		},
+		
+		
+		/**
+		 * Handles a click at the close button of the sales order details fragment.
+		 */
+		onCloseDialog : function () {
+			this.byId("orderDetailsDialog").close();
+		},
+		
+		
+		/**
 		 * Checks if a sales order has been selected.
 		 */
 		isSalesOrderSelected : function () {

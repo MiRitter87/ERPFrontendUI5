@@ -46,7 +46,7 @@ sap.ui.define([
 		 */
 		onAddItemPressed : function () {
 			SalesOrderController.setIdOfNewItem(this.getView().getModel("newSalesOrder"), this);
-			SalesOrderController.openNewItemPopUp(this);
+			SalesOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.salesOrder.SalesOrderItemCreate");
 		},
 		
 		

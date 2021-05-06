@@ -134,16 +134,16 @@ sap.ui.define([
 		
 		
 		/**
-		 * Opens the PopUp for item creation.
+		 * Opens the fragment with the given name as PopUp.
 		 */
-		openNewItemPopUp : function (oController) {
+		openFragmentAsPopUp : function (oController, sName) {
 			var oView = oController.getView();
 			
 			//create dialog lazily
 			if (!oController.pDialog) {
 				oController.pDialog = Fragment.load({
 					id: oView.getId(),
-					name: "ERPFrontendUI5.view.salesOrder.SalesOrderItemCreate",
+					name: sName,
 					controller: oController
 				}).then(function (oDialog) {
 					//connect dialog to the root view of this component (models, lifecycle)
