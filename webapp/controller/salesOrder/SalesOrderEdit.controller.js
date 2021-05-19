@@ -417,8 +417,7 @@ sap.ui.define([
 			this.getView().byId("billToComboBox").setSelectedItem(null);
 			
 			this.getView().byId("orderDatePicker").setDateValue(null);
-			this.getView().byId("requestedDeliveryDatePicker").setDateValue(null);
-			
+			this.getView().byId("requestedDeliveryDatePicker").setDateValue(null);	
 			
 			this.getView().byId("itemTable").destroyItems();
 		},
@@ -432,6 +431,11 @@ sap.ui.define([
 			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var iExistingItemCount;
 			var oSalesOrderModel;
+			
+			if(this.getView().byId("statusComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("salesOrderEdit.noStatusSelected"));
+				return false;
+			}
 			
 			if(this.getView().byId("soldToComboBox").getSelectedKey() == "") {
 				MessageBox.error(oResourceBundle.getText("salesOrderEdit.noSoldToSelected"));
