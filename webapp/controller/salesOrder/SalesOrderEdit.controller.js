@@ -16,6 +16,9 @@ sap.ui.define([
 		onInit : function () {
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("salesOrderEditRoute").attachMatched(this._onRouteMatched, this);
+			
+			SalesOrderController.initializeStatusComboBox(this.getView().byId("statusComboBox"), 
+				this.getOwnerComponent().getModel("i18n").getResourceBundle());
 		},
 		
 		
@@ -367,6 +370,7 @@ sap.ui.define([
 			wsSalesOrder.setProperty("/billToId", oSalesOrder.billToParty.id);
 			wsSalesOrder.setProperty("/orderDate", oSalesOrder.orderDate);
 			wsSalesOrder.setProperty("/requestedDeliveryDate", oSalesOrder.requestedDeliveryDate);
+			wsSalesOrder.setProperty("/status", oSalesOrder.status);
 			
 			//Data at item level
 			wsSalesOrder.setProperty("/items", new Array());
@@ -404,6 +408,9 @@ sap.ui.define([
 		 */
 		resetUIElements : function () {
 			this.getView().byId("salesOrderComboBox").setSelectedItem(null);
+			
+			this.getView().byId("idText").setText("");
+			this.getView().byId("statusComboBox").setSelectedItem(null);
 			
 			this.getView().byId("soldToComboBox").setSelectedItem(null);
 			this.getView().byId("shipToComboBox").setSelectedItem(null);
