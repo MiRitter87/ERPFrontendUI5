@@ -4,5 +4,6 @@
 	"billToId": null,
 	"orderDate": null,
 	"requestedDeliveryDate": null,
+	"status": "OPEN",
 	"items": []
 }
