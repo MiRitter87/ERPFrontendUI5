@@ -40,6 +40,21 @@
 				</f:layout>
 				
 				<f:formContainers>
+					<f:FormContainer title="{i18n>salesOrderDisplay.titleGeneralData}">
+						<f:FormElement label="{i18n>salesOrder.id}">
+							<f:fields>
+								<Text id="idText" text="{selectedSalesOrder>/id}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>salesOrder.status}">
+							<f:fields>
+								<ObjectStatus id="orderStatus" text="{path: 'selectedSalesOrder>/status', formatter: '.orderStatusTextFormatter'}"
+												state="{path: 'selectedSalesOrder>/status', formatter: '.orderStatusStateFormatter'}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				
 					<f:FormContainer title="{i18n>salesOrderDisplay.titleBusinessPartner}">
 						<f:FormElement label="{i18n>salesOrder.soldToParty}">
 								<f:fields>

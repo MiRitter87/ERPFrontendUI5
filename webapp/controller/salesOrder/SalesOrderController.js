@@ -76,6 +76,40 @@ sap.ui.define([
 		
 		
 		/**
+		 * Formatter of the sales order status text.
+		 */
+		orderStatusTextFormatter: function(sStatus, oResourceBundle) {
+			switch(sStatus) {
+				case "OPEN":
+					return oResourceBundle.getText("salesOrder.status.open");
+				case "IN_PROCESS":
+					return oResourceBundle.getText("salesOrder.status.inProcess");
+				case "FINISHED":
+					return oResourceBundle.getText("salesOrder.status.finished");
+				case "CANCELED":
+					return oResourceBundle.getText("salesOrder.status.canceled");
+			}
+		},
+		
+		
+		/**
+		 * Formatter of the sales order status state.
+		 */
+		orderStatusStateFormatter: function(sStatus) {
+			switch(sStatus) {
+				case "OPEN":
+					return "Information";
+				case "IN_PROCESS":
+					return "Information";
+				case "FINISHED":
+					return "Success";
+				case "CANCELED":
+					return "Error";
+			}
+		},
+		
+		
+		/**
 		 * Formatter of the material currency in the item table. Provides the currency of a material based on the given ID.
 		 */
 		materialCurrencyFormatter: function(iMaterialId, oMaterials) {

@@ -60,6 +60,9 @@ sap.ui.define([
 		resetUIElements : function () {
 			this.getView().byId("salesOrderComboBox").setSelectedItem(null);
 			
+			this.getView().byId("idText").setText("");
+			this.getView().byId("orderStatus").setText("");
+			
 			this.getView().byId("soldToText").setText("");
 			this.getView().byId("shipToText").setText("");
 			this.getView().byId("billToText").setText("");
@@ -68,6 +71,22 @@ sap.ui.define([
 			this.getView().byId("requestedDeliveryDateText").setText("");
 			
 			this.getView().byId("itemTable").destroyItems();
+		},
+		
+		
+		/**
+		 * Formatter of the sales order status text.
+		 */
+		orderStatusTextFormatter: function(sStatus) {
+			return SalesOrderController.orderStatusTextFormatter(sStatus, this.getOwnerComponent().getModel("i18n").getResourceBundle());
+		},
+		
+		
+		/**
+		 * Formatter of the sales order status state.
+		 */
+		orderStatusStateFormatter: function(sStatus) {
+			return SalesOrderController.orderStatusStateFormatter(sStatus);
 		},
 		
 		
