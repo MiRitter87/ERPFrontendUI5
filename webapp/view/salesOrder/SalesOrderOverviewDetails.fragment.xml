@@ -4,7 +4,7 @@
 	xmlns:core="sap.ui.core"
 	xmlns:f="sap.ui.layout.form">
 
-	<Dialog id="orderDetailsDialog" title="{parts:['i18n>salesOrderOverview.detailsHeader', 'selectedSalesOrder>/id']}">
+	<Dialog id="orderDetailsDialog" title="{i18n>salesOrderOverview.detailsHeader}">
 		<content>
 			<f:Form id="salesOrderForm" editable="false">
 				<f:layout>
@@ -25,6 +25,21 @@
 				</f:layout>
 				
 				<f:formContainers>
+					<f:FormContainer title="{i18n>salesOrderOverview.titleGeneralData}">
+							<f:FormElement label="{i18n>salesOrder.id}">
+								<f:fields>
+									<Text id="idText" text="{selectedSalesOrder>/id}"/>
+								</f:fields>
+							</f:FormElement>
+							
+							<f:FormElement label="{i18n>salesOrder.status}">
+								<f:fields>
+									<ObjectStatus id="orderStatus" text="{path: 'selectedSalesOrder>/status', formatter: '.orderStatusTextFormatter'}"
+													state="{path: 'selectedSalesOrder>/status', formatter: '.orderStatusStateFormatter'}"/>
+								</f:fields>
+							</f:FormElement>
+						</f:FormContainer>
+				
 					<f:FormContainer title="{i18n>salesOrderOverview.titleBusinessPartner}">
 						<f:FormElement label="{i18n>salesOrder.soldToParty}">
 								<f:fields>
