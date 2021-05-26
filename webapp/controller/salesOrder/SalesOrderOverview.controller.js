@@ -95,6 +95,22 @@ sap.ui.define([
 			
 			return oSelectedSalesOrder;
 		},
+		
+		
+		/**
+		 * Formatter of the sales order status text.
+		 */
+		orderStatusTextFormatter: function(sStatus) {
+			return SalesOrderController.orderStatusTextFormatter(sStatus, this.getOwnerComponent().getModel("i18n").getResourceBundle());
+		},
+		
+		
+		/**
+		 * Formatter of the sales order status state.
+		 */
+		orderStatusStateFormatter: function(sStatus) {
+			return SalesOrderController.orderStatusStateFormatter(sStatus);
+		},
 
 
 		/**

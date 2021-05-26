@@ -37,6 +37,9 @@
 					<Column>
 						<Text text="{i18n>salesOrder.billToParty}"/>
 					</Column>
+					<Column>
+						<Text text="{i18n>salesOrder.status}"/>
+					</Column>
 				</columns>
 				<items>
 					<ColumnListItem>
@@ -47,6 +50,8 @@
 							<Text text="{salesOrders>soldToParty/companyName}"/>
 							<Text text="{salesOrders>shipToParty/companyName}"/>
 							<Text text="{salesOrders>billToParty/companyName}"/>
+							<ObjectStatus text="{path: 'salesOrders>status', formatter: '.orderStatusTextFormatter'}"
+												state="{path: 'salesOrders>status', formatter: '.orderStatusStateFormatter'}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
