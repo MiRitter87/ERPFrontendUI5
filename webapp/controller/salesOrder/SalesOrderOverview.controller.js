@@ -4,8 +4,9 @@ sap.ui.define([
 	"../../model/formatter",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
-	"sap/m/MessageBox"
-], function (Controller, SalesOrderController, formatter, JSONModel, MessageToast, MessageBox) {
+	"sap/m/MessageBox",
+	"sap/ui/model/Filter",
+], function (Controller, SalesOrderController, formatter, JSONModel, MessageToast, MessageBox, Filter) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.salesOrder.SalesOrderOverview", {
@@ -71,6 +72,33 @@ sap.ui.define([
 		 */
 		onCloseDialog : function () {
 			this.byId("orderDetailsDialog").close();
+		},
+		
+		
+		/**
+		 * Handles a selection of an icon in the IconTabBar for sales order filtering.
+		 */
+		onFilterSelect: function (oEvent) {
+			var oBinding = this.byId("salesOrderTable").getBinding("items");
+			var	sKey = oEvent.getParameter("key");
+
+			//Values for Filter
+			var sOpen = "OPEN";
+			var sInProcess = "IN_PROCESS";
+			var sFinished = "FINISHED";
+			var sCanceled = "CANCELED";
+
+			if (sKey === "All") {
+				oBinding.filter(null);
+			} else if (sKey === "Open") {
+				oBinding.filter(new Filter("status", "EQ", sOpen));
+			} else if (sKey === "In_Process") {
+				oBinding.filter(new Filter("status", "EQ", sInProcess));
+			} else if (sKey === "Finished") {
+				oBinding.filter(new Filter("status", "EQ", sFinished));
+			} else if (sKey === "Canceled") {
+				oBinding.filter(new Filter("status", "EQ", sCanceled));
+			}
 		},
 		
 		
