@@ -4,5 +4,6 @@
 	"unit": "",
 	"pricePerUnit": 0.00,
 	"currency": "EUR",
-	"inventory": 0
+	"inventory": 0,
+	"imageId": null
 }
