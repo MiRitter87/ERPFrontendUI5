@@ -38,6 +38,21 @@ sap.ui.define([
     	},
 		
 		
+		/**
+		 * Handles the press-event of the image file upload button.
+		 */
+		onUploadPressed: function () {
+			
+		},	
+		
+		
+		/**
+		 * Handles the uploadComplete-event of the image file uploader.
+		 */
+		onUploadComplete: function () {
+			
+		},		
+		
 		
 		/**
 		 * Initializes the model to which the UI controls are bound.

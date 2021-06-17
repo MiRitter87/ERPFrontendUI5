@@ -6,6 +6,7 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:l="sap.ui.layout"
 	xmlns:f="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified"
 	xmlns:core="sap.ui.core">
 	
 	<Panel headerText="{i18n>materialCreate.header}">
@@ -18,18 +19,18 @@
 						labelSpanM="3"
 						labelSpanS="12"
 						adjustLabelSpan="false"
-						emptySpanXL="4"
+						emptySpanXL="2"
 						emptySpanL="4"
 						emptySpanM="4"
 						emptySpanS="0"
-						columnsXL="1"
+						columnsXL="2"
 						columnsL="1"
 						columnsM="1"
 						singleContainerFullSize="false" />
 				</f:layout>
 				
 				<f:formContainers>
-					<f:FormContainer>
+					<f:FormContainer title="{i18n>materialCreate.titleMaterialData}">
 						<f:formElements>
 							<f:FormElement label="{i18n>material.name}">
 								<f:fields>
@@ -69,11 +70,21 @@
 							</f:FormElement>
 						</f:formElements>
 					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>materialCreate.titleImage}">
+						<f:formElements>
+							<f:FormElement>
+								<u:FileUploader	id="imageFileUploader" uploadUrl="upload/"
+									uploadComplete="handleUploadComplete"/>
+								<Button	text="{i18n>materialCreate.uploadImage}" press=".onUploadPressed"/>	
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
 				</f:formContainers>
 			</f:Form>
+			
+			<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
+			<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 		</content>
-		
-		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
-		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 	</Panel>
 </mvc:View>
