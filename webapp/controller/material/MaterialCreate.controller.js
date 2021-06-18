@@ -42,7 +42,19 @@ sap.ui.define([
 		 * Handles the press-event of the image file upload button.
 		 */
 		onUploadPressed: function () {
+			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/image");
+			var oFileUploader = this.byId("imageFileUploader");
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
+			oFileUploader.setUploadUrl(sWebServiceBaseUrl);
+			
+			oFileUploader.checkFileReadable().then(function() {
+				oFileUploader.upload();
+			}, function(error) {
+				MessageToast.show(oResourceBundle.getText("materialCreate.imageNotAccessable"));
+			}).then(function() {
+				oFileUploader.clear();
+			});
 		},	
 		
 		
