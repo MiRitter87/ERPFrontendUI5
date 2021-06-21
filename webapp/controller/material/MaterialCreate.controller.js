@@ -61,8 +61,23 @@ sap.ui.define([
 		/**
 		 * Handles the uploadComplete-event of the image file uploader.
 		 */
-		onUploadComplete: function () {
+		onUploadComplete: function (oControlEvent) {
+			var oReturnData = JSON.parse(oControlEvent.getParameter("responseRaw"));
 			
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					this.setImageIdOfMaterialModel(oReturnData.data);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			} 
 		},		
 		
 		
@@ -74,6 +89,15 @@ sap.ui.define([
 			
 			oMaterialModel.loadData("model/material/materialCreate.json");
 			this.getView().setModel(oMaterialModel, "newMaterial");
+		},
+		
+		
+		/**
+		 * Sets the image ID of the model for material creation.
+		 */
+		setImageIdOfMaterialModel : function (iImageId) {
+			var oMaterialModel = this.getView().getModel("newMaterial");
+			oMaterialModel.setProperty("/imageId", iImageId);
 		},
 		
 		

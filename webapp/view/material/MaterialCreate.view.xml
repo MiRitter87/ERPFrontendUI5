@@ -74,7 +74,7 @@
 					<f:FormContainer title="{i18n>materialCreate.titleImage}">
 						<f:formElements>
 							<f:FormElement>
-								<u:FileUploader	id="imageFileUploader" name="file" fileType="jpg,png,bmp" uploadComplete="handleUploadComplete"/>
+								<u:FileUploader	id="imageFileUploader" name="file" fileType="jpg,png,bmp" uploadComplete=".onUploadComplete" sendXHR="true"/>
 								<Button	text="{i18n>materialCreate.uploadImage}" press=".onUploadPressed"/>	
 							</f:FormElement>
 						</f:formElements>
