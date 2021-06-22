@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/m/MessageToast",
 	"sap/ui/model/json/JSONModel",
-	"./MaterialController"
-], function (Controller, MessageToast, JSONModel, MaterialController) {
+	"./MaterialController",
+	"../image/ImageController",
+], function (Controller, MessageToast, JSONModel, MaterialController, ImageController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.material.MaterialDisplay", {
@@ -50,6 +51,15 @@ sap.ui.define([
 			
 			//Set the model of the view according to the selected material to allow binding of the UI elements.
 			oModel.setData({selectedMaterial : oMaterial}, true);
+			
+			//Query the image of the selected material if the material has an image ID referenced.
+			if(oMaterial.image != null && oMaterial.image.id != null) {
+				ImageController.queryImageByWebService(oMaterial.image.id, this.queryImageCallback, this);
+			}
+			else {
+				//If the material has no image attached, reset the image and display nothing.
+				this.getView().byId("materialImage").setSrc(null);
+			}
 		},
 		
 		
@@ -71,6 +81,22 @@ sap.ui.define([
 			}
 
 			oCallingController.getView().setModel(oModel);
+		},
+		
+		
+		/**
+		 * Callback function of the queryImage RESTful WebService call in the ImageController.
+		 */
+		queryImageCallback : function(oReturnData, oCallingController) {
+			var sImageData;
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+				return;
+			}                                                               
+			
+			sImageData = "data:image/png;base64," + oReturnData.data.data;
+			oCallingController.getView().byId("materialImage").setSrc(sImageData);
 		}
 	});
 });

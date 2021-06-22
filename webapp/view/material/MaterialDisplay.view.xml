@@ -29,11 +29,11 @@
 						labelSpanM="3"
 						labelSpanS="12"
 						adjustLabelSpan="false"
-						emptySpanXL="4"
+						emptySpanXL="2"
 						emptySpanL="4"
 						emptySpanM="4"
 						emptySpanS="0"
-						columnsXL="1"
+						columnsXL="2"
 						columnsL="1"
 						columnsM="1"
 						singleContainerFullSize="false" />
@@ -78,6 +78,16 @@
 							<f:FormElement label="{i18n>material.inventory}">
 								<f:fields>
 									<Text text="{/selectedMaterial/inventory}"/>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					
+					<f:FormContainer>
+						<f:formElements>
+							<f:FormElement>
+								<f:fields>
+									<Image id="materialImage"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>
