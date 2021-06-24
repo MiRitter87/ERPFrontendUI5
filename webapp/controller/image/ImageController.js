@@ -17,6 +17,27 @@ sap.ui.define([
 					callbackFunction(data, oCallingController);
 				}
 			});                                                                 
+		},
+		
+		
+		/**
+		 * Updates changes of the image meta data data using the WebService.
+		 */
+		saveImageMetaDataByWebService : function(oImageMetaDataModel, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/image");
+			var sQueryUrl = sWebServiceBaseUrl + "/metaData";
+			var sJSONData = oImageMetaDataModel.getJSON();
+			
+			//Use "PUT" to update an existing resource.
+			jQuery.ajax({
+				type : "PUT", 
+				contentType : "application/json", 
+				url : sQueryUrl,
+				data : sJSONData, 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			}); 
 		}
 	};
 });

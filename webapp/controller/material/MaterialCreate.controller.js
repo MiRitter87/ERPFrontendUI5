@@ -3,8 +3,9 @@ sap.ui.define([
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageBox",
 	"sap/m/MessageToast",
-	"./MaterialController"
-], function (Controller, JSONModel, MessageBox, MessageToast, MaterialController) {
+	"./MaterialController",
+	"../image/ImageController",
+], function (Controller, JSONModel, MessageBox, MessageToast, MaterialController, ImageController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.material.MaterialCreate", {
@@ -35,6 +36,7 @@ sap.ui.define([
 		_onRouteMatched: function () {
 			this.getView().byId("unitComboBox").setSelectedItem(null);
 			this.initializeMaterialModel();
+			this.initializeImageMetaDataModel();
     	},
 		
 		
@@ -45,10 +47,13 @@ sap.ui.define([
 			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/image");
 			var oFileUploader = this.byId("imageFileUploader");
 			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oFile = jQuery.sap.domById(oFileUploader.getId() + "-fu").files[0];
+			var oImageMetaDataModel = this.getView().getModel("imageMetaData");
 			
 			oFileUploader.setUploadUrl(sWebServiceBaseUrl);
 			
 			oFileUploader.checkFileReadable().then(function() {
+				oImageMetaDataModel.setProperty("/mimeType", oFile.type);
 				oFileUploader.upload();
 			}, function(error) {
 				MessageToast.show(oResourceBundle.getText("materialCreate.imageNotAccessable"));
@@ -68,6 +73,7 @@ sap.ui.define([
 				if(oReturnData.message[0].type == 'S') {
 					MessageToast.show(oReturnData.message[0].text);
 					this.setImageIdOfMaterialModel(oReturnData.data);
+					this.updateImageMetaData(oReturnData.data);
 				}
 				
 				if(oReturnData.message[0].type == 'E') {
@@ -93,11 +99,33 @@ sap.ui.define([
 		
 		
 		/**
+		 * Initializes the model for image meta data.
+	     */
+		initializeImageMetaDataModel : function () {
+			var oImageMetaDataModel = new JSONModel();
+			
+			oImageMetaDataModel.loadData("model/image/metaDataUpdate.json");
+			this.getView().setModel(oImageMetaDataModel, "imageMetaData");
+		},
+		
+		
+		/**
 		 * Sets the image ID of the model for material creation.
 		 */
 		setImageIdOfMaterialModel : function (iImageId) {
 			var oMaterialModel = this.getView().getModel("newMaterial");
 			oMaterialModel.setProperty("/imageId", iImageId);
+		},
+		
+
+		/** 
+		 * Updates the meta data of the image using the backend WebService.
+		 */		
+		updateImageMetaData : function(iImageId) {
+			var oImageMetaDataModel = this.getView().getModel("imageMetaData");
+			
+			oImageMetaDataModel.setProperty("/id", iImageId);
+			ImageController.saveImageMetaDataByWebService(oImageMetaDataModel, this.updateMetaDataCallback, this);
 		},
 		
 		
@@ -157,6 +185,20 @@ sap.ui.define([
 					MessageBox.warning(oReturnData.message[0].text);
 				}
 			} 
+		},
+		
+		
+		/**
+		 * Callback function of the saveImageMetaDataByWebService RESTful WebService call in the ImageController.
+		 */
+		updateMetaDataCallback : function (oReturnData, callingController) {
+			if(oReturnData.message[0].type == 'E') {
+				MessageBox.error(oReturnData.message[0].text);
+			}
+			
+			if(oReturnData.message[0].type == 'W') {
+				MessageBox.warning(oReturnData.message[0].text);
+			}
 		},
 		
 		
