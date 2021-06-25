@@ -3,11 +3,29 @@ sap.ui.define([
 	"use strict";
 	return {
 		/**
-		 * Queries the image WebService for the image with the given ID.
+		 * Queries the image WebService for the image data with the given ID.
 		 */
-		queryImageByWebService : function(iImageId, callbackFunction, oCallingController) {
+		queryImageDataByWebService : function(iImageId, callbackFunction, oCallingController) {
 			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/image");
 			var sQueryUrl = sWebServiceBaseUrl + "/" + iImageId;
+			jQuery.ajax({
+				type : "GET", 
+				contentType : "application/json", 
+				url : sQueryUrl, 
+				dataType : "json", 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			});                                                                 
+		},
+		
+		
+		/**
+		 * Queries the image WebService for the image meta data with the given ID.
+		 */
+		queryImageMetaDataByWebService : function(iImageId, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/image");
+			var sQueryUrl = sWebServiceBaseUrl + "/metaData/" + iImageId;
 			jQuery.ajax({
 				type : "GET", 
 				contentType : "application/json", 
