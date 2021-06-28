@@ -77,6 +77,11 @@
 								<u:FileUploader	id="imageFileUploader" name="file" fileType="jpg,png,gif" uploadComplete=".onUploadComplete" sendXHR="true"/>
 								<Button	text="{i18n>materialCreate.uploadImage}" press=".onUploadPressed"/>	
 							</f:FormElement>
+							<f:FormElement label="{i18n>materialCreate.titleImagePreview}">
+								<f:fields>
+									<Image id="materialImage"/>
+								</f:fields>
+							</f:FormElement>
 						</f:formElements>
 					</f:FormContainer>
 				</f:formContainers>

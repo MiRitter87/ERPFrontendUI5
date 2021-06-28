@@ -37,6 +37,7 @@ sap.ui.define([
 			this.getView().byId("unitComboBox").setSelectedItem(null);
 			this.initializeMaterialModel();
 			this.initializeImageMetaDataModel();
+			this.initializeImageDisplayModel();
     	},
 		
 		
@@ -49,11 +50,13 @@ sap.ui.define([
 			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oFile = jQuery.sap.domById(oFileUploader.getId() + "-fu").files[0];
 			var oImageMetaDataModel = this.getView().getModel("imageMetaData");
+			var oImageForDisplayModel = this.getView().getModel("imageForDisplay");
 			
 			oFileUploader.setUploadUrl(sWebServiceBaseUrl + "/data");
 			
 			oFileUploader.checkFileReadable().then(function() {
 				oImageMetaDataModel.setProperty("/mimeType", oFile.type);
+				oImageForDisplayModel.setProperty("/mimeType", oFile.type);
 				oFileUploader.upload();
 			}, function(error) {
 				MessageToast.show(oResourceBundle.getText("materialCreate.imageNotAccessable"));
@@ -74,6 +77,7 @@ sap.ui.define([
 					MessageToast.show(oReturnData.message[0].text);
 					this.setImageIdOfMaterialModel(oReturnData.data);
 					this.updateImageMetaData(oReturnData.data);
+					ImageController.queryImageDataByWebService(oReturnData.data, this.queryImageDataCallback, this);
 				}
 				
 				if(oReturnData.message[0].type == 'E') {
@@ -106,6 +110,17 @@ sap.ui.define([
 			
 			oImageMetaDataModel.loadData("model/image/metaDataUpdate.json");
 			this.getView().setModel(oImageMetaDataModel, "imageMetaData");
+		},
+		
+		
+		/**
+		 * Initializes the JSON Model that stores data of the image to be displayed.
+		 */
+		initializeImageDisplayModel : function () {
+			var oImageDisplayModel = new JSONModel();
+			
+			oImageDisplayModel.loadData("model/image/imageForDisplay.json");
+			this.getView().setModel(oImageDisplayModel, "imageForDisplay");
 		},
 		
 		
@@ -167,6 +182,26 @@ sap.ui.define([
 		
 		
 		/**
+		 * Displays the image if both the data and mime type of the image are available.
+		 */
+		displayImage : function(oCallingController) {
+			var sImageData;
+			var oImageDisplayModel = oCallingController.getView().getModel("imageForDisplay")
+			var sImageData = oImageDisplayModel.getProperty("/data");
+			var sMimeType = oImageDisplayModel.getProperty("/mimeType");
+			
+			if(sImageData == "")
+				return;
+				
+			if(sMimeType == "")
+				return;
+			
+			sImageData = "data:" + sMimeType + ";base64," + sImageData;
+			oCallingController.getView().byId("materialImage").setSrc(sImageData);
+		},
+		
+		
+		/**
 		 * Callback function of the saveMaterial RESTful WebService call in the MaterialController.
 		 */
 		saveMaterialCallback : function (oReturnData, callingController) {
@@ -199,6 +234,22 @@ sap.ui.define([
 			if(oReturnData.message[0].type == 'W') {
 				MessageBox.warning(oReturnData.message[0].text);
 			}
+		},
+		
+		
+		/**
+		 * Callback function of the queryImageData RESTful WebService call in the ImageController.
+		 */
+		queryImageDataCallback : function (oReturnData, oCallingController) {
+			var oImageDisplayModel = oCallingController.getView().getModel("imageForDisplay")
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+				return;
+			}                                                               
+			
+			oImageDisplayModel.setProperty("/data", oReturnData.data.data);
+			oCallingController.displayImage(oCallingController);
 		},
 		
 		
