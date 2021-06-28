@@ -7,7 +7,7 @@ sap.ui.define([
 		 */
 		queryImageDataByWebService : function(iImageId, callbackFunction, oCallingController) {
 			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/image");
-			var sQueryUrl = sWebServiceBaseUrl + "/" + iImageId;
+			var sQueryUrl = sWebServiceBaseUrl + "/data/" + iImageId;
 			jQuery.ajax({
 				type : "GET", 
 				contentType : "application/json", 

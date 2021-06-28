@@ -50,7 +50,7 @@ sap.ui.define([
 			var oFile = jQuery.sap.domById(oFileUploader.getId() + "-fu").files[0];
 			var oImageMetaDataModel = this.getView().getModel("imageMetaData");
 			
-			oFileUploader.setUploadUrl(sWebServiceBaseUrl);
+			oFileUploader.setUploadUrl(sWebServiceBaseUrl + "/data");
 			
 			oFileUploader.checkFileReadable().then(function() {
 				oImageMetaDataModel.setProperty("/mimeType", oFile.type);
