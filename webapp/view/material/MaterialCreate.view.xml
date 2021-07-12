@@ -78,9 +78,7 @@
 								<Button	text="{i18n>materialCreate.uploadImage}" press=".onUploadPressed"/>	
 							</f:FormElement>
 							<f:FormElement label="{i18n>materialCreate.titleImagePreview}">
-								<f:fields>
-									<Image id="materialImage"/>
-								</f:fields>
+									<Image id="materialImage" width="40%"/>								
 							</f:FormElement>
 						</f:formElements>
 					</f:FormContainer>

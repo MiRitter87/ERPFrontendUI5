@@ -87,7 +87,7 @@
 						<f:formElements>
 							<f:FormElement>
 								<f:fields>
-									<Image id="materialImage"/>
+									<Image id="materialImage" width="25%"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>
