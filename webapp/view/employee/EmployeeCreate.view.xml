@@ -8,7 +8,7 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
 	
-	<Panel headerText="{i18n>employeeCreate.header}">
+	<Page title="{i18n>employeeCreate.header}">
 		<content>
 			<f:Form id="employeeForm" editable="true">
 				<f:layout>
@@ -56,5 +56,5 @@
 		
 		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
 		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
-	</Panel>
+	</Page>
 </mvc:View>

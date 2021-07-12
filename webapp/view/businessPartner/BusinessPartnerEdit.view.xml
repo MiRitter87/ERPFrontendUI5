@@ -8,7 +8,7 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
 	
-	<Panel headerText="{i18n>businessPartnerEdit.header}">
+	<Page title="{i18n>businessPartnerEdit.header}">
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>businessPartnerEdit.selectionDescription}"/>
@@ -101,5 +101,5 @@
 		
 		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin" />
 		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
-	</Panel>
+	</Page>
 </mvc:View>

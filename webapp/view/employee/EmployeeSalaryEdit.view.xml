@@ -7,7 +7,7 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
 	
-	<Panel>
+	<Page showHeader="false">
 		<Toolbar>
 			<Button type="Back" press=".onBackPress" />
 			<Title id="toolbarTitle" text="{i18n>employeeSalaryEdit.header}" level="H3" titleStyle="H3"/>
@@ -64,5 +64,5 @@
 			enabled="{path: '/employee/data/id', formatter: '.employeeExistsFormatter'}"/>
 		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"
 			enabled="{path: '/employee/data/id', formatter: '.employeeExistsFormatter'}"/>
-	</Panel>
+	</Page>
 </mvc:View>

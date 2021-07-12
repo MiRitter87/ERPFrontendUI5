@@ -8,7 +8,7 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
 	
-	<Panel headerText="{i18n>salesOrderDisplay.header}">
+	<Page title="{i18n>salesOrderDisplay.header}">
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>salesOrderDisplay.selectionDescription}"/>
@@ -131,5 +131,5 @@
 				</items>
 			</Table>
 		</content>
-	</Panel>
+	</Page>
 </mvc:View>

@@ -8,7 +8,7 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
 	
-	<Panel headerText="{i18n>employeeDisplay.header}">
+	<Page title="{i18n>employeeDisplay.header}">
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>employeeDisplay.selectionDescription}"/>
@@ -72,5 +72,5 @@
 		</content>
 		
 		<Button text="{i18n>employeeDisplay.salaryButton}" press=".onSalaryPressed" class="sapUiSmallMargin"/>
-	</Panel>
+	</Page>
 </mvc:View>
