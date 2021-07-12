@@ -35,6 +35,7 @@ sap.ui.define([
 		 */
 		_onRouteMatched: function () {
 			this.getView().byId("unitComboBox").setSelectedItem(null);
+			this.getView().byId("materialImage").setSrc(null);
 			this.initializeMaterialModel();
 			this.initializeImageMetaDataModel();
 			this.initializeImageDisplayModel();

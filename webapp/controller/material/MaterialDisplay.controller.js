@@ -25,6 +25,7 @@ sap.ui.define([
 			//Query material data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this);
 			this.getView().byId("materialComboBox").setSelectedItem(null);
+			this.getView().byId("materialImage").setSrc(null);
     	},
 		
 		
