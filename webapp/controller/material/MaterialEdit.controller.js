@@ -3,8 +3,9 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
 	"sap/ui/model/json/JSONModel",
-	"./MaterialController"
-], function (Controller, MessageToast, MessageBox, JSONModel, MaterialController) {
+	"./MaterialController",
+	"../image/ImageController",
+], function (Controller, MessageToast, MessageBox, JSONModel, MaterialController, ImageController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.material.MaterialEdit", {		
@@ -31,6 +32,7 @@ sap.ui.define([
 			this.getView().byId("unitComboBox").setSelectedItem(null);
 			this.getView().byId("materialComboBox").setSelectedItem(null);
 			this.setPriceInputValue(0);
+			this.getView().byId("materialImageOld").setSrc(null);
     	},
 		
 		
@@ -96,8 +98,52 @@ sap.ui.define([
 			//Set the model of the view according to the selected material to allow binding of the UI elements.
 			oModel.setData({selectedMaterial : oMaterial}, true);
 			
+			//Reset the model that stores the image of the previously selected material.
+			this.initializeImageDisplayModels();
+			
+			//Query the image of the selected material if the material has an image ID referenced.
+			if(oMaterial.image != null && oMaterial.image.id != null) {
+				ImageController.queryImageDataByWebService(oMaterial.image.id, this.queryImageDataCallback, this);
+				ImageController.queryImageMetaDataByWebService(oMaterial.image.id, this.queryImageMetaDataCallback, this);
+			}
+			else {
+				//If the material has no image attached, reset the image and display nothing.
+				this.getView().byId("materialImage").setSrc(null);
+			}
+			
 			//Manually set the price of the Input field because the price is not directly bound due to validation reasons.
 			this.setPriceInputValue(oMaterial.pricePerUnit);
+		},
+		
+		
+		/**
+		 * Initializes the JSON Model that stores data of the image to be displayed.
+		 */
+		initializeImageDisplayModels : function () {
+			var oOldImageDisplayModel = new JSONModel();
+			
+			oOldImageDisplayModel.loadData("model/image/imageForDisplay.json");
+			this.getView().setModel(oOldImageDisplayModel, "oldImage");
+		},
+		
+		
+		/**
+		 * Displays the old image if both the data and mime type of the image are available.
+		 */
+		displayOldImage : function(oCallingController) {
+			var sImageData;
+			var oOldImageDisplayModel = oCallingController.getView().getModel("oldImage")
+			var sImageData = oOldImageDisplayModel.getProperty("/data");
+			var sMimeType = oOldImageDisplayModel.getProperty("/mimeType");
+			
+			if(sImageData == "")
+				return;
+				
+			if(sMimeType == "")
+				return;
+			
+			sImageData = "data:" + sMimeType + ";base64," + sImageData;
+			oCallingController.getView().byId("materialImageOld").setSrc(sImageData);
 		},
 		
 		
@@ -152,6 +198,38 @@ sap.ui.define([
 					MessageBox.warning(oReturnData.message[0].text);
 				}
 			}
+		},
+		
+		
+		/**
+		 * Callback function of the queryImageData RESTful WebService call in the ImageController.
+		 */
+		queryImageDataCallback : function (oReturnData, oCallingController) {
+			var oOldImageDisplayModel = oCallingController.getView().getModel("oldImage")
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+				return;
+			}                                                               
+			
+			oOldImageDisplayModel.setProperty("/data", oReturnData.data.data);
+			oCallingController.displayOldImage(oCallingController);
+		},
+		
+		
+		/**
+		 * Callback function of the queryImageMetaData RESTful WebService call in the ImageController.
+		 */
+		queryImageMetaDataCallback : function (oReturnData, oCallingController) {
+			var oOldImageDisplayModel = oCallingController.getView().getModel("oldImage")
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+				return;
+			}                                                               
+			
+			oOldImageDisplayModel.setProperty("/mimeType", oReturnData.data.mimeType);
+			oCallingController.displayOldImage(oCallingController);
 		},
 		
 		
