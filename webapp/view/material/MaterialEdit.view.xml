@@ -6,6 +6,7 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:l="sap.ui.layout"
 	xmlns:f="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified"
 	xmlns:core="sap.ui.core">
 	
 	<Page title="{i18n>materialEdit.header}">
@@ -29,11 +30,11 @@
 						labelSpanM="3"
 						labelSpanS="12"
 						adjustLabelSpan="false"
-						emptySpanXL="4"
+						emptySpanXL="2"
 						emptySpanL="4"
 						emptySpanM="4"
 						emptySpanS="0"
-						columnsXL="1"
+						columnsXL="2"
 						columnsL="1"
 						columnsM="1"
 						singleContainerFullSize="false" />
@@ -83,6 +84,21 @@
 												maximum: 999999
 											}}"/>
 								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>materialEdit.titleImage}">
+						<f:formElements>
+							<f:FormElement label="{i18n>materialEdit.labelPreviousImage}">	
+								<Image id="materialImageOld" width="40%"/>						
+							</f:FormElement>
+							<f:FormElement label="{i18n>materialEdit.labelNewImage}">
+								<u:FileUploader	id="imageFileUploader" name="file" fileType="jpg,png,gif" uploadComplete=".onUploadComplete" sendXHR="true"/>
+								<Button	text="{i18n>materialCreate.uploadImage}" press=".onUploadPressed"/>							
+							</f:FormElement>
+							<f:FormElement label="{i18n>materialEdit.labelImagePreview}">
+								<Image id="materialImageNew" width="40%"/>	
 							</f:FormElement>
 						</f:formElements>
 					</f:FormContainer>
