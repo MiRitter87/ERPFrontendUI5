@@ -266,6 +266,10 @@ sap.ui.define([
 					oCallingController.getView().getModel().setProperty("/selectedMaterial", null);
 					//Clear the price which is not directly bound to the model.
 					oCallingController.setPriceInputValue(null);
+					//Reset images.
+					oCallingController.getView().byId("materialImageNew").setSrc(null);
+					oCallingController.getView().byId("materialImageOld").setSrc(null);
+					oCallingController.resetModelData();
 					MessageToast.show(oReturnData.message[0].text);
 				}
 				
@@ -391,5 +395,14 @@ sap.ui.define([
 			
 			return wsMaterial;
 		},
+		
+		
+		/**
+		 * Resets model data.
+		 */
+		resetModelData : function () {
+			this.initializeImageDisplayModels();
+			this.initializeImageMetaDataModel();
+		}
 	});
 });

@@ -205,12 +205,14 @@ sap.ui.define([
 		/**
 		 * Callback function of the saveMaterial RESTful WebService call in the MaterialController.
 		 */
-		saveMaterialCallback : function (oReturnData, callingController) {
+		saveMaterialCallback : function (oReturnData, oCallingController) {
 			if(oReturnData.message != null) {
 				if(oReturnData.message[0].type == 'S') {
 					MessageToast.show(oReturnData.message[0].text);
 					//"this" is unknown in the success function of the ajax call. Therefore the calling controller is provided.
-					callingController.resetFormFields();
+					oCallingController.resetFormFields();
+					oCallingController.resetModelData();
+					oCallingController.getView().byId("materialImage").setSrc(null);
 				}
 				
 				if(oReturnData.message[0].type == 'E') {
@@ -260,7 +262,16 @@ sap.ui.define([
 		resetFormFields : function () {
 			this.getView().byId("unitComboBox").setSelectedItem(null);
 			this.getView().byId("priceInput").setValue(0);
-			this.initializeMaterialModel();
 		},
+		
+		
+		/**
+		 * Resets model data.
+		 */
+		resetModelData : function () {
+			this.initializeMaterialModel();
+			this.initializeImageMetaDataModel();
+			this.initializeImageDisplayModel();
+		}
 	});
 });
