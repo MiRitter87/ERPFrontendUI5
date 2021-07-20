@@ -67,6 +67,23 @@ sap.ui.define([
 		
 		
 		/**
+		 * Gets the material data of the material with the given ID.
+		 */
+		getMaterialById : function(iMaterialId, oMaterials) {
+			//Get the selected material from the array of all materials according to the id.
+			for(var i = 0; i < oMaterials.length; i++) {
+    			var oTempMaterial = oMaterials[i];
+    			
+				if(oTempMaterial.id == iMaterialId) {
+					return oTempMaterial;
+				}
+			}
+			
+			return null;
+		},
+		
+		
+		/**
 		 * Calls a WebService operation to create a material.
 		 */
 		createMaterialbyWebService : function(oMaterialModel, callbackFunction, oCallingController) {

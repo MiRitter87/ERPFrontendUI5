@@ -33,6 +33,9 @@ sap.ui.define([
 			this.getView().byId("materialComboBox").setSelectedItem(null);
 			this.setPriceInputValue(0);
 			this.getView().byId("materialImageOld").setSrc(null);
+			
+			this.initializeImageMetaDataModel();
+			this.initializeImageDisplayModels();
     	},
 		
 		
@@ -75,36 +78,81 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the press-event of the image file upload button.
+		 */
+		onUploadPressed: function () {
+			var sWebServiceBaseUrl = this.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/image");
+			var oFileUploader = this.byId("imageFileUploader");
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oFile = jQuery.sap.domById(oFileUploader.getId() + "-fu").files[0];
+			var oImageMetaDataModel = this.getView().getModel("imageMetaData");
+			var oImageForDisplayModel = this.getView().getModel("newImage");
+			
+			oFileUploader.setUploadUrl(sWebServiceBaseUrl + "/data");
+			
+			oFileUploader.checkFileReadable().then(function() {
+				oImageMetaDataModel.setProperty("/mimeType", oFile.type);
+				oImageForDisplayModel.setProperty("/mimeType", oFile.type);
+				oFileUploader.upload();
+			}, function(error) {
+				MessageToast.show(oResourceBundle.getText("materialEdit.imageNotAccessable"));
+			}).then(function() {
+				oFileUploader.clear();
+			});
+		},
+		
+		
+		/**
+		 * Handles the uploadComplete-event of the image file uploader.
+		 */
+		onUploadComplete: function (oControlEvent) {
+			var oReturnData = JSON.parse(oControlEvent.getParameter("responseRaw"));
+			
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					this.setNewImageIdOfMaterialModel(oReturnData.data);
+					this.updateImageMetaData(oReturnData.data);
+					ImageController.queryImageDataByWebService(oReturnData.data, this.queryNewImageDataCallback, this);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			} 
+		},
+		
+		
+		/**
 		 * Handles the selection of an item in the material ComboBox.
 		 */
 		onMaterialSelectionChange : function (oControlEvent) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
 			var oModel = this.getView().getModel();
 			var oMaterials = oModel.oData.materials;
-			var oMaterial;
+			var oMaterial, oWsMaterial;
 			
 			if(oSelectedItem == null)
 				return;
-			
-			//Get the selected material from the array of all materials according to the id.
-			for(var i = 0; i < oMaterials.data.material.length; i++) {
-    			var oTempMaterial = oMaterials.data.material[i];
-    			
-				if(oTempMaterial.id == oSelectedItem.getKey()) {
-					oMaterial = oTempMaterial;
-				}
-			}
-			
+						
+			oMaterial = MaterialController.getMaterialById(oSelectedItem.getKey(), oMaterials.data.material);
+			if(oMaterial != null)
+				oWsMaterial = this.getMaterialForWebService(oMaterial);
+				
 			//Set the model of the view according to the selected material to allow binding of the UI elements.
-			oModel.setData({selectedMaterial : oMaterial}, true);
+			oModel.setData({selectedMaterial : oWsMaterial.oData}, true);
 			
 			//Reset the model that stores the image of the previously selected material.
 			this.initializeImageDisplayModels();
 			
 			//Query the image of the selected material if the material has an image ID referenced.
 			if(oMaterial.image != null && oMaterial.image.id != null) {
-				ImageController.queryImageDataByWebService(oMaterial.image.id, this.queryImageDataCallback, this);
-				ImageController.queryImageMetaDataByWebService(oMaterial.image.id, this.queryImageMetaDataCallback, this);
+				ImageController.queryImageDataByWebService(oMaterial.image.id, this.queryOldImageDataCallback, this);
+				ImageController.queryImageMetaDataByWebService(oMaterial.image.id, this.queryOldImageMetaDataCallback, this);
 			}
 			else {
 				//If the material has no image attached, reset the image and display nothing.
@@ -121,9 +169,24 @@ sap.ui.define([
 		 */
 		initializeImageDisplayModels : function () {
 			var oOldImageDisplayModel = new JSONModel();
+			var oNewImageDisplayModel = new JSONModel();
 			
 			oOldImageDisplayModel.loadData("model/image/imageForDisplay.json");
 			this.getView().setModel(oOldImageDisplayModel, "oldImage");
+			
+			oNewImageDisplayModel.loadData("model/image/imageForDisplay.json");
+			this.getView().setModel(oNewImageDisplayModel, "newImage");
+		},
+		
+		
+		/**
+		 * Initializes the model for image meta data.
+	     */
+		initializeImageMetaDataModel : function () {
+			var oImageMetaDataModel = new JSONModel();
+			
+			oImageMetaDataModel.loadData("model/image/metaDataUpdate.json");
+			this.getView().setModel(oImageMetaDataModel, "imageMetaData");
 		},
 		
 		
@@ -144,6 +207,26 @@ sap.ui.define([
 			
 			sImageData = "data:" + sMimeType + ";base64," + sImageData;
 			oCallingController.getView().byId("materialImageOld").setSrc(sImageData);
+		},
+		
+		
+		/**
+		 * Displays the new image if both the data and mime type of the image are available.
+		 */
+		displayNewImage : function(oCallingController) {
+			var sImageData;
+			var oNewImageDisplayModel = oCallingController.getView().getModel("newImage")
+			var sImageData = oNewImageDisplayModel.getProperty("/data");
+			var sMimeType = oNewImageDisplayModel.getProperty("/mimeType");
+			
+			if(sImageData == "")
+				return;
+				
+			if(sMimeType == "")
+				return;
+			
+			sImageData = "data:" + sMimeType + ";base64," + sImageData;
+			oCallingController.getView().byId("materialImageNew").setSrc(sImageData);
 		},
 		
 		
@@ -204,7 +287,7 @@ sap.ui.define([
 		/**
 		 * Callback function of the queryImageData RESTful WebService call in the ImageController.
 		 */
-		queryImageDataCallback : function (oReturnData, oCallingController) {
+		queryOldImageDataCallback : function (oReturnData, oCallingController) {
 			var oOldImageDisplayModel = oCallingController.getView().getModel("oldImage")
 			
 			if(oReturnData.data == null && oReturnData.message != null)  {
@@ -220,7 +303,7 @@ sap.ui.define([
 		/**
 		 * Callback function of the queryImageMetaData RESTful WebService call in the ImageController.
 		 */
-		queryImageMetaDataCallback : function (oReturnData, oCallingController) {
+		queryOldImageMetaDataCallback : function (oReturnData, oCallingController) {
 			var oOldImageDisplayModel = oCallingController.getView().getModel("oldImage")
 			
 			if(oReturnData.data == null && oReturnData.message != null)  {
@@ -234,10 +317,79 @@ sap.ui.define([
 		
 		
 		/**
+		 * Callback function of the queryImageData RESTful WebService call in the ImageController.
+		 */
+		queryNewImageDataCallback : function (oReturnData, oCallingController) {
+			var oNewImageDisplayModel = oCallingController.getView().getModel("newImage")
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+				return;
+			}                                                               
+			
+			oNewImageDisplayModel.setProperty("/data", oReturnData.data.data);
+			oCallingController.displayNewImage(oCallingController);
+		},
+		
+		
+		/**
+		 * Callback function of the saveImageMetaDataByWebService RESTful WebService call in the ImageController.
+		 */
+		updateMetaDataCallback : function (oReturnData) {
+			if(oReturnData.message[0].type == 'E') {
+				MessageBox.error(oReturnData.message[0].text);
+			}
+			
+			if(oReturnData.message[0].type == 'W') {
+				MessageBox.warning(oReturnData.message[0].text);
+			}
+		},
+		
+		
+		/**
 		 * Sets the value of the priceInput.
 		 */
 		setPriceInputValue : function(fValue) {
 			this.getView().byId("priceInput").setValue(fValue);
-		}
+		},
+		
+		
+		/**
+		 * Sets the new image ID of the selected materials model.
+		 */
+		setNewImageIdOfMaterialModel : function (iImageId) {
+			var oMaterialModel = this.getView().getModel();
+			oMaterialModel.setProperty("/selectedMaterial/imageId", iImageId);
+		},
+		
+		
+		/** 
+		 * Updates the meta data of the image using the backend WebService.
+		 */		
+		updateImageMetaData : function(iImageId) {
+			var oImageMetaDataModel = this.getView().getModel("imageMetaData");
+			
+			oImageMetaDataModel.setProperty("/id", iImageId);
+			ImageController.saveImageMetaDataByWebService(oImageMetaDataModel, this.updateMetaDataCallback, this);
+		},
+		
+		
+		/**
+		 * Creates a representation of a material that can be processed by the WebService.
+		 */
+		getMaterialForWebService : function(oMaterial) {
+			var wsMaterial = new JSONModel();			
+
+			wsMaterial.setProperty("/materialId", oMaterial.id);
+			wsMaterial.setProperty("/name", oMaterial.name);
+			wsMaterial.setProperty("/description", oMaterial.description);
+			wsMaterial.setProperty("/inventory", oMaterial.inventory);
+			wsMaterial.setProperty("/unit", oMaterial.unit);
+			wsMaterial.setProperty("/pricePerUnit", oMaterial.pricePerUnit);
+			wsMaterial.setProperty("/currency", oMaterial.currency);
+			wsMaterial.setProperty("/imageId", oMaterial.image.id);
+			
+			return wsMaterial;
+		},
 	});
 });

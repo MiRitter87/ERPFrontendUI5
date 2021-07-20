@@ -60,7 +60,7 @@ sap.ui.define([
 				oImageForDisplayModel.setProperty("/mimeType", oFile.type);
 				oFileUploader.upload();
 			}, function(error) {
-				MessageToast.show(oResourceBundle.getText("materialCreate.imageNotAccessable"));
+				MessageToast.show(oResourceBundle.getText("materialCreate.imageNotAccessible"));
 			}).then(function() {
 				oFileUploader.clear();
 			});
@@ -227,7 +227,7 @@ sap.ui.define([
 		/**
 		 * Callback function of the saveImageMetaDataByWebService RESTful WebService call in the ImageController.
 		 */
-		updateMetaDataCallback : function (oReturnData, callingController) {
+		updateMetaDataCallback : function (oReturnData) {
 			if(oReturnData.message[0].type == 'E') {
 				MessageBox.error(oReturnData.message[0].text);
 			}

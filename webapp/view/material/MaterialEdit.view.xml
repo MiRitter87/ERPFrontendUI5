@@ -45,7 +45,7 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>material.id}">
 								<f:fields>
-									<Input value="{/selectedMaterial/id}" enabled="false" editable="false"/>
+									<Input value="{/selectedMaterial/materialId}" enabled="false" editable="false"/>
 								</f:fields>
 							</f:FormElement>
 	
