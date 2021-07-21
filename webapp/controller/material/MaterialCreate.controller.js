@@ -13,17 +13,13 @@ sap.ui.define([
 		 * Initializes the controller.
 		 */
 		onInit : function () {
-			var oView, oMessageManager, oRouter;
+			var oRouter;
 			
 			//Register an event handler that gets called every time the router navigates to this view.
 			oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("materialCreateRoute").attachMatched(this._onRouteMatched, this);
 			
-			//Initialize message manager for input form validation.
-			oView = this.getView();
-			oMessageManager = sap.ui.getCore().getMessageManager();
-			oView.setModel(oMessageManager.getMessageModel(), "message");
-			oMessageManager.registerObject(oView, true);
+			this.initializeMessageManager();
 			
 			MaterialController.initializeUnitComboBox(this.getView().byId("unitComboBox"), 
 				this.getOwnerComponent().getModel("i18n").getResourceBundle());
@@ -34,8 +30,7 @@ sap.ui.define([
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
 		_onRouteMatched: function () {
-			this.getView().byId("unitComboBox").setSelectedItem(null);
-			this.getView().byId("materialImage").setSrc(null);
+			this.resetFormFields();
 			this.initializeMaterialModel();
 			this.initializeImageMetaDataModel();
 			this.initializeImageDisplayModel();
@@ -59,7 +54,7 @@ sap.ui.define([
 				oImageMetaDataModel.setProperty("/mimeType", oFile.type);
 				oImageForDisplayModel.setProperty("/mimeType", oFile.type);
 				oFileUploader.upload();
-			}, function(error) {
+			}, function() {
 				MessageToast.show(oResourceBundle.getText("materialCreate.imageNotAccessible"));
 			}).then(function() {
 				oFileUploader.clear();
@@ -89,11 +84,24 @@ sap.ui.define([
 					MessageBox.warning(oReturnData.message[0].text);
 				}
 			} 
-		},		
+		},
 		
 		
 		/**
-		 * Initializes the model to which the UI controls are bound.
+		 * Initializes the message manager for input form validation.
+		 */
+		initializeMessageManager : function () {
+			var oView, oMessageManager;
+			
+			oView = this.getView();
+			oMessageManager = sap.ui.getCore().getMessageManager();
+			oView.setModel(oMessageManager.getMessageModel(), "message");
+			oMessageManager.registerObject(oView, true);
+		},
+		
+		
+		/**
+		 * Initializes the material model to which the UI controls are bound.
 		 */
 		initializeMaterialModel : function () {
 			var oMaterialModel = new JSONModel();
@@ -212,7 +220,6 @@ sap.ui.define([
 					//"this" is unknown in the success function of the ajax call. Therefore the calling controller is provided.
 					oCallingController.resetFormFields();
 					oCallingController.resetModelData();
-					oCallingController.getView().byId("materialImage").setSrc(null);
 				}
 				
 				if(oReturnData.message[0].type == 'E') {
@@ -262,6 +269,7 @@ sap.ui.define([
 		resetFormFields : function () {
 			this.getView().byId("unitComboBox").setSelectedItem(null);
 			this.getView().byId("priceInput").setValue(0);
+			this.getView().byId("materialImage").setSrc(null);
 		},
 		
 		
