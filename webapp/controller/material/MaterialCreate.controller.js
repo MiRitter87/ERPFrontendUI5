@@ -271,6 +271,7 @@ sap.ui.define([
 		resetFormFields : function () {
 			this.getView().byId("unitComboBox").setSelectedItem(null);
 			this.getView().byId("priceInput").setValue(0);
+			this.getView().byId("priceInput").setValueState(sap.ui.core.ValueState.None);
 			this.getView().byId("materialImage").setSrc(null);
 		},
 		

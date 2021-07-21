@@ -29,11 +29,7 @@ sap.ui.define([
 			this.getView().setModel(new JSONModel());
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, true);
 			
-			this.getView().byId("unitComboBox").setSelectedItem(null);
-			this.getView().byId("materialComboBox").setSelectedItem(null);
-			this.setPriceInputValue(0);
-			this.getView().byId("materialImageOld").setSrc(null);
-			
+			this.resetFormFields();			
 			this.initializeImageMetaDataModel();
 			this.initializeImageDisplayModels();
     	},
@@ -43,6 +39,9 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
+			MaterialController.validatePriceInput(this.getView().byId("priceInput"), this.getOwnerComponent().getModel("i18n").getResourceBundle(),
+				this.getView().getModel(), "/selectedMaterial/pricePerUnit");
+				
 			if(this.getView().byId("materialComboBox").getSelectedKey() == "") {
 				var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				MessageBox.error(oResourceBundle.getText("materialEdit.noMaterialSelected"));
@@ -55,8 +54,6 @@ sap.ui.define([
 				return;
 			}
 			
-			MaterialController.validatePriceInput(this.getView().byId("priceInput"), this.getOwnerComponent().getModel("i18n").getResourceBundle(),
-				this.getView().getModel(), "/selectedMaterial/pricePerUnit");
 			if(MaterialController.isPriceValid(this.getView().byId("priceInput").getValue()) == false)
 				return;
 				
@@ -72,8 +69,6 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			
 			oRouter.navTo("startPageRoute");	
-			this.getView().byId("materialComboBox").setSelectedItem(null);
-			this.setPriceInputValue(null);
 		},
 		
 		
@@ -94,7 +89,7 @@ sap.ui.define([
 				oImageMetaDataModel.setProperty("/mimeType", oFile.type);
 				oImageForDisplayModel.setProperty("/mimeType", oFile.type);
 				oFileUploader.upload();
-			}, function(error) {
+			}, function() {
 				MessageToast.show(oResourceBundle.getText("materialEdit.imageNotAccessable"));
 			}).then(function() {
 				oFileUploader.clear();
@@ -140,8 +135,7 @@ sap.ui.define([
 				return;
 						
 			oMaterial = MaterialController.getMaterialById(oSelectedItem.getKey(), oMaterials.data.material);
-			if(oMaterial != null)
-				oWsMaterial = this.getMaterialForWebService(oMaterial);
+			oWsMaterial = this.getMaterialForWebService(oMaterial);
 				
 			//Set the model of the view according to the selected material to allow binding of the UI elements.
 			oModel.setData({selectedMaterial : oWsMaterial.oData}, true);
@@ -165,7 +159,7 @@ sap.ui.define([
 		
 		
 		/**
-		 * Initializes the JSON Model that stores data of the image to be displayed.
+		 * Initializes the JSON models that store data of the images to be displayed.
 		 */
 		initializeImageDisplayModels : function () {
 			var oOldImageDisplayModel = new JSONModel();
@@ -266,9 +260,7 @@ sap.ui.define([
 					oCallingController.getView().getModel().setProperty("/selectedMaterial", null);
 					//Clear the price which is not directly bound to the model.
 					oCallingController.setPriceInputValue(null);
-					//Reset images.
-					oCallingController.getView().byId("materialImageNew").setSrc(null);
-					oCallingController.getView().byId("materialImageOld").setSrc(null);
+					oCallingController.resetImageSources(oCallingController);
 					oCallingController.resetModelData();
 					MessageToast.show(oReturnData.message[0].text);
 				}
@@ -355,6 +347,7 @@ sap.ui.define([
 		 */
 		setPriceInputValue : function(fValue) {
 			this.getView().byId("priceInput").setValue(fValue);
+			this.getView().byId("priceInput").setValueState(sap.ui.core.ValueState.None);
 		},
 		
 		
@@ -398,11 +391,32 @@ sap.ui.define([
 		
 		
 		/**
+		 * Resets the form fields to the initial state.
+		 */
+		resetFormFields : function () {
+			this.getView().byId("unitComboBox").setSelectedItem(null);
+			this.getView().byId("materialComboBox").setSelectedItem(null);
+			this.setPriceInputValue(0);
+			this.getView().byId("priceInput").setValueState(sap.ui.core.ValueState.None);
+			this.getView().byId("materialImageOld").setSrc(null);
+		},
+		
+		
+		/**
 		 * Resets model data.
 		 */
 		resetModelData : function () {
 			this.initializeImageDisplayModels();
 			this.initializeImageMetaDataModel();
+		},
+		
+		
+		/**
+		 * Resets the source of the images. No image is displayed then.
+		 */
+		resetImageSources : function () {
+			this.getView().byId("materialImageNew").setSrc(null);
+			this.getView().byId("materialImageOld").setSrc(null);
 		}
 	});
 });
