@@ -157,13 +157,15 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
+			//Validate price first to remove the error indication from the input field as soon as possible if the user fills in correct data.
+			MaterialController.validatePriceInput(this.getView().byId("priceInput"), this.getOwnerComponent().getModel("i18n").getResourceBundle(),
+				this.getView().getModel("newMaterial"), "/pricePerUnit");
+				
 			if(this.getView().byId("unitComboBox").getSelectedKey() == "") {
 				this.showMessageOnUndefinedUnit();
 				return;
 			}
 			
-			MaterialController.validatePriceInput(this.getView().byId("priceInput"), this.getOwnerComponent().getModel("i18n").getResourceBundle(),
-				this.getView().getModel("newMaterial"), "/pricePerUnit");
 			if(MaterialController.isPriceValid(this.getView().byId("priceInput").getValue()) == false)
 				return;				
 			
