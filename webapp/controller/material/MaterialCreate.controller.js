@@ -19,8 +19,6 @@ sap.ui.define([
 			oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("materialCreateRoute").attachMatched(this._onRouteMatched, this);
 			
-			this.initializeMessageManager();
-			
 			MaterialController.initializeUnitComboBox(this.getView().byId("unitComboBox"), 
 				this.getOwnerComponent().getModel("i18n").getResourceBundle());
 		},
@@ -84,19 +82,6 @@ sap.ui.define([
 					MessageBox.warning(oReturnData.message[0].text);
 				}
 			} 
-		},
-		
-		
-		/**
-		 * Initializes the message manager for input form validation.
-		 */
-		initializeMessageManager : function () {
-			var oView, oMessageManager;
-			
-			oView = this.getView();
-			oMessageManager = sap.ui.getCore().getMessageManager();
-			oView.setModel(oMessageManager.getMessageModel(), "message");
-			oMessageManager.registerObject(oView, true);
 		},
 		
 		
