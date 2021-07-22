@@ -15,15 +15,10 @@ sap.ui.define([
 		 */
 		onInit : function () {
 			//Register an event handler that gets called every time the router navigates to this view.
-			var oView, oMessageManager, oRouter;
+			var oRouter;
+			
 			oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("salesOrderCreateRoute").attachMatched(this._onRouteMatched, this);
-			
-			//Initialize message manager for input form validation.
-			oView = this.getView();
-			oMessageManager = sap.ui.getCore().getMessageManager();
-			oView.setModel(oMessageManager.getMessageModel(), "message");
-			oMessageManager.registerObject(oView, true);
 		},
 		
 		
@@ -54,7 +49,7 @@ sap.ui.define([
 		 * Handles the deletion of an item.
 		 */
 		onDeleteItemPressed : function () {
-			var oSelectedItem, oResourceBundle,  oSalesOrderModel, oSalesOrderItems, oSalesOrderItem;
+			var oSelectedItem, oResourceBundle;
 			
 			//Check if an item has been selected.
 			oSelectedItem = this.getView().byId("itemTable").getSelectedItem();
@@ -64,27 +59,9 @@ sap.ui.define([
 				return;
 			}
 			
-			//Remove the selected item from the model.
-			oSalesOrderModel = this.getView().getModel("newSalesOrder");
-			oSalesOrderItems = oSalesOrderModel.getProperty("/items");
-			oSalesOrderItem = this.getSelectedItem();
-			
-			for(var i = 0; i < oSalesOrderItems.length; i++) {
-    			var oTempItem = oSalesOrderItems[i];
-    			
-				if(oTempItem.itemId == oSalesOrderItem.itemId) {
-					oSalesOrderItems.splice(i, 1);
-				}
-			}
-			
-			//Update the item IDs accounting for the deleted item.
-			for(var i = 0; i < oSalesOrderItems.length; i++) {
-				var oTempItem = oSalesOrderItems[i];
-				oTempItem.itemId = i+1;
-			}
-			
-			oSalesOrderModel.refresh();						//Assures that the changes are being displayed in the view.
-			this.getView().byId("itemTable").rerender();	//Assures that the formatters are called again.
+			this.deleteItemFromOrderModel(this.getSelectedItem());
+			this.updateItemIds();
+			this.updateItemTable();
 		},
 		
 		
@@ -386,5 +363,56 @@ sap.ui.define([
 				}
 			} 
 		},
+		
+		
+		/**
+		 * Deletes the given sales order item from the sales order model.
+		 */
+		deleteItemFromOrderModel : function(oSalesOrderItem) {
+			var oSalesOrderModel, oSalesOrderItems;
+			
+			oSalesOrderModel = this.getView().getModel("newSalesOrder");
+			oSalesOrderItems = oSalesOrderModel.getProperty("/items");
+			
+			for(var i = 0; i < oSalesOrderItems.length; i++) {
+    			var oTempItem = oSalesOrderItems[i];
+    			
+				if(oTempItem.itemId == oSalesOrderItem.itemId) {
+					oSalesOrderItems.splice(i, 1);
+				}
+			}
+		},
+		
+		
+		/**
+		 * Updates the IDs of the sales order items incrementally.
+	     * The item IDs range from 1 to n, where n is the number of items.
+		 */
+		updateItemIds : function() {
+			var oSalesOrderItems, oSalesOrderModel;
+
+			oSalesOrderModel = this.getView().getModel("newSalesOrder");
+			oSalesOrderItems = oSalesOrderModel.getProperty("/items");
+			
+			for(var i = 0; i < oSalesOrderItems.length; i++) {
+				var oTempItem = oSalesOrderItems[i];
+				oTempItem.itemId = i+1;
+			}
+		},
+		
+		
+		/**
+		 * Updates the item table in order to display changes of the underlying model.
+		 */
+		updateItemTable : function() {
+			var oSalesOrderModel;
+			
+			//Assures that the changes of the underlying model are being displayed in the view.
+			oSalesOrderModel = this.getView().getModel("newSalesOrder");
+			oSalesOrderModel.refresh();						
+			
+			//Assures that the formatters are called again.
+			this.getView().byId("itemTable").rerender();	
+		}
 	});
 });
