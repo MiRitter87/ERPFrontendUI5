@@ -24,8 +24,7 @@ sap.ui.define([
 		_onRouteMatched: function () {
 			//Query material data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this);
-			this.getView().byId("materialComboBox").setSelectedItem(null);
-			this.getView().byId("materialImage").setSrc(null);
+			this.resetUiElements();
     	},
 		
 		
@@ -40,15 +39,8 @@ sap.ui.define([
 			
 			if(oSelectedItem == null)
 				return;
-			
-			//Get the selected material from the array of all materials according to the id.
-			for(var i = 0; i < oMaterials.data.material.length; i++) {
-    			var oTempMaterial = oMaterials.data.material[i];
-    			
-				if(oTempMaterial.id == oSelectedItem.getKey()) {
-					oMaterial = oTempMaterial;
-				}
-			}
+				
+			oMaterial = MaterialController.getMaterialById(oSelectedItem.getKey(), oMaterials.data.material);
 			
 			//Set the model of the view according to the selected material to allow binding of the UI elements.
 			oModel.setData({selectedMaterial : oMaterial}, true);
@@ -150,5 +142,15 @@ sap.ui.define([
 			oImageDisplayModel.setProperty("/mimeType", oReturnData.data.mimeType);
 			oCallingController.displayImage(oCallingController);
 		},
+		
+		
+		/**
+		 * Resets UI elements.
+	     * Image and ComboBox for material selection.
+		 */
+		resetUiElements : function () {
+			this.getView().byId("materialComboBox").setSelectedItem(null);
+			this.getView().byId("materialImage").setSrc(null);
+		}
 	});
 });
