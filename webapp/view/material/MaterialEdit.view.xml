@@ -13,8 +13,8 @@
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>materialEdit.selectionDescription}"/>
-				<ComboBox id="materialComboBox" items="{path: '/materials/data/material/'}" selectionChange=".onMaterialSelectionChange">
-					<core:Item key="{id}" text="{id} - {name}"/>
+				<ComboBox id="materialComboBox" items="{path: 'materials>/material/'}" selectionChange=".onMaterialSelectionChange">
+					<core:Item key="{materials>id}" text="{materials>id} - {materials>name}"/>
 				</ComboBox>
 			</l:VerticalLayout>
 			
@@ -45,25 +45,25 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>material.id}">
 								<f:fields>
-									<Input value="{/selectedMaterial/materialId}" enabled="false" editable="false"/>
+									<Input id="idInput" value="{selectedMaterial>/materialId}" enabled="false" editable="false"/>
 								</f:fields>
 							</f:FormElement>
 	
 							<f:FormElement label="{i18n>material.name}">
 								<f:fields>
-									<Input maxLength="50" value="{/selectedMaterial/name}" required="true"/>
+									<Input id="nameInput" maxLength="50" value="{selectedMaterial>/name}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>material.description}">
 								<f:fields>
-									<TextArea maxLength="250" value="{/selectedMaterial/description}" rows="5"/>
+									<TextArea id="descriptionTextArea" maxLength="250" value="{selectedMaterial>/description}" rows="5"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>material.unit}">
 								<f:fields>
-									<ComboBox id="unitComboBox" selectedKey="{/selectedMaterial/unit}" required="true"/>
+									<ComboBox id="unitComboBox" selectedKey="{selectedMaterial>/unit}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
@@ -77,7 +77,7 @@
 								<f:fields>
 									<Input id="inventoryInput" type="Number" required="true"
 										value="{
-											path : '/selectedMaterial/inventory',
+											path : 'selectedMaterial>/inventory',
 											type : 'sap.ui.model.type.Integer',
 											constraints : {
 												minimum: 0,
