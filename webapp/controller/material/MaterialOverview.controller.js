@@ -59,7 +59,7 @@ sap.ui.define([
 		 */
 		getSelectedMaterial : function () {
 			var oListItem = this.getView().byId("materialTable").getSelectedItem();
-			var oContext = oListItem.getBindingContext();
+			var oContext = oListItem.getBindingContext("materials");
 			var oSelectedMaterial = oContext.getProperty(null, oContext);
 			
 			return oSelectedMaterial;
@@ -73,9 +73,9 @@ sap.ui.define([
 			var oModel = new JSONModel();
 			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
-			oModel.setData({materials : oReturnData});
-			
 			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+				
 				if(bShowSuccessMessage == true) {
 					MessageToast.show(oResourceBundle.getText("materialOverview.dataLoaded"));
 				}					
@@ -85,7 +85,7 @@ sap.ui.define([
 					MessageToast.show(oReturnData.message[0].text);
 			}
 
-			oCallingController.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel, "materials");
 		},
 		
 		

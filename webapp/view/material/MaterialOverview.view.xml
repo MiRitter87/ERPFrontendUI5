@@ -9,7 +9,7 @@
 	
 	<Page title="{i18n>materialOverview.header}">
 		<content>
-			<Table id="materialTable" items="{path: '/materials/data/material/'}" mode="SingleSelectMaster">
+			<Table id="materialTable" items="{path: 'materials>/material/'}" mode="SingleSelectMaster">
 				<headerToolbar>
 					<OverflowToolbar>
 						<ToolbarSpacer/>
@@ -40,15 +40,15 @@
 				<items>
 					<ColumnListItem>
 						<cells>
-							<ObjectIdentifier text="{id}"/>
-							<Text text="{name}"/>
-							<Text text="{description}"/>
-							<ObjectNumber unit="{currency}" number="{
-										parts:[{path:'pricePerUnit'},{path:'currency'}],
+							<ObjectIdentifier text="{materials>id}"/>
+							<Text text="{materials>name}"/>
+							<Text text="{materials>description}"/>
+							<ObjectNumber unit="{materials>currency}" number="{
+										parts:[{path:'materials>pricePerUnit'},{path:'materials>currency'}],
 										type: 'sap.ui.model.type.Currency',
 										formatOptions: {showMeasure: false}}"/>
-							<Text text="{inventory}"/>
-							<Text text="{unit}"/>
+							<Text text="{materials>inventory}"/>
+							<Text text="{materials>unit}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
