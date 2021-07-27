@@ -12,8 +12,8 @@
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>materialDisplay.selectionDescription}"/>
-				<ComboBox id="materialComboBox" items="{path: '/materials/data/material/'}" selectionChange=".onMaterialSelectionChange">
-					<core:Item key="{id}" text="{id} - {name}"/>
+				<ComboBox id="materialComboBox" items="{path: 'materials>/material/'}" selectionChange=".onMaterialSelectionChange">
+					<core:Item key="{materials>id}" text="{materials>id} - {materials>name}"/>
 				</ComboBox>
 			</l:VerticalLayout>
 			
@@ -44,32 +44,32 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>material.id}">
 								<f:fields>
-									<Text text="{/selectedMaterial/id}"/>
+									<Text id="idText" text="{selectedMaterial>/id}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>material.name}">
 								<f:fields>
-									<Text text="{/selectedMaterial/name}"/>
+									<Text id="nameText" text="{selectedMaterial>/name}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>material.description}">
 								<f:fields>
-									<Text text="{/selectedMaterial/description}"/>
+									<Text id="descriptionText" text="{selectedMaterial>/description}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>material.unit}">
 								<f:fields>
-									<Text text="{/selectedMaterial/unit}"/>
+									<Text id="unitText" text="{selectedMaterial>/unit}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>material.price}">
 								<f:fields>
-									<ObjectNumber binding="{/selectedMaterial}" unit="{currency}" number="{
-										parts:[{path:'pricePerUnit'},{path:'currency'}],
+									<ObjectNumber id="priceObjectNumber" unit="{selectedMaterial>/currency}" number="{
+										parts:[{path:'selectedMaterial>/pricePerUnit'},{path:'selectedMaterial>/currency'}],
 										type: 'sap.ui.model.type.Currency',
 										formatOptions: {showMeasure: false}}"/>
 								</f:fields>
@@ -77,7 +77,7 @@
 							
 							<f:FormElement label="{i18n>material.inventory}">
 								<f:fields>
-									<Text text="{/selectedMaterial/inventory}"/>
+									<Text id="inventoryText" text="{selectedMaterial>/inventory}"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

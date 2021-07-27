@@ -25,6 +25,7 @@ sap.ui.define([
 			//Query material data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this);
 			this.resetUiElements();
+			this.getView().byId("priceObjectNumber").setVisible(false);
     	},
 		
 		
@@ -33,17 +34,19 @@ sap.ui.define([
 		 */
 		onMaterialSelectionChange : function (oControlEvent) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
-			var oModel = this.getView().getModel();
-			var oMaterials = oModel.oData.materials;
+			var oMaterials = this.getView().getModel("materials");
 			var oMaterial;
+			var oMaterialModel = new JSONModel();
 			
 			if(oSelectedItem == null)
 				return;
 				
-			oMaterial = MaterialController.getMaterialById(oSelectedItem.getKey(), oMaterials.data.material);
+			oMaterial = MaterialController.getMaterialById(oSelectedItem.getKey(), oMaterials.oData.material);
+			oMaterialModel.setData(oMaterial);
 			
 			//Set the model of the view according to the selected material to allow binding of the UI elements.
-			oModel.setData({selectedMaterial : oMaterial}, true);
+			this.getView().setModel(oMaterialModel, "selectedMaterial");
+			this.getView().byId("priceObjectNumber").setVisible(true);
 			
 			//Reset the model that stores the image of the previously selected material.
 			this.initializeImageDisplayModel();
@@ -97,10 +100,9 @@ sap.ui.define([
 		queryMaterialsCallback : function (oReturnData, oCallingController) {
 			var oModel = new JSONModel();
 			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
-			
-			oModel.setData({materials : oReturnData});
-			
+						
 			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
 				MessageToast.show(oResourceBundle.getText("materialDisplay.dataLoaded"));
 			}
 			else {
@@ -108,7 +110,7 @@ sap.ui.define([
 					MessageToast.show(oReturnData.message[0].text);
 			}
 
-			oCallingController.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel, "materials");
 		},
 		
 		
@@ -150,6 +152,11 @@ sap.ui.define([
 		 */
 		resetUiElements : function () {
 			this.getView().byId("materialComboBox").setSelectedItem(null);
+			this.getView().byId("idText").setText("");
+			this.getView().byId("nameText").setText("");
+			this.getView().byId("descriptionText").setText("");
+			this.getView().byId("unitText").setText("");
+			this.getView().byId("inventoryText").setText("");
 			this.getView().byId("materialImage").setSrc(null);
 		}
 	});
