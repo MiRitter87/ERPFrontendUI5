@@ -12,10 +12,10 @@
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>businessPartnerEdit.selectionDescription}"/>
-				<ComboBox id="businessPartnerComboBox" items="{path: '/businessPartners/data/businessPartner/'}" 
+				<ComboBox id="businessPartnerComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
 					selectionChange=".onBusinessPartnerSelectionChange">
 					
-					<core:Item key="{id}" text="{id} - {companyName}"/>
+					<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
 				</ComboBox>
 			</l:VerticalLayout>
 		
@@ -46,31 +46,31 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>businessPartner.companyName}">
 								<f:fields>
-									<Input maxLength="50" value="{/selectedBusinessPartner/companyName}" required="true"/>
+									<Input id="companyNameInput" maxLength="50" value="{selectedBusinessPartner>/companyName}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>businessPartner.streetName}">
 								<f:fields>
-									<Input maxLength="100" value="{/selectedBusinessPartner/streetName}" required="true"/>
+									<Input id="streetNameInput" maxLength="100" value="{selectedBusinessPartner>/streetName}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>businessPartner.houseNumber}">
 								<f:fields>
-									<Input maxLength="6" value="{/selectedBusinessPartner/houseNumber}" required="true"/>
+									<Input id="houseNumberInput" maxLength="6" value="{selectedBusinessPartner>/houseNumber}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>businessPartner.zipCode}">
 								<f:fields>
-									<Input maxLength="5" value="{/selectedBusinessPartner/zipCode}" required="true"/>
+									<Input id="zipCodeInput" maxLength="5" value="{selectedBusinessPartner>/zipCode}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>businessPartner.cityName}">
 								<f:fields>
-									<Input maxLength="100" value="{/selectedBusinessPartner/cityName}" required="true"/>
+									<Input id="cityNameInput" maxLength="100" value="{selectedBusinessPartner>/cityName}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>
@@ -79,19 +79,19 @@
 					<f:FormContainer title="{i18n>businessPartnerEdit.titleContact}">
 						<f:FormElement label="{i18n>businessPartner.firstName}">
 							<f:fields>
-								<Input maxLength="50" value="{/selectedBusinessPartner/firstName}"/>
+								<Input id="firstNameInput" maxLength="50" value="{selectedBusinessPartner>/firstName}"/>
 							</f:fields>
 						</f:FormElement>
 						
 						<f:FormElement label="{i18n>businessPartner.lastName}">
 							<f:fields>
-								<Input maxLength="50" value="{/selectedBusinessPartner/lastName}"/>
+								<Input id="lastNameInput" maxLength="50" value="{selectedBusinessPartner>/lastName}"/>
 							</f:fields>
 						</f:FormElement>
 				
 						<f:FormElement label="{i18n>businessPartner.phoneNumber}">
 							<f:fields>
-								<Input maxLength="40" value="{/selectedBusinessPartner/phoneNumber}" required="true"/>
+								<Input id="phoneNumberInput" maxLength="40" value="{selectedBusinessPartner>/phoneNumber}" required="true"/>
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>

@@ -3,6 +3,23 @@ sap.ui.define([
 	"use strict";
 	return {
 		/**
+		 * Gets the business partner data of the business partner with the given ID.
+		 */
+		getBusinessPartnerById : function(iBusinessPartnerId, oBusinessPartners) {
+			//Get the selected business partner from the array of all business partners according to the id.
+			for(var i = 0; i < oBusinessPartners.length; i++) {
+    			var oTempBusinessPartner = oBusinessPartners[i];
+    			
+				if(oTempBusinessPartner.id == iBusinessPartnerId) {
+					return oTempBusinessPartner;
+				}
+			}
+			
+			return null;
+		},
+		
+		
+		/**
 		 * Calls a WebService operation to create a business partner.
 		 */
 		createBusinessPartnerByWebService : function(oBusinessPartnerModel, callbackFunction, oCallingController) {
