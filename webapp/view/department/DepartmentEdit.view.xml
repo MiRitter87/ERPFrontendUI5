@@ -12,8 +12,8 @@
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>departmentEdit.selectionDescription}"/>
-				<ComboBox id="departmentComboBox" items="{path: '/departments/data/department/'}" selectionChange=".onDepartmentSelectionChange">
-					<core:Item key="{code}" text="{code} - {name}"/>
+				<ComboBox id="departmentComboBox" items="{path: 'departments>/department/'}" selectionChange=".onDepartmentSelectionChange">
+					<core:Item key="{departments>code}" text="{departments>code} - {departments>name}"/>
 				</ComboBox>
 			</l:VerticalLayout>
 			
@@ -44,28 +44,28 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>department.code}">
 								<f:fields>
-									<Input value="{/selectedDepartment/code}" enabled="false" editable="false"/>
+									<Input id="codeInput" value="{selectedDepartment>/code}" enabled="false" editable="false"/>
 								</f:fields>
 							</f:FormElement>
 	
 							<f:FormElement label="{i18n>department.name}">
 								<f:fields>
-									<Input id="nameInput" maxLength="50" value="{/selectedDepartment/name}" required="true"/>
+									<Input id="nameInput" maxLength="50" value="{selectedDepartment>/name}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>department.description}">
 								<f:fields>
-									<TextArea id="descriptionTextArea" maxLength="250" value="{/selectedDepartment/description}" rows="5"/>
+									<TextArea id="descriptionTextArea" maxLength="250" value="{selectedDepartment>/description}" rows="5"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>department.head}">
 								<f:fields>
-									<ComboBox id="headComboBox" items="{path: '/employees/data/employee/'}" selectedKey="{/selectedDepartment/head/id}"
+									<ComboBox id="headComboBox" items="{path: 'employees>/employee/'}" selectedKey="{selectedDepartment>/head/id}"
 										selectionChange=".onHeadSelectionChange" required="true">
 										
-										<core:Item key="{id}" text="{id} - {firstName} {lastName}"/>
+										<core:Item key="{employees>id}" text="{employees>id} - {employees>firstName} {employees>lastName}"/>
 									</ComboBox>
 								</f:fields>
 							</f:FormElement>

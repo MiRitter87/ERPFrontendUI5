@@ -21,12 +21,11 @@ sap.ui.define([
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
 		_onRouteMatched: function () {
-			//Query department data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
-			this.getView().setModel(new JSONModel());
+			//Query department and employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			DepartmentController.queryDepartmentsByWebService(this.queryDepartmentsCallback, this, true);
 			DepartmentController.queryEmployeesByWebService(this.queryEmployeesCallback, this, "ALL");
 			
-			this.getView().byId("departmentComboBox").setSelectedItem(null);
+			this.resetUIElements();
     	},
 		
 		
@@ -35,24 +34,18 @@ sap.ui.define([
 		 */
 		onDepartmentSelectionChange : function (oControlEvent) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
-			var oModel = this.getView().getModel();
-			var oDepartments = oModel.oData.departments;
+			var oDepartments = this.getView().getModel("departments");
 			var oDepartment;
+			var oDepartmentModel = new JSONModel();
 			
 			if(oSelectedItem == null)
 				return;
+				
+			oDepartment = DepartmentController.getDepartmentById(oSelectedItem.getKey(), oDepartments.oData.department);
+			oDepartmentModel.setData(oDepartment);
 			
-			//Get the selected department from the array of all departments according to the code.
-			for(var i = 0; i < oDepartments.data.department.length; i++) {
-    			var oTempDepartment = oDepartments.data.department[i];
-    			
-				if(oTempDepartment.code == oSelectedItem.getKey()) {
-					oDepartment = oTempDepartment;
-				}
-			}
-			
-			//Set the model of the view according to the selected department to allow binding of the UI elements.
-			oModel.setData({departments:oDepartments, selectedDepartment : oDepartment}, true);
+			//Set the model of the view according to the selected business partner to allow binding of the UI elements.
+			this.getView().setModel(oDepartmentModel, "selectedDepartment");
 		},
 		
 		
@@ -61,24 +54,15 @@ sap.ui.define([
 		 */
 		onHeadSelectionChange : function (oControlEvent) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
-			var oModel = this.getView().getModel();
-			var oSelectedDepartment = oModel.oData.selectedDepartment;
-			var oEmployees = oModel.oData.employees;
+			var oEmployeesModel = this.getView().getModel("employees");
+			var oDepartmentModel = this.getView().getModel("selectedDepartment");
 			var oSelectedEmployee;
 			
 			if(oSelectedItem == null)
 				return;
 			
-			//Get the selected employee from the array of all employees according to the id.
-			for(var i = 0; i < oEmployees.data.employee.length; i++) {
-    			var oTempEmployee = oEmployees.data.employee[i];
-    			
-				if(oTempEmployee.id == oSelectedItem.getKey()) {
-					oSelectedEmployee = oTempEmployee;
-				}
-			}
-			
-			oSelectedDepartment.head = oSelectedEmployee;
+			oSelectedEmployee = DepartmentController.getEmployeeById(oSelectedItem.getKey(), oEmployeesModel.oData.employee);			
+			oDepartmentModel.setData({head: oSelectedEmployee}, true);
 		},
 		
 		
@@ -98,8 +82,7 @@ sap.ui.define([
 				return;
 			}
 			
-			DepartmentController.saveDepartmentByWebService(
-				new JSONModel(this.getView().getModel().getProperty("/selectedDepartment")), this.saveDepartmentCallback, this);
+			DepartmentController.saveDepartmentByWebService(this.getView().getModel("selectedDepartment"), this.saveDepartmentCallback, this);
 		},
 		
 		
@@ -110,7 +93,6 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			
 			oRouter.navTo("startPageRoute");	
-			this.getView().byId("departmentComboBox").setSelectedItem(null);
 		},
 		
 		
@@ -118,12 +100,12 @@ sap.ui.define([
 		 * Callback function of the queryDepartments RESTful WebService call in the DepartmentController.
 		 */
 		queryDepartmentsCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
+			var oModel = new JSONModel();
 			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
-			var oModel = oCallingController.getView().getModel();
-			
-			oModel.setData({departments : oReturnData}, true);
 			
 			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+				
 				if(bShowSuccessMessage == true)
 					MessageToast.show(oResourceBundle.getText("departmentEdit.dataLoaded"));
 			}
@@ -132,7 +114,7 @@ sap.ui.define([
 					MessageToast.show(oReturnData.message[0].text);
 			}                                                 
 			
-			oCallingController.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel, "departments");
 		},
 		
 		
@@ -140,15 +122,17 @@ sap.ui.define([
 		 * Callback function of the queryEmployees RESTful WebService call in the DepartmentController.
 		 */
 		queryEmployeesCallback : function(oReturnData, oCallingController) {
-			var oModel = oCallingController.getView().getModel();
-
-			oModel.setData({employees : oReturnData}, true);
-
-			if(oReturnData.data == null && oReturnData.message != null)  {
-				MessageToast.show(oReturnData.message[0].text);
+			var oModel = new JSONModel();
+			
+			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+			}
+			else {
+				if(oReturnData.message != null)
+					MessageToast.show(oReturnData.message[0].text);
 			}
 			
-			oCallingController.getView().setModel(oModel);	                                                                 
+			oCallingController.getView().setModel(oModel, "employees");	                                                                 
 		},
 		
 		
@@ -160,10 +144,9 @@ sap.ui.define([
 				if(oReturnData.message[0].type == 'S') {
 					//Update the data source of the ComboBox with the new department data.
 					DepartmentController.queryDepartmentsByWebService(oCallingController.queryDepartmentsCallback, oCallingController, false);
-					//Clear ComboBox preventing display of wrong data (Code - Name).
-					oCallingController.getView().byId("departmentComboBox").setSelectedKey(null);
+					oCallingController.resetUIElements();
 					//Clear selectedDepartment because no ComboBox item is selected.
-					oCallingController.getView().getModel().setProperty("/selectedDepartment", null);	
+					oCallingController.getView().setModel(null, "selectedDepartment");	
 					MessageToast.show(oReturnData.message[0].text);
 				}
 				
@@ -179,6 +162,21 @@ sap.ui.define([
 					MessageBox.warning(oReturnData.message[0].text);
 				}
 			}
+		},
+		
+		
+		/**
+		 * Resets the UI elements.
+		 */
+		resetUIElements : function () {
+			this.getView().byId("departmentComboBox").setSelectedItem(null);
+			
+			this.getView().byId("codeInput").setValue("");
+			this.getView().byId("nameInput").setValue("");
+			this.getView().byId("descriptionTextArea").setValue("");
+			
+			this.getView().byId("headComboBox").setSelectedItem(null);
+
 		}
 	});
 });

@@ -19,6 +19,22 @@ sap.ui.define([
 		
 		
 		/**
+		 * Gets the data of the department with the given ID.
+		 */
+		getDepartmentById : function(sDepartmentCode, oDepartments) {
+			for(var i = 0; i < oDepartments.length; i++) {
+    			var oTempDepartment = oDepartments[i];
+    			
+				if(oTempDepartment.code == sDepartmentCode) {
+					return oTempDepartment;
+				}
+			}
+			
+			return null;
+		},
+		
+		
+		/**
 		 * Queries the employee WebService for all employees.
 		 */
 		queryEmployeesByWebService : function(callbackFunction, oCallingController, sHeadQueryParameter) {
