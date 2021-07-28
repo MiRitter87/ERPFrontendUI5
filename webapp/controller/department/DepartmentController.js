@@ -3,6 +3,22 @@ sap.ui.define([
 	"use strict";
 	return {
 		/**
+		 * Gets the data of the employee with the given ID.
+		 */
+		getEmployeeById : function(iEmployeeId, oEmployees) {
+			for(var i = 0; i < oEmployees.length; i++) {
+    			var oTempEmployee = oEmployees[i];
+    			
+				if(oTempEmployee.id == iEmployeeId) {
+					return oTempEmployee;
+				}
+			}
+			
+			return null;
+		},
+		
+		
+		/**
 		 * Queries the employee WebService for all employees.
 		 */
 		queryEmployeesByWebService : function(callbackFunction, oCallingController, sHeadQueryParameter) {

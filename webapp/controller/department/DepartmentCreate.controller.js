@@ -51,7 +51,6 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			
 			this.initializeDepartmentModel();
-			this.deselectHeadSelection();
 			oRouter.navTo("startPageRoute");	
 		},
 		
@@ -61,23 +60,14 @@ sap.ui.define([
 		 */
 		onHeadSelectionChange : function (oControlEvent) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
-			var oModel = this.getView().getModel();
+			var oEmployeesModel = this.getView().getModel("employees");
 			var oDepartmentModel = this.getView().getModel("newDepartment");
-			var oEmployees = oModel.oData.employees;
 			var oSelectedEmployee;
 			
 			if(oSelectedItem == null)
 				return;
 			
-			//Get the selected employee from the array of all employees according to the id.
-			for(var i = 0; i < oEmployees.data.employee.length; i++) {
-    			var oTempEmployee = oEmployees.data.employee[i];
-    			
-				if(oTempEmployee.id == oSelectedItem.getKey()) {
-					oSelectedEmployee = oTempEmployee;
-				}
-			}
-			
+			oSelectedEmployee = DepartmentController.getEmployeeById(oSelectedItem.getKey(), oEmployeesModel.oData.employee);			
 			oDepartmentModel.setData({head: oSelectedEmployee}, true);
 		},
 		
@@ -108,13 +98,15 @@ sap.ui.define([
 		queryEmployeesCallback : function(oReturnData, oCallingController) {
 			var oModel = new JSONModel();
 			
-			oModel.setData({employees : oReturnData});
+			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+			}
+			else {
+				if(oReturnData.message != null)
+					MessageToast.show(data.message[0].text);
+			}                                                            
 			
-			if(oReturnData.data == null && oReturnData.message != null)  {
-				MessageToast.show(oReturnData.message[0].text);
-			}                                                               
-			
-			oCallingController.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel, "employees");
 		},
 		
 		

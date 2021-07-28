@@ -51,10 +51,10 @@
 							
 							<f:FormElement label="{i18n>department.head}">
 								<f:fields>
-									<ComboBox id="headComboBox" items="{path: '/employees/data/employee/'}" 
+									<ComboBox id="headComboBox" items="{path: 'employees>/employee/'}" 
 										selectionChange=".onHeadSelectionChange" required="true">
 												
-										<core:Item key="{id}" text="{id} - {firstName} {lastName}"/>
+										<core:Item key="{employees>id}" text="{employees>id} - {employees>firstName} {employees>lastName}"/>
 									</ComboBox>
 								</f:fields>
 							</f:FormElement>
