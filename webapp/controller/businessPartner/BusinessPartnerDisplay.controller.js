@@ -21,9 +21,9 @@ sap.ui.define([
 		 */
 		_onRouteMatched: function () {
 			//Query business partner data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
-			this.getView().setModel(new JSONModel());
-			this.getView().byId("businessPartnerComboBox").setSelectedItem(null);
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, true);
+			
+			this.resetUIElements();	
     	},
 		
 		
@@ -32,24 +32,18 @@ sap.ui.define([
 		 */
 		onBusinessPartnerSelectionChange : function (oControlEvent) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
-			var oModel = this.getView().getModel();
-			var oBusinessPartners = oModel.oData.businessPartners;
+			var oBusinessPartners = this.getView().getModel("businessPartners");
 			var oBusinessPartner;
+			var oBusinessPartnerModel = new JSONModel();
 			
 			if(oSelectedItem == null)
 				return;
 			
-			//Get the selected business partner from the array of all business partners according to the id.
-			for(var i = 0; i < oBusinessPartners.data.businessPartner.length; i++) {
-    			var oTempBusinessPartner = oBusinessPartners.data.businessPartner[i];
-    			
-				if(oTempBusinessPartner.id == oSelectedItem.getKey()) {
-					oBusinessPartner = oTempBusinessPartner;
-				}
-			}
+			oBusinessPartner = BusinessPartnerController.getBusinessPartnerById(oSelectedItem.getKey(), oBusinessPartners.oData.businessPartner);
+			oBusinessPartnerModel.setData(oBusinessPartner);
 			
 			//Set the model of the view according to the selected business partner to allow binding of the UI elements.
-			oModel.setData({selectedBusinessPartner : oBusinessPartner}, true);
+			this.getView().setModel(oBusinessPartnerModel, "selectedBusinessPartner");
 		},
 		
 		
@@ -57,12 +51,12 @@ sap.ui.define([
 		 * Callback function of the queryBusinessPartners RESTful WebService call in the BusinessPartnerController.
 		 */
 		queryBusinessPartnersCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
-			var oModel = oCallingController.getView().getModel();
+			var oModel = new JSONModel();
 			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
-			oModel.setData({businessPartners : oReturnData}, true);
-			
 			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+				
 				if(bShowSuccessMessage == true)
 					MessageToast.show(oResourceBundle.getText("businessPartnerDisplay.dataLoaded"));
 			}
@@ -71,7 +65,25 @@ sap.ui.define([
 					MessageToast.show(data.message[0].text);
 			}                                                          
 	
-			oCallingController.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel, "businessPartners");
+		},
+		
+		
+		/**
+		 * Resets the UI elements.
+		 */
+		resetUIElements : function () {
+			this.getView().byId("businessPartnerComboBox").setSelectedItem(null);
+
+			this.getView().byId("companyNameText").setText("");
+			this.getView().byId("streetNameText").setText("");
+			this.getView().byId("houseNumberText").setText("");
+			this.getView().byId("zipCodeText").setText("");
+			this.getView().byId("cityNameText").setText("");
+			
+			this.getView().byId("firstNameText").setText("");
+			this.getView().byId("lastNameText").setText("");
+			this.getView().byId("phoneNumberText").setText("");
 		}
 	});
 });

@@ -12,10 +12,10 @@
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>businessPartnerDisplay.selectionDescription}"/>
-				<ComboBox id="businessPartnerComboBox" items="{path: '/businessPartners/data/businessPartner/'}" 
+				<ComboBox id="businessPartnerComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
 					selectionChange=".onBusinessPartnerSelectionChange">
 					
-					<core:Item key="{id}" text="{id} - {companyName}"/>
+					<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
 				</ComboBox>
 			</l:VerticalLayout>
 			
@@ -46,31 +46,31 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>businessPartner.companyName}">
 								<f:fields>
-									<Text text="{/selectedBusinessPartner/companyName}"/>
+									<Text id="companyNameText" text="{selectedBusinessPartner>/companyName}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>businessPartner.streetName}">
 								<f:fields>
-									<Text text="{/selectedBusinessPartner/streetName}"/>
+									<Text id="streetNameText" text="{selectedBusinessPartner>/streetName}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>businessPartner.houseNumber}">
 								<f:fields>
-									<Text text="{/selectedBusinessPartner/houseNumber}"/>
+									<Text id="houseNumberText" text="{selectedBusinessPartner>/houseNumber}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>businessPartner.zipCode}">
 								<f:fields>
-									<Text text="{/selectedBusinessPartner/zipCode}"/>
+									<Text id="zipCodeText" text="{selectedBusinessPartner>/zipCode}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>businessPartner.cityName}">
 								<f:fields>
-									<Text text="{/selectedBusinessPartner/cityName}"/>
+									<Text id="cityNameText" text="{selectedBusinessPartner>/cityName}"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>
@@ -79,19 +79,19 @@
 					<f:FormContainer title="{i18n>businessPartnerDisplay.titleContact}">
 						<f:FormElement label="{i18n>businessPartner.firstName}">
 							<f:fields>
-								<Text text="{/selectedBusinessPartner/firstName}"/>
+								<Text id="firstNameText" text="{selectedBusinessPartner>/firstName}"/>
 							</f:fields>
 						</f:FormElement>
 						
 						<f:FormElement label="{i18n>businessPartner.lastName}">
 							<f:fields>
-								<Text text="{/selectedBusinessPartner/lastName}"/>
+								<Text id="lastNameText" text="{selectedBusinessPartner>/lastName}"/>
 							</f:fields>
 						</f:FormElement>
 				
 						<f:FormElement label="{i18n>businessPartner.phoneNumber}">
 							<f:fields>
-								<Text text="{/selectedBusinessPartner/phoneNumber}"/>
+								<Text id="phoneNumberText" text="{selectedBusinessPartner>/phoneNumber}"/>
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>
