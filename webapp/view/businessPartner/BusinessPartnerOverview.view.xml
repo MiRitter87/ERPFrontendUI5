@@ -9,7 +9,7 @@
 	
 	<Page title="{i18n>businessPartnerOverview.header}">
 		<content>
-			<Table id="businessPartnerTable" items="{path: '/businessPartners/data/businessPartner/'}" mode="SingleSelectMaster">
+			<Table id="businessPartnerTable" items="{path: 'businessPartners>/businessPartner/'}" mode="SingleSelectMaster">
 				<headerToolbar>
 					<OverflowToolbar>
 						<ToolbarSpacer/>
@@ -49,15 +49,15 @@
 				<items>
 					<ColumnListItem>
 						<cells>
-							<ObjectIdentifier text="{id}"/>
-							<Text text="{companyName}"/>
-							<Text text="{streetName}"/>
-							<Text text="{houseNumber}"/>
-							<Text text="{zipCode}"/>
-							<Text text="{cityName}"/>
-							<Text text="{firstName}"/>
-							<Text text="{lastName}"/>
-							<Text text="{phoneNumber}"/>
+							<ObjectIdentifier text="{businessPartners>id}"/>
+							<Text text="{businessPartners>companyName}"/>
+							<Text text="{businessPartners>streetName}"/>
+							<Text text="{businessPartners>houseNumber}"/>
+							<Text text="{businessPartners>zipCode}"/>
+							<Text text="{businessPartners>cityName}"/>
+							<Text text="{businessPartners>firstName}"/>
+							<Text text="{businessPartners>lastName}"/>
+							<Text text="{businessPartners>phoneNumber}"/>
 						</cells>
 					</ColumnListItem>
 				</items>

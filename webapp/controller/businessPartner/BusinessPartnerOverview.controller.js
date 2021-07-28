@@ -59,7 +59,7 @@ sap.ui.define([
 		 */
 		getSelectedBusinessPartner : function () {
 			var oListItem = this.getView().byId("businessPartnerTable").getSelectedItem();
-			var oContext = oListItem.getBindingContext();
+			var oContext = oListItem.getBindingContext("businessPartners");
 			var oSelectedBusinessPartner = oContext.getProperty(null, oContext);
 			
 			return oSelectedBusinessPartner;
@@ -72,10 +72,10 @@ sap.ui.define([
 		queryBusinessPartnersCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
 			var oModel = new JSONModel();
 			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
-			
-			oModel.setData({businessPartners : oReturnData});
-			
+						
 			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+				
 				if(bShowSuccessMessage == true) {
 					MessageToast.show(oResourceBundle.getText("businessPartnerOverview.dataLoaded"));
 				}					
@@ -85,7 +85,7 @@ sap.ui.define([
 					MessageToast.show(oReturnData.message[0].text);
 			}
 
-			oCallingController.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel, "businessPartners");
 		},
 		
 		
