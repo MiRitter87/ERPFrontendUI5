@@ -12,8 +12,8 @@
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>departmentDisplay.selectionDescription}"/>
-				<ComboBox id="departmentComboBox" items="{path: '/departments/data/department/'}" selectionChange=".onDepartmentSelectionChange">
-					<core:Item key="{code}" text="{code} - {name}"/>
+				<ComboBox id="departmentComboBox" items="{path: 'departments>/department/'}" selectionChange=".onDepartmentSelectionChange">
+					<core:Item key="{departments>code}" text="{departments>code} - {departments>name}"/>
 				</ComboBox>
 			</l:VerticalLayout>
 			
@@ -44,25 +44,25 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>department.code}">
 								<f:fields>
-									<Text text="{/selectedDepartment/code}"/>
+									<Text id="codeText" text="{selectedDepartment>/code}"/>
 								</f:fields>
 							</f:FormElement>
 	
 							<f:FormElement label="{i18n>department.name}">
 								<f:fields>
-									<Text text="{/selectedDepartment/name}"/>
+									<Text id="nameText" text="{selectedDepartment>/name}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>department.description}">
 								<f:fields>
-									<Text text="{/selectedDepartment/description}"/>
+									<Text id="descriptionText" text="{selectedDepartment>/description}"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>department.head}">
 								<f:fields>
-									<Text text="{/selectedDepartment/head/firstName} {/selectedDepartment/head/lastName}"/>
+									<Text id="headText" text="{selectedDepartment>/head/firstName} {selectedDepartment>/head/lastName}"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

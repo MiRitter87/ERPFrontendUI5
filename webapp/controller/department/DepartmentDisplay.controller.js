@@ -20,10 +20,10 @@ sap.ui.define([
 		/**
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
-		_onRouteMatched: function (oEvent) {
+		_onRouteMatched: function () {
 			//Query department data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			DepartmentController.queryDepartmentsByWebService(this.queryDepartmentsCallback, this);
-			this.getView().byId("departmentComboBox").setSelectedItem(null);
+			this.resetUIElements();
     	},
 
 
@@ -32,24 +32,18 @@ sap.ui.define([
 		 */
 		onDepartmentSelectionChange : function (oControlEvent) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
-			var oModel = this.getView().getModel();
-			var oDepartments = oModel.oData.departments;
+			var oDepartments = this.getView().getModel("departments");
 			var oDepartment;
+			var oDepartmentModel = new JSONModel();
 			
 			if(oSelectedItem == null)
 				return;
 			
-			//Get the selected department from the array of all departments according to the code.
-			for(var i = 0; i < oDepartments.data.department.length; i++) {
-    			var oTempDepartment = oDepartments.data.department[i];
-    			
-				if(oTempDepartment.code == oSelectedItem.getKey()) {
-					oDepartment = oTempDepartment;
-				}
-			}
+			oDepartment = DepartmentController.getDepartmentById(oSelectedItem.getKey(), oDepartments.oData.department);
+			oDepartmentModel.setData(oDepartment);
 			
 			//Set the model of the view according to the selected department to allow binding of the UI elements.
-			oModel.setData({departments:oDepartments, selectedDepartment : oDepartment});
+			this.getView().setModel(oDepartmentModel, "selectedDepartment");
 		},
 
 
@@ -57,12 +51,11 @@ sap.ui.define([
 		 * Callback function of the queryDepartments RESTful WebService call in the DepartmentController.
 		 */
 		queryDepartmentsCallback : function(oReturnData, oCallingController) {
-			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oModel = new JSONModel();
-			
-			oModel.setData({departments : oReturnData});
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
 			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
 				MessageToast.show(oResourceBundle.getText("departmentDisplay.dataLoaded"));
 			}
 			else {
@@ -70,7 +63,20 @@ sap.ui.define([
 					MessageToast.show(oReturnData.message[0].text);
 			}
                                                               
-			oCallingController.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel, "departments");
+		},
+		
+		
+		/**
+		 * Resets the UI elements.
+		 */
+		resetUIElements : function () {
+			this.getView().byId("departmentComboBox").setSelectedItem(null);
+
+			this.getView().byId("codeText").setText("");
+			this.getView().byId("nameText").setText("");
+			this.getView().byId("descriptionText").setText("");
+			this.getView().byId("headText").setText("");
 		}
 	});
 });
