@@ -39,7 +39,7 @@
 								<f:fields>
 									<Input id="monthlySalaryInput" type="Number" description="EUR" required="true"
 										value="{
-											path : '/employee/data/salaryData/monthlySalary',
+											path : 'employee>/salaryData/monthlySalary',
 											type : 'sap.ui.model.type.Integer',
 											constraints : {
 												minimum: 0,
@@ -50,7 +50,7 @@
 							
 							<f:FormElement label="{i18n>employeeSalaryEdit.lastChange}">
 								<f:fields>
-									<Label text="{path: '/employee/data/salaryData/salaryLastChange', formatter: '.formatter.wsDateFormatter'}" 
+									<Label text="{path: 'employee>/salaryData/salaryLastChange', formatter: '.formatter.wsDateFormatter'}" 
 										class="sapUiSmallMarginTop"/>
 								</f:fields>
 							</f:FormElement>

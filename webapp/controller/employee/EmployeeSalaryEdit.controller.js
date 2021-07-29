@@ -55,7 +55,7 @@ sap.ui.define([
 				return;
 			
 			this.updateSalaryLastChange();
-			EmployeeController.saveEmployeeByWebService(new JSONModel(this.getView().getModel().getProperty("/employee/data")),
+			EmployeeController.saveEmployeeByWebService(this.getView().getModel("employee"),
 				this.saveEmployeeCallback, this);
 		},
 		
@@ -65,8 +65,8 @@ sap.ui.define([
 		 */
 		onCancelPressed : function () {
 			//Query WebService and overwrite the users changes with the current backend state
-			var sEmployeeId = this.getView().getModel().getProperty("/employee/data/id");
-			this.queryEmployeeWebService(sEmployeeId, "employeeSalaryEdit.originalStateRestored");
+			var sEmployeeId = this.getView().getModel("employee").getProperty("/id");
+			EmployeeController.queryEmployeeById(this.queryEmployeeByIdCallback, this, sEmployeeId);
 		},
 		
 		
@@ -76,7 +76,7 @@ sap.ui.define([
 		updateSalaryLastChange : function () {
 			var iLastChange = new Date().getTime();
 			
-			this.getView().getModel().setProperty("/employee/data/salaryData/salaryLastChange", iLastChange);
+			this.getView().getModel("employee").setProperty("/salaryData/salaryLastChange", iLastChange);
 		},
 		
 		
@@ -84,24 +84,24 @@ sap.ui.define([
 		 * Callback function of the queryEmployeeById RESTful WebService call in the EmployeeController.
 		 */
 		queryEmployeeByIdCallback : function(oReturnData, oCallingController) {
-			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oModel = new JSONModel();
-
-			oModel.setData({employee : oReturnData});
-			oCallingController.getView().setModel(oModel);
-			
-			EmployeeController.initializeSalaryTitleWithName(oReturnData.data, oCallingController, 
-				oCallingController.getView().byId("toolbarTitle"));
-				
-			oCallingController.initializeSalaryData(oCallingController);
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
 			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+				
+				EmployeeController.initializeSalaryTitleWithName(oReturnData.data, oCallingController, 
+					oCallingController.getView().byId("toolbarTitle"));
+					
 				MessageToast.show(oResourceBundle.getText("employeeSalaryEdit.dataLoaded"));
 			}
 			else {
 				if(oReturnData.message != null)
 					MessageToast.show(oReturnData.message[0].text);
-			}				                                                              
+			}
+						                                                              
+			oCallingController.getView().setModel(oModel, "employee");
+			oCallingController.initializeSalaryData(oCallingController);
 		},
 		
 		
@@ -131,12 +131,12 @@ sap.ui.define([
 		initializeSalaryData : function (oCallingController) {
 			var oSalaryData, sEmployeeId;
 			
-			oSalaryData = oCallingController.getView().getModel().getProperty("/employee/data/salaryData");
+			oSalaryData = oCallingController.getView().getModel("employee").getProperty("/salaryData");
 			if(oSalaryData != null)
 				return;
 			
-			sEmployeeId = oCallingController.getView().getModel().getProperty("/employee/data/id");
-			oCallingController.getView().getModel().setProperty("/employee/data/salaryData", {id: sEmployeeId, monthlySalary: 0, salaryLastChange: null});
+			sEmployeeId = oCallingController.getView().getModel("employee").getProperty("/id");
+			oCallingController.getView().getModel("employee").setProperty("/salaryData", {id: sEmployeeId, monthlySalary: 0, salaryLastChange: null});
 		},
 		
 		
