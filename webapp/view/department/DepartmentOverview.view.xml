@@ -9,7 +9,7 @@
 	
 	<Page title="{i18n>departmentOverview.header}">
 		<content>
-			<Table id="departmentTable" items="{path: '/departments/data/department/'}" mode="SingleSelectMaster">
+			<Table id="departmentTable" items="{path: 'departments>/department/'}" mode="SingleSelectMaster">
 				<headerToolbar>
 					<OverflowToolbar>
 						<ToolbarSpacer/>
@@ -34,10 +34,10 @@
 				<items>
 					<ColumnListItem>
 						<cells>
-							<ObjectIdentifier text="{code}"/>
-							<Text text="{name}"/>
-							<Text text="{description}"/>
-							<Text text="{head/firstName} {head/lastName}"/>
+							<ObjectIdentifier text="{departments>code}"/>
+							<Text text="{departments>name}"/>
+							<Text text="{departments>description}"/>
+							<Text text="{departments>head/firstName} {departments>head/lastName}"/>
 						</cells>
 					</ColumnListItem>
 				</items>

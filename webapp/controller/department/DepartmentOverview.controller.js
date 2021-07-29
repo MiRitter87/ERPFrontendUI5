@@ -59,7 +59,7 @@ sap.ui.define([
 		 */
 		getSelectedDepartment : function () {
 			var oListItem = this.getView().byId("departmentTable").getSelectedItem();
-			var oContext = oListItem.getBindingContext();
+			var oContext = oListItem.getBindingContext("departments");
 			var oSelectedDepartment = oContext.getProperty(null, oContext);
 			
 			return oSelectedDepartment;
@@ -70,12 +70,12 @@ sap.ui.define([
 		 * Callback function of the queryDepartments RESTful WebService call in the DepartmentController.
 		 */
 		queryDepartmentsCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
-			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oModel = new JSONModel();
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 
-			oModel.setData({departments : oReturnData});
-			
 			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+				
 				if(bShowSuccessMessage == true) {
 					MessageToast.show(oResourceBundle.getText("departmentOverview.dataLoaded"));
 				}					
@@ -85,7 +85,7 @@ sap.ui.define([
 					MessageToast.show(oReturnData.message[0].text);
 			}                                                              
 			
-			oCallingController.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel, "departments");
 		},
 		
 		
