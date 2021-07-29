@@ -12,8 +12,8 @@
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>employeeDisplay.selectionDescription}"/>
-				<ComboBox id="employeeComboBox" items="{path: '/employees/data/employee/'}" selectionChange=".employeeSelectionChange">
-					<core:Item key="{id}" text="{id} - {firstName} {lastName}"/>
+				<ComboBox id="employeeComboBox" items="{path: 'employees>/employee/'}" selectionChange=".onEmployeeSelectionChange">
+					<core:Item key="{employees>id}" text="{employees>id} - {employees>firstName} {employees>lastName}"/>
 				</ComboBox>
 			</l:VerticalLayout>
 			
@@ -44,25 +44,25 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>employee.id}">
 								<f:fields>
-									<Text text="{/selectedEmployee/id}" />
+									<Text id="idText" text="{selectedEmployee>/id}" />
 								</f:fields>
 							</f:FormElement>
 	
 							<f:FormElement label="{i18n>employee.firstName}">
 								<f:fields>
-									<Text text="{/selectedEmployee/firstName}" />
+									<Text id="firstNameText" text="{selectedEmployee>/firstName}" />
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>employee.lastName}">
 								<f:fields>
-									<Text text="{/selectedEmployee/lastName}" />
+									<Text id="lastNameText" text="{selectedEmployee>/lastName}" />
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>employee.gender}">
 								<f:fields>
-									<Text id="gender"/>
+									<Text id="genderText"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

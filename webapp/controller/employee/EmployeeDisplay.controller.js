@@ -24,8 +24,7 @@ sap.ui.define([
 		_onRouteMatched: function () {
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			EmployeeController.queryEmployeesByWebService(this.queryEmployeesCallback, this);
-			this.getView().byId("employeeComboBox").setSelectedItem(null);
-			this.getView().byId("gender").setText("");
+			this.resetUIElements();
     	},
 		
 		
@@ -57,26 +56,20 @@ sap.ui.define([
 		/**
 		 * Handles the selection of an item in the employee ComboBox.
 		 */
-		employeeSelectionChange : function (oControlEvent) {
-			var selectedItem = oControlEvent.getParameters().selectedItem;
-			var oModel = this.getView().getModel();
-			var employees = oModel.oData.employees;
-			var employee;
+		onEmployeeSelectionChange : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oEmployees = this.getView().getModel("employees");
+			var oEmployee;
+			var oEmployeeModel = new JSONModel();
 			
-			if(selectedItem == null)
+			if(oSelectedItem == null)
 				return;
+				
+			oEmployee = EmployeeController.getEmployeeById(oSelectedItem.getKey(), oEmployees.oData.employee);
+			oEmployeeModel.setData(oEmployee);
 			
-			//Get the selected employee from the array of all employees according to the id.
-			for(var i = 0; i < employees.data.employee.length; i++) {
-    			var tempEmployee = employees.data.employee[i];
-    			
-				if(tempEmployee.id == selectedItem.getKey()) {
-					employee = tempEmployee;
-				}
-			}
-			
-			//Set the model of the view according to the selected employee to allow binding of the UI elements.
-			oModel.setData({employees:employees, selectedEmployee : employee});
+			//Set the model of the view according to the selected business partner to allow binding of the UI elements.
+			this.getView().setModel(oEmployeeModel, "selectedEmployee");
 			
 			//Determine and set the localized gender name.
 			this.setLocalizedGender();
@@ -87,12 +80,11 @@ sap.ui.define([
 		 * Callback function of the queryEmployees RESTful WebService call in the EmployeeController.
 		 */
 		queryEmployeesCallback : function(oReturnData, oCallingController) {
-			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oModel = new JSONModel();
-			
-			oModel.setData({employees : oReturnData});
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
 			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
 				MessageToast.show(oResourceBundle.getText("employeeDisplay.dataLoaded"));
 			}
 			else {
@@ -100,7 +92,7 @@ sap.ui.define([
 					MessageToast.show(oReturnData.message[0].text);
 			}				                                                                
 			
-			oCallingController.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel, "employees");
 		},
 		
 		
@@ -109,12 +101,12 @@ sap.ui.define([
 		 */
 		setLocalizedGender : function () {
 			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-			var oModel = this.getView().getModel();
+			var oModel = this.getView().getModel("selectedEmployee");
 			var sGenderText = "", sGender = "";
 			
 			//1. Get the gender of the selected employee.
 			if(oModel != null)
-				sGender = oModel.getProperty("/selectedEmployee/gender");
+				sGender = oModel.getProperty("/gender");
 			
 			//2. Determine the localized text of the gender.
 			if(sGender == "MALE")
@@ -123,7 +115,7 @@ sap.ui.define([
 				sGenderText = oResourceBundle.getText("gender.female");
 			
 			//3. Apply the text to the gender label.
-			this.getView().byId("gender").setText(sGenderText);
+			this.getView().byId("genderText").setText(sGenderText);
 		},
 		
 		
@@ -131,8 +123,21 @@ sap.ui.define([
 		 * Gets the salary data of the selected employee.
 		 */
 		getEmployeeSalaryData : function () {
-			var salaryData = this.getView().getModel().getProperty("/selectedEmployee/salaryData");
+			var salaryData = this.getView().getModel("selectedEmployee").getProperty("/salaryData");
 			return salaryData;
+		},
+		
+		
+		/**
+		 * Resets the UI elements.
+		 */
+		resetUIElements : function () {
+			this.getView().byId("employeeComboBox").setSelectedItem(null);
+
+			this.getView().byId("idText").setText("");
+			this.getView().byId("firstNameText").setText("");
+			this.getView().byId("lastNameText").setText("");
+			this.getView().byId("genderText").setText("");
 		}
 	});
 
