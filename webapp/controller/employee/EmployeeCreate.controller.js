@@ -18,7 +18,6 @@ sap.ui.define([
 			
 			EmployeeController.initializeGenderComboBox(this.getView().byId("genderComboBox"),
 				this.getOwnerComponent().getModel("i18n").getResourceBundle());
-			this.initializeEmployeeModel();
 		},
 		
 		
@@ -26,7 +25,8 @@ sap.ui.define([
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
 		_onRouteMatched: function () {
-			this.getView().byId("genderComboBox").setSelectedItem(null);
+			this.initializeEmployeeModel();
+			this.resetUIElements();
     	},
 		
 		
@@ -39,7 +39,7 @@ sap.ui.define([
 				return;
 			}
 			
-			EmployeeController.createEmployeebyWebService(this.getView().getModel(), this.createEmployeeCallback, this);
+			EmployeeController.createEmployeebyWebService(this.getView().getModel("newEmployee"), this.createEmployeeCallback, this);
 		},
 		
 		
@@ -61,7 +61,7 @@ sap.ui.define([
 			var employeeModel = new JSONModel();
 			
 			employeeModel.loadData("model/employee/employeeCreate.json");
-			this.getView().setModel(employeeModel);
+			this.getView().setModel(employeeModel, "newEmployee");
 		},
 		
 		
@@ -92,7 +92,14 @@ sap.ui.define([
 		showMessageOnUndefinedGender : function () {
 			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			MessageBox.error(oResourceBundle.getText("employeeCreate.noGenderSelected"));
-		}
+		},
+		
+		
+		/**
+		 * Resets the UI elements.
+		 */
+		resetUIElements : function () {
+			this.getView().byId("genderComboBox").setSelectedItem(null);
+		},
 	});
-
 });
