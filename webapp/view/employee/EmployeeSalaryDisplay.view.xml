@@ -37,9 +37,8 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>employeeSalaryDisplay.monthlySalary}">
 								<f:fields>
-									<ObjectNumber binding="{/employee/data/salaryData/}"
-										number="{
-												parts:[{path:'monthlySalary'}],
+									<ObjectNumber number="{
+												parts:[{path:'employee>/salaryData/monthlySalary'}],
 												type: 'sap.ui.model.type.Currency',
 												formatOptions: {showMeasure: false}
 											}"
@@ -49,7 +48,7 @@
 	
 							<f:FormElement label="{i18n>employeeSalaryDisplay.lastChange}">
 								<f:fields>
-									<Label text="{path: '/employee/data/salaryData/salaryLastChange', formatter: '.formatter.wsDateFormatter'}" />
+									<Label text="{path: 'employee>/salaryData/salaryLastChange', formatter: '.formatter.wsDateFormatter'}" />
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

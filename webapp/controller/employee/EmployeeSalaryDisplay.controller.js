@@ -52,14 +52,13 @@ sap.ui.define([
 		 * Callback function of the queryEmployeeById RESTful WebService call in the EmployeeController.
 		 */
 		queryEmployeeByIdCallback : function(oReturnData, oCallingController) {
-			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oModel = new JSONModel();
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 
-			oModel.setData({employee : oReturnData});
-			EmployeeController.initializeSalaryTitleWithName(oReturnData.data, oCallingController, 
-				oCallingController.getView().byId("toolbarTitle"));
-			
 			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+				EmployeeController.initializeSalaryTitleWithName(oReturnData.data, oCallingController, 
+					oCallingController.getView().byId("toolbarTitle"));
 				MessageToast.show(oResourceBundle.getText("employeeSalaryDisplay.dataLoaded"));
 			}
 			else {
@@ -67,7 +66,7 @@ sap.ui.define([
 					MessageToast.show(oReturnData.message[0].text);
 			}
                                                               			
-			oCallingController.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel, "employee");
 		}
 	});
 });
