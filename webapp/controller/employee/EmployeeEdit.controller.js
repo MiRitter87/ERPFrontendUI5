@@ -27,7 +27,7 @@ sap.ui.define([
 		_onRouteMatched: function (oEvent) {
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			EmployeeController.queryEmployeesByWebService(this.queryEmployeesCallback, this, true);
-			this.getView().byId("employeeComboBox").setSelectedItem(null);
+			this.resetUIElements();
     	},
 		
 		
@@ -47,8 +47,7 @@ sap.ui.define([
 				return;
 			}
 			
-			EmployeeController.saveEmployeeByWebService(new JSONModel(this.getView().getModel().getProperty("/selectedEmployee")),
-				this.saveEmployeeCallback, this);
+			EmployeeController.saveEmployeeByWebService(this.getView().getModel("selectedEmployee"), this.saveEmployeeCallback, this);
 		},
 		
 		
@@ -59,7 +58,6 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			
 			oRouter.navTo("startPageRoute");	
-			this.getView().byId("employeeComboBox").setSelectedItem(null);
 		},
 		
 		
@@ -85,25 +83,19 @@ sap.ui.define([
 		 * Handles the selection of an item in the employee ComboBox.
 		 */
 		onEmployeeSelectionChange : function (oControlEvent) {
-			var selectedItem = oControlEvent.getParameters().selectedItem;
-			var oModel = this.getView().getModel();
-			var employees = oModel.oData.employees;
-			var employee;
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oEmployees = this.getView().getModel("employees");
+			var oEmployee;
+			var oEmployeeModel = new JSONModel();
 			
-			if(selectedItem == null)
+			if(oSelectedItem == null)
 				return;
+				
+			oEmployee = EmployeeController.getEmployeeById(oSelectedItem.getKey(), oEmployees.oData.employee);
+			oEmployeeModel.setData(oEmployee);
 			
-			//Get the selected employee from the array of all employees according to the id.
-			for(var i = 0; i < employees.data.employee.length; i++) {
-    			var tempEmployee = employees.data.employee[i];
-    			
-				if(tempEmployee.id == selectedItem.getKey()) {
-					employee = tempEmployee;
-				}
-			}
-			
-			//Set the model of the view according to the selected employee to allow binding of the UI elements.
-			oModel.setData({employees:employees, selectedEmployee : employee}, true);
+			//Set the model of the view according to the selected business partner to allow binding of the UI elements.
+			this.getView().setModel(oEmployeeModel, "selectedEmployee");
 		},
 		
 		
@@ -114,9 +106,9 @@ sap.ui.define([
 			var oModel = new JSONModel();
 			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
-			oModel.setData({employees : oReturnData});
-			
 			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+				
 				if(bShowSuccessMessage == true)
 					MessageToast.show(oResourceBundle.getText("employeeEdit.dataLoaded"));
 			}
@@ -125,7 +117,7 @@ sap.ui.define([
 					MessageToast.show(oReturnData.message[0].text);
 			}
 				                                                                
-			oCallingController.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel, "employees");
 		},
 		
 		
@@ -137,7 +129,7 @@ sap.ui.define([
 				if(oReturnData.message[0].type == 'S') {
 					//Updates the data source of the ComboBox with the new employee data.
 					EmployeeController.queryEmployeesByWebService(oCallingController.queryEmployeesCallback, oCallingController, false);
-					oCallingController.getView().byId("employeeComboBox").setSelectedKey(null);
+					oCallingController.resetUIElements();
 					MessageToast.show(oReturnData.message[0].text);
 				}
 				
@@ -153,7 +145,20 @@ sap.ui.define([
 					MessageBox.warning(oReturnData.message[0].text);
 				}
 			}	
+		},
+		
+		
+		/**
+		 * Resets the UI elements.
+		 */
+		resetUIElements : function () {
+			this.getView().byId("employeeComboBox").setSelectedItem(null);
+			
+			this.getView().byId("idInput").setValue("");
+			this.getView().byId("firstNameInput").setValue("");
+			this.getView().byId("lastNameInput").setValue("");
+			this.getView().byId("genderComboBox").setSelectedItem(null);
+
 		}
 	});
-
 });

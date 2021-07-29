@@ -12,8 +12,8 @@
 		<content>
 			<l:VerticalLayout>
 				<Label text="{i18n>employeeEdit.selectionDescription}"/>
-				<ComboBox id="employeeComboBox" items="{path: '/employees/data/employee/'}" selectionChange=".onEmployeeSelectionChange">
-					<core:Item key="{id}" text="{id} - {firstName} {lastName}"/>
+				<ComboBox id="employeeComboBox" items="{path: 'employees>/employee/'}" selectionChange=".onEmployeeSelectionChange">
+					<core:Item key="{employees>id}" text="{employees>id} - {employees>firstName} {employees>lastName}"/>
 				</ComboBox>
 			</l:VerticalLayout>
 			
@@ -44,25 +44,25 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>employee.id}">
 								<f:fields>
-									<Input value="{/selectedEmployee/id}" enabled="false" editable="false"/>
+									<Input id="idInput" value="{selectedEmployee>/id}" enabled="false" editable="false"/>
 								</f:fields>
 							</f:FormElement>
 	
 							<f:FormElement label="{i18n>employee.firstName}">
 								<f:fields>
-									<Input id="firstNameInput" maxLength="50" value="{/selectedEmployee/firstName}" required="true"/>
+									<Input id="firstNameInput" maxLength="50" value="{selectedEmployee>/firstName}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>employee.lastName}">
 								<f:fields>
-									<Input id="lastNameInput" maxLength="50" value="{/selectedEmployee/lastName}" required="true"/>
+									<Input id="lastNameInput" maxLength="50" value="{selectedEmployee>/lastName}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 							
 							<f:FormElement label="{i18n>employee.gender}">
 								<f:fields>
-									<ComboBox id="genderComboBox" selectedKey="{/selectedEmployee/gender}" required="true"/>
+									<ComboBox id="genderComboBox" selectedKey="{selectedEmployee>/gender}" required="true"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>

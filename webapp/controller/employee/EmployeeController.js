@@ -4,6 +4,23 @@ sap.ui.define([
 	"use strict";
 	return {
 		/**
+		 * Gets the data of the employee with the given ID.
+		 */
+		getEmployeeById : function(iEmployeeId, oEmployees) {
+			//Get the selected employee from the array of all employees according to the id.
+			for(var i = 0; i < oEmployees.length; i++) {
+    			var oTempEmployee = oEmployees[i];
+    			
+				if(oTempEmployee.id == iEmployeeId) {
+					return oTempEmployee;
+				}
+			}
+			
+			return null;
+		},
+		
+		
+		/**
 		 * Initializes the given ComboBox with items for gender selection.
 		 */
 		initializeGenderComboBox : function(oComboBox, oResourceBundle) {
