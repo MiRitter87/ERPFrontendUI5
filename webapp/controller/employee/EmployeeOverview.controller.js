@@ -71,12 +71,12 @@ sap.ui.define([
 		 * Callback function of the queryEmployees RESTful WebService call in the EmployeeController.
 		 */
 		queryEmployeesCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
-			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oModel = new JSONModel();
-
-			oModel.setData({employees : oReturnData});
+			var oResourceBundle = oCallingController.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
 			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+				
 				if(bShowSuccessMessage == true) {
 					MessageToast.show(oResourceBundle.getText("employeeOverview.dataLoaded"));							
 				}
@@ -86,7 +86,7 @@ sap.ui.define([
 					MessageToast.show(oReturnData.message[0].text);
 			}                                                              
 			
-			oCallingController.getView().setModel(oModel);
+			oCallingController.getView().setModel(oModel, "employees");
 		},
 		
 		
@@ -142,11 +142,10 @@ sap.ui.define([
 		 */
 		getSelectedEmployee : function () {
 			var oListItem = this.getView().byId("employeeTable").getSelectedItem();
-			var oContext = oListItem.getBindingContext();
+			var oContext = oListItem.getBindingContext("employees");
 			var oSelectedEmployee = oContext.getProperty(null, oContext);
 			
 			return oSelectedEmployee;
 		}
 	});
-
 });
