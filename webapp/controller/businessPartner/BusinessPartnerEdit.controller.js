@@ -14,6 +14,9 @@ sap.ui.define([
 		onInit : function () {
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("businessPartnerEditRoute").attachMatched(this._onRouteMatched, this);
+			
+			BusinessPartnerController.initializeTypeComboBox(this.getView().byId("typeComboBox"),
+				this.getOwnerComponent().getModel("i18n").getResourceBundle());	
 		},
 		
 		
@@ -140,6 +143,8 @@ sap.ui.define([
 			this.getView().byId("firstNameInput").setValue("");
 			this.getView().byId("lastNameInput").setValue("");
 			this.getView().byId("phoneNumberInput").setValue("");
+			
+			this.getView().byId("typeComboBox").setSelectedKeys(null);
 		},
 	});
 });
