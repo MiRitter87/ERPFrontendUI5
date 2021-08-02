@@ -32,7 +32,7 @@
 					<f:FormContainer title="{i18n>businessPartnerCreate.titleGeneralData}">
 						<f:formElements>
 							<f:FormElement label="{i18n>businessPartner.type}">
-								<MultiComboBox />
+								<MultiComboBox id="typeComboBox" />
 							</f:FormElement>
 						</f:formElements>
 					</f:FormContainer>

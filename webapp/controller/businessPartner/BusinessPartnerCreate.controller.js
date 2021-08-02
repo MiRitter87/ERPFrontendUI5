@@ -14,7 +14,10 @@ sap.ui.define([
 		onInit : function () {
 			//Register an event handler that gets called every time the router navigates to this view.
 			var oRouter = this.getOwnerComponent().getRouter();
-			oRouter.getRoute("businessPartnerCreateRoute").attachMatched(this._onRouteMatched, this);			
+			oRouter.getRoute("businessPartnerCreateRoute").attachMatched(this._onRouteMatched, this);
+			
+			BusinessPartnerController.initializeTypeComboBox(this.getView().byId("typeComboBox"),
+				this.getOwnerComponent().getModel("i18n").getResourceBundle());		
 		},
 		
 		
