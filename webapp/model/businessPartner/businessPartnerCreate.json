@@ -6,5 +6,6 @@
 	"houseNumber": "",
 	"zipCode": "",
 	"cityName": "",
-	"phoneNumber": ""
+	"phoneNumber": "",
+	"types": []
 }

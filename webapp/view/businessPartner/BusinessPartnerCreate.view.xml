@@ -29,14 +29,6 @@
 				</f:layout>
 				
 				<f:formContainers>
-					<f:FormContainer title="{i18n>businessPartnerCreate.titleGeneralData}">
-						<f:formElements>
-							<f:FormElement label="{i18n>businessPartner.type}">
-								<MultiComboBox id="typeComboBox" />
-							</f:FormElement>
-						</f:formElements>
-					</f:FormContainer>
-				
 					<f:FormContainer title="{i18n>businessPartnerCreate.titleAddress}">
 						<f:formElements>
 							<f:FormElement label="{i18n>businessPartner.companyName}">
@@ -91,6 +83,14 @@
 						</f:FormElement>
 					</f:FormContainer>
 				</f:formContainers>
+				
+				<f:FormContainer title="{i18n>businessPartnerCreate.titleGeneralData}">
+						<f:formElements>
+							<f:FormElement label="{i18n>businessPartner.type}">
+								<MultiComboBox id="typeComboBox" selectedKeys="{newBusinessPartner>/types}"/>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
 			</f:Form>
 		</content>
 		
