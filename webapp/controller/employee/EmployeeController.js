@@ -24,8 +24,8 @@ sap.ui.define([
 		 * Initializes the given ComboBox with items for gender selection.
 		 */
 		initializeGenderComboBox : function(oComboBox, oResourceBundle) {
-			this.addItemToComboBox(oComboBox, oResourceBundle, "MALE", "gender.male");
-			this.addItemToComboBox(oComboBox, oResourceBundle, "FEMALE", "gender.female");
+			this.addItemToComboBox(oComboBox, oResourceBundle, "MALE", "employee.gender.male");
+			this.addItemToComboBox(oComboBox, oResourceBundle, "FEMALE", "employee.gender.female");
 		},
 		
 		

@@ -119,9 +119,9 @@ sap.ui.define([
 			
 			switch(gender) {
 				case "MALE":
-					return oResourceBundle.getText("gender.male");
+					return oResourceBundle.getText("employee.gender.male");
 				case "FEMALE":
-					return oResourceBundle.getText("gender.female");
+					return oResourceBundle.getText("employee.gender.female");
 			}
 		},
 
