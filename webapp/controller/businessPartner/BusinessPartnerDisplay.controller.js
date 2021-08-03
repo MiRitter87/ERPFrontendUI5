@@ -77,7 +77,7 @@ sap.ui.define([
 		setLocalizedTypes : function () {
 			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var oModel = this.getView().getModel("selectedBusinessPartner");
-			var sTypeText = "", sType = "", sTypesText = "";
+			var sTypesText = "";
 			var aTypes;
 			
 			//1. Get the types of the selected employee.
@@ -85,19 +85,7 @@ sap.ui.define([
 				aTypes = oModel.getProperty("/types");
 			
 			//2. Determine the localized text of the each type and build a concatenated string.
-			for(var i = 0; i < aTypes.length; i++) {
-    			sType = aTypes[i];
-
-				if(sType == "CUSTOMER")
-					sTypeText = oResourceBundle.getText("businessPartner.type.customer");
-				else if(sType == "VENDOR")
-					sTypeText = oResourceBundle.getText("businessPartner.type.vendor");
-    			
-				if(i > 0)
-					sTypesText += ', ';
-
-				sTypesText += sTypeText;
-			}
+			sTypesText = BusinessPartnerController.getLocalizedTypesString(aTypes, oResourceBundle);
 			
 			//3. Apply the text to the type label.
 			this.getView().byId("typeText").setText(sTypesText);

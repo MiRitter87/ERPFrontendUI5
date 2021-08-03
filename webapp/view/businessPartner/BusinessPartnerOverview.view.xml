@@ -22,6 +22,9 @@
 						<Text text="{i18n>businessPartner.id}"/>
 					</Column>
 					<Column>
+						<Text text="{i18n>businessPartner.type}"/>
+					</Column>
+					<Column>
 						<Text text="{i18n>businessPartner.companyName}"/>
 					</Column>
 					<Column>
@@ -50,6 +53,7 @@
 					<ColumnListItem>
 						<cells>
 							<ObjectIdentifier text="{businessPartners>id}"/>
+							<Text text="{path: 'businessPartners>types', formatter: '.typesTextFormatter'}"/>
 							<Text text="{businessPartners>companyName}"/>
 							<Text text="{businessPartners>streetName}"/>
 							<Text text="{businessPartners>houseNumber}"/>

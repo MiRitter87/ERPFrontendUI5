@@ -67,6 +67,19 @@ sap.ui.define([
 		
 		
 		/**
+		 * Formatter of the types text in the table. Provides the localized text of all types.
+		 */
+		typesTextFormatter : function (aTypes) {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var sTypesText = "";
+			
+			sTypesText = BusinessPartnerController.getLocalizedTypesString(aTypes, oResourceBundle);
+			
+			return sTypesText;
+		},
+		
+		
+		/**
 		 * Callback function of the queryBusinessPartners RESTful WebService call in the BusinessPartnerController.
 		 */
 		queryBusinessPartnersCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {

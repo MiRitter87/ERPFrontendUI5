@@ -42,6 +42,30 @@ sap.ui.define([
 		
 		
 		/**
+		 * Returns a string of localized types based on the given array of types.
+		 */
+		getLocalizedTypesString : function(aTypes, oResourceBundle) {
+			var sTypeText = "", sType = "", sTypesText = "";
+
+			for(var i = 0; i < aTypes.length; i++) {
+    			sType = aTypes[i];
+
+				if(sType == "CUSTOMER")
+					sTypeText = oResourceBundle.getText("businessPartner.type.customer");
+				else if(sType == "VENDOR")
+					sTypeText = oResourceBundle.getText("businessPartner.type.vendor");
+    			
+				if(i > 0)
+					sTypesText += ', ';
+
+				sTypesText += sTypeText;
+			}
+			
+			return sTypesText;
+		},
+		
+		
+		/**
 		 * Calls a WebService operation to create a business partner.
 		 */
 		createBusinessPartnerByWebService : function(oBusinessPartnerModel, callbackFunction, oCallingController) {
