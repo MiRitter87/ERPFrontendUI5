@@ -109,10 +109,7 @@ sap.ui.define([
 				sGender = oModel.getProperty("/gender");
 			
 			//2. Determine the localized text of the gender.
-			if(sGender == "MALE")
-				sGenderText = oResourceBundle.getText("employee.gender.male");
-			else if(sGender == "FEMALE")
-				sGenderText = oResourceBundle.getText("employee.gender.female");
+			sGenderText = EmployeeController.getLocalizedGenderText(sGender, oResourceBundle);
 			
 			//3. Apply the text to the gender label.
 			this.getView().byId("genderText").setText(sGenderText);

@@ -114,15 +114,10 @@ sap.ui.define([
 		/**
 		 * Formatter of the gender text in the table. Provides the localized text of a gender.
 		 */
-		genderTextFormatter : function (gender) {
+		genderTextFormatter : function (sGender) {
 			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			
-			switch(gender) {
-				case "MALE":
-					return oResourceBundle.getText("employee.gender.male");
-				case "FEMALE":
-					return oResourceBundle.getText("employee.gender.female");
-			}
+			return EmployeeController.getLocalizedGenderText(sGender, oResourceBundle);
 		},
 
 

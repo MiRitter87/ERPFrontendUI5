@@ -158,7 +158,6 @@ sap.ui.define([
 			this.getView().byId("firstNameInput").setValue("");
 			this.getView().byId("lastNameInput").setValue("");
 			this.getView().byId("genderComboBox").setSelectedItem(null);
-
 		}
 	});
 });
