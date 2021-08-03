@@ -97,12 +97,12 @@
 					</f:FormContainer>
 					
 					<f:FormContainer title="{i18n>businessPartnerEdit.titleGeneralData}">
-					<f:formElements>
-						<f:FormElement label="{i18n>businessPartner.type}">
-							<MultiComboBox id="typeComboBox" selectedKeys="{selectedBusinessPartner>/types}"/>
-						</f:FormElement>
-					</f:formElements>
-				</f:FormContainer>
+						<f:formElements>
+							<f:FormElement label="{i18n>businessPartner.type}">
+								<MultiComboBox id="typeComboBox" selectedKeys="{selectedBusinessPartner>/types}"/>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
 				</f:formContainers>
 			</f:Form>
 		</content>

@@ -95,6 +95,14 @@
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>businessPartnerDisplay.titleGeneralData}">
+						<f:formElements>
+							<f:FormElement label="{i18n>businessPartner.type}">
+								<Text id="typeText"/>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
 				</f:formContainers>
 			</f:Form>
 		</content>

@@ -44,6 +44,8 @@ sap.ui.define([
 			
 			//Set the model of the view according to the selected business partner to allow binding of the UI elements.
 			this.getView().setModel(oBusinessPartnerModel, "selectedBusinessPartner");
+			
+			this.setLocalizedTypes();
 		},
 		
 		
@@ -70,6 +72,39 @@ sap.ui.define([
 		
 		
 		/**
+		 * Determines and sets the localized text of the selected business partners types.
+		 */
+		setLocalizedTypes : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oModel = this.getView().getModel("selectedBusinessPartner");
+			var sTypeText = "", sType = "", sTypesText = "";
+			var aTypes;
+			
+			//1. Get the types of the selected employee.
+			if(oModel != null)
+				aTypes = oModel.getProperty("/types");
+			
+			//2. Determine the localized text of the each type and build a concatenated string.
+			for(var i = 0; i < aTypes.length; i++) {
+    			sType = aTypes[i];
+
+				if(sType == "CUSTOMER")
+					sTypeText = oResourceBundle.getText("businessPartner.type.customer");
+				else if(sType == "VENDOR")
+					sTypeText = oResourceBundle.getText("businessPartner.type.vendor");
+    			
+				if(i > 0)
+					sTypesText += ', ';
+
+				sTypesText += sTypeText;
+			}
+			
+			//3. Apply the text to the type label.
+			this.getView().byId("typeText").setText(sTypesText);
+		},
+		
+		
+		/**
 		 * Resets the UI elements.
 		 */
 		resetUIElements : function () {
@@ -84,6 +119,8 @@ sap.ui.define([
 			this.getView().byId("firstNameText").setText("");
 			this.getView().byId("lastNameText").setText("");
 			this.getView().byId("phoneNumberText").setText("");
+			
+			this.getView().byId("typeText").setText("");
 		}
 	});
 });
