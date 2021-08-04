@@ -23,7 +23,7 @@ sap.ui.define([
 		 */
 		_onRouteMatched: function () {
 			//Query business partner data every time a user navigates to this view. This assures that changes are being displayed in the table.
-			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, true);
+			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, true, "ALL");
     	},
 		
 		
@@ -109,7 +109,7 @@ sap.ui.define([
 			if(oReturnData.message != null) {
 				if(oReturnData.message[0].type == 'S') {
 					MessageToast.show(oReturnData.message[0].text);
-					BusinessPartnerController.queryBusinessPartnersByWebService(oCallingController.queryBusinessPartnersCallback, oCallingController, false);
+					BusinessPartnerController.queryBusinessPartnersByWebService(oCallingController.queryBusinessPartnersCallback, oCallingController, false, "ALL");
 				}
 				
 				if(oReturnData.message[0].type == 'E') {

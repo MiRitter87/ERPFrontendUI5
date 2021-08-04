@@ -21,7 +21,7 @@ sap.ui.define([
 		 */
 		_onRouteMatched: function () {
 			//Query business partner data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
-			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, true);
+			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, true, "ALL");
 			
 			this.resetUIElements();	
     	},

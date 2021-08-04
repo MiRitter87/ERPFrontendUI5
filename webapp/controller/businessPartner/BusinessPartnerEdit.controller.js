@@ -25,7 +25,7 @@ sap.ui.define([
 		 */
 		_onRouteMatched: function () {
 			//Query business partner data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
-			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, true);
+			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, true, "ALL");
 			
 			this.resetUIElements();	
     	},
@@ -105,7 +105,7 @@ sap.ui.define([
 			if(oReturnData.message != null) {
 				if(oReturnData.message[0].type == 'S') {
 					//Update the data source of the ComboBox with the new business partner data.
-					BusinessPartnerController.queryBusinessPartnersByWebService(oCallingController.queryBusinessPartnersCallback, oCallingController, false);
+					BusinessPartnerController.queryBusinessPartnersByWebService(oCallingController.queryBusinessPartnersCallback, oCallingController, false, "ALL");
 					//Clear ComboBox preventing display of wrong data (Id - Name).
 					oCallingController.resetUIElements();
 					//Clear selectedBusinessPartner because no ComboBox item is selected.

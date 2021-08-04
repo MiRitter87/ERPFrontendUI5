@@ -89,9 +89,9 @@ sap.ui.define([
 		/**
 		 * Queries the business partner WebService for all business partners.
 		 */
-		queryBusinessPartnersByWebService : function(callbackFunction, oCallingController, bShowSuccessMessage) {
+		queryBusinessPartnersByWebService : function(callbackFunction, oCallingController, bShowSuccessMessage, sTypeQueryParameter) {
 			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/businessPartner");
-			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var sQueryUrl = sWebServiceBaseUrl + "?bpTypeQuery=" + sTypeQueryParameter;;
 			jQuery.ajax({
 				type : "GET", 
 				contentType : "application/json", 
