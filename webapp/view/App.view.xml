@@ -53,6 +53,13 @@
 						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="salesOrderDisplay"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="salesOrderOverview"/>
 					</tnt:NavigationListItem>
+					
+					<tnt:NavigationListItem text="{i18n>navigation.purchaseOrder}" expanded="false" icon="sap-icon://cart" key="purchaseOrder">
+						<tnt:NavigationListItem text="{i18n>navigation.object.create}" key="purchaseOrderCreate"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.edit}" key="purchaseOrderEdit"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="purchaseOrderDisplay"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="purchaseOrderOverview"/>
+					</tnt:NavigationListItem>
 				</tnt:NavigationList>
 			</tnt:SideNavigation>
 		</tnt:sideContent>
