@@ -10,7 +10,99 @@
 	
 	<Page title="{i18n>purchaseOrderCreate.header}">
 		<content>
-
+			<f:Form editable="true">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>purchaseOrderCreate.titleBusinessPartner}">
+						<f:FormElement label="{i18n>purchaseOrder.vendor}">
+							<f:fields>
+								<ComboBox id="vendorComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
+									selectionChange=".onVendorSelectionChange" required="true">
+											
+									<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>purchaseOrderCreate.titleDates}">
+						<f:FormElement label="{i18n>purchaseOrder.orderDate}">
+							<f:fields>
+								<DatePicker id="orderDatePicker" value="{path: 'newPurchaseOrder>/orderDate', type:'sap.ui.model.type.Date', 
+									formatOptions: { style: 'medium', strictParsing: true}}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>purchaseOrder.requestedDeliveryDate}">
+							<f:fields>
+								<DatePicker id="requestedDeliveryDatePicker" value="{path: 'newPurchaseOrder>/requestedDeliveryDate', type:'sap.ui.model.type.Date', 
+									formatOptions: { style: 'medium', strictParsing: true}}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			
+			<Table id="itemTable" items="{path: 'newPurchaseOrder>/items/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>purchaseOrderCreate.titleItems}"/>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>purchaseOrderCreate.deleteSelected}" press=".onDeleteItemPressed"/>
+						<Button icon="sap-icon://add" tooltip="{i18n>purchaseOrderCreate.addItem}" press=".onAddItemPressed"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>purchaseOrder.itemId}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>purchaseOrder.material}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>purchaseOrder.itemQuantity}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>purchaseOrder.itemPrice}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{newPurchaseOrder>itemId}"/>
+							<Text text="{path: 'newPurchaseOrder>materialId', formatter: '.materialNameFormatter'}"/>
+							<ObjectNumber unit="{path: 'newPurchaseOrder>materialId', formatter: '.materialUnitFormatter'}" number="{
+										parts:[{path:'newPurchaseOrder>quantity'}],
+										type: 'sap.ui.model.type.Unit',
+										formatOptions: {showMeasure: false}}"/>
+							<ObjectNumber unit="{path: 'newPurchaseOrder>materialId', formatter: '.materialCurrencyFormatter'}" number="{
+										parts:[{path:'newPurchaseOrder>priceTotal'}],
+										type: 'sap.ui.model.type.Currency',
+										formatOptions: {showMeasure: false}}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
+		
+		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
+		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 	</Page>
 </mvc:View>
