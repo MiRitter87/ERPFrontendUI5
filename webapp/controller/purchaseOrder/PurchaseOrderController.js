@@ -1,6 +1,7 @@
 sap.ui.define([
+	"sap/ui/core/Fragment",
 	"sap/ui/model/json/JSONModel"
-], function (JSONModel) {
+], function (Fragment, JSONModel) {
 	"use strict";
 	return {
 		/**
@@ -26,6 +27,42 @@ sap.ui.define([
 				return null;
 				
 			return oSelectedItem.getKey();
-		}
+		},
+		
+		
+		/**
+		 * Sets the ID of the new purchase order item based on the number of already existing items.
+		 */
+		setIdOfNewItem : function (oPurchaseOrderModel, oPurchaseOrderItemModel) {
+			var iExistingItemCount;
+			
+			iExistingItemCount = oPurchaseOrderModel.oData.items.length;
+			oPurchaseOrderItemModel.setProperty("/itemId", iExistingItemCount + 1);
+		},
+		
+		
+		/**
+		 * Opens the fragment with the given name as PopUp.
+		 */
+		openFragmentAsPopUp : function (oController, sName) {
+			var oView = oController.getView();
+			
+			//create dialog lazily
+			if (!oController.pDialog) {
+				oController.pDialog = Fragment.load({
+					id: oView.getId(),
+					name: sName,
+					controller: oController
+				}).then(function (oDialog) {
+					//connect dialog to the root view of this component (models, lifecycle)
+					oView.addDependent(oDialog);
+					return oDialog;
+				});
+			}
+
+			oController.pDialog.then(function(oDialog) {
+				oDialog.open();
+			});
+		},
 	};
 });

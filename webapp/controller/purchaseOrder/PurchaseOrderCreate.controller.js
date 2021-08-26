@@ -43,6 +43,25 @@ sap.ui.define([
 		
 		
 		/**
+		 * Opens the dialog to add a new purchase order item.
+		 */
+		onAddItemPressed : function () {
+			PurchaseOrderController.setIdOfNewItem(this.getView().getModel("newPurchaseOrder"), this.getView().getModel("newPurchaseOrderItem"));
+			PurchaseOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.purchaseOrder.PurchaseOrderItemCreate");
+		},
+		
+		
+		/**
+		 * Handles the closing by cancelation of the new item Dialog.
+		 */
+		onCancelDialog : function () {
+			this.byId("newItemDialog").close();
+			this.byId("materialComboBox").setSelectedItem(null);
+			PurchaseOrderController.initializePurchaseOrderItemModel(this);	
+		},
+		
+		
+		/**
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
