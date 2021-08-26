@@ -13,6 +13,19 @@ sap.ui.define([
 			//Load and set item model
 			oItemModel.loadData("model/purchaseOrder/purchaseOrderItemCreate.json");
 			oController.getView().setModel(oItemModel, "newPurchaseOrderItem");	
+		},
+		
+		
+		/**
+		 * Gets the ID of the selected business partner from a ComboBox.
+		 */
+		getSelectedPartnerId : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			
+			if(oSelectedItem == null)
+				return null;
+				
+			return oSelectedItem.getKey();
 		}
 	};
 });

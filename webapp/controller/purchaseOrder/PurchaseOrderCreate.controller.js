@@ -32,6 +32,26 @@ sap.ui.define([
 
 
 		/**
+		 * Handles the selection of an item in the vendor ComboBox.
+		 */
+		onVendorSelectionChange : function (oControlEvent) {
+			var oPurchaseOrderModel = this.getView().getModel("newPurchaseOrder");
+			var iPartnerId = PurchaseOrderController.getSelectedPartnerId(oControlEvent);
+			
+			oPurchaseOrderModel.setData({vendorId: iPartnerId}, true);
+		},
+		
+		
+		/**
+		 * Handles a click at the save button.
+		 */
+		onSavePressed : function () {
+			var oPurchaseOrderModel = this.getView().getModel("newPurchaseOrder");
+			alert(oPurchaseOrderModel.getProperty("/vendorId"));
+		},
+
+
+		/**
 		 * Initializes the model of the purchase order to which the UI controls are bound.
 		 */
 		initializePurchaseOrderModel : function () {
