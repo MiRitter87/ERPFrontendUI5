@@ -1,9 +1,10 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"../businessPartner/BusinessPartnerController",
+	"../material/MaterialController",
 	"./PurchaseOrderController",
 	"sap/ui/model/json/JSONModel"
-], function (Controller, BusinessPartnerController, PurchaseOrderController, JSONModel) {
+], function (Controller, BusinessPartnerController, MaterialController, PurchaseOrderController, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.purchaseOrder.PurchaseOrderCreate", {
@@ -25,6 +26,7 @@ sap.ui.define([
 		_onRouteMatched: function () {
 			//Query business partner and material data every time a user navigates to this view. This assures that changes are being displayed in the ComboBoxes.
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, false, "VENDOR");
+			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
 			
 			this.initializePurchaseOrderModel();
 			PurchaseOrderController.initializePurchaseOrderItemModel(this);
@@ -48,6 +50,26 @@ sap.ui.define([
 		onAddItemPressed : function () {
 			PurchaseOrderController.setIdOfNewItem(this.getView().getModel("newPurchaseOrder"), this.getView().getModel("newPurchaseOrderItem"));
 			PurchaseOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.purchaseOrder.PurchaseOrderItemCreate");
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the material ComboBox.
+		 */
+		onMaterialSelectionChange : function (oControlEvent) {
+			PurchaseOrderController.onMaterialSelectionChange(oControlEvent, this,
+				this.getView().getModel("newPurchaseOrderItem"),
+				this.getView().getModel("materials"));
+		},
+		
+		
+		/**
+		 * Handles changes of the input for purchase order item quantity.
+		 */
+		onQuantityChange : function () {
+			PurchaseOrderController.updatePriceTotal(
+				this.getView().getModel("selectedMaterial"),
+				this.getView().getModel("newPurchaseOrderItem"));
 		},
 		
 		
@@ -103,6 +125,24 @@ sap.ui.define([
 			}                                                               
 			
 			oCallingController.getView().setModel(oModel, "businessPartners");
+		},
+		
+		
+		/**
+		 * Callback function of the queryMaterialsByWebService RESTful WebService call in the MaterialController.
+		 */
+		queryMaterialsCallback : function(oReturnData, oCallingController) {
+			var oModel = new JSONModel();
+			
+			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+			}
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+			}
+			
+			oCallingController.getView().setModel(oModel, "materials");
 		}
 	});
 });

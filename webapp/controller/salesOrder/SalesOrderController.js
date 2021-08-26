@@ -8,9 +8,10 @@ sap.ui.define([
 		/**
 		 * Handles the selection of an item in the material ComboBox of the "new item"-dialog.
 		 */
-		onMaterialSelectionChange : function (oControlEvent, oController, oItemModel, oMaterials, oSelectedMaterialModel) {
+		onMaterialSelectionChange : function (oControlEvent, oController, oItemModel, oMaterials) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
 			var oMaterial;
+			var oSelectedMaterialModel = new JSONModel();
 			
 			if(oSelectedItem == null)
 				return;
