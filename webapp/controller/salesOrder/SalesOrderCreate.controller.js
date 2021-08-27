@@ -158,7 +158,7 @@ sap.ui.define([
 		 */
 		onCancelDialog : function () {
 			this.byId("newItemDialog").close();
-			this.byId("materialComboBox").setSelectedItem(null);
+			SalesOrderController.clearItemPopUpFields(this);
 			SalesOrderController.initializeSalesOrderItemModel(this);		
 		},
 		

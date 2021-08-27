@@ -63,6 +63,16 @@ sap.ui.define([
 		
 		
 		/**
+		 * Clears the fields and CheckBox of the PopUp for item creation.
+		 */
+		clearItemPopUpFields : function (oController) {
+			oController.byId("materialComboBox").setSelectedItem(null);
+			oController.byId("itemUnitText").setText("");
+			oController.byId("itemCurrencyText").setText("");
+		},
+		
+		
+		/**
 		 * Gets the ID of the selected business partner from a ComboBox.
 		 */
 		getSelectedPartnerId : function (oControlEvent) {
@@ -83,6 +93,22 @@ sap.ui.define([
 			
 			iExistingItemCount = oPurchaseOrderModel.oData.items.length;
 			oPurchaseOrderItemModel.setProperty("/itemId", iExistingItemCount + 1);
+		},
+		
+		
+		/**
+		 * Checks if an item with the given material is already existing. Returns true, if item exists; false otherwise.
+		 */
+		isItemWithMaterialExisting : function (oPurchaseOrderItems, iMaterialId) {
+			for(var i = 0; i < oPurchaseOrderItems.length; i++) {
+    			var oTempItem = oPurchaseOrderItems[i];
+    			
+				if(oTempItem.materialId == iMaterialId) {
+					return true;
+				}
+			}
+			
+			return false;
 		},
 		
 		
