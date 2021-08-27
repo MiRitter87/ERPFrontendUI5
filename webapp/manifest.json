@@ -66,11 +66,11 @@
 				"name": "startPageRoute",
 				"target": "startPageTarget"
 			}, {
-				"pattern": "createEmployee",
+				"pattern": "employeeCreate",
 				"name": "employeeCreateRoute",
 				"target": "employeeCreateTarget"
 			}, {
-				"pattern": "displayEmployee",
+				"pattern": "employeeDisplay",
 				"name": "employeeDisplayRoute",
 				"target": "employeeDisplayTarget"
 			}, {
@@ -90,7 +90,7 @@
 				"name": "employeeSalaryEditRoute",
 				"target": "employeeSalaryEditTarget"
 			}, {
-				"pattern": "createDepartment",
+				"pattern": "departmentCreate",
 				"name": "departmentCreateRoute",
 				"target": "departmentCreateTarget"
 			}, {
@@ -106,7 +106,7 @@
 				"name": "departmentOverviewRoute",
 				"target": "departmentOverviewTarget"
 			}, {
-				"pattern": "createMaterial",
+				"pattern": "materialCreate",
 				"name": "materialCreateRoute",
 				"target": "materialCreateTarget"
 			}, {
@@ -122,7 +122,7 @@
 				"name": "materialOverviewRoute",
 				"target": "materialOverviewTarget"
 			}, {
-				"pattern": "createBusinessPartner",
+				"pattern": "businessPartnerCreate",
 				"name": "businessPartnerCreateRoute",
 				"target": "businessPartnerCreateTarget"
 			}, {
@@ -138,7 +138,7 @@
 				"name": "businessPartnerOverviewRoute",
 				"target": "businessPartnerOverviewTarget"
 			}, {
-				"pattern": "createSalesOrder",
+				"pattern": "salesOrderCreate",
 				"name": "salesOrderCreateRoute",
 				"target": "salesOrderCreateTarget"
 			}, {
@@ -154,7 +154,7 @@
 				"name": "salesOrderOverviewRoute",
 				"target": "salesOrderOverviewTarget"
 			}, {
-				"pattern": "createPurchaseOrder",
+				"pattern": "purchaseOrderCreate",
 				"name": "purchaseOrderCreateRoute",
 				"target": "purchaseOrderCreateTarget"
 			}, {
