@@ -55,6 +55,26 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the deletion of an item.
+		 */
+		onDeleteItemPressed : function () {
+			var oSelectedItem, oResourceBundle;
+			
+			//Check if an item has been selected.
+			oSelectedItem = this.getView().byId("itemTable").getSelectedItem();
+			if(oSelectedItem == null) {
+				oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+				MessageBox.error(oResourceBundle.getText("purchaseOrderCreate.noItemSelected"));
+				return;
+			}
+			
+			this.deleteItemFromOrderModel(this.getSelectedItem());
+			this.updateItemIds();
+			this.updateItemTable();
+		},
+		
+		
+		/**
 		 * Handles the selection of an item in the material ComboBox.
 		 */
 		onMaterialSelectionChange : function (oControlEvent) {
@@ -175,6 +195,69 @@ sap.ui.define([
 		 */
 		materialUnitFormatter: function(iMaterialId) {
 			return PurchaseOrderController.materialUnitFormatter(iMaterialId, this.getView().getModel("materials"));
+		},
+		
+		
+		/**
+		 * Gets the the selected purchase order item.
+		 */
+		getSelectedItem : function () {
+			var oListItem = this.getView().byId("itemTable").getSelectedItem();
+			var oContext = oListItem.getBindingContext("newPurchaseOrder");
+			var oSelectedItem = oContext.getProperty(null, oContext);
+			
+			return oSelectedItem;
+		},
+		
+		
+		/**
+		 * Deletes the given item from the purchase order model.
+		 */
+		deleteItemFromOrderModel : function(oPurchaseOrderItem) {
+			var oPurchaseOrderModel, oPurchaseOrderItems;
+			
+			oPurchaseOrderModel = this.getView().getModel("newPurchaseOrder");
+			oPurchaseOrderItems = oPurchaseOrderModel.getProperty("/items");
+			
+			for(var i = 0; i < oPurchaseOrderItems.length; i++) {
+    			var oTempItem = oPurchaseOrderItems[i];
+    			
+				if(oTempItem.itemId == oPurchaseOrderItem.itemId) {
+					oPurchaseOrderItems.splice(i, 1);
+				}
+			}
+		},
+		
+		
+		/**
+		 * Updates the IDs of the purchase order items incrementally.
+	     * The item IDs range from 1 to n, where n is the number of items.
+		 */
+		updateItemIds : function() {
+			var oPurchaseOrderItems, oPurchaseOrderModel;
+
+			oPurchaseOrderModel = this.getView().getModel("newPurchaseOrder");
+			oPurchaseOrderItems = oPurchaseOrderModel.getProperty("/items");
+			
+			for(var i = 0; i < oPurchaseOrderItems.length; i++) {
+				var oTempItem = oPurchaseOrderItems[i];
+				oTempItem.itemId = i+1;
+			}
+		},
+		
+		
+		/**
+		 * Updates the item table in order to display changes of the underlying model.
+		 */
+		updateItemTable : function() {
+			var oPurchaseOrderModel;
+			
+			//Assures that the changes of the underlying model are being displayed in the view.
+			oPurchaseOrderModel = this.getView().getModel("newPurchaseOrder");
+			oPurchaseOrderModel.refresh();						
+			
+			//Assures that the formatters are called again.
+			this.getView().byId("itemTable").rerender();	
 		},
 
 
