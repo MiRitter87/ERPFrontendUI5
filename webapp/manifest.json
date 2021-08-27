@@ -157,6 +157,10 @@
 				"pattern": "createPurchaseOrder",
 				"name": "purchaseOrderCreateRoute",
 				"target": "purchaseOrderCreateTarget"
+			}, {
+				"pattern": "purchaseOrderEdit",
+				"name": "purchaseOrderEditRoute",
+				"target": "purchaseOrderEditTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -273,10 +277,15 @@
 					"viewId": "salesOrderOverview",
 					"viewName": "salesOrder.SalesOrderOverview",
 					"viewLevel" : 1
-				}				,
+				},
 				"purchaseOrderCreateTarget": {
 					"viewId": "purchaseOrderCreate",
 					"viewName": "purchaseOrder.PurchaseOrderCreate",
+					"viewLevel" : 1
+				},
+				"purchaseOrderEditTarget": {
+					"viewId": "purchaseOrderEdit",
+					"viewName": "purchaseOrder.PurchaseOrderEdit",
 					"viewLevel" : 1
 				}
          	}
