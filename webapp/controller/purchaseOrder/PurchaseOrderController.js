@@ -190,5 +190,26 @@ sap.ui.define([
 				oDialog.open();
 			});
 		},
+		
+		
+		/**
+		 * Calls a WebService operation to create a purchase order.
+		 */
+		createPurchaseOrderByWebService : function(oPurchaseOrderModel, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/purchaseOrder");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var sJSONData = oPurchaseOrderModel.getJSON();
+			
+			//Use "POST" to create a resource.
+			jQuery.ajax({
+				type : "POST", 
+				contentType : "application/json", 
+				url : sQueryUrl,
+				data : sJSONData, 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			});
+		}
 	};
 });

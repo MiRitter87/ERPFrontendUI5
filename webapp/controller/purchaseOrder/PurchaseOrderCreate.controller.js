@@ -4,8 +4,9 @@ sap.ui.define([
 	"../material/MaterialController",
 	"./PurchaseOrderController",
 	"sap/ui/model/json/JSONModel",
+	"sap/m/MessageToast",
 	"sap/m/MessageBox"
-], function (Controller, BusinessPartnerController, MaterialController, PurchaseOrderController, JSONModel, MessageBox) {
+], function (Controller, BusinessPartnerController, MaterialController, PurchaseOrderController, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.purchaseOrder.PurchaseOrderCreate", {
@@ -29,6 +30,7 @@ sap.ui.define([
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, false, "VENDOR");
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
 			
+			this.getView().byId("vendorComboBox").setSelectedItem(null);
 			this.initializePurchaseOrderModel();
 			PurchaseOrderController.initializePurchaseOrderItemModel(this);
     	},
@@ -151,8 +153,22 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
-			var oPurchaseOrderModel = this.getView().getModel("newPurchaseOrder");
-			alert(oPurchaseOrderModel.getProperty("/vendorId"));
+			var bInputValid = this.verifyObligatoryFields();
+			
+			if(bInputValid == false)
+				return;
+				
+			PurchaseOrderController.createPurchaseOrderByWebService(this.getView().getModel("newPurchaseOrder"), this.savePurchaseOrderCallback, this);
+		},
+		
+		
+		/**
+		 * Handles a click at the cancel button.
+		 */
+		onCancelPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			
+			oRouter.navTo("startPageRoute");
 		},
 
 
@@ -259,6 +275,33 @@ sap.ui.define([
 			//Assures that the formatters are called again.
 			this.getView().byId("itemTable").rerender();	
 		},
+		
+		
+		/**
+		 * Verifies input of obligatory fields.
+		 * Returns true if input is valid. Returns false if input is invalid.
+		 */
+		verifyObligatoryFields : function() {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var iExistingItemCount;
+			var oPurchaseOrderModel;
+			
+			if(this.getView().byId("vendorComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("purchaseOrderCreate.noVendorSelected"));
+				return false;
+			}
+			
+			//The order has to have at least one item.
+			oPurchaseOrderModel = this.getView().getModel("newPurchaseOrder");
+			iExistingItemCount = oPurchaseOrderModel.oData.items.length;
+			
+			if(iExistingItemCount < 1) {
+				MessageBox.error(oResourceBundle.getText("purchaseOrderCreate.noItemsExist"));
+				return false;
+			}
+			
+			return true;
+		},
 
 
 		/**
@@ -294,6 +337,29 @@ sap.ui.define([
 			}
 			
 			oCallingController.getView().setModel(oModel, "materials");
+		},
+		
+		
+		/**
+		 * Callback function of the createPurchaseOrderbyWebService RESTful WebService call in the PurchaseOrderController.
+		 */
+		savePurchaseOrderCallback : function (oReturnData, callingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					callingController.getView().byId("vendorComboBox").setSelectedItem(null);
+					callingController.initializePurchaseOrderModel();
+					PurchaseOrderController.initializePurchaseOrderItemModel(callingController);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			} 
 		}
 	});
 });
