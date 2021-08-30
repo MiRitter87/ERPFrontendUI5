@@ -190,6 +190,23 @@ sap.ui.define([
 		
 		
 		/**
+		 * Gets the purchase order data of the purchase order with the given ID.
+		 */
+		getPurchaseOrderById : function(iPurchaseOrderId, oPurchaseOrders) {
+			//Get the selected purchase order from the array of all purchase orders according to the id.
+			for(var i = 0; i < oPurchaseOrders.length; i++) {
+    			var oTempPurchaseOrder = oPurchaseOrders[i];
+    			
+				if(oTempPurchaseOrder.id == iPurchaseOrderId) {
+					return oTempPurchaseOrder;
+				}
+			}
+			
+			return null;
+		},
+		
+		
+		/**
 		 * Opens the fragment with the given name as PopUp.
 		 */
 		openFragmentAsPopUp : function (oController, sName) {
