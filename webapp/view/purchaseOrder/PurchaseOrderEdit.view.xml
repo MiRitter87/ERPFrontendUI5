@@ -10,7 +10,12 @@
 	
 	<Page title="{i18n>purchaseOrderEdit.header}">
 		<content>
-
+			<l:VerticalLayout>
+				<Label text="{i18n>purchaseOrderEdit.selectionDescription}"/>
+				<ComboBox id="purchaseOrderComboBox" items="{path: 'purchaseOrders>/purchaseOrder/'}" selectionChange=".onPurchaseOrderSelectionChange">
+					<core:Item key="{purchaseOrders>id}" text="{purchaseOrders>id}"/>
+				</ComboBox>
+			</l:VerticalLayout>
 		</content>
 	</Page>
 </mvc:View>

@@ -26,7 +26,8 @@ sap.ui.define([
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
 		_onRouteMatched: function () {
-			//Query sales order and business partner data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
+			//Query sales order, material and business partner data every time a user navigates to this view. 
+			//This assures that changes are being displayed in the ComboBox.
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, false, "CUSTOMER");
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
 			SalesOrderController.querySalesOrdersByWebService(this.querySalesOrdersCallback, this, true);
@@ -249,7 +250,7 @@ sap.ui.define([
 
 
 		/**
-		 * Callback function of the queryMaterial RESTful WebService call in the MaterialController.
+		 * Callback function of the querySalesOrders RESTful WebService call in the SalesOrderController.
 		 */
 		querySalesOrdersCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
 			var oModel = new JSONModel();

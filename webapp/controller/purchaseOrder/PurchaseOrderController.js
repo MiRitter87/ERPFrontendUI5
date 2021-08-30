@@ -63,6 +63,28 @@ sap.ui.define([
 		
 		
 		/**
+		 * The WebService provides dates as milliseconds since 01.01.1970.
+	     * This function initializes the date properties as Date objects based on the given values.
+		 */
+		initializeDatesAsObject : function(oPurchaseOrders) {			
+			for(var i = 0; i < oPurchaseOrders.length; i++) {
+    			var oTempPurchaseOrder = oPurchaseOrders[i];
+				var oDate;
+    			
+				if(oTempPurchaseOrder.orderDate != null) {
+					oDate = new Date(oTempPurchaseOrder.orderDate);
+					oTempPurchaseOrder.orderDate = oDate;					
+				}
+				
+				if(oTempPurchaseOrder.requestedDeliveryDate != null) {
+					oDate = new Date(oTempPurchaseOrder.requestedDeliveryDate);
+					oTempPurchaseOrder.requestedDeliveryDate = oDate;					
+				}
+			}
+		},
+		
+		
+		/**
 		 * Clears the fields and CheckBox of the PopUp for item creation.
 		 */
 		clearItemPopUpFields : function (oController) {
@@ -210,6 +232,24 @@ sap.ui.define([
 					callbackFunction(data, oCallingController);
 				}
 			});
+		},
+		
+		
+		/**
+		 * Queries the purchase order WebService for all purchase orders.
+		 */
+		queryPurchaseOrdersByWebService : function(callbackFunction, oCallingController, bShowSuccessMessage) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/purchaseOrder");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			jQuery.ajax({
+				type : "GET", 
+				contentType : "application/json", 
+				url : sQueryUrl, 
+				dataType : "json", 
+				success : function(data) {
+					callbackFunction(data, oCallingController, bShowSuccessMessage);
+				}
+			});                                                                 
 		}
 	};
 });
