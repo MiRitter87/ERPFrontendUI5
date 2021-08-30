@@ -16,6 +16,118 @@
 					<core:Item key="{purchaseOrders>id}" text="{purchaseOrders>id}"/>
 				</ComboBox>
 			</l:VerticalLayout>
+			
+			<f:Form editable="true">
+				<f:title>
+					<core:Title text="{i18n>purchaseOrderEdit.dataHeader}" />
+				</f:title>
+			
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>purchaseOrderEdit.titleGeneralData}">
+						<f:FormElement label="{i18n>purchaseOrder.id}">
+							<f:fields>
+								<Text id="idText" text="{selectedPurchaseOrder>/purchaseOrderId}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>purchaseOrder.status}">
+							<f:fields>
+								<ComboBox id="statusComboBox" selectedKey="{selectedPurchaseOrder>/status}" required="true"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				
+					<f:FormContainer title="{i18n>purchaseOrderEdit.titleBusinessPartner}">
+						<f:FormElement label="{i18n>purchaseOrder.vendor}">
+							<f:fields>
+								<ComboBox id="vendorComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
+									selectionChange=".onVendorSelectionChange" required="true">
+											
+									<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>purchaseOrderEdit.titleDates}">
+						<f:FormElement label="{i18n>purchaseOrder.orderDate}">
+							<f:fields>
+								<DatePicker id="orderDatePicker" enabled="false" value="{path: 'selectedPurchaseOrder>/orderDate', type:'sap.ui.model.type.Date', 
+									formatOptions: { style: 'medium', strictParsing: true}}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>purchaseOrder.requestedDeliveryDate}">
+							<f:fields>
+								<DatePicker id="requestedDeliveryDatePicker" value="{path: 'selectedPurchaseOrder>/requestedDeliveryDate', 
+									type:'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true}}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			
+			<Table id="itemTable" items="{path: 'selectedPurchaseOrder>/items/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>purchaseOrderEdit.titleItems}"/>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>purchaseOrderEdit.deleteSelected}" press=".onDeleteItemPressed"/>
+						<Button icon="sap-icon://add" tooltip="{i18n>purchaseOrderEdit.addItem}" press=".onAddItemPressed"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>purchaseOrder.itemId}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>purchaseOrder.material}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>purchaseOrder.itemQuantity}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>purchaseOrder.itemPrice}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{selectedPurchaseOrder>itemId}"/>
+							<Text text="{path: 'selectedPurchaseOrder>materialId', formatter: '.materialNameFormatter'}"/>
+							<ObjectNumber unit="{path: 'selectedPurchaseOrder>materialId', formatter: '.materialUnitFormatter'}" number="{
+										parts:[{path:'selectedPurchaseOrder>quantity'}],
+										type: 'sap.ui.model.type.Unit',
+										formatOptions: {showMeasure: false}}"/>
+							<ObjectNumber unit="{path: 'selectedPurchaseOrder>materialId', formatter: '.materialCurrencyFormatter'}" number="{
+										parts:[{path:'selectedPurchaseOrder>priceTotal'}],
+										type: 'sap.ui.model.type.Currency',
+										formatOptions: {showMeasure: false}}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		
+			<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
+			<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 		</content>
 	</Page>
 </mvc:View>
