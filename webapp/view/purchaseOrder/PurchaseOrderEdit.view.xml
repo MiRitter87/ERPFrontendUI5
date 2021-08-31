@@ -58,7 +58,7 @@
 						<f:FormElement label="{i18n>purchaseOrder.vendor}">
 							<f:fields>
 								<ComboBox id="vendorComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
-									selectionChange=".onVendorSelectionChange" required="true">
+									selectionChange=".onVendorSelectionChange" selectedKey="{selectedPurchaseOrder>/vendorId}" required="true">
 											
 									<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
 								</ComboBox>
