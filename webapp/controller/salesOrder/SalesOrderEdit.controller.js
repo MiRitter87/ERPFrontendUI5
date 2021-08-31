@@ -33,7 +33,6 @@ sap.ui.define([
 			SalesOrderController.querySalesOrdersByWebService(this.querySalesOrdersCallback, this, true);
 			
 			this.getView().setModel(null, "selectedSalesOrder");
-			SalesOrderController.initializeSalesOrderItemModel(this);
 			this.resetUIElements();
     	},
 
@@ -103,6 +102,7 @@ sap.ui.define([
 				return;
 			}
 			
+			SalesOrderController.initializeSalesOrderItemModel(this);
 			SalesOrderController.setIdOfNewItem(this.getView().getModel("selectedSalesOrder"), this);
 			SalesOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.salesOrder.SalesOrderItemCreate");		
 		},
@@ -177,7 +177,6 @@ sap.ui.define([
 		onCancelDialog : function () {
 			this.byId("newItemDialog").close();
 			this.byId("materialComboBox").setSelectedItem(null);
-			SalesOrderController.initializeSalesOrderItemModel(this);
 		},
 		
 		

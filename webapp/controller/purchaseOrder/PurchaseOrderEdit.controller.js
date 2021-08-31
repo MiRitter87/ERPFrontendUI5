@@ -4,8 +4,9 @@ sap.ui.define([
 	"../material/MaterialController",
 	"./PurchaseOrderController",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/MessageToast"
-], function (Controller, BusinessPartnerController, MaterialController, PurchaseOrderController, JSONModel, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/m/MessageBox"
+], function (Controller, BusinessPartnerController, MaterialController, PurchaseOrderController, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.purchaseOrder.PurchaseOrderEdit", {		
@@ -58,6 +59,33 @@ sap.ui.define([
 			var iPartnerId = PurchaseOrderController.getSelectedPartnerId(oControlEvent);
 			
 			oPurchaseOrderModel.setData({vendorId: iPartnerId}, true);
+		},
+		
+		
+		/**
+		 * Opens the dialog to add a new purchase order item.
+		 */
+		onAddItemPressed : function () {
+			var oResourceBundle;
+			
+			if(this.byId("purchaseOrderComboBox").getSelectedKey() == "") {
+				oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+				MessageBox.error(oResourceBundle.getText("purchaseOrderEdit.noOrderSelected"));
+				return;
+			}			
+			
+			PurchaseOrderController.initializePurchaseOrderItemModel(this);
+			PurchaseOrderController.setIdOfNewItem(this.getView().getModel("selectedPurchaseOrder"), this);
+			PurchaseOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.purchaseOrder.PurchaseOrderItemCreate");
+		},
+		
+		
+		/**
+		 * Handles the closing by cancelation of the new item Dialog.
+		 */
+		onCancelDialog : function () {
+			this.byId("newItemDialog").close();
+			this.byId("materialComboBox").setSelectedItem(null);
 		},
 		
 		

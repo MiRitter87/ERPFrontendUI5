@@ -110,8 +110,9 @@ sap.ui.define([
 		/**
 		 * Sets the ID of the new purchase order item based on the number of already existing items.
 		 */
-		setIdOfNewItem : function (oPurchaseOrderModel, oPurchaseOrderItemModel) {
+		setIdOfNewItem : function (oPurchaseOrderModel, oController) {
 			var iExistingItemCount;
+			var oPurchaseOrderItemModel = oController.getView().getModel("newPurchaseOrderItem");
 			
 			iExistingItemCount = oPurchaseOrderModel.oData.items.length;
 			oPurchaseOrderItemModel.setProperty("/itemId", iExistingItemCount + 1);

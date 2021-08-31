@@ -51,7 +51,7 @@ sap.ui.define([
 		 * Opens the dialog to add a new purchase order item.
 		 */
 		onAddItemPressed : function () {
-			PurchaseOrderController.setIdOfNewItem(this.getView().getModel("newPurchaseOrder"), this.getView().getModel("newPurchaseOrderItem"));
+			PurchaseOrderController.setIdOfNewItem(this.getView().getModel("newPurchaseOrder"), this);
 			PurchaseOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.purchaseOrder.PurchaseOrderItemCreate");
 		},
 		
