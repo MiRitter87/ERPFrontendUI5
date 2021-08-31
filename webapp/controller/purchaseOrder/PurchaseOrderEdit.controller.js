@@ -1,9 +1,10 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
+	"../material/MaterialController",
 	"./PurchaseOrderController",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast"
-], function (Controller, PurchaseOrderController, JSONModel, MessageToast) {
+], function (Controller, MaterialController, PurchaseOrderController, JSONModel, MessageToast) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.purchaseOrder.PurchaseOrderEdit", {		
@@ -22,6 +23,7 @@ sap.ui.define([
 		_onRouteMatched: function () {
 			//Query purchase order, material and business partner data every time a user navigates to this view. 
 			//This assures that changes are being displayed in the ComboBox.
+			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
 			PurchaseOrderController.queryPurchaseOrdersByWebService(this.queryPurchaseOrdersCallback, this, true);
 		},
 		
@@ -43,6 +45,30 @@ sap.ui.define([
 			
 			//Set the model of the view according to the selected purchase order to allow binding of the UI elements.
 			this.getView().setModel(wsPurchaseOrder, "selectedPurchaseOrder");
+		},
+		
+		
+		/**
+		 * Formatter of the material currency in the item table. Provides the currency of a material based on the given ID.
+		 */
+		materialCurrencyFormatter: function(iMaterialId) {
+			return PurchaseOrderController.materialCurrencyFormatter(iMaterialId, this.getView().getModel("materials"));
+		},
+		
+		
+		/**
+		 * Formatter of the material text in the item table. Provides the name of a material based on the given ID.
+		 */
+		materialNameFormatter : function(iMaterialId) {
+			return PurchaseOrderController.materialNameFormatter(iMaterialId, this.getView().getModel("materials"));
+		},
+		
+		
+		/**
+		 * Formatter of the material unit in the item table. Provides the unit of a material based on the given ID.
+		 */
+		materialUnitFormatter: function(iMaterialId) {
+			return PurchaseOrderController.materialUnitFormatter(iMaterialId, this.getView().getModel("materials"));
 		},
 		
 		
@@ -99,6 +125,24 @@ sap.ui.define([
 			}                                                               
 			
 			oCallingController.getView().setModel(oModel, "purchaseOrders");
+		},
+		
+		
+		/**
+		 * Callback function of the queryMaterialsByWebService RESTful WebService call in the MaterialController.
+		 */
+		queryMaterialsCallback : function(oReturnData, oCallingController) {
+			var oModel = new JSONModel();
+			
+			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+			}
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+			}
+			
+			oCallingController.getView().setModel(oModel, "materials");
 		}
 	});
 });
