@@ -65,7 +65,7 @@
 							
 							<f:FormElement label="{i18n>purchaseOrder.itemPrice}">
 								<f:fields>
-									<Text text="{newPurchaseOrderItem>/priceTotal}"/>
+									<Text id="itemPriceTotalText" text="{newPurchaseOrderItem>/priceTotal}"/>
 								</f:fields>
 							</f:FormElement>
 							

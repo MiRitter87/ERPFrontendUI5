@@ -81,6 +81,32 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the selection of an item in the material ComboBox.
+		 */
+		onMaterialSelectionChange : function (oControlEvent) {
+			PurchaseOrderController.onMaterialSelectionChange(oControlEvent, this,
+				this.getView().getModel("newPurchaseOrderItem"),
+				this.getView().getModel("materials"));
+		},
+		
+		
+		/**
+		 * Handles changes of the input for purchase order item quantity.
+		 */
+		onQuantityChange : function () {
+			if(this.getView().byId("materialComboBox").getSelectedItem() == null) {
+				this.getView().setModel(null, "selectedMaterial");
+				PurchaseOrderController.clearItemPopUpFields(this);
+				return;
+			}			
+			
+			PurchaseOrderController.updatePriceTotal(
+				this.getView().getModel("selectedMaterial"),
+				this.getView().getModel("newPurchaseOrderItem"));
+		},
+		
+		
+		/**
 		 * Handles the closing by cancelation of the new item Dialog.
 		 */
 		onCancelDialog : function () {

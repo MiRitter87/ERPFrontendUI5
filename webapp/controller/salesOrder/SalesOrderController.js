@@ -294,7 +294,7 @@ sap.ui.define([
 		clearItemPopUpFields : function (oController) {
 			oController.byId("materialComboBox").setSelectedItem(null);
 			oController.byId("itemUnitText").setText("");
-			oController.byId("priceTotalText").setText("");
+			oController.byId("itemPriceTotalText").setText("");
 			oController.byId("itemCurrencyText").setText("");
 		},
 		

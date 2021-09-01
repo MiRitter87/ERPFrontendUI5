@@ -90,6 +90,12 @@ sap.ui.define([
 		 * Handles changes of the input for purchase order item quantity.
 		 */
 		onQuantityChange : function () {
+			if(this.getView().byId("materialComboBox").getSelectedItem() == null) {
+				this.getView().setModel(null, "selectedMaterial");
+				PurchaseOrderController.clearItemPopUpFields(this);
+				return;
+			}
+			
 			PurchaseOrderController.updatePriceTotal(
 				this.getView().getModel("selectedMaterial"),
 				this.getView().getModel("newPurchaseOrderItem"));

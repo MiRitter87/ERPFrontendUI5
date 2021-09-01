@@ -186,8 +186,7 @@ sap.ui.define([
 		onMaterialSelectionChange : function (oControlEvent) {
 			SalesOrderController.onMaterialSelectionChange(oControlEvent, this,
 				this.getView().getModel("newSalesOrderItem"),
-				this.getView().getModel("materials"),
-				new JSONModel());
+				this.getView().getModel("materials"));
 		},
 		
 		
