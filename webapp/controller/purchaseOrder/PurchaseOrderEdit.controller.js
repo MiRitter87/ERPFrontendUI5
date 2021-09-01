@@ -116,6 +116,49 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the saving of the new item Dialog.
+		 */
+		onSaveDialog : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oItemData = this.getView().getModel("newPurchaseOrderItem");
+			var oPurchaseOrderModel = this.getView().getModel("selectedPurchaseOrder");
+			var oPurchaseOrderItems = oPurchaseOrderModel.getProperty("/items");
+			var itemWithMaterialExists;
+			
+			//Check if a material has been selected.
+			if(this.getView().byId("materialComboBox").getSelectedItem() == null) {
+				MessageBox.error(oResourceBundle.getText("purchaseOrderEdit.noMaterialSelected"));
+				return;
+			}
+			
+			//Do not allow adding an item with quantity 0.
+			if(oItemData.oData.quantity < 1) {
+				MessageBox.error(oResourceBundle.getText("purchaseOrderEdit.quantityIsZero"));
+				return;
+			}
+			
+			//Check if a purchase order item with the same material already exists.
+			itemWithMaterialExists = PurchaseOrderController.isItemWithMaterialExisting(oPurchaseOrderItems, oItemData.oData.materialId);
+			if(itemWithMaterialExists == true) {
+				MessageBox.error(oResourceBundle.getText("purchaseOrderEdit.itemWithMaterialExists", [oItemData.oData.materialId]));
+				return;
+			}
+			
+			//Remove the binding of the UI to the selectedMaterial. 
+			//Otherwhise the selectedMaterial is updated by databinding when the input fields are being cleared.
+			this.getView().setModel(null, "selectedMaterial");
+			
+			//Add the item to the purchase order model. Then re-initialize the item model that is bound to the "new item PopUp".
+			oPurchaseOrderItems.push(oItemData.oData);
+			oPurchaseOrderModel.setProperty("/items", oPurchaseOrderItems);
+			PurchaseOrderController.initializePurchaseOrderItemModel(this);
+			
+			this.byId("newItemDialog").close();
+			PurchaseOrderController.clearItemPopUpFields(this);
+		},
+		
+		
+		/**
 		 * Formatter of the material currency in the item table. Provides the currency of a material based on the given ID.
 		 */
 		materialCurrencyFormatter: function(iMaterialId) {
