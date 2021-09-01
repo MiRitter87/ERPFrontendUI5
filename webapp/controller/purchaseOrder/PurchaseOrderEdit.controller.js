@@ -28,6 +28,9 @@ sap.ui.define([
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, false, "VENDOR");
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
 			PurchaseOrderController.queryPurchaseOrdersByWebService(this.queryPurchaseOrdersCallback, this, true);
+			
+			this.getView().setModel(null, "selectedPurchaseOrder");
+			this.resetUIElements();
 		},
 		
 		
@@ -155,6 +158,34 @@ sap.ui.define([
 			
 			this.byId("newItemDialog").close();
 			PurchaseOrderController.clearItemPopUpFields(this);
+		},
+		
+		
+		/**
+		 * Handles a click at the cancel button.
+		 */
+		onCancelPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			
+			oRouter.navTo("startPageRoute");
+		},
+		
+		
+		/**
+		 * Resets the UI elements.
+		 */
+		resetUIElements : function () {
+			this.getView().byId("purchaseOrderComboBox").setSelectedItem(null);
+			
+			this.getView().byId("idText").setText("");
+			this.getView().byId("statusComboBox").setSelectedItem(null);
+			
+			this.getView().byId("vendorComboBox").setSelectedItem(null);
+			
+			this.getView().byId("orderDatePicker").setDateValue(null);
+			this.getView().byId("requestedDeliveryDatePicker").setDateValue(null);	
+			
+			this.getView().byId("itemTable").destroyItems();
 		},
 		
 		
