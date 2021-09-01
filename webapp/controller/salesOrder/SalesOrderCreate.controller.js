@@ -177,6 +177,12 @@ sap.ui.define([
 		 * Handles changes of the input for sales order item quantity.
 		 */
 		onQuantityChange : function () {
+			if(this.getView().byId("materialComboBox").getSelectedItem() == null) {
+				this.getView().setModel(null, "selectedMaterial");
+				SalesOrderController.clearItemPopUpFields(this);
+				return;
+			}
+			
 			SalesOrderController.updatePriceTotal(
 				this.getView().getModel("selectedMaterial"),
 				this.getView().getModel("newSalesOrderItem"));

@@ -13,8 +13,11 @@ sap.ui.define([
 			var oMaterial;
 			var oSelectedMaterialModel = new JSONModel();
 			
-			if(oSelectedItem == null)
+			if(oSelectedItem == null) {
+				oController.getView().setModel(null, "selectedMaterial");
+				this.clearItemPopUpFields(oController);				
 				return;
+			}
 			
 			//Get the selected material from the array of all materials according to the id.
 			for(var i = 0; i < oMaterials.oData.material.length; i++) {
@@ -41,6 +44,11 @@ sap.ui.define([
 		 */
 		updatePriceTotal : function (oSelectedMaterialModel, oItemModel) {
 			var fPricePerUnit, fPriceTotal, iQuantity;
+			
+			//No material selected before quantity changed.
+			if(oSelectedMaterialModel === undefined) {
+				return;
+			}
 			
 			fPricePerUnit = oSelectedMaterialModel.getProperty("/pricePerUnit");
 			iQuantity = oItemModel.getProperty("/quantity");
@@ -286,6 +294,7 @@ sap.ui.define([
 		clearItemPopUpFields : function (oController) {
 			oController.byId("materialComboBox").setSelectedItem(null);
 			oController.byId("itemUnitText").setText("");
+			oController.byId("priceTotalText").setText("");
 			oController.byId("itemCurrencyText").setText("");
 		},
 		
