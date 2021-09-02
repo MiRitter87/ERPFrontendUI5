@@ -54,9 +54,9 @@
 							</f:fields>
 						</f:FormElement>
 						
-						<f:FormElement label="{i18n>purchaseOrder.status}">
+						<f:FormElement label="{i18n>purchaseOrder.detailStatus}">
 							<f:fields>
-								<ComboBox id="statusComboBox" selectedKey="{selectedPurchaseOrder>/status}" required="true"/>
+								<MultiComboBox id="detailStatusComboBox" required="true"/>
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>

@@ -16,6 +16,9 @@ sap.ui.define([
 		onInit : function () {
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("purchaseOrderEditRoute").attachMatched(this._onRouteMatched, this);
+			
+			PurchaseOrderController.initializeDetailStatusComboBox(this.getView().byId("detailStatusComboBox"), 
+				this.getOwnerComponent().getModel("i18n").getResourceBundle());
 		},
 		
 		
@@ -178,7 +181,7 @@ sap.ui.define([
 			this.getView().byId("purchaseOrderComboBox").setSelectedItem(null);
 			
 			this.getView().byId("idText").setText("");
-			this.getView().byId("statusComboBox").setSelectedItem(null);
+			this.getView().byId("detailStatusComboBox").setSelectedItems(null);
 			
 			this.getView().byId("vendorComboBox").setSelectedItem(null);
 			
