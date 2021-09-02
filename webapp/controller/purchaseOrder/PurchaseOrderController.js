@@ -184,6 +184,48 @@ sap.ui.define([
 		
 		
 		/**
+		 * Formatter of the purchase order total status text.
+		 */
+		totalStatusTextFormatter: function(aStatus, oResourceBundle) {
+			for(var i = 0; i < aStatus.length; i++) {
+				var sStatus = aStatus[i];
+				
+				switch(sStatus) {
+					case "OPEN":
+						return oResourceBundle.getText("purchaseOrder.totalStatus.open");
+					case "IN_PROCESS":
+						return oResourceBundle.getText("purchaseOrder.totalStatus.inProcess");
+					case "FINISHED":
+						return oResourceBundle.getText("purchaseOrder.totalStatus.finished");
+					case "CANCELED":
+						return oResourceBundle.getText("purchaseOrder.totalStatus.canceled");
+				}				
+			}
+		},
+		
+		
+		/**
+		 * Formatter of the purchase order total status state.
+		 */
+		totalStatusStateFormatter: function(aStatus) {
+			for(var i = 0; i < aStatus.length; i++) {
+				var sStatus = aStatus[i];
+			
+				switch(sStatus) {
+					case "OPEN":
+						return "Information";
+					case "IN_PROCESS":
+						return "Information";
+					case "FINISHED":
+						return "Success";
+					case "CANCELED":
+						return "Error";
+				}
+			}
+		},
+		
+		
+		/**
 		 * Gets the material data of the material with the given ID.
 		 */
 		getMaterialById : function(iMaterialId, oMaterials) {

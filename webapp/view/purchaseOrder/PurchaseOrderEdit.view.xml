@@ -47,6 +47,13 @@
 							</f:fields>
 						</f:FormElement>
 						
+						<f:FormElement label="{i18n>purchaseOrder.totalStatus}">
+							<f:fields>
+								<ObjectStatus id="totalStatus" text="{path: 'selectedPurchaseOrder>/status', formatter: '.totalStatusTextFormatter'}"
+												state="{path: 'selectedPurchaseOrder>/status', formatter: '.totalStatusStateFormatter'}"/>
+							</f:fields>
+						</f:FormElement>
+						
 						<f:FormElement label="{i18n>purchaseOrder.status}">
 							<f:fields>
 								<ComboBox id="statusComboBox" selectedKey="{selectedPurchaseOrder>/status}" required="true"/>

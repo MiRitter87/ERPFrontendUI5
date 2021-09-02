@@ -214,6 +214,22 @@ sap.ui.define([
 		
 		
 		/**
+		 * Formatter of the purchase order status text.
+		 */
+		totalStatusTextFormatter: function(aStatus) {
+			return PurchaseOrderController.totalStatusTextFormatter(aStatus, this.getOwnerComponent().getModel("i18n").getResourceBundle());
+		},
+		
+		
+		/**
+		 * Formatter of the sales order status state.
+		 */
+		totalStatusStateFormatter: function(aStatus) {
+			return PurchaseOrderController.totalStatusStateFormatter(aStatus);
+		},
+		
+		
+		/**
 		 * Creates a representation of a purchase order that can be processed by the WebService.
 		 */
 		getPurchaseOrderForWebService : function(oPurchaseOrder) {
