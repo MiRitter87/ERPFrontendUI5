@@ -56,7 +56,7 @@
 						
 						<f:FormElement label="{i18n>purchaseOrder.detailStatus}">
 							<f:fields>
-								<MultiComboBox id="detailStatusComboBox" selectionFinish="onDetailStatusSelectionFinish" required="true"/>
+								<MultiComboBox id="detailStatusComboBox" selectionFinish="onDetailStatusSelectionFinish"/>
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>

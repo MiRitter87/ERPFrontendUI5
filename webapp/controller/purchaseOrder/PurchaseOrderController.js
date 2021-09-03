@@ -343,6 +343,27 @@ sap.ui.define([
 					callbackFunction(data, oCallingController, bShowSuccessMessage);
 				}
 			});                                                                 
+		},
+		
+		
+		/**
+		 * Updates changes of the purchase order data using the WebService.
+		 */
+		savePurchaseOrderByWebService : function(oPurchaseOrderModel, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/purchaseOrder");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var sJSONData = oPurchaseOrderModel.getJSON();
+			
+			//Use "PUT" to update an existing resource.
+			jQuery.ajax({
+				type : "PUT", 
+				contentType : "application/json", 
+				url : sQueryUrl,
+				data : sJSONData, 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			}); 
 		}
 	};
 });

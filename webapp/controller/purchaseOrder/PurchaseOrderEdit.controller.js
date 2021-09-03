@@ -208,6 +208,19 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles a click at the save button.
+		 */
+		onSavePressed : function () {
+			var bInputValid = this.verifyObligatoryFields();
+			
+			if(bInputValid == false)
+				return;
+				
+			PurchaseOrderController.savePurchaseOrderByWebService(this.getView().getModel("selectedPurchaseOrder"), this.savePurchaseOrderCallback, this);
+		},
+		
+		
+		/**
 		 * Handles a click at the cancel button.
 		 */
 		onCancelPressed : function () {
@@ -232,6 +245,33 @@ sap.ui.define([
 			this.getView().byId("requestedDeliveryDatePicker").setDateValue(null);	
 			
 			this.getView().byId("itemTable").destroyItems();
+		},
+		
+		
+		/**
+		 * Verifies input of obligatory fields.
+		 * Returns true if input is valid. Returns false if input is invalid.
+		 */
+		verifyObligatoryFields : function() {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var iExistingItemCount;
+			var oPurchaseOrderModel;
+			
+			if(this.getView().byId("vendorComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("purchaseOrderEdit.noVendorSelected"));
+				return false;
+			}
+			
+			//The order has to have at least one item.
+			oPurchaseOrderModel = this.getView().getModel("selectedPurchaseOrder");
+			iExistingItemCount = oPurchaseOrderModel.oData.items.length;
+			
+			if(iExistingItemCount < 1) {
+				MessageBox.error(oResourceBundle.getText("purchaseOrderEdit.noItemsExist"));
+				return false;
+			}
+			
+			return true;
 		},
 		
 		
@@ -364,6 +404,37 @@ sap.ui.define([
 			}                                                               
 			
 			oCallingController.getView().setModel(oModel, "businessPartners");
+		},
+		
+		
+		/**
+		 *  Callback function of the savePurchaseOrder RESTful WebService call in the PurchaseOrderController.
+		 */
+		savePurchaseOrderCallback : function(oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					//Update the data source of the ComboBox with the new purchase order data.
+					PurchaseOrderController.queryPurchaseOrdersByWebService(oCallingController.queryPurchaseOrdersCallback, oCallingController, false);
+					
+					oCallingController.getView().setModel(null, "selectedPurchaseOrder");
+					PurchaseOrderController.initializePurchaseOrderItemModel(oCallingController);
+					oCallingController.resetUIElements();
+					
+					MessageToast.show(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'I') {
+					MessageToast.show(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}
 		}
 	});
 });
