@@ -54,6 +54,8 @@ sap.ui.define([
 			
 			//Set the model of the view according to the selected purchase order to allow binding of the UI elements.
 			this.getView().setModel(wsPurchaseOrder, "selectedPurchaseOrder");
+			
+			this.setActiveDetailStatus();
 		},
 		
 		
@@ -245,6 +247,29 @@ sap.ui.define([
 			this.getView().byId("requestedDeliveryDatePicker").setDateValue(null);	
 			
 			this.getView().byId("itemTable").destroyItems();
+		},
+		
+		
+		/**
+		 * Sets the selected elements of the detail status MultiComboBox based on the selected purchase order.
+		 */
+		setActiveDetailStatus : function () {
+			var oPurchaseOrderModel = this.getView().getModel("selectedPurchaseOrder");
+			var aStatus = oPurchaseOrderModel.getProperty("/status");
+			var aSelectedKeys = new Array();
+			
+			for(var i=0; i < aStatus.length; i++) {
+				var sStatus = aStatus[i];
+				
+				//The following status can not be set by the user and are therefore ignored.
+				if(sStatus == "OPEN" || sStatus == "IN_PROCESS" || sStatus == "FINISHED") {
+					continue;
+				}
+				
+				aSelectedKeys.push(sStatus);
+			}
+			
+			this.getView().byId("detailStatusComboBox").setSelectedKeys(aSelectedKeys);
 		},
 		
 		
