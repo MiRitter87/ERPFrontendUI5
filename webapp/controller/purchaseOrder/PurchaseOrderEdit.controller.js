@@ -113,6 +113,49 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the finishing of the element selection of the detail purchase order status MultiComboBox.
+		 */
+		onDetailStatusSelectionFinish : function (oControlEvent) {
+			var oPurchaseOrderModel = this.getView().getModel("selectedPurchaseOrder");
+			var aStatus = oPurchaseOrderModel.getProperty("/status");
+			var aSelectedItems = oControlEvent.getParameters().selectedItems;
+			var bStatusIncluded = false;
+			
+			//Remove status items, that are not set anymore.
+			for(var i=0; i < aStatus.length; i++) {
+				var sStatus = aStatus[i];
+				bStatusIncluded = false;
+				
+				//The following status can not be set by the user and are therefore ignored.
+				if(sStatus == "OPEN" || sStatus == "IN_PROCESS" || sStatus == "FINISHED") {
+					continue;
+				}
+				
+				for(var j=0; j < aSelectedItems.length; j++) {
+					var sKey = aSelectedItems[j].getKey();
+					
+					if(sKey == sStatus) {
+						bStatusIncluded = true;
+					}
+				}
+				
+				if(bStatusIncluded == false) {
+					aStatus.splice(i, 1);					
+				}
+			}
+			
+			//Add status items, that have not been set before.
+			for(var i=0; i < aSelectedItems.length; i++) {
+				var sStatus = aSelectedItems[i].getKey();
+				
+				if(aStatus.includes(sStatus) == false) {
+					aStatus.push(sStatus);
+				}
+			}
+		},
+		
+		
+		/**
 		 * Handles the closing by cancelation of the new item Dialog.
 		 */
 		onCancelDialog : function () {
