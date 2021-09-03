@@ -45,8 +45,10 @@ sap.ui.define([
 			var oPurchaseOrdersModel = this.getView().getModel("purchaseOrders");
 			var oPurchaseOrder, wsPurchaseOrder;
 			
-			if(oSelectedItem == null)
+			if(oSelectedItem == null) {
+				this.resetUIElements();
 				return;
+			}
 				
 			oPurchaseOrder = PurchaseOrderController.getPurchaseOrderById(oSelectedItem.getKey(), oPurchaseOrdersModel.oData.purchaseOrder);
 			if(oPurchaseOrder != null)
@@ -118,10 +120,17 @@ sap.ui.define([
 		 * Handles the finishing of the element selection of the detail purchase order status MultiComboBox.
 		 */
 		onDetailStatusSelectionFinish : function (oControlEvent) {
-			var oPurchaseOrderModel = this.getView().getModel("selectedPurchaseOrder");
-			var aStatus = oPurchaseOrderModel.getProperty("/status");
+			var oPurchaseOrderModel;
+			var aStatus;
 			var aSelectedItems = oControlEvent.getParameters().selectedItems;
 			var bStatusIncluded = false;
+			
+			if(this.getView().byId("purchaseOrderComboBox").getSelectedKey() == "") {
+				return;
+			}
+			
+			oPurchaseOrderModel = this.getView().getModel("selectedPurchaseOrder");
+			aStatus = oPurchaseOrderModel.getProperty("/status");
 			
 			//Remove status items, that are not set anymore.
 			for(var i=0; i < aStatus.length; i++) {
@@ -239,6 +248,7 @@ sap.ui.define([
 			this.getView().byId("purchaseOrderComboBox").setSelectedItem(null);
 			
 			this.getView().byId("idText").setText("");
+			this.getView().byId("totalStatus").setText("");
 			this.getView().byId("detailStatusComboBox").setSelectedItems(null);
 			
 			this.getView().byId("vendorComboBox").setSelectedItem(null);
