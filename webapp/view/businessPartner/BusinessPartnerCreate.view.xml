@@ -29,6 +29,34 @@
 				</f:layout>
 				
 				<f:formContainers>
+					<f:FormContainer title="{i18n>businessPartnerCreate.titleGeneralData}">
+						<f:formElements>
+							<f:FormElement label="{i18n>businessPartner.type}">
+								<MultiComboBox id="typeComboBox" selectedKeys="{newBusinessPartner>/types}"/>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>businessPartnerCreate.titleContact}">
+						<f:FormElement label="{i18n>businessPartner.firstName}">
+							<f:fields>
+								<Input maxLength="50" value="{newBusinessPartner>/firstName}"/>
+							</f:fields>
+						</f:FormElement>
+							
+						<f:FormElement label="{i18n>businessPartner.lastName}">
+							<f:fields>
+								<Input maxLength="50" value="{newBusinessPartner>/lastName}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>businessPartner.phoneNumber}">
+								<f:fields>
+									<Input maxLength="40" value="{newBusinessPartner>/phoneNumber}" required="true"/>
+								</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				
 					<f:FormContainer title="{i18n>businessPartnerCreate.titleAddress}">
 						<f:formElements>
 							<f:FormElement label="{i18n>businessPartner.companyName}">
@@ -62,35 +90,7 @@
 							</f:FormElement>
 						</f:formElements>
 					</f:FormContainer>
-					
-					<f:FormContainer title="{i18n>businessPartnerCreate.titleContact}">
-						<f:FormElement label="{i18n>businessPartner.firstName}">
-							<f:fields>
-								<Input maxLength="50" value="{newBusinessPartner>/firstName}"/>
-							</f:fields>
-						</f:FormElement>
-							
-						<f:FormElement label="{i18n>businessPartner.lastName}">
-							<f:fields>
-								<Input maxLength="50" value="{newBusinessPartner>/lastName}"/>
-							</f:fields>
-						</f:FormElement>
-						
-						<f:FormElement label="{i18n>businessPartner.phoneNumber}">
-								<f:fields>
-									<Input maxLength="40" value="{newBusinessPartner>/phoneNumber}" required="true"/>
-								</f:fields>
-						</f:FormElement>
-					</f:FormContainer>
 				</f:formContainers>
-				
-				<f:FormContainer title="{i18n>businessPartnerCreate.titleGeneralData}">
-					<f:formElements>
-						<f:FormElement label="{i18n>businessPartner.type}">
-							<MultiComboBox id="typeComboBox" selectedKeys="{newBusinessPartner>/types}"/>
-						</f:FormElement>
-					</f:formElements>
-				</f:FormContainer>
 			</f:Form>
 		</content>
 		

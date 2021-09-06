@@ -42,6 +42,40 @@
 				</f:layout>
 				
 				<f:formContainers>
+					<f:FormContainer title="{i18n>businessPartnerDisplay.titleGeneralData}">
+						<f:formElements>
+							<f:FormElement label="{i18n>businessPartner.id}">
+								<f:fields>
+									<Text id="idText" text="{selectedBusinessPartner>/id}"/>
+								</f:fields>
+							</f:FormElement>
+						
+							<f:FormElement label="{i18n>businessPartner.type}">
+								<Text id="typeText"/>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>businessPartnerDisplay.titleContact}">
+						<f:FormElement label="{i18n>businessPartner.firstName}">
+							<f:fields>
+								<Text id="firstNameText" text="{selectedBusinessPartner>/firstName}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>businessPartner.lastName}">
+							<f:fields>
+								<Text id="lastNameText" text="{selectedBusinessPartner>/lastName}"/>
+							</f:fields>
+						</f:FormElement>
+				
+						<f:FormElement label="{i18n>businessPartner.phoneNumber}">
+							<f:fields>
+								<Text id="phoneNumberText" text="{selectedBusinessPartner>/phoneNumber}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				
 					<f:FormContainer title="{i18n>businessPartnerDisplay.titleAddress}">
 						<f:formElements>
 							<f:FormElement label="{i18n>businessPartner.companyName}">
@@ -72,34 +106,6 @@
 								<f:fields>
 									<Text id="cityNameText" text="{selectedBusinessPartner>/cityName}"/>
 								</f:fields>
-							</f:FormElement>
-						</f:formElements>
-					</f:FormContainer>
-					
-					<f:FormContainer title="{i18n>businessPartnerDisplay.titleContact}">
-						<f:FormElement label="{i18n>businessPartner.firstName}">
-							<f:fields>
-								<Text id="firstNameText" text="{selectedBusinessPartner>/firstName}"/>
-							</f:fields>
-						</f:FormElement>
-						
-						<f:FormElement label="{i18n>businessPartner.lastName}">
-							<f:fields>
-								<Text id="lastNameText" text="{selectedBusinessPartner>/lastName}"/>
-							</f:fields>
-						</f:FormElement>
-				
-						<f:FormElement label="{i18n>businessPartner.phoneNumber}">
-							<f:fields>
-								<Text id="phoneNumberText" text="{selectedBusinessPartner>/phoneNumber}"/>
-							</f:fields>
-						</f:FormElement>
-					</f:FormContainer>
-					
-					<f:FormContainer title="{i18n>businessPartnerDisplay.titleGeneralData}">
-						<f:formElements>
-							<f:FormElement label="{i18n>businessPartner.type}">
-								<Text id="typeText"/>
 							</f:FormElement>
 						</f:formElements>
 					</f:FormContainer>

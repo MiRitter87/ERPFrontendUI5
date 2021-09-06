@@ -136,6 +136,9 @@ sap.ui.define([
 		 */
 		resetUIElements : function () {
 			this.getView().byId("businessPartnerComboBox").setSelectedItem(null);
+			
+			this.getView().byId("typeComboBox").setSelectedKeys(null);
+			this.getView().byId("idText").setText("");
 
 			this.getView().byId("companyNameInput").setValue("");
 			this.getView().byId("streetNameInput").setValue("");
@@ -146,8 +149,6 @@ sap.ui.define([
 			this.getView().byId("firstNameInput").setValue("");
 			this.getView().byId("lastNameInput").setValue("");
 			this.getView().byId("phoneNumberInput").setValue("");
-			
-			this.getView().byId("typeComboBox").setSelectedKeys(null);
 		},
 	});
 });

@@ -42,6 +42,41 @@
 				</f:layout>
 				
 				<f:formContainers>
+					<f:FormContainer title="{i18n>businessPartnerEdit.titleGeneralData}">
+						<f:formElements>
+							<f:FormElement label="{i18n>businessPartner.id}">
+								<f:fields>
+									<Text id="idText" text="{selectedBusinessPartner>/id}"/>
+								</f:fields>
+							</f:FormElement>
+						
+							<f:FormElement label="{i18n>businessPartner.type}">
+								<MultiComboBox id="typeComboBox" selectedKeys="{selectedBusinessPartner>/types}"/>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+					
+										
+					<f:FormContainer title="{i18n>businessPartnerEdit.titleContact}">
+						<f:FormElement label="{i18n>businessPartner.firstName}">
+							<f:fields>
+								<Input id="firstNameInput" maxLength="50" value="{selectedBusinessPartner>/firstName}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>businessPartner.lastName}">
+							<f:fields>
+								<Input id="lastNameInput" maxLength="50" value="{selectedBusinessPartner>/lastName}"/>
+							</f:fields>
+						</f:FormElement>
+				
+						<f:FormElement label="{i18n>businessPartner.phoneNumber}">
+							<f:fields>
+								<Input id="phoneNumberInput" maxLength="40" value="{selectedBusinessPartner>/phoneNumber}" required="true"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				
 					<f:FormContainer title="{i18n>businessPartnerEdit.titleAddress}">
 						<f:formElements>
 							<f:FormElement label="{i18n>businessPartner.companyName}">
@@ -72,34 +107,6 @@
 								<f:fields>
 									<Input id="cityNameInput" maxLength="100" value="{selectedBusinessPartner>/cityName}" required="true"/>
 								</f:fields>
-							</f:FormElement>
-						</f:formElements>
-					</f:FormContainer>
-					
-					<f:FormContainer title="{i18n>businessPartnerEdit.titleContact}">
-						<f:FormElement label="{i18n>businessPartner.firstName}">
-							<f:fields>
-								<Input id="firstNameInput" maxLength="50" value="{selectedBusinessPartner>/firstName}"/>
-							</f:fields>
-						</f:FormElement>
-						
-						<f:FormElement label="{i18n>businessPartner.lastName}">
-							<f:fields>
-								<Input id="lastNameInput" maxLength="50" value="{selectedBusinessPartner>/lastName}"/>
-							</f:fields>
-						</f:FormElement>
-				
-						<f:FormElement label="{i18n>businessPartner.phoneNumber}">
-							<f:fields>
-								<Input id="phoneNumberInput" maxLength="40" value="{selectedBusinessPartner>/phoneNumber}" required="true"/>
-							</f:fields>
-						</f:FormElement>
-					</f:FormContainer>
-					
-					<f:FormContainer title="{i18n>businessPartnerEdit.titleGeneralData}">
-						<f:formElements>
-							<f:FormElement label="{i18n>businessPartner.type}">
-								<MultiComboBox id="typeComboBox" selectedKeys="{selectedBusinessPartner>/types}"/>
 							</f:FormElement>
 						</f:formElements>
 					</f:FormContainer>
