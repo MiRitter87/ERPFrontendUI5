@@ -62,8 +62,11 @@ sap.ui.define([
 			var oEmployee;
 			var oEmployeeModel = new JSONModel();
 			
-			if(oSelectedItem == null)
+			if(oSelectedItem == null) {
+				this.getView().setModel(oEmployeeModel, "selectedEmployee");
+				this.resetUIElements();
 				return;
+			}
 				
 			oEmployee = EmployeeController.getEmployeeById(oSelectedItem.getKey(), oEmployees.oData.employee);
 			oEmployeeModel.setData(oEmployee);

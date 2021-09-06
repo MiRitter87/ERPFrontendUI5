@@ -38,8 +38,11 @@ sap.ui.define([
 			var oMaterial;
 			var oMaterialModel = new JSONModel();
 			
-			if(oSelectedItem == null)
+			if(oSelectedItem == null) {
+				this.getView().setModel(oMaterialModel, "selectedMaterial");
+				this.resetUiElements();			
 				return;
+			}
 				
 			oMaterial = MaterialController.getMaterialById(oSelectedItem.getKey(), oMaterials.oData.material);
 			oMaterialModel.setData(oMaterial);
