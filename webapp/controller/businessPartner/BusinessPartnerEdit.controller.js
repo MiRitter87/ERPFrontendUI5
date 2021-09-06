@@ -65,8 +65,11 @@ sap.ui.define([
 			var oBusinessPartner;
 			var oBusinessPartnerModel = new JSONModel();
 			
-			if(oSelectedItem == null)
+			if(oSelectedItem == null) {
+				this.getView().setModel(oBusinessPartnerModel, "selectedBusinessPartner");
+				this.resetUIElements();				
 				return;
+			}
 				
 			oBusinessPartner = BusinessPartnerController.getBusinessPartnerById(oSelectedItem.getKey(), oBusinessPartners.oData.businessPartner);
 			oBusinessPartnerModel.setData(oBusinessPartner);

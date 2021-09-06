@@ -24,7 +24,7 @@ sap.ui.define([
 		/**
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
-		_onRouteMatched: function (oEvent) {
+		_onRouteMatched: function () {
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			EmployeeController.queryEmployeesByWebService(this.queryEmployeesCallback, this, true);
 			this.resetUIElements();
@@ -88,8 +88,11 @@ sap.ui.define([
 			var oEmployee;
 			var oEmployeeModel = new JSONModel();
 			
-			if(oSelectedItem == null)
+			if(oSelectedItem == null) {
+				this.getView().setModel(oEmployeeModel, "selectedEmployee");
+				this.resetUIElements();
 				return;
+			}
 				
 			oEmployee = EmployeeController.getEmployeeById(oSelectedItem.getKey(), oEmployees.oData.employee);
 			oEmployeeModel.setData(oEmployee);

@@ -45,8 +45,10 @@ sap.ui.define([
 			var oSalesOrdersModel = this.getView().getModel("salesOrders");
 			var oSalesOrder, wsSalesOrder;
 			
-			if(oSelectedItem == null)
+			if(oSelectedItem == null) {
+				this.resetUIElements();				
 				return;
+			}
 				
 			oSalesOrder = SalesOrderController.getSalesOrderById(oSelectedItem.getKey(), oSalesOrdersModel.oData.salesOrder);
 			if(oSalesOrder != null)

@@ -38,8 +38,11 @@ sap.ui.define([
 			var oDepartment;
 			var oDepartmentModel = new JSONModel();
 			
-			if(oSelectedItem == null)
+			if(oSelectedItem == null) {
+				this.getView().setModel(oDepartmentModel, "selectedDepartment");
+				this.resetUIElements();
 				return;
+			}
 				
 			oDepartment = DepartmentController.getDepartmentById(oSelectedItem.getKey(), oDepartments.oData.department);
 			oDepartmentModel.setData(oDepartment);

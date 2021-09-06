@@ -130,8 +130,10 @@ sap.ui.define([
 			var oMaterials = this.getView().getModel("materials");
 			var oMaterial, oWsMaterial;
 			
-			if(oSelectedItem == null)
+			if(oSelectedItem == null) {
+				this.resetUIElements();				
 				return;
+			}
 						
 			oMaterial = MaterialController.getMaterialById(oSelectedItem.getKey(), oMaterials.oData.material);
 			oWsMaterial = this.getMaterialForWebService(oMaterial);
@@ -149,7 +151,7 @@ sap.ui.define([
 			}
 			else {
 				//If the material has no image attached, reset the image and display nothing.
-				this.getView().byId("materialImage").setSrc(null);
+				this.getView().byId("materialImageOld").setSrc(null);
 			}
 			
 			//Manually set the price of the Input field because the price is not directly bound due to validation reasons.
@@ -380,7 +382,9 @@ sap.ui.define([
 			wsMaterial.setProperty("/unit", oMaterial.unit);
 			wsMaterial.setProperty("/pricePerUnit", oMaterial.pricePerUnit);
 			wsMaterial.setProperty("/currency", oMaterial.currency);
-			wsMaterial.setProperty("/imageId", oMaterial.image.id);
+			
+			if(oMaterial.image != null)
+				wsMaterial.setProperty("/imageId", oMaterial.image.id);
 			
 			return wsMaterial;
 		},
