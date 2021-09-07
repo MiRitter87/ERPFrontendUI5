@@ -58,6 +58,7 @@ sap.ui.define([
 			this.getView().setModel(wsPurchaseOrder, "selectedPurchaseOrder");
 			
 			this.setActiveDetailStatus();
+			PurchaseOrderController.initializePurchaseOrderItemModel(this);
 		},
 		
 		
@@ -84,7 +85,6 @@ sap.ui.define([
 				return;
 			}			
 			
-			PurchaseOrderController.initializePurchaseOrderItemModel(this);
 			PurchaseOrderController.setIdOfNewItem(this.getView().getModel("selectedPurchaseOrder"), this);
 			PurchaseOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.purchaseOrder.PurchaseOrderItemCreate");
 		},

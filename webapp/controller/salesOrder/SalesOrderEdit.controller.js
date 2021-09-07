@@ -56,6 +56,8 @@ sap.ui.define([
 			
 			//Set the model of the view according to the selected sales order to allow binding of the UI elements.
 			this.getView().setModel(wsSalesOrder, "selectedSalesOrder");
+			
+			SalesOrderController.initializeSalesOrderItemModel(this);
 		},
 		
 		
@@ -104,7 +106,6 @@ sap.ui.define([
 				return;
 			}
 			
-			SalesOrderController.initializeSalesOrderItemModel(this);
 			SalesOrderController.setIdOfNewItem(this.getView().getModel("selectedSalesOrder"), this);
 			SalesOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.salesOrder.SalesOrderItemCreate");		
 		},
