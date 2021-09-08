@@ -161,6 +161,10 @@
 				"pattern": "purchaseOrderEdit",
 				"name": "purchaseOrderEditRoute",
 				"target": "purchaseOrderEditTarget"
+			}, {
+				"pattern": "purchaseOrderDisplay",
+				"name": "purchaseOrderDisplayRoute",
+				"target": "purchaseOrderDisplayTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -286,6 +290,11 @@
 				"purchaseOrderEditTarget": {
 					"viewId": "purchaseOrderEdit",
 					"viewName": "purchaseOrder.PurchaseOrderEdit",
+					"viewLevel" : 1
+				},
+				"purchaseOrderDisplayTarget": {
+					"viewId": "purchaseOrderDisplay",
+					"viewName": "purchaseOrder.PurchaseOrderDisplay",
 					"viewLevel" : 1
 				}
          	}
