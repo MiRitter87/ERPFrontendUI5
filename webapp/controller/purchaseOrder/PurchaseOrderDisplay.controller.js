@@ -1,12 +1,16 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./PurchaseOrderController",
+	"../../model/formatter",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast"
-], function (Controller, PurchaseOrderController, JSONModel, MessageToast) {
+], function (Controller, PurchaseOrderController, formatter, JSONModel, MessageToast) {
 	"use strict";
 
-	return Controller.extend("ERPFrontendUI5.controller.purchaseOrder.PurchaseOrderDisplay", {		
+	return Controller.extend("ERPFrontendUI5.controller.purchaseOrder.PurchaseOrderDisplay", {
+		formatter: formatter,
+		
+			
 		/**
 		 * Initializes the controller.
 		 */
@@ -73,16 +77,16 @@ sap.ui.define([
 		/**
 		 * Formatter of the purchase order total status text.
 		 */
-		totalStatusTextFormatter: function(sStatus) {
-			return sStatus;
+		totalStatusTextFormatter: function(aStatus) {
+			return PurchaseOrderController.totalStatusTextFormatter(aStatus, this.getOwnerComponent().getModel("i18n").getResourceBundle());
 		},
 		
 		
 		/**
 		 * Formatter of the purchase order total status state.
 		 */
-		totalStatusStateFormatter: function(sStatus) {
-			return "Information";
+		totalStatusStateFormatter: function(aStatus) {
+			return PurchaseOrderController.totalStatusStateFormatter(aStatus);
 		},
 
 
@@ -95,7 +99,6 @@ sap.ui.define([
 			
 			if(oReturnData.data != null) {
 				oModel.setData(oReturnData.data);
-				PurchaseOrderController.initializeDatesAsObject(oModel.oData.purchaseOrder);
 				
 				if(bShowSuccessMessage == true)
 					MessageToast.show(oResourceBundle.getText("purchaseOrderDisplay.dataLoaded"));			
