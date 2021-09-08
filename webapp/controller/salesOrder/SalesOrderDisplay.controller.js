@@ -38,7 +38,7 @@ sap.ui.define([
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
 			var oSalesOrdersModel = this.getView().getModel("salesOrders");
 			var oSalesOrder;
-			var oSalesOrderModel;
+			var oSalesOrderModel = new JSONModel();;
 			
 			if(oSelectedItem == null) {
 				this.getView().setModel(oSalesOrderModel, "selectedSalesOrder");
@@ -47,7 +47,6 @@ sap.ui.define([
 			}
 						
 			oSalesOrder = SalesOrderController.getSalesOrderById(oSelectedItem.getKey(), oSalesOrdersModel.oData.salesOrder);
-			oSalesOrderModel = new JSONModel();
 			oSalesOrderModel.setData(oSalesOrder);
 			
 			//Set the model of the view according to the selected sales order to allow binding of the UI elements.

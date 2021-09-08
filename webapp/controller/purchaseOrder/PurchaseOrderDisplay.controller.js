@@ -24,7 +24,66 @@ sap.ui.define([
 			PurchaseOrderController.queryPurchaseOrdersByWebService(this.queryPurchaseOrdersCallback, this, true);
 			
 			this.getView().setModel(null, "selectedPurchaseOrder");
+			this.resetUIElements();
     	},
+
+
+		/**
+		 * Handles the selection of an item in the purchase order ComboBox.
+		 */
+		onPurchaseOrderSelectionChange : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oPurchaseOrdersModel = this.getView().getModel("purchaseOrders");
+			var oPurchaseOrder;
+			var oPurchaseOrderModel = new JSONModel();
+			
+			if(oSelectedItem == null) {
+				this.getView().setModel(oPurchaseOrderModel, "selectedPurchaseOrder");
+				this.resetUIElements();
+				return;
+			}
+			
+			oPurchaseOrder = PurchaseOrderController.getPurchaseOrderById(oSelectedItem.getKey(), oPurchaseOrdersModel.oData.purchaseOrder);
+			oPurchaseOrderModel.setData(oPurchaseOrder);
+			
+			//Set the model of the view according to the selected purchase order to allow binding of the UI elements.
+			this.getView().setModel(oPurchaseOrderModel, "selectedPurchaseOrder");
+		},
+		
+		
+		/**
+		 * Resets the UI elements.
+		 */
+		resetUIElements : function () {
+			this.getView().byId("purchaseOrderComboBox").setSelectedItem(null);
+			
+			this.getView().byId("idText").setText("");
+			this.getView().byId("totalStatus").setText("");
+			this.getView().byId("totalStatus").setText("");
+			
+			this.getView().byId("vendorText").setText("");
+			
+			this.getView().byId("orderDateText").setText("");
+			this.getView().byId("requestedDeliveryDateText").setText("");
+			
+			this.getView().byId("itemTable").destroyItems();
+		},
+		
+		
+		/**
+		 * Formatter of the purchase order total status text.
+		 */
+		totalStatusTextFormatter: function(sStatus) {
+			return sStatus;
+		},
+		
+		
+		/**
+		 * Formatter of the purchase order total status state.
+		 */
+		totalStatusStateFormatter: function(sStatus) {
+			return "Information";
+		},
 
 
 		/**
