@@ -52,6 +52,8 @@ sap.ui.define([
 			
 			//Set the model of the view according to the selected purchase order to allow binding of the UI elements.
 			this.getView().setModel(oPurchaseOrderModel, "selectedPurchaseOrder");
+			
+			this.setDetailStatusText();
 		},
 		
 		
@@ -63,7 +65,7 @@ sap.ui.define([
 			
 			this.getView().byId("idText").setText("");
 			this.getView().byId("totalStatus").setText("");
-			this.getView().byId("totalStatus").setText("");
+			this.getView().byId("detailStatusText").setText("");
 			
 			this.getView().byId("vendorText").setText("");
 			
@@ -71,6 +73,20 @@ sap.ui.define([
 			this.getView().byId("requestedDeliveryDateText").setText("");
 			
 			this.getView().byId("itemTable").destroyItems();
+		},
+		
+		
+		/**
+		 * Sets the text of the detail status.
+		 */
+		setDetailStatusText : function() {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oSelectedPurchaseOrder = this.getView().getModel("selectedPurchaseOrder");
+			var sDetailStatusText = "";
+			
+			sDetailStatusText = PurchaseOrderController.getDetailStatusText(oSelectedPurchaseOrder, oResourceBundle);
+			
+			this.getView().byId("detailStatusText").setText(sDetailStatusText);			
 		},
 		
 		

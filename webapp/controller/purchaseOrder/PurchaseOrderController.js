@@ -250,6 +250,43 @@ sap.ui.define([
 		
 		
 		/**
+		 * Determines the detail status text based on the given purchase order model.
+		 */
+		getDetailStatusText : function(oPurchaseOrderModel, oResourceBundle) {
+			var sDetailStatusText = "";
+			var sSingleStatusText;
+			var aStatus = oPurchaseOrderModel.oData.status;
+			
+			for(var i = 0; i < aStatus.length; i++) {
+				var sStatus = aStatus[i];
+				sSingleStatusText = "";
+				
+				switch(sStatus) {
+					case "GOODS_RECEIPT":
+						sSingleStatusText = oResourceBundle.getText("purchaseOrder.detailStatus.goodsReceipt");
+						break;
+					case "INVOICE_RECEIPT":
+						sSingleStatusText = oResourceBundle.getText("purchaseOrder.detailStatus.invoiceReceipt");
+						break;
+					case "INVOICE_SETTLED":
+						sSingleStatusText = oResourceBundle.getText("purchaseOrder.detailStatus.invoiceSettled");
+						break;
+				}	
+				
+				if(sSingleStatusText == "")
+					continue;
+					
+				if(sDetailStatusText != "")
+					sDetailStatusText += ", ";
+					
+				sDetailStatusText += sSingleStatusText;			
+			}
+			
+			return sDetailStatusText;
+		},
+		
+		
+		/**
 		 * Gets the material data of the material with the given ID.
 		 */
 		getMaterialById : function(iMaterialId, oMaterials) {
