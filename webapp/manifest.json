@@ -142,15 +142,15 @@
 				"name": "salesOrderCreateRoute",
 				"target": "salesOrderCreateTarget"
 			}, {
-				"pattern": "SalesOrderEdit",
+				"pattern": "salesOrderEdit",
 				"name": "salesOrderEditRoute",
 				"target": "salesOrderEditTarget"
 			}, {
-				"pattern": "SalesOrderDisplay",
+				"pattern": "salesOrderDisplay",
 				"name": "salesOrderDisplayRoute",
 				"target": "salesOrderDisplayTarget"
 			}, {
-				"pattern": "SalesOrderOverview",
+				"pattern": "salesOrderOverview",
 				"name": "salesOrderOverviewRoute",
 				"target": "salesOrderOverviewTarget"
 			}, {
@@ -165,6 +165,10 @@
 				"pattern": "purchaseOrderDisplay",
 				"name": "purchaseOrderDisplayRoute",
 				"target": "purchaseOrderDisplayTarget"
+			}, {
+				"pattern": "purchaseOrderOverview",
+				"name": "purchaseOrderOverviewRoute",
+				"target": "purchaseOrderOverviewTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -295,6 +299,11 @@
 				"purchaseOrderDisplayTarget": {
 					"viewId": "purchaseOrderDisplay",
 					"viewName": "purchaseOrder.PurchaseOrderDisplay",
+					"viewLevel" : 1
+				},
+				"purchaseOrderOverviewTarget": {
+					"viewId": "purchaseOrderOverview",
+					"viewName": "purchaseOrder.PurchaseOrderOverview",
 					"viewLevel" : 1
 				}
          	}
