@@ -8,6 +8,60 @@
 	xmlns:core="sap.ui.core">
 	
 	<Page title="{i18n>purchaseOrderOverview.header}">
-
+		<IconTabBar select=".onFilterSelect" class="sapUiResponsiveContentPadding" expandable="false">
+			<items>
+				<IconTabFilter showAll="true" text="{i18n>purchaseOrderOverview.showAll}"	key="All" />
+				<IconTabSeparator />
+				<IconTabFilter icon="sap-icon://message-information" iconColor="Default" text="{i18n>purchaseOrderOverview.showOpen}" key="Open" />
+				<IconTabFilter icon="sap-icon://pending" iconColor="Default" text="{i18n>purchaseOrderOverview.showInProcess}" key="In_Process" />
+				<IconTabFilter icon="sap-icon://message-success" iconColor="Positive" text="{i18n>purchaseOrderOverview.showFinished}" key="Finished" />
+				<IconTabFilter icon="sap-icon://message-error" iconColor="Negative" text="{i18n>purchaseOrderOverview.showCanceled}" key="Canceled" />
+			</items>
+			<content>				
+				<Table id="purchaseOrderTable" items="{path: 'purchaseOrders>/purchaseOrder/'}" mode="SingleSelectMaster">
+					<headerToolbar>
+						<OverflowToolbar>
+							<ToolbarSpacer/>
+							<Button icon="sap-icon://detail-view" tooltip="{i18n>purchaseOrderOverview.showDetails}" press=".onShowDetailsPressed"/>
+							<Button icon="sap-icon://delete" tooltip="{i18n>purchaseOrderOverview.deleteSelected}" press=".onDeletePressed"/>
+						</OverflowToolbar>
+					</headerToolbar>
+				
+					<columns>
+						<Column>
+							<Text text="{i18n>purchaseOrder.id}"/>
+						</Column>
+						<Column>
+							<Text text="{i18n>purchaseOrder.orderDate}"/>
+						</Column>
+						<Column>
+							<Text text="{i18n>purchaseOrder.requestedDeliveryDate}"/>
+						</Column>
+						<Column>
+							<Text text="{i18n>purchaseOrder.vendor}"/>
+						</Column>
+						<Column>
+							<Text text="{i18n>purchaseOrder.detailStatus}"/>
+						</Column>
+						<Column>
+							<Text text="{i18n>purchaseOrder.totalStatus}"/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<ObjectIdentifier text="{purchaseOrders>id}"/>
+								<Text text="{path: 'purchaseOrders>orderDate', formatter: '.formatter.wsDateFormatter'}"/>
+								<Text text="{path: 'purchaseOrders>requestedDeliveryDate', formatter: '.formatter.wsDateFormatter'}"/>
+								<Text text="{purchaseOrders>vendor/companyName}"/>
+								<Text text="{path: 'purchaseOrders>status', formatter: '.detailStatusTextFormatter'}"/>
+								<ObjectStatus text="{path: 'purchaseOrders>status', formatter: '.totalStatusTextFormatter'}"
+												state="{path: 'purchaseOrders>status', formatter: '.totalStatusStateFormatter'}"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</content>
+		</IconTabBar>
 	</Page>
 </mvc:View>
