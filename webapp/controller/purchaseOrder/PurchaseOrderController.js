@@ -211,6 +211,9 @@ sap.ui.define([
 		 * Formatter of the purchase order total status text.
 		 */
 		totalStatusTextFormatter: function(aStatus, oResourceBundle) {
+			if(aStatus == null || aStatus == undefined)
+				return "";
+			
 			for(var i = 0; i < aStatus.length; i++) {
 				var sStatus = aStatus[i];
 				
@@ -232,6 +235,9 @@ sap.ui.define([
 		 * Formatter of the purchase order total status state.
 		 */
 		totalStatusStateFormatter: function(aStatus) {
+			if(aStatus == null || aStatus == undefined)
+				return "Information";
+			
 			for(var i = 0; i < aStatus.length; i++) {
 				var sStatus = aStatus[i];
 			
