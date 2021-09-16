@@ -6,7 +6,109 @@
 
 	<Dialog id="orderDetailsDialog" title="{i18n>purchaseOrderOverview.detailsHeader}">
 		<content>
-
+			<f:Form id="purchaseOrderForm" editable="false">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>purchaseOrderOverview.titleGeneralData}">
+						<f:FormElement label="{i18n>purchaseOrder.id}">
+							<f:fields>
+								<Text id="idText" text="{selectedPurchaseOrder>/id}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>purchaseOrder.totalStatus}">
+							<f:fields>
+								<ObjectStatus id="totalStatus" text="{path: 'selectedPurchaseOrder>/status', formatter: '.totalStatusTextFormatter'}"
+												state="{path: 'selectedPurchaseOrder>/status', formatter: '.totalStatusStateFormatter'}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>purchaseOrder.detailStatus}">
+							<f:fields>
+								<Text id="detailStatusText" text="{path: 'selectedPurchaseOrder>/status', formatter: '.detailStatusTextFormatter'}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				
+					<f:FormContainer title="{i18n>purchaseOrderOverview.titleBusinessPartner}">
+						<f:FormElement label="{i18n>purchaseOrder.vendor}">
+								<f:fields>
+									<Text id="vendorText" text="{selectedPurchaseOrder>/vendor/companyName}"/>
+								</f:fields>
+							</f:FormElement>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>purchaseOrderOverview.titleDates}">
+						<f:FormElement label="{i18n>purchaseOrder.orderDate}">
+							<f:fields>
+								<Text id="orderDateText" text="{path: 'selectedPurchaseOrder>/orderDate', formatter: '.formatter.wsDateFormatter'}" />
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>purchaseOrder.requestedDeliveryDate}">
+							<f:fields>
+								<Text id="requestedDeliveryDateText" 
+									text="{path: 'selectedPurchaseOrder>/requestedDeliveryDate', formatter: '.formatter.wsDateFormatter'}" />
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			
+			<Table id="itemTable" items="{path: 'selectedPurchaseOrder>/items/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>purchaseOrderOverview.titleItems}"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>purchaseOrder.itemId}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>purchaseOrder.material}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>purchaseOrder.itemQuantity}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>purchaseOrder.itemPrice}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{selectedPurchaseOrder>id}"/>
+							<Text text="{selectedPurchaseOrder>material/name}"/>
+							<ObjectNumber unit="{selectedPurchaseOrder>material/unit}" number="{
+										parts:[{path:'selectedPurchaseOrder>quantity'}],
+										type: 'sap.ui.model.type.Unit',
+										formatOptions: {showMeasure: false}}"/>
+							<ObjectNumber unit="{selectedPurchaseOrder>material/currency}" number="{
+										parts:[{path:'selectedPurchaseOrder>priceTotal'}],
+										type: 'sap.ui.model.type.Currency',
+										formatOptions: {showMeasure: false}}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
       	</content>
       	
       	<Button text="{i18n>button.close}" press=".onCloseDialog" class="sapUiSmallMargin"/>
