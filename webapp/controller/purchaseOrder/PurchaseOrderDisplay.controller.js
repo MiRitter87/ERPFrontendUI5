@@ -52,8 +52,6 @@ sap.ui.define([
 			
 			//Set the model of the view according to the selected purchase order to allow binding of the UI elements.
 			this.getView().setModel(oPurchaseOrderModel, "selectedPurchaseOrder");
-			
-			this.setDetailStatusText();
 		},
 		
 		
@@ -77,20 +75,6 @@ sap.ui.define([
 		
 		
 		/**
-		 * Sets the text of the detail status.
-		 */
-		setDetailStatusText : function() {
-			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-			var oSelectedPurchaseOrder = this.getView().getModel("selectedPurchaseOrder");
-			var sDetailStatusText = "";
-			
-			sDetailStatusText = PurchaseOrderController.getDetailStatusText(oSelectedPurchaseOrder.oData.status, oResourceBundle);
-			
-			this.getView().byId("detailStatusText").setText(sDetailStatusText);			
-		},
-		
-		
-		/**
 		 * Formatter of the purchase order total status text.
 		 */
 		totalStatusTextFormatter: function(aStatus) {
@@ -103,6 +87,19 @@ sap.ui.define([
 		 */
 		totalStatusStateFormatter: function(aStatus) {
 			return PurchaseOrderController.totalStatusStateFormatter(aStatus);
+		},
+		
+		
+		/**
+		 * Formatter of the purchase order detail status text.
+		 */
+		detailStatusTextFormatter: function(aStatus) {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
+			if(aStatus == null)
+				return "";
+
+			return PurchaseOrderController.getDetailStatusText(aStatus, oResourceBundle);
 		},
 
 

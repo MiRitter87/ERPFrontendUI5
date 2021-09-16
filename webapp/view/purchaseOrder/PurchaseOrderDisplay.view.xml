@@ -56,7 +56,7 @@
 						
 						<f:FormElement label="{i18n>purchaseOrder.detailStatus}">
 							<f:fields>
-								<Text id="detailStatusText"/>
+								<Text id="detailStatusText" text="{path: 'selectedPurchaseOrder>/status', formatter: '.detailStatusTextFormatter'}"/>
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>
