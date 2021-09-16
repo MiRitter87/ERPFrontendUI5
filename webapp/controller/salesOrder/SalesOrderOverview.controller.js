@@ -52,7 +52,7 @@ sap.ui.define([
 		onShowDetailsPressed : function () {
 			var oResourceBundle;
 			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-			var oSelectedSalesOrderModel
+			var oSelectedSalesOrderModel;
 			
 			if(this.isSalesOrderSelected() == false) {
 				MessageBox.error(oResourceBundle.getText("salesOrderOverview.noSalesOrderSelected"));

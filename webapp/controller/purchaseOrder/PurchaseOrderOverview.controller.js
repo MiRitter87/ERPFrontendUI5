@@ -3,8 +3,9 @@ sap.ui.define([
 	"./PurchaseOrderController",
 	"../../model/formatter",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/MessageToast"
-], function (Controller, PurchaseOrderController, formatter, JSONModel, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/m/MessageBox"
+], function (Controller, PurchaseOrderController, formatter, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.purchaseOrder.PurchaseOrderOverview", {
@@ -27,6 +28,58 @@ sap.ui.define([
 			//Query master data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			PurchaseOrderController.queryPurchaseOrdersByWebService(this.queryPurchaseOrdersCallback, this, true);
     	},
+
+
+		/**
+		 * Handles the press-event of the show details button.
+		 */
+		onShowDetailsPressed : function () {
+			var oResourceBundle;
+			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oSelectedPurchaseOrderModel;
+			
+			if(this.isPurchaseOrderSelected() == false) {
+				MessageBox.error(oResourceBundle.getText("purchaseOrderOverview.noPurchaseOrderSelected"));
+				return;
+			}
+			
+			oSelectedPurchaseOrderModel = new JSONModel();
+			oSelectedPurchaseOrderModel.setData(this.getSelectedPurchaseOrder());
+			this.getView().setModel(oSelectedPurchaseOrderModel, "selectedPurchaseOrder");		
+			
+			PurchaseOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.purchaseOrder.PurchaseOrderOverviewDetails");
+		},
+		
+		
+		/**
+		 * Handles a click at the close button of the purchase order details fragment.
+		 */
+		onCloseDialog : function () {
+			this.byId("orderDetailsDialog").close();
+		},
+		
+		
+		/**
+		 * Checks if a purchase order has been selected.
+		 */
+		isPurchaseOrderSelected : function () {
+			if(this.getView().byId("purchaseOrderTable").getSelectedItem() == null)
+				return false;
+			else
+				return true;
+		},
+		
+		
+		/**
+		 * Gets the the selected purchase order.
+		 */
+		getSelectedPurchaseOrder : function () {
+			var oListItem = this.getView().byId("purchaseOrderTable").getSelectedItem();
+			var oContext = oListItem.getBindingContext("purchaseOrders");
+			var oSelectedPurchaseOrder = oContext.getProperty(null, oContext);
+			
+			return oSelectedPurchaseOrder;
+		},
 
 
 		/**
