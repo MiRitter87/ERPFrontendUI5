@@ -1,12 +1,16 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./PurchaseOrderController",
+	"../../model/formatter",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast"
-], function (Controller, PurchaseOrderController, JSONModel, MessageToast) {
+], function (Controller, PurchaseOrderController, formatter, JSONModel, MessageToast) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.purchaseOrder.PurchaseOrderOverview", {
+		formatter: formatter,
+		
+		
 		/**
 		 * Initializes the Controller.
 		 */
@@ -23,6 +27,27 @@ sap.ui.define([
 			//Query master data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			PurchaseOrderController.queryPurchaseOrdersByWebService(this.queryPurchaseOrdersCallback, this, true);
     	},
+
+
+		/**
+		 * Formatter of the purchase order detail status text.
+		 */
+		detailStatusTextFormatter: function(aStatus) {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
+			if(aStatus == null)
+				return "";
+
+			return PurchaseOrderController.getDetailStatusText(aStatus, oResourceBundle);
+		},
+
+
+		/**
+		 * Formatter of the purchase order total status text.
+		 */
+		totalStatusTextFormatter: function(aStatus) {
+			return PurchaseOrderController.totalStatusTextFormatter(aStatus, this.getOwnerComponent().getModel("i18n").getResourceBundle());
+		},
 
 
 		/**

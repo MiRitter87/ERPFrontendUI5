@@ -84,7 +84,7 @@ sap.ui.define([
 			var oSelectedPurchaseOrder = this.getView().getModel("selectedPurchaseOrder");
 			var sDetailStatusText = "";
 			
-			sDetailStatusText = PurchaseOrderController.getDetailStatusText(oSelectedPurchaseOrder, oResourceBundle);
+			sDetailStatusText = PurchaseOrderController.getDetailStatusText(oSelectedPurchaseOrder.oData.status, oResourceBundle);
 			
 			this.getView().byId("detailStatusText").setText(sDetailStatusText);			
 		},

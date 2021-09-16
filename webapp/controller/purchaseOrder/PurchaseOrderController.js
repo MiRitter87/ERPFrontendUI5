@@ -258,10 +258,9 @@ sap.ui.define([
 		/**
 		 * Determines the detail status text based on the given purchase order model.
 		 */
-		getDetailStatusText : function(oPurchaseOrderModel, oResourceBundle) {
+		getDetailStatusText : function(aStatus, oResourceBundle) {
 			var sDetailStatusText = "";
 			var sSingleStatusText;
-			var aStatus = oPurchaseOrderModel.oData.status;
 			
 			for(var i = 0; i < aStatus.length; i++) {
 				var sStatus = aStatus[i];
