@@ -406,6 +406,26 @@ sap.ui.define([
 					callbackFunction(data, oCallingController);
 				}
 			}); 
+		},
+		
+		
+		/**
+		 * Deletes the given purchase order using the WebService.
+		 */
+		deletePurchaseOrderByWebService : function(oPurchaseOrder, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/purchaseOrder");
+			var sQueryUrl = sWebServiceBaseUrl + "/" + oPurchaseOrder.id;
+			
+			//Use "DELETE" to delete an existing resource.
+			jQuery.ajax({
+				type : "DELETE", 
+				contentType : "application/json", 
+				url : sQueryUrl, 
+				dataType : "json", 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			});
 		}
 	};
 });

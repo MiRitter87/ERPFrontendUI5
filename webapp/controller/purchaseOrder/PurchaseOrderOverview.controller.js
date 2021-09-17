@@ -60,6 +60,22 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the press-event of the delete button.
+		 */
+		onDeletePressed : function () {
+			var oResourceBundle;
+			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
+			if(this.isPurchaseOrderSelected() == false) {
+				MessageBox.error(oResourceBundle.getText("purchaseOrderOverview.noPurchaseOrderSelected"));
+				return;
+			}
+			
+			PurchaseOrderController.deletePurchaseOrderByWebService(this.getSelectedPurchaseOrder(), this.deletePurchaseOrderCallback, this);
+		},
+		
+		
+		/**
 		 * Checks if a purchase order has been selected.
 		 */
 		isPurchaseOrderSelected : function () {
@@ -130,6 +146,27 @@ sap.ui.define([
 			}                                                               
 			
 			oCallingController.getView().setModel(oModel, "purchaseOrders");
+		},
+		
+		
+		/**
+		 * Callback function of the deletePurchaseOrder RESTful WebService call in the PurchaseOrderController.
+		 */
+		deletePurchaseOrderCallback : function(oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					PurchaseOrderController.queryPurchaseOrdersByWebService(oCallingController.queryPurchaseOrdersCallback, oCallingController, false);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}
 		}
 	});
 });
