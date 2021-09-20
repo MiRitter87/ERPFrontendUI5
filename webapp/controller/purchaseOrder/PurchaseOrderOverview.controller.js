@@ -76,6 +76,32 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles a selection of an icon in the IconTabBar for sales order filtering.
+		 */
+		onFilterSelect: function (oEvent) {
+			var	sKey = oEvent.getParameter("key");
+
+			//Values for status query.
+			var sOpen = "OPEN";
+			var sInProcess = "IN_PROCESS";
+			var sFinished = "FINISHED";
+			var sCanceled = "CANCELED";
+
+			if (sKey === "All") {
+				PurchaseOrderController.queryPurchaseOrdersByWebService(this.queryPurchaseOrdersCallback, this, true);
+			} else if (sKey === "Open") {
+				PurchaseOrderController.queryPurchaseOrdersByWebService(this.queryPurchaseOrdersCallback, this, true, sOpen);
+			} else if (sKey === "In_Process") {
+				PurchaseOrderController.queryPurchaseOrdersByWebService(this.queryPurchaseOrdersCallback, this, true, sInProcess);
+			} else if (sKey === "Finished") {
+				PurchaseOrderController.queryPurchaseOrdersByWebService(this.queryPurchaseOrdersCallback, this, true, sFinished);
+			} else if (sKey === "Canceled") {
+				PurchaseOrderController.queryPurchaseOrdersByWebService(this.queryPurchaseOrdersCallback, this, true, sCanceled);
+			}
+		},
+		
+		
+		/**
 		 * Checks if a purchase order has been selected.
 		 */
 		isPurchaseOrderSelected : function () {

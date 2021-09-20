@@ -373,9 +373,15 @@ sap.ui.define([
 		/**
 		 * Queries the purchase order WebService for all purchase orders.
 		 */
-		queryPurchaseOrdersByWebService : function(callbackFunction, oCallingController, bShowSuccessMessage) {
+		queryPurchaseOrdersByWebService : function(callbackFunction, oCallingController, bShowSuccessMessage, sOrderStatusQuery) {
 			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/purchaseOrder");
-			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var sQueryUrl;
+			
+			if(sOrderStatusQuery == undefined || sOrderStatusQuery == null)
+				sQueryUrl = sWebServiceBaseUrl + "/";
+			else
+			 	sQueryUrl= sWebServiceBaseUrl + "/" + "?orderStatusQuery=" + sOrderStatusQuery;
+			
 			jQuery.ajax({
 				type : "GET", 
 				contentType : "application/json", 
