@@ -323,9 +323,15 @@ sap.ui.define([
 		/**
 		 * Queries the sales order WebService for all sales orders.
 		 */
-		querySalesOrdersByWebService : function(callbackFunction, oCallingController, bShowSuccessMessage) {
+		querySalesOrdersByWebService : function(callbackFunction, oCallingController, bShowSuccessMessage, sOrderStatusQuery) {
 			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/salesOrder");
-			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var sQueryUrl;
+			
+			if(sOrderStatusQuery == undefined || sOrderStatusQuery == null)
+				sQueryUrl = sWebServiceBaseUrl + "/";
+			else
+			 	sQueryUrl= sWebServiceBaseUrl + "/" + "?orderStatusQuery=" + sOrderStatusQuery;
+			
 			jQuery.ajax({
 				type : "GET", 
 				contentType : "application/json", 

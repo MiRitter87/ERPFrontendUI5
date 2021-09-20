@@ -4,9 +4,8 @@ sap.ui.define([
 	"../../model/formatter",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
-	"sap/m/MessageBox",
-	"sap/ui/model/Filter",
-], function (Controller, SalesOrderController, formatter, JSONModel, MessageToast, MessageBox, Filter) {
+	"sap/m/MessageBox"
+], function (Controller, SalesOrderController, formatter, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.salesOrder.SalesOrderOverview", {
@@ -79,25 +78,24 @@ sap.ui.define([
 		 * Handles a selection of an icon in the IconTabBar for sales order filtering.
 		 */
 		onFilterSelect: function (oEvent) {
-			var oBinding = this.byId("salesOrderTable").getBinding("items");
 			var	sKey = oEvent.getParameter("key");
 
-			//Values for Filter
+			//Values for status query.
 			var sOpen = "OPEN";
 			var sInProcess = "IN_PROCESS";
 			var sFinished = "FINISHED";
 			var sCanceled = "CANCELED";
 
 			if (sKey === "All") {
-				oBinding.filter(null);
+				SalesOrderController.querySalesOrdersByWebService(this.querySalesOrdersCallback, this, true);
 			} else if (sKey === "Open") {
-				oBinding.filter(new Filter("status", "EQ", sOpen));
+				SalesOrderController.querySalesOrdersByWebService(this.querySalesOrdersCallback, this, true, sOpen);
 			} else if (sKey === "In_Process") {
-				oBinding.filter(new Filter("status", "EQ", sInProcess));
+				SalesOrderController.querySalesOrdersByWebService(this.querySalesOrdersCallback, this, true, sInProcess);
 			} else if (sKey === "Finished") {
-				oBinding.filter(new Filter("status", "EQ", sFinished));
+				SalesOrderController.querySalesOrdersByWebService(this.querySalesOrdersCallback, this, true, sFinished);
 			} else if (sKey === "Canceled") {
-				oBinding.filter(new Filter("status", "EQ", sCanceled));
+				SalesOrderController.querySalesOrdersByWebService(this.querySalesOrdersCallback, this, true, sCanceled);
 			}
 		},
 		
