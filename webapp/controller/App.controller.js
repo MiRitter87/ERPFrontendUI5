@@ -84,6 +84,9 @@ sap.ui.define([
 			else if(item.getKey() == "purchaseOrderOverview") {
 				oRouter.navTo("purchaseOrderOverviewRoute");
 			}
+			else if(item.getKey() == "accountCreate") {
+				oRouter.navTo("accountCreateRoute");
+			}
 		},
 		
 		

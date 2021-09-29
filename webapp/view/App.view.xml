@@ -60,6 +60,13 @@
 						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="purchaseOrderDisplay"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="purchaseOrderOverview"/>
 					</tnt:NavigationListItem>
+					
+					<tnt:NavigationListItem text="{i18n>navigation.account}" expanded="false" icon="sap-icon://wallet" key="account">
+						<tnt:NavigationListItem text="{i18n>navigation.object.create}" key="accountCreate"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.edit}" key="accountEdit"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="accountDisplay"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="accountOverview"/>
+					</tnt:NavigationListItem>
 				</tnt:NavigationList>
 			</tnt:SideNavigation>
 		</tnt:sideContent>

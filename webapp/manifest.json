@@ -169,6 +169,10 @@
 				"pattern": "purchaseOrderOverview",
 				"name": "purchaseOrderOverviewRoute",
 				"target": "purchaseOrderOverviewTarget"
+			}, {
+				"pattern": "accountCreate",
+				"name": "accountCreateRoute",
+				"target": "accountCreateTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -304,6 +308,11 @@
 				"purchaseOrderOverviewTarget": {
 					"viewId": "purchaseOrderOverview",
 					"viewName": "purchaseOrder.PurchaseOrderOverview",
+					"viewLevel" : 1
+				},
+				"accountCreateTarget": {
+					"viewId": "accountCreate",
+					"viewName": "account.AccountCreate",
 					"viewLevel" : 1
 				}
          	}
