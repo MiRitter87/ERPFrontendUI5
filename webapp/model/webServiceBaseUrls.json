@@ -5,5 +5,6 @@
 	"businessPartner": "http://127.0.0.1:8080/backend/services/rest/businessPartners",
 	"salesOrder": "http://127.0.0.1:8080/backend/services/rest/salesOrders",
 	"image": "http://127.0.0.1:8080/backend/services/rest/images",
-	"purchaseOrder": "http://127.0.0.1:8080/backend/services/rest/purchaseOrders"
+	"purchaseOrder": "http://127.0.0.1:8080/backend/services/rest/purchaseOrders",
+	"account": "http://127.0.0.1:8080/backend/services/rest/accounts"
 }

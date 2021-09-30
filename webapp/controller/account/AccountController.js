@@ -60,6 +60,27 @@ sap.ui.define([
 			else {
 				return true;
 			}
+		},
+		
+		
+		/**
+		 * Calls a WebService operation to create an account.
+		 */
+		createAccountByWebService : function(oAccountModel, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/account");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var sJSONData = oAccountModel.getJSON();
+			
+			//Use "POST" to create a resource.
+			jQuery.ajax({
+				type : "POST", 
+				contentType : "application/json", 
+				url : sQueryUrl,
+				data : sJSONData, 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			});
 		}
 	};
 });

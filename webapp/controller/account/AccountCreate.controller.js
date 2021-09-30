@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./AccountController",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/MessageBox"
-], function (Controller, AccountController, JSONModel, MessageBox) {
+	"sap/m/MessageBox",
+	"sap/m/MessageToast"
+], function (Controller, AccountController, JSONModel, MessageBox, MessageToast) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.account.AccountCreate", {
@@ -47,7 +48,29 @@ sap.ui.define([
 			if(AccountController.isBalanceValid(this.getView().byId("balanceInput").getValue()) == false)
 				return;				
 			
-			/*MaterialController.createMaterialbyWebService(this.getView().getModel("newMaterial"), this.saveMaterialCallback, this);*/
+			AccountController.createAccountByWebService(this.getView().getModel("newAccount"), this.saveAccountCallback, this);
+		},
+		
+		
+		/**
+		 * Callback function of the saveAccount RESTful WebService call in the AccountController.
+		 */
+		saveAccountCallback : function (oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					oCallingController.resetFormFields();
+					oCallingController.initializeAccountModel();
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			} 
 		},
 		
 		
