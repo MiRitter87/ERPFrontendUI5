@@ -53,6 +53,16 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles a click at the cancel button.
+		 */
+		onCancelPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			
+			oRouter.navTo("startPageRoute");	
+		},
+		
+		
+		/**
 		 * Callback function of the saveAccount RESTful WebService call in the AccountController.
 		 */
 		saveAccountCallback : function (oReturnData, oCallingController) {
