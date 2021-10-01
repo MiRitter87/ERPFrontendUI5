@@ -64,6 +64,23 @@ sap.ui.define([
 		
 		
 		/**
+		 * Gets the account data of the account with the given ID.
+		 */
+		getAccountById : function(iAccountId, oAccounts) {
+			//Get the selected account from the array of all accounts according to the id.
+			for(var i = 0; i < oAccounts.length; i++) {
+    			var oTempAccount = oAccounts[i];
+    			
+				if(oTempAccount.id == iAccountId) {
+					return oTempAccount;
+				}
+			}
+			
+			return null;
+		},
+		
+		
+		/**
 		 * Calls a WebService operation to create an account.
 		 */
 		createAccountByWebService : function(oAccountModel, callbackFunction, oCallingController) {
@@ -81,6 +98,24 @@ sap.ui.define([
 					callbackFunction(data, oCallingController);
 				}
 			});
-		}
+		},
+		
+		
+		/**
+		 * Queries the account WebService for all accounts.
+		 */
+		queryAccountsByWebService : function(callbackFunction, oCallingController, bShowSuccessMessage) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/account");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			jQuery.ajax({
+				type : "GET", 
+				contentType : "application/json", 
+				url : sQueryUrl, 
+				dataType : "json", 
+				success : function(data) {
+					callbackFunction(data, oCallingController, bShowSuccessMessage);
+				}
+			});                                                                 
+		},
 	};
 });
