@@ -32,10 +32,10 @@
 				<f:formContainers>
 					<f:FormContainer title="{i18n>accountCreate.titleGeneralData}">
 						<f:FormElement label="{i18n>account.description}">
-								<f:fields>
-									<TextArea maxLength="100" value="{newAccount>/description}" rows="3" required="true"/>
-								</f:fields>
-							</f:FormElement>
+							<f:fields>
+								<TextArea maxLength="100" value="{newAccount>/description}" rows="3" required="true"/>
+							</f:fields>
+						</f:FormElement>
 					</f:FormContainer>
 					
 					<f:FormContainer title="{i18n>accountCreate.titleBalance}">

@@ -11,7 +11,68 @@
 	
 	<Page title="{i18n>accountEdit.header}">
 		<content>
-
+			<l:VerticalLayout>
+				<Label text="{i18n>accountEdit.selectionDescription}"/>
+				<ComboBox id="accountComboBox" items="{path: 'accounts>/account/'}" selectionChange=".onAccountSelectionChange">
+					<core:Item key="{accounts>id}" text="{accounts>id}"/>
+				</ComboBox>
+			</l:VerticalLayout>
+			
+			<f:Form id="accountForm" editable="true">
+				<f:title>
+					<core:Title text="{i18n>accountEdit.dataHeader}" />
+				</f:title>
+				
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>accountEdit.titleGeneralData}">
+						<f:FormElement label="{i18n>account.id}">
+							<f:fields>
+								<Text id="idText" text="{selectedAccount>/id}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>account.description}">
+							<f:fields>
+								<TextArea maxLength="100" value="{selectedAccount>/description}" rows="3" required="true"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>accountEdit.titleBalance}">
+						<f:FormElement label="{i18n>account.balance}">
+								<f:fields>
+									<Input id="balanceInput" type="Number" required="true"/>
+								</f:fields>
+							</f:FormElement>
+						
+						<f:FormElement label="{i18n>account.currency}">
+							<f:fields>
+								<ComboBox id="currencyComboBox" selectedKey="{selectedAccount>/currency}" required="true"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			
+			<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
+			<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 		</content>
 	</Page>
 </mvc:View>
