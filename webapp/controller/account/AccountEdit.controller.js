@@ -55,6 +55,16 @@ sap.ui.define([
 			//Manually set the balance of the Input field because the balance is not directly bound due to validation reasons.
 			this.setBalanceInputValue(oAccount.balance);
 		},
+		
+		
+		/**
+		 * Handles a click at the cancel button.
+		 */
+		onCancelPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			
+			oRouter.navTo("startPageRoute");	
+		},
 
 
 		/**
