@@ -50,7 +50,7 @@
 						
 						<f:FormElement label="{i18n>account.description}">
 							<f:fields>
-								<TextArea maxLength="100" value="{selectedAccount>/description}" rows="3" required="true"/>
+								<TextArea id="descriptionTextArea" maxLength="100" value="{selectedAccount>/description}" rows="3" required="true"/>
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>
