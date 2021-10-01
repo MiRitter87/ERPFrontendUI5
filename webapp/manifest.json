@@ -173,6 +173,10 @@
 				"pattern": "accountCreate",
 				"name": "accountCreateRoute",
 				"target": "accountCreateTarget"
+			}, {
+				"pattern": "accountEdit",
+				"name": "accountEditRoute",
+				"target": "accountEditTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -313,6 +317,11 @@
 				"accountCreateTarget": {
 					"viewId": "accountCreate",
 					"viewName": "account.AccountCreate",
+					"viewLevel" : 1
+				},
+				"accountEditTarget": {
+					"viewId": "accountEdit",
+					"viewName": "account.AccountEdit",
 					"viewLevel" : 1
 				}
          	}

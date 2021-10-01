@@ -87,6 +87,9 @@ sap.ui.define([
 			else if(item.getKey() == "accountCreate") {
 				oRouter.navTo("accountCreateRoute");
 			}
+			else if(item.getKey() == "accountEdit") {
+				oRouter.navTo("accountEditRoute");
+			}
 		},
 		
 		
