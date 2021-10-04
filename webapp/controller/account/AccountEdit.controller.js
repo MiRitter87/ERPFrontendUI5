@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./AccountController",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/MessageToast"
-], function (Controller, AccountController, JSONModel, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/m/MessageBox",
+], function (Controller, AccountController, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.account.AccountEdit", {
@@ -58,6 +59,33 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles a click at the save button.
+		 */
+		onSavePressed : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+				
+			if(this.getView().byId("accountComboBox").getSelectedKey() == "") {
+				AccountController.showMessageBoxError(oResourceBundle, "accountEdit.noAccountSelected");
+				return;
+			}
+			
+			//Validate balance first to remove the error indication from the input field as soon as possible if the user fills in correct data.
+			AccountController.validateBalanceInput(this.getView().byId("balanceInput"), oResourceBundle, this.getView().getModel("selectedAccount"), "/balance");
+			
+			if(this.getView().byId("currencyComboBox").getSelectedKey() == "") {
+				AccountController.showMessageBoxError(oResourceBundle, "accountEdit.noCurrencySelected");
+				return;
+			}
+			
+			if(AccountController.isBalanceValid(this.getView().byId("balanceInput").getValue()) == false)
+				return;
+				
+			AccountController.saveAccountByWebService(this.getView().getModel("selectedAccount"),
+				this.saveAccountCallback, this);
+		},
+		
+		
+		/**
 		 * Handles a click at the cancel button.
 		 */
 		onCancelPressed : function () {
@@ -86,6 +114,35 @@ sap.ui.define([
 			}                                                               
 			
 			oCallingController.getView().setModel(oModel, "accounts");
+		},
+		
+		
+		/**
+		 *  Callback function of the saveAccount RESTful WebService call in the AccountController.
+		 */
+		saveAccountCallback : function(oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					//Update the data source of the ComboBox with the new account data.
+					AccountController.queryAccountsByWebService(oCallingController.queryAccountsCallback, oCallingController, false);
+					//Clear selectedAccount because no ComboBox item is selected.
+					oCallingController.getView().setModel(null, "selectedAccount");
+					oCallingController.resetUIElements();
+					MessageToast.show(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'I') {
+					MessageToast.show(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}
 		},
 
 

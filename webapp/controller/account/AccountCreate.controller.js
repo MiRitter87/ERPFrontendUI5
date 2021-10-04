@@ -36,12 +36,13 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
 			//Validate balance first to remove the error indication from the input field as soon as possible if the user fills in correct data.
-			AccountController.validateBalanceInput(this.getView().byId("balanceInput"), this.getOwnerComponent().getModel("i18n").getResourceBundle(),
-				this.getView().getModel("newAccount"), "/balance");
+			AccountController.validateBalanceInput(this.getView().byId("balanceInput"), oResourceBundle, this.getView().getModel("newAccount"), "/balance");
 				
 			if(this.getView().byId("currencyComboBox").getSelectedKey() == "") {
-				this.showMessageOnUndefinedCurrency();
+				AccountController.showMessageBoxError(oResourceBundle, "accountCreate.noCurrencySelected");
 				return;
 			}
 			
@@ -81,15 +82,6 @@ sap.ui.define([
 					MessageBox.warning(oReturnData.message[0].text);
 				}
 			} 
-		},
-		
-		
-		/**
-		 * Displays a message in case the currency has not been selected.
-		 */
-		showMessageOnUndefinedCurrency : function () {
-			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-			MessageBox.error(oResourceBundle.getText("accountCreate.noCurrencySelected"));
 		},
 
 

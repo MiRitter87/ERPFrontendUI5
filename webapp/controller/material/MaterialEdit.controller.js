@@ -39,15 +39,15 @@ sap.ui.define([
 		 * Handles a click at the save button.
 		 */
 		onSavePressed : function () {
-			MaterialController.validatePriceInput(this.getView().byId("priceInput"), this.getOwnerComponent().getModel("i18n").getResourceBundle(),
-				this.getView().getModel("selectedMaterial"), "/pricePerUnit");
-				
 			if(this.getView().byId("materialComboBox").getSelectedKey() == "") {
 				var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				MessageBox.error(oResourceBundle.getText("materialEdit.noMaterialSelected"));
 				return;
 			}
 			
+			MaterialController.validatePriceInput(this.getView().byId("priceInput"), this.getOwnerComponent().getModel("i18n").getResourceBundle(),
+				this.getView().getModel("selectedMaterial"), "/pricePerUnit");
+				
 			if(this.getView().byId("unitComboBox").getSelectedKey() == "") {
 				var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 				MessageBox.error(oResourceBundle.getText("materialEdit.noUnitSelected"));

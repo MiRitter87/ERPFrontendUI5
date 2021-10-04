@@ -1,6 +1,7 @@
 sap.ui.define([
-	"sap/ui/core/Item"
-], function (Item) {
+	"sap/ui/core/Item",
+	"sap/m/MessageBox"
+], function (Item, MessageBox) {
 	"use strict";
 	return {
 		/**
@@ -81,6 +82,14 @@ sap.ui.define([
 		
 		
 		/**
+		 * Displays an error message in a MessageBox
+		 */
+		showMessageBoxError : function (oResourceBundle, sTextKey) {
+			MessageBox.error(oResourceBundle.getText(sTextKey));
+		},
+		
+		
+		/**
 		 * Calls a WebService operation to create an account.
 		 */
 		createAccountByWebService : function(oAccountModel, callbackFunction, oCallingController) {
@@ -117,5 +126,26 @@ sap.ui.define([
 				}
 			});                                                                 
 		},
+		
+		
+		/**
+		 * Updates changes of the account data using the WebService.
+		 */
+		saveAccountByWebService : function(oAccountModel, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/account");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var sJSONData = oAccountModel.getJSON();
+			
+			//Use "PUT" to update an existing resource.
+			jQuery.ajax({
+				type : "PUT", 
+				contentType : "application/json", 
+				url : sQueryUrl,
+				data : sJSONData, 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			}); 
+		}
 	};
 });
