@@ -11,7 +11,102 @@
 	
 	<Page title="{i18n>accountDisplay.header}">
 		<content>
+			<l:VerticalLayout>
+				<Label text="{i18n>accountDisplay.selectionDescription}"/>
+				<ComboBox id="accountComboBox" items="{path: 'accounts>/account/'}" selectionChange=".onAccountSelectionChange">
+					<core:Item key="{accounts>id}" text="{accounts>id}"/>
+				</ComboBox>
+			</l:VerticalLayout>
+			
+			<f:Form id="accountForm" editable="false">
+				<f:title>
+					<core:Title text="{i18n>accountDisplay.dataHeader}" />
+				</f:title>
+				
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:FormContainer title="{i18n>accountDisplay.titleGeneralData}">
+					<f:FormElement label="{i18n>account.id}">
+						<f:fields>
+							<Text id="idText" text="{selectedAccount>/id}"/>
+						</f:fields>
+					</f:FormElement>
+					
+					<f:FormElement label="{i18n>account.description}">
+						<f:fields>
+							<Text id="descriptionText" text="{selectedAccount>/description}"/>
+						</f:fields>
+					</f:FormElement>
+				</f:FormContainer>
+				
+				<f:FormContainer title="{i18n>accountDisplay.titleBalance}">
+					<f:FormElement label="{i18n>account.balance}">
+						<f:fields>
+							<Text id="balanceText" text="{selectedAccount>/balance}"/>
+						</f:fields>
+					</f:FormElement>
+					
+					<f:FormElement label="{i18n>account.currency}">
+						<f:fields>
+							<Text id="currencyText" text="{selectedAccount>/currency}"/>
+						</f:fields>
+					</f:FormElement>
+				</f:FormContainer>
+			</f:Form>
+			
+			<Table id="postingTable" items="{path: 'selectedAccount>/postings/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>accountDisplay.titlePostings}"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>posting.id}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>posting.type}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>posting.timestamp}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>posting.counterparty}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>posting.referenceNumber}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>posting.amount}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>posting.currency}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
 
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
 	</Page>
 </mvc:View>
