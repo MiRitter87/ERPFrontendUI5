@@ -90,6 +90,22 @@ sap.ui.define([
 		
 		
 		/**
+		 * Formatter of the posting type text.
+		 */
+		typeTextFormatter: function(sType, oResourceBundle) {
+			if(sType == null || sType == undefined)
+				return "";
+			
+			switch(sType) {
+				case "RECEIPT":
+					return oResourceBundle.getText("posting.type.receipt");
+				case "DISBURSAL":
+					return oResourceBundle.getText("posting.type.disbursal");
+			}				
+		},
+		
+		
+		/**
 		 * Calls a WebService operation to create an account.
 		 */
 		createAccountByWebService : function(oAccountModel, callbackFunction, oCallingController) {

@@ -1,12 +1,16 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./AccountController",
+	"../../model/formatter",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast"
-], function (Controller, AccountController, JSONModel, MessageToast) {
+], function (Controller, AccountController, formatter, JSONModel, MessageToast) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.account.AccountDisplay", {
+		formatter: formatter,
+		
+		
 		/**
 		 * Initializes the controller.
 		 */
@@ -87,5 +91,13 @@ sap.ui.define([
 			
 			this.getView().byId("postingTable").destroyItems();
 		},
+		
+		
+		/**
+		 * Formatter of the posting type text.
+		 */
+		typeTextFormatter: function(sType) {
+			return AccountController.typeTextFormatter(sType, this.getOwnerComponent().getModel("i18n").getResourceBundle());
+		}
 	});
 });

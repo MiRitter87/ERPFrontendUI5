@@ -95,14 +95,19 @@
 					<Column>
 						<Text text="{i18n>posting.amount}"/>
 					</Column>
-					<Column>
-						<Text text="{i18n>posting.currency}"/>
-					</Column>
 				</columns>
 				<items>
 					<ColumnListItem>
 						<cells>
-
+							<ObjectIdentifier text="{selectedAccount>id}"/>
+							<Text text="{path: 'selectedAccount>type', formatter: '.typeTextFormatter'}"/>
+							<Text text="{path: 'selectedAccount>timestamp', formatter: '.formatter.wsDateFormatter'}" />
+							<Text text="{selectedAccount>counterparty/companyName}"/>
+							<Text text="{selectedAccount>referenceNumber}"/>
+							<ObjectNumber unit="{selectedAccount>currency}" number="{
+										parts:[{path:'selectedAccount>amount'}],
+										type: 'sap.ui.model.type.Currency',
+										formatOptions: {showMeasure: false}}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
