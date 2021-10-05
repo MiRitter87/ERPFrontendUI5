@@ -29,6 +29,29 @@ sap.ui.define([
 
 
 		/**
+		 * Handles the selection of an item in the account ComboBox.
+		 */
+		onAccountSelectionChange : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oAccountsModel = this.getView().getModel("accounts");
+			var oAccount;
+			var oAccountModel = new JSONModel();
+			
+			if(oSelectedItem == null) {
+				this.getView().setModel(oAccountModel, "selectedAccount");
+				this.resetUIElements();
+				return;
+			}
+			
+			oAccount = AccountController.getAccountById(oSelectedItem.getKey(), oAccountsModel.oData.account);
+			oAccountModel.setData(oAccount);
+			
+			//Set the model of the view according to the selected account to allow binding of the UI elements.
+			this.getView().setModel(oAccountModel, "selectedAccount");
+		},
+
+
+		/**
 		 * Callback function of the queryAccounts RESTful WebService call in the AccountController.
 		 */
 		queryAccountsCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
