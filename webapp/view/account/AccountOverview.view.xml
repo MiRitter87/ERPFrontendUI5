@@ -9,7 +9,40 @@
 	
 	<Page title="{i18n>accountOverview.header}">
 		<content>
-					
+			<Table id="accountTable" items="{path: 'accounts>/account/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://detail-view" tooltip="{i18n>accountOverview.showDetails}" press=".onShowDetailsPressed"/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>accountOverview.deleteSelected}" press=".onDeletePressed"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>account.id}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>account.description}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>account.balance}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>account.currency}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{accounts>id}"/>
+							<Text text="{accounts>description}"/>
+							<Text text="{accounts>balance}"/>
+							<Text text="{accounts>currency}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
 	</Page>
 </mvc:View>
