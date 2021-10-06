@@ -395,7 +395,7 @@ sap.ui.define([
 		 */
 		resetUIElements : function () {
 			this.getView().byId("materialComboBox").setSelectedItem(null);
-			this.getView().byId("idInput").setValue("");
+			this.getView().byId("idText").setText("");
 			this.getView().byId("nameInput").setValue("");
 			this.getView().byId("descriptionTextArea").setValue("");
 			this.getView().byId("unitComboBox").setSelectedItem(null);

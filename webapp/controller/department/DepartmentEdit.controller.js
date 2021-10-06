@@ -174,7 +174,7 @@ sap.ui.define([
 		resetUIElements : function () {
 			this.getView().byId("departmentComboBox").setSelectedItem(null);
 			
-			this.getView().byId("codeInput").setValue("");
+			this.getView().byId("codeText").setText("");
 			this.getView().byId("nameInput").setValue("");
 			this.getView().byId("descriptionTextArea").setValue("");
 			

@@ -44,7 +44,7 @@
 						<f:formElements>
 							<f:FormElement label="{i18n>department.code}">
 								<f:fields>
-									<Input id="codeInput" value="{selectedDepartment>/code}" enabled="false" editable="false"/>
+									<Text id="codeText" text="{selectedDepartment>/code}"/>
 								</f:fields>
 							</f:FormElement>
 	
