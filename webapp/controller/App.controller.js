@@ -93,6 +93,9 @@ sap.ui.define([
 			else if(item.getKey() == "accountDisplay") {
 				oRouter.navTo("accountDisplayRoute");
 			}
+			else if(item.getKey() == "accountOverview") {
+				oRouter.navTo("accountOverviewRoute");
+			}
 		},
 		
 		
