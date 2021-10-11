@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./AccountController",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/MessageToast"
-], function (Controller, AccountController, JSONModel, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/m/MessageBox"
+], function (Controller, AccountController, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.account.AccountOverview", {
@@ -26,6 +27,22 @@ sap.ui.define([
 
 
 		/**
+		 * Handles the press-event of the delete button.
+		 */
+		onDeletePressed : function () {
+			var oResourceBundle;
+			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
+			if(this.isAccountSelected() == false) {
+				MessageBox.error(oResourceBundle.getText("accountOverview.noAccountSelected"));
+				return;
+			}
+			
+			AccountController.deleteAccountByWebService(this.getSelectedAccount(), this.deleteAccountCallback, this);
+		},
+
+
+		/**
 		 * Callback function of the queryAccounts RESTful WebService call in the AccountController.
 		 */
 		queryAccountsCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
@@ -44,6 +61,50 @@ sap.ui.define([
 			}                                                               
 			
 			oCallingController.getView().setModel(oModel, "accounts");
+		},
+		
+		
+		/**
+		 * Callback function of the deleteAccount RESTful WebService call in the AccountController.
+		 */
+		deleteAccountCallback : function(oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					AccountController.queryAccountsByWebService(oCallingController.queryAccountsCallback, oCallingController, false);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}
+		},
+		
+		
+		/**
+		 * Checks if an account has been selected.
+		 */
+		isAccountSelected : function () {
+			if(this.getView().byId("accountTable").getSelectedItem() == null)
+				return false;
+			else
+				return true;
+		},
+		
+		
+		/**
+		 * Gets the the selected account.
+		 */
+		getSelectedAccount : function () {
+			var oListItem = this.getView().byId("accountTable").getSelectedItem();
+			var oContext = oListItem.getBindingContext("accounts");
+			var oSelectedAccount = oContext.getProperty(null, oContext);
+			
+			return oSelectedAccount;
 		}
 	});
 });
