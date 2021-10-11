@@ -6,7 +6,54 @@
 
 	<Dialog id="accountDetailsDialog" title="{i18n>accountOverview.detailsHeader}">
 		<content>
-
+			<f:Form id="accountForm" editable="false">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>accountOverview.titleGeneralData}">
+						<f:FormElement label="{i18n>account.id}">
+							<f:fields>
+								<Text id="idText" text="{selectedAccount>/id}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>account.description}">
+							<f:fields>
+								<Text id="descriptionText" text="{selectedAccount>/description}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>accountOverview.titleBalance}">
+						<f:FormElement label="{i18n>account.balance}">
+							<f:fields>
+								<Text id="balanceText" text="{selectedAccount>/balance}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>account.currency}">
+							<f:fields>
+								<Text id="currencyText" text="{selectedAccount>/currency}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
       	</content>
       	
       	<Button text="{i18n>button.close}" press=".onCloseDialog" class="sapUiSmallMargin"/>
