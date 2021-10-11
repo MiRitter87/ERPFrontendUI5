@@ -54,6 +54,50 @@
 					</f:FormContainer>
 				</f:formContainers>
 			</f:Form>
+			
+			<Table id="postingTable" items="{path: 'selectedAccount>/postings/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>accountOverview.titlePostings}"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>posting.id}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>posting.type}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>posting.timestamp}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>posting.counterparty}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>posting.referenceNumber}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>posting.amount}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{selectedAccount>id}"/>
+							<Text text="{path: 'selectedAccount>type', formatter: '.typeTextFormatter'}"/>
+							<Text text="{path: 'selectedAccount>timestamp', formatter: '.formatter.wsDateFormatter'}" />
+							<Text text="{selectedAccount>counterparty/companyName}"/>
+							<Text text="{selectedAccount>referenceNumber}"/>
+							<ObjectNumber unit="{selectedAccount>currency}" number="{
+										parts:[{path:'selectedAccount>amount'}],
+										type: 'sap.ui.model.type.Currency',
+										formatOptions: {showMeasure: false}}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
       	</content>
       	
       	<Button text="{i18n>button.close}" press=".onCloseDialog" class="sapUiSmallMargin"/>

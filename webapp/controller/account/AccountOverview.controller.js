@@ -1,13 +1,17 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./AccountController",
+	"../../model/formatter",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox"
-], function (Controller, AccountController, JSONModel, MessageToast, MessageBox) {
+], function (Controller, AccountController, formatter, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.account.AccountOverview", {
+		formatter: formatter,
+		
+		
 		/**
 		 * Initializes the controller.
 		 */
@@ -134,6 +138,14 @@ sap.ui.define([
 			var oSelectedAccount = oContext.getProperty(null, oContext);
 			
 			return oSelectedAccount;
+		},
+		
+		
+		/**
+		 * Formatter of the posting type text.
+		 */
+		typeTextFormatter: function(sType) {
+			return AccountController.typeTextFormatter(sType, this.getOwnerComponent().getModel("i18n").getResourceBundle());
 		}
 	});
 });
