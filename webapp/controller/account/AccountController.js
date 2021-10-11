@@ -1,7 +1,8 @@
 sap.ui.define([
 	"sap/ui/core/Item",
-	"sap/m/MessageBox"
-], function (Item, MessageBox) {
+	"sap/m/MessageBox",
+	"sap/ui/core/Fragment"
+], function (Item, MessageBox, Fragment) {
 	"use strict";
 	return {
 		/**
@@ -102,6 +103,31 @@ sap.ui.define([
 				case "DISBURSAL":
 					return oResourceBundle.getText("posting.type.disbursal");
 			}				
+		},
+		
+		
+		/**
+		 * Opens the fragment with the given name as PopUp.
+		 */
+		openFragmentAsPopUp : function (oController, sName) {
+			var oView = oController.getView();
+			
+			//create dialog lazily
+			if (!oController.pDialog) {
+				oController.pDialog = Fragment.load({
+					id: oView.getId(),
+					name: sName,
+					controller: oController
+				}).then(function (oDialog) {
+					//connect dialog to the root view of this component (models, lifecycle)
+					oView.addDependent(oDialog);
+					return oDialog;
+				});
+			}
+
+			oController.pDialog.then(function(oDialog) {
+				oDialog.open();
+			});
 		},
 		
 		

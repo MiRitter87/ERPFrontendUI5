@@ -27,6 +27,35 @@ sap.ui.define([
 
 
 		/**
+		 * Handles the press-event of the show details button.
+		 */
+		onShowDetailsPressed : function () {
+			var oResourceBundle;
+			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oSelectedAccountModel;
+			
+			if(this.isAccountSelected() == false) {
+				MessageBox.error(oResourceBundle.getText("accountOverview.noAccountSelected"));
+				return;
+			}
+			
+			oSelectedAccountModel = new JSONModel();
+			oSelectedAccountModel.setData(this.getSelectedAccount());
+			this.getView().setModel(oSelectedAccountModel, "selectedAccount");		
+			
+			AccountController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.account.AccountOverviewDetails");
+		},
+		
+		
+		/**
+		 * Handles a click at the close button of the account details fragment.
+		 */
+		onCloseDialog : function () {
+			this.byId("accountDetailsDialog").close();
+		},
+
+
+		/**
 		 * Handles the press-event of the delete button.
 		 */
 		onDeletePressed : function () {
