@@ -1,11 +1,12 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./AccountController",
+	"../MainController",
 	"../../model/formatter",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox"
-], function (Controller, AccountController, formatter, JSONModel, MessageToast, MessageBox) {
+], function (Controller, AccountController, MainController, formatter, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.account.AccountOverview", {
@@ -47,7 +48,7 @@ sap.ui.define([
 			oSelectedAccountModel.setData(this.getSelectedAccount());
 			this.getView().setModel(oSelectedAccountModel, "selectedAccount");		
 			
-			AccountController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.account.AccountOverviewDetails");
+			MainController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.account.AccountOverviewDetails");
 		},
 		
 		

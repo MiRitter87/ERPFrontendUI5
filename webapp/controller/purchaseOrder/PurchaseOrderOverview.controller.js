@@ -1,11 +1,12 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./PurchaseOrderController",
+	"../MainController",
 	"../../model/formatter",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox"
-], function (Controller, PurchaseOrderController, formatter, JSONModel, MessageToast, MessageBox) {
+], function (Controller, PurchaseOrderController, MainController, formatter, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.purchaseOrder.PurchaseOrderOverview", {
@@ -47,7 +48,7 @@ sap.ui.define([
 			oSelectedPurchaseOrderModel.setData(this.getSelectedPurchaseOrder());
 			this.getView().setModel(oSelectedPurchaseOrderModel, "selectedPurchaseOrder");		
 			
-			PurchaseOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.purchaseOrder.PurchaseOrderOverviewDetails");
+			MainController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.purchaseOrder.PurchaseOrderOverviewDetails");
 		},
 		
 		

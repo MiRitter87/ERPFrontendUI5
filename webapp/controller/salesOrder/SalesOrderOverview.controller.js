@@ -1,11 +1,12 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./SalesOrderController",
+	"../MainController",
 	"../../model/formatter",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox"
-], function (Controller, SalesOrderController, formatter, JSONModel, MessageToast, MessageBox) {
+], function (Controller, SalesOrderController, MainController, formatter, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.salesOrder.SalesOrderOverview", {
@@ -62,7 +63,7 @@ sap.ui.define([
 			oSelectedSalesOrderModel.setData(this.getSelectedSalesOrder());
 			this.getView().setModel(oSelectedSalesOrderModel, "selectedSalesOrder");		
 			
-			SalesOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.salesOrder.SalesOrderOverviewDetails");
+			MainController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.salesOrder.SalesOrderOverviewDetails");
 		},
 		
 		
