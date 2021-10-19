@@ -2,6 +2,7 @@
 	"soldToId": null,
 	"shipToId": null,
 	"billToId": null,
+	"paymentAccountId": null,
 	"orderDate": null,
 	"requestedDeliveryDate": null,
 	"status": "OPEN",

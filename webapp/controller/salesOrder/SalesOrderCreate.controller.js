@@ -2,11 +2,12 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"../businessPartner/BusinessPartnerController",
 	"../material/MaterialController",
+	"../account/AccountController",
 	"./SalesOrderController",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
 	"sap/ui/model/json/JSONModel"
-], function (Controller, BusinessPartnerController, MaterialController, SalesOrderController, MessageToast, MessageBox, JSONModel) {
+], function (Controller, BusinessPartnerController, MaterialController, AccountController, SalesOrderController, MessageToast, MessageBox, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.salesOrder.SalesOrderCreate", {
@@ -29,6 +30,7 @@ sap.ui.define([
 			//Query business partner and material data every time a user navigates to this view. This assures that changes are being displayed in the ComboBoxes.
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, false, "CUSTOMER");
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
+			AccountController.queryAccountsByWebService(this.queryAccountsCallback, this, false);
 			
 			this.deselectPartnerSelection();
 			this.initializeSalesOrderModel();
@@ -95,6 +97,17 @@ sap.ui.define([
 			var iPartnerId = SalesOrderController.getSelectedPartnerId(oControlEvent);
 			
 			oSalesOrderModel.setData({billToId: iPartnerId}, true);
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the payment account ComboBox.
+		 */
+		onPaymentAccountSelectionChange : function (oControlEvent) {
+			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
+			var iAccountId = SalesOrderController.getSelectedAccountId(oControlEvent);
+			
+			oSalesOrderModel.setData({paymentAccountId: iAccountId}, true);
 		},
 		
 		
@@ -249,6 +262,24 @@ sap.ui.define([
 		
 		
 		/**
+		 * Callback function of the queryAccountsByWebService RESTful WebService call in the AccountController.
+		 */
+		queryAccountsCallback : function(oReturnData, oCallingController) {
+			var oModel = new JSONModel();
+			
+			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+			}
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+			}
+			
+			oCallingController.getView().setModel(oModel, "accounts");
+		},
+		
+		
+		/**
 		 * Resets the selection of the business partners. No item in the ComboBox is selected afterwards.
 		 */
 		deselectPartnerSelection : function () {
@@ -321,6 +352,11 @@ sap.ui.define([
 			
 			if(this.getView().byId("billToComboBox").getSelectedKey() == "") {
 				MessageBox.error(oResourceBundle.getText("salesOrderCreate.noBillToSelected"));
+				return false;
+			}
+			
+			if(this.getView().byId("paymentAccountComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("salesOrderCreate.noPaymentAccountSelected"));
 				return false;
 			}
 			
