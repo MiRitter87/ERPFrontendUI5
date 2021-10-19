@@ -3,10 +3,11 @@ sap.ui.define([
 	"./SalesOrderController",
 	"../businessPartner/BusinessPartnerController",
 	"../material/MaterialController",
+	"../MainController",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox"
-], function (Controller, SalesOrderController, BusinessPartnerController, MaterialController, JSONModel, MessageToast, MessageBox) {
+], function (Controller, SalesOrderController, BusinessPartnerController, MaterialController, MainController, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.salesOrder.SalesOrderEdit", {		
@@ -107,7 +108,7 @@ sap.ui.define([
 			}
 			
 			SalesOrderController.setIdOfNewItem(this.getView().getModel("selectedSalesOrder"), this);
-			SalesOrderController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.salesOrder.SalesOrderItemCreate");		
+			MainController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.salesOrder.SalesOrderItemCreate");		
 		},
 		
 		
