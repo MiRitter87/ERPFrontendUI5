@@ -3,11 +3,13 @@ sap.ui.define([
 	"./SalesOrderController",
 	"../businessPartner/BusinessPartnerController",
 	"../material/MaterialController",
+	"../account/AccountController",
 	"../MainController",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox"
-], function (Controller, SalesOrderController, BusinessPartnerController, MaterialController, MainController, JSONModel, MessageToast, MessageBox) {
+], function (Controller, SalesOrderController, BusinessPartnerController, MaterialController, AccountController, MainController, 
+			JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.salesOrder.SalesOrderEdit", {		
@@ -31,6 +33,7 @@ sap.ui.define([
 			//This assures that changes are being displayed in the ComboBox.
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, false, "CUSTOMER");
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
+			AccountController.queryAccountsByWebService(this.queryAccountsCallback, this, false);
 			SalesOrderController.querySalesOrdersByWebService(this.querySalesOrdersCallback, this, true);
 			
 			this.getView().setModel(null, "selectedSalesOrder");
@@ -92,6 +95,17 @@ sap.ui.define([
 			var iPartnerId = SalesOrderController.getSelectedPartnerId(oControlEvent);
 			
 			oSalesOrderModel.setData({billToId: iPartnerId}, true);
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the payment account ComboBox.
+		 */
+		onPaymentAccountSelectionChange : function (oControlEvent) {
+			var oSalesOrderModel = this.getView().getModel("selectedSalesOrder");
+			var iAccountId = SalesOrderController.getSelectedAccountId(oControlEvent);
+			
+			oSalesOrderModel.setData({paymentAccountId: iAccountId}, true);
 		},
 		
 		
@@ -317,6 +331,24 @@ sap.ui.define([
 		
 		
 		/**
+		 * Callback function of the queryAccountsByWebService RESTful WebService call in the AccountController.
+		 */
+		queryAccountsCallback : function(oReturnData, oCallingController) {
+			var oModel = new JSONModel();
+			
+			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+			}
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+			}
+			
+			oCallingController.getView().setModel(oModel, "accounts");
+		},
+		
+		
+		/**
 		 *  Callback function of the saveSalesOrder RESTful WebService call in the SalesOrderController.
 		 */
 		saveSalesOrderCallback : function(oReturnData, oCallingController) {
@@ -359,6 +391,7 @@ sap.ui.define([
 			wsSalesOrder.setProperty("/soldToId", oSalesOrder.soldToParty.id);
 			wsSalesOrder.setProperty("/shipToId", oSalesOrder.shipToParty.id);
 			wsSalesOrder.setProperty("/billToId", oSalesOrder.billToParty.id);
+			wsSalesOrder.setProperty("/paymentAccountId", oSalesOrder.paymentAccount.id);
 			wsSalesOrder.setProperty("/orderDate", oSalesOrder.orderDate);
 			wsSalesOrder.setProperty("/requestedDeliveryDate", oSalesOrder.requestedDeliveryDate);
 			wsSalesOrder.setProperty("/status", oSalesOrder.status);
@@ -409,6 +442,8 @@ sap.ui.define([
 			
 			this.getView().byId("orderDatePicker").setDateValue(null);
 			this.getView().byId("requestedDeliveryDatePicker").setDateValue(null);	
+			
+			this.getView().byId("paymentAccountComboBox").setSelectedItem(null);
 			
 			this.getView().byId("itemTable").destroyItems();
 		},
