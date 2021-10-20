@@ -89,6 +89,14 @@
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>salesOrderDisplay.titleFinance}">
+						<f:FormElement label="{i18n>salesOrder.paymentAccount}">
+							<f:fields>
+								<Text id="paymentAccountText" text="{selectedSalesOrder>/paymentAccount/id}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
 				</f:formContainers>
 			</f:Form>
 			
