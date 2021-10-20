@@ -164,32 +164,6 @@ sap.ui.define([
 		
 		
 		/**
-		 * Gets the ID of the selected business partner from a ComboBox.
-		 */
-		getSelectedPartnerId : function (oControlEvent) {
-			var oSelectedItem = oControlEvent.getParameters().selectedItem;
-			
-			if(oSelectedItem == null)
-				return null;
-				
-			return oSelectedItem.getKey();
-		},
-		
-		
-		/**
-		 * Gets the ID of the selected account from a ComboBox.
-		 */
-		getSelectedAccountId : function (oControlEvent) {
-			var oSelectedItem = oControlEvent.getParameters().selectedItem;
-			
-			if(oSelectedItem == null)
-				return null;
-				
-			return oSelectedItem.getKey();
-		},
-		
-		
-		/**
 		 * Initializes the model of the sales order item to which the UI controls are bound.
 		 * Since the item creation fragment is being reused in several views, the name of the model is always the same.
 		 */

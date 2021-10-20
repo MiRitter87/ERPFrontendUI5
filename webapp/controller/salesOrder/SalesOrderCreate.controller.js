@@ -74,7 +74,7 @@ sap.ui.define([
 		 */
 		onSoldToSelectionChange : function (oControlEvent) {
 			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
-			var iPartnerId = SalesOrderController.getSelectedPartnerId(oControlEvent);
+			var iPartnerId = MainController.getSelectedCBItemKey(oControlEvent);
 			
 			oSalesOrderModel.setData({soldToId: iPartnerId}, true);
 		},
@@ -85,7 +85,7 @@ sap.ui.define([
 		 */
 		onShipToSelectionChange : function (oControlEvent) {
 			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
-			var iPartnerId = SalesOrderController.getSelectedPartnerId(oControlEvent);
+			var iPartnerId = MainController.getSelectedCBItemKey(oControlEvent);
 			
 			oSalesOrderModel.setData({shipToId: iPartnerId}, true);
 		},
@@ -96,7 +96,7 @@ sap.ui.define([
 		 */
 		onBillToSelectionChange : function (oControlEvent) {
 			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
-			var iPartnerId = SalesOrderController.getSelectedPartnerId(oControlEvent);
+			var iPartnerId = MainController.getSelectedCBItemKey(oControlEvent);
 			
 			oSalesOrderModel.setData({billToId: iPartnerId}, true);
 		},
@@ -107,7 +107,7 @@ sap.ui.define([
 		 */
 		onPaymentAccountSelectionChange : function (oControlEvent) {
 			var oSalesOrderModel = this.getView().getModel("newSalesOrder");
-			var iAccountId = SalesOrderController.getSelectedAccountId(oControlEvent);
+			var iAccountId = MainController.getSelectedCBItemKey(oControlEvent);
 			
 			oSalesOrderModel.setData({paymentAccountId: iAccountId}, true);
 		},
