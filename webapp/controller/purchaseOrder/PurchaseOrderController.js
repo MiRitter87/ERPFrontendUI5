@@ -127,19 +127,6 @@ sap.ui.define([
 		
 		
 		/**
-		 * Gets the ID of the selected business partner from a ComboBox.
-		 */
-		getSelectedPartnerId : function (oControlEvent) {
-			var oSelectedItem = oControlEvent.getParameters().selectedItem;
-			
-			if(oSelectedItem == null)
-				return null;
-				
-			return oSelectedItem.getKey();
-		},
-		
-		
-		/**
 		 * Sets the ID of the new purchase order item based on the number of already existing items.
 		 */
 		setIdOfNewItem : function (oPurchaseOrderModel, oController) {

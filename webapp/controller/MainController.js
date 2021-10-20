@@ -25,6 +25,20 @@ sap.ui.define([
 			oController.pDialog.then(function(oDialog) {
 				oDialog.open();
 			});
+		},
+		
+		
+		/**
+		 * Gets the key of the selected item from a ComboBox.
+		 * Returns null, if no item is selected.
+		 */
+		getSelectedCBItemKey : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			
+			if(oSelectedItem == null)
+				return null;
+				
+			return oSelectedItem.getKey();
 		}
 	};
 });

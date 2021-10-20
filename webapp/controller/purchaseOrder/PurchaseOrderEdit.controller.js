@@ -68,7 +68,7 @@ sap.ui.define([
 		 */
 		onVendorSelectionChange : function (oControlEvent) {
 			var oPurchaseOrderModel = this.getView().getModel("selectedPurchaseOrder");
-			var iPartnerId = PurchaseOrderController.getSelectedPartnerId(oControlEvent);
+			var iPartnerId = MainController.getSelectedCBItemKey(oControlEvent);
 			
 			oPurchaseOrderModel.setData({vendorId: iPartnerId}, true);
 		},
