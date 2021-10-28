@@ -73,7 +73,8 @@ sap.ui.define([
 			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
 			var sTypesText = "";
 			
-			sTypesText = BusinessPartnerController.getLocalizedTypesString(aTypes, oResourceBundle);
+			if(aTypes != null)
+				sTypesText = BusinessPartnerController.getLocalizedTypesString(aTypes, oResourceBundle);
 			
 			return sTypesText;
 		},
