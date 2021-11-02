@@ -2,12 +2,14 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"../businessPartner/BusinessPartnerController",
 	"../material/MaterialController",
+	"../account/AccountController",
 	"./PurchaseOrderController",
 	"../MainController",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox"
-], function (Controller, BusinessPartnerController, MaterialController, PurchaseOrderController, MainController, JSONModel, MessageToast, MessageBox) {
+], function (Controller, BusinessPartnerController, MaterialController, AccountController, PurchaseOrderController, MainController, 
+			JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.purchaseOrder.PurchaseOrderCreate", {
@@ -30,8 +32,9 @@ sap.ui.define([
 			//Query business partner and material data every time a user navigates to this view. This assures that changes are being displayed in the ComboBoxes.
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, false, "VENDOR");
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
+			AccountController.queryAccountsByWebService(this.queryAccountsCallback, this, false);
 			
-			this.getView().byId("vendorComboBox").setSelectedItem(null);
+			this.resetFormFields();
 			this.initializePurchaseOrderModel();
 			PurchaseOrderController.initializePurchaseOrderItemModel(this);
     	},
@@ -45,6 +48,17 @@ sap.ui.define([
 			var iPartnerId = MainController.getSelectedCBItemKey(oControlEvent);
 			
 			oPurchaseOrderModel.setData({vendorId: iPartnerId}, true);
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the payment account ComboBox.
+		 */
+		onPaymentAccountSelectionChange : function (oControlEvent) {
+			var oPurchaseOrderModel = this.getView().getModel("newPurchaseOrder");
+			var iAccountId = MainController.getSelectedCBItemKey(oControlEvent);
+			
+			oPurchaseOrderModel.setData({paymentAccountId: iAccountId}, true);
 		},
 		
 		
@@ -298,6 +312,11 @@ sap.ui.define([
 				return false;
 			}
 			
+			if(this.getView().byId("paymentAccountComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("purchaseOrderCreate.noPaymentAccountSelected"));
+				return false;
+			}
+			
 			//The order has to have at least one item.
 			oPurchaseOrderModel = this.getView().getModel("newPurchaseOrder");
 			iExistingItemCount = oPurchaseOrderModel.oData.items.length;
@@ -308,6 +327,15 @@ sap.ui.define([
 			}
 			
 			return true;
+		},
+		
+		
+		/**
+		 * Resets the form fields to the initial state.
+		 */
+		resetFormFields : function () {
+			this.getView().byId("vendorComboBox").setSelectedItem(null);
+			this.getView().byId("paymentAccountComboBox").setSelectedItem(null);
 		},
 
 
@@ -348,13 +376,31 @@ sap.ui.define([
 		
 		
 		/**
+		 * Callback function of the queryAccountsByWebService RESTful WebService call in the AccountController.
+		 */
+		queryAccountsCallback : function(oReturnData, oCallingController) {
+			var oModel = new JSONModel();
+			
+			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+			}
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+			}
+			
+			oCallingController.getView().setModel(oModel, "accounts");
+		},
+		
+		
+		/**
 		 * Callback function of the createPurchaseOrderbyWebService RESTful WebService call in the PurchaseOrderController.
 		 */
 		savePurchaseOrderCallback : function (oReturnData, callingController) {
 			if(oReturnData.message != null) {
 				if(oReturnData.message[0].type == 'S') {
 					MessageToast.show(oReturnData.message[0].text);
-					callingController.getView().byId("vendorComboBox").setSelectedItem(null);
+					callingController.resetFormFields();
 					callingController.initializePurchaseOrderModel();
 					PurchaseOrderController.initializePurchaseOrderItemModel(callingController);
 				}

@@ -56,6 +56,18 @@
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>purchaseOrderCreate.titleFinance}">
+						<f:FormElement label="{i18n>purchaseOrder.paymentAccount}">
+							<f:fields>
+								<ComboBox id="paymentAccountComboBox" items="{path: 'accounts>/account/'}" 
+										selectionChange=".onPaymentAccountSelectionChange" required="true">
+												
+										<core:Item key="{accounts>id}" text="{accounts>id} - {accounts>description}"/>
+									</ComboBox>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
 				</f:formContainers>
 			</f:Form>
 			
