@@ -60,18 +60,6 @@
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>
-				
-					<f:FormContainer title="{i18n>purchaseOrderEdit.titleBusinessPartner}">
-						<f:FormElement label="{i18n>purchaseOrder.vendor}">
-							<f:fields>
-								<ComboBox id="vendorComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
-									selectionChange=".onVendorSelectionChange" selectedKey="{selectedPurchaseOrder>/vendorId}" required="true">
-											
-									<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
-								</ComboBox>
-							</f:fields>
-						</f:FormElement>
-					</f:FormContainer>
 					
 					<f:FormContainer title="{i18n>purchaseOrderEdit.titleDates}">
 						<f:FormElement label="{i18n>purchaseOrder.orderDate}">
@@ -85,6 +73,30 @@
 							<f:fields>
 								<DatePicker id="requestedDeliveryDatePicker" value="{path: 'selectedPurchaseOrder>/requestedDeliveryDate', 
 									type:'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true}}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				
+					<f:FormContainer title="{i18n>purchaseOrderEdit.titleBusinessPartner}">
+						<f:FormElement label="{i18n>purchaseOrder.vendor}">
+							<f:fields>
+								<ComboBox id="vendorComboBox" items="{path: 'businessPartners>/businessPartner/'}" 
+									selectionChange=".onVendorSelectionChange" selectedKey="{selectedPurchaseOrder>/vendorId}" required="true">
+											
+									<core:Item key="{businessPartners>id}" text="{businessPartners>id} - {businessPartners>companyName}"/>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>purchaseOrderEdit.titleFinance}">
+						<f:FormElement label="{i18n>purchaseOrder.paymentAccount}">
+							<f:fields>
+								<ComboBox id="paymentAccountComboBox" items="{path: 'accounts>/account/'}" 
+									selectionChange=".onPaymentAccountSelectionChange" selectedKey="{selectedPurchaseOrder>/paymentAccountId}" required="true">
+												
+									<core:Item key="{accounts>id}" text="{accounts>id} - {accounts>description}"/>
+								</ComboBox>
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>

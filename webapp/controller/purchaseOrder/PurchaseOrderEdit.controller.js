@@ -2,12 +2,14 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"../businessPartner/BusinessPartnerController",
 	"../material/MaterialController",
+	"../account/AccountController",
 	"./PurchaseOrderController",
 	"../MainController",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox"
-], function (Controller, BusinessPartnerController, MaterialController, PurchaseOrderController, MainController, JSONModel, MessageToast, MessageBox) {
+], function (Controller, BusinessPartnerController, MaterialController, AccountController, PurchaseOrderController, MainController, 
+			JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.purchaseOrder.PurchaseOrderEdit", {		
@@ -31,6 +33,7 @@ sap.ui.define([
 			//This assures that changes are being displayed in the ComboBox.
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, false, "VENDOR");
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
+			AccountController.queryAccountsByWebService(this.queryAccountsCallback, this, false);
 			PurchaseOrderController.queryPurchaseOrdersByWebService(this.queryPurchaseOrdersCallback, this, true);
 			
 			this.getView().setModel(null, "selectedPurchaseOrder");
@@ -71,6 +74,17 @@ sap.ui.define([
 			var iPartnerId = MainController.getSelectedCBItemKey(oControlEvent);
 			
 			oPurchaseOrderModel.setData({vendorId: iPartnerId}, true);
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the payment account ComboBox.
+		 */
+		onPaymentAccountSelectionChange : function (oControlEvent) {
+			var oPurchaseOrderModel = this.getView().getModel("selectedPurchaseOrder");
+			var iAccountId = MainController.getSelectedCBItemKey(oControlEvent);
+			
+			oPurchaseOrderModel.setData({paymentAccountId: iAccountId}, true);
 		},
 		
 		
@@ -272,10 +286,12 @@ sap.ui.define([
 			this.getView().byId("totalStatus").setText("");
 			this.getView().byId("detailStatusComboBox").setSelectedItems(null);
 			
-			this.getView().byId("vendorComboBox").setSelectedItem(null);
-			
 			this.getView().byId("orderDatePicker").setDateValue(null);
 			this.getView().byId("requestedDeliveryDatePicker").setDateValue(null);	
+			
+			this.getView().byId("vendorComboBox").setSelectedItem(null);
+			
+			this.getView().byId("paymentAccountComboBox").setSelectedItem(null);
 			
 			this.getView().byId("itemTable").destroyItems();
 		},
@@ -315,6 +331,11 @@ sap.ui.define([
 			
 			if(this.getView().byId("vendorComboBox").getSelectedKey() == "") {
 				MessageBox.error(oResourceBundle.getText("purchaseOrderEdit.noVendorSelected"));
+				return false;
+			}
+			
+			if(this.getView().byId("paymentAccountComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("purchaseOrderEdit.noPaymentAccountSelected"));
 				return false;
 			}
 			
@@ -432,6 +453,7 @@ sap.ui.define([
 			//Data at head level
 			wsPurchaseOrder.setProperty("/purchaseOrderId", oPurchaseOrder.id);
 			wsPurchaseOrder.setProperty("/vendorId", oPurchaseOrder.vendor.id);
+			wsPurchaseOrder.setProperty("/paymentAccountId", oPurchaseOrder.paymentAccount.id);
 			wsPurchaseOrder.setProperty("/orderDate", oPurchaseOrder.orderDate);
 			wsPurchaseOrder.setProperty("/requestedDeliveryDate", oPurchaseOrder.requestedDeliveryDate);
 			wsPurchaseOrder.setProperty("/status", oPurchaseOrder.status);
@@ -505,6 +527,24 @@ sap.ui.define([
 			}
 			
 			oCallingController.getView().setModel(oModel, "materials");
+		},
+		
+		
+		/**
+		 * Callback function of the queryAccountsByWebService RESTful WebService call in the AccountController.
+		 */
+		queryAccountsCallback : function(oReturnData, oCallingController) {
+			var oModel = new JSONModel();
+			
+			if(oReturnData.data != null) {
+				oModel.setData(oReturnData.data);
+			}
+			
+			if(oReturnData.data == null && oReturnData.message != null)  {
+				MessageToast.show(oReturnData.message[0].text);
+			}
+			
+			oCallingController.getView().setModel(oModel, "accounts");
 		},
 		
 		

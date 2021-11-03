@@ -478,6 +478,11 @@ sap.ui.define([
 				return false;
 			}
 			
+			if(this.getView().byId("paymentAccountComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("salesOrderEdit.noPaymentAccountSelected"));
+				return false;
+			}
+			
 			//The order has to have at least one item.
 			oSalesOrderModel = this.getView().getModel("selectedSalesOrder");
 			iExistingItemCount = oSalesOrderModel.oData.items.length;
