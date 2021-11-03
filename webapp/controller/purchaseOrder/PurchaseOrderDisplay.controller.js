@@ -65,10 +65,12 @@ sap.ui.define([
 			this.getView().byId("totalStatus").setText("");
 			this.getView().byId("detailStatusText").setText("");
 			
-			this.getView().byId("vendorText").setText("");
-			
 			this.getView().byId("orderDateText").setText("");
 			this.getView().byId("requestedDeliveryDateText").setText("");
+			
+			this.getView().byId("vendorText").setText("");
+			
+			this.getView().byId("paymentAccountText").setText("");
 			
 			this.getView().byId("itemTable").destroyItems();
 		},

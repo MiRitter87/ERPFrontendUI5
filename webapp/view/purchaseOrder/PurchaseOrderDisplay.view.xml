@@ -60,14 +60,6 @@
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>
-				
-					<f:FormContainer title="{i18n>purchaseOrderDisplay.titleBusinessPartner}">
-						<f:FormElement label="{i18n>purchaseOrder.vendor}">
-								<f:fields>
-									<Text id="vendorText" text="{selectedPurchaseOrder>/vendor/companyName}"/>
-								</f:fields>
-							</f:FormElement>
-					</f:FormContainer>
 					
 					<f:FormContainer title="{i18n>purchaseOrderDisplay.titleDates}">
 						<f:FormElement label="{i18n>purchaseOrder.orderDate}">
@@ -80,6 +72,22 @@
 							<f:fields>
 								<Text id="requestedDeliveryDateText" 
 									text="{path: 'selectedPurchaseOrder>/requestedDeliveryDate', formatter: '.formatter.wsDateFormatter'}" />
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				
+					<f:FormContainer title="{i18n>purchaseOrderDisplay.titleBusinessPartner}">
+						<f:FormElement label="{i18n>purchaseOrder.vendor}">
+								<f:fields>
+									<Text id="vendorText" text="{selectedPurchaseOrder>/vendor/companyName}"/>
+								</f:fields>
+							</f:FormElement>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>purchaseOrderDisplay.titleFinance}">
+						<f:FormElement label="{i18n>purchaseOrder.paymentAccount}">
+							<f:fields>
+								<Text id="paymentAccountText" text="{selectedPurchaseOrder>/paymentAccount/id}"/>
 							</f:fields>
 						</f:FormElement>
 					</f:FormContainer>
