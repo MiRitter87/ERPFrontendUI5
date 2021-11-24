@@ -185,6 +185,10 @@
 				"pattern": "accountOverview",
 				"name": "accountOverviewRoute",
 				"target": "accountOverviewTarget"
+			}, {
+				"pattern": "billOfMaterialCreate",
+				"name": "billOfMaterialCreateRoute",
+				"target": "billOfMaterialCreateTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -340,6 +344,11 @@
 				"accountOverviewTarget": {
 					"viewId": "accountOverview",
 					"viewName": "account.AccountOverview",
+					"viewLevel" : 1
+				},
+				"billOfMaterialCreateTarget": {
+					"viewId": "billOfMaterialCreate",
+					"viewName": "billOfMaterial.BillOfMaterialCreate",
 					"viewLevel" : 1
 				}
          	}

@@ -96,6 +96,9 @@ sap.ui.define([
 			else if(item.getKey() == "accountOverview") {
 				oRouter.navTo("accountOverviewRoute");
 			}
+			else if(item.getKey() == "billOfMaterialCreate") {
+				oRouter.navTo("billOfMaterialCreateRoute");
+			}
 		},
 		
 		

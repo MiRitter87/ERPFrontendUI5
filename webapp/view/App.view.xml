@@ -67,6 +67,13 @@
 						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="accountDisplay"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="accountOverview"/>
 					</tnt:NavigationListItem>
+					
+					<tnt:NavigationListItem text="{i18n>navigation.billOfMaterial}" expanded="false" icon="sap-icon://group-2" key="billOfMaterial">
+						<tnt:NavigationListItem text="{i18n>navigation.object.create}" key="billOfMaterialCreate"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.edit}" key="billOfMaterialEdit"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="billOfMaterialDisplay"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="billOfMaterialOverview"/>
+					</tnt:NavigationListItem>
 				</tnt:NavigationList>
 			</tnt:SideNavigation>
 		</tnt:sideContent>
