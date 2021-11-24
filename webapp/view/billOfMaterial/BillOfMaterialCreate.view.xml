@@ -10,7 +10,88 @@
 	
 	<Page title="{i18n>billOfMaterialCreate.header}">
 		<content>
+			<f:Form editable="true">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>billOfMaterialCreate.titleGeneralData}">
+						<f:FormElement label="{i18n>billOfMaterial.name}">
+							<f:fields>
+								<Input maxLength="50" value="{newBillOfMaterial>/name}" required="true"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>billOfMaterial.description}">
+							<f:fields>
+								<Input maxLength="250" value="{newBillOfMaterial>/description}" required="true"/>
+							</f:fields>
+						</f:FormElement>
+					
+						<f:FormElement label="{i18n>billOfMaterial.material}">
+							<f:fields>
+								<ComboBox id="materialComboBox" items="{path: 'materials>/material/'}" 
+									selectionChange=".onMaterialSelectionChange" required="true">
+								
+									<core:Item key="{materials>id}" text="{materials>id} - {materials>name}"/>
+								</ComboBox>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 			
+			<Table id="itemTable" items="{path: 'newBillOfMaterial>/items/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>billOfMaterialCreate.titleItems}"/>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>billOfMaterialCreate.deleteSelected}" press=".onDeleteItemPressed"/>
+						<Button icon="sap-icon://add" tooltip="{i18n>billOfMaterialCreate.addItem}" press=".onAddItemPressed"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>billOfMaterial.itemId}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>billOfMaterial.material}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>billOfMaterial.itemQuantity}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{newBillOfMaterial>itemId}"/>
+							<Text text="{path: 'newBillOfMaterial>materialId', formatter: '.materialNameFormatter'}"/>
+							<ObjectNumber unit="{path: 'newBillOfMaterial>materialId', formatter: '.materialUnitFormatter'}" number="{
+										parts:[{path:'newBillOfMaterial>quantity'}],
+										type: 'sap.ui.model.type.Unit',
+										formatOptions: {showMeasure: false}}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
+		
+		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
+		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 	</Page>
 </mvc:View>
