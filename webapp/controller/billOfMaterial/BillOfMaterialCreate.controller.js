@@ -4,8 +4,9 @@ sap.ui.define([
 	"./BillOfMaterialController",
 	"../MainController",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/MessageToast"
-], function (Controller, MaterialController, BillOfMaterialController, MainController, JSONModel, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/m/MessageBox"
+], function (Controller, MaterialController, BillOfMaterialController, MainController, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.billOfMaterial.BillOfMaterialCreate", {
@@ -48,9 +49,61 @@ sap.ui.define([
 		 */
 		onCancelDialog : function () {
 			this.byId("newItemDialog").close();
-			//TODO 
-			//PurchaseOrderController.clearItemPopUpFields(this);
+			BillOfMaterialController.clearItemPopUpFields(this);
 			BillOfMaterialController.initializeBillOfMaterialItemModel(this);
+		},
+		
+		
+		/**
+		 * Handles the saving of the new item Dialog.
+		 */
+		onSaveDialog : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oItemData = this.getView().getModel("newBillOfMaterialItem");
+			var oBillOfMaterialModel = this.getView().getModel("newBillOfMaterial");
+			var oBillOfMaterialItems = oBillOfMaterialModel.getProperty("/items");
+			var itemWithMaterialExists;
+			
+			//Check if a material has been selected.
+			if(this.getView().byId("itemMaterialComboBox").getSelectedItem() == null) {
+				MessageBox.error(oResourceBundle.getText("billOfMaterialCreate.noItemMaterialSelected"));
+				return;
+			}
+			
+			//Do not allow adding an item with quantity 0.
+			if(oItemData.oData.quantity < 1) {
+				MessageBox.error(oResourceBundle.getText("billOfMaterialCreate.quantityIsZero"));
+				return;
+			}
+			
+			//Check if a bill of material item with the same material already exists.
+			itemWithMaterialExists = BillOfMaterialController.isItemWithMaterialExisting(oBillOfMaterialItems, oItemData.oData.materialId);
+			if(itemWithMaterialExists == true) {
+				MessageBox.error(oResourceBundle.getText("billOfMaterialCreate.itemWithMaterialExists", [oItemData.oData.materialId]));
+				return;
+			}
+			
+			//Remove the binding of the UI to the selectedItemMaterial. 
+			//Otherwhise the selectedItemMaterial is updated by databinding when the input fields are being cleared.
+			this.getView().setModel(null, "selectedItemMaterial");
+			
+			//Add the item to the bill of material model. Then re-initialize the item model that is bound to the "new item PopUp".
+			oBillOfMaterialItems.push(oItemData.oData);
+			oBillOfMaterialModel.setProperty("/items", oBillOfMaterialItems);
+			BillOfMaterialController.initializeBillOfMaterialItemModel(this);
+			
+			this.byId("newItemDialog").close();
+			BillOfMaterialController.clearItemPopUpFields(this);
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the material ComboBox of the "new item"-PopUp".
+		 */
+		onItemMaterialSelectionChange : function (oControlEvent) {
+			BillOfMaterialController.onItemMaterialSelectionChange(oControlEvent, this,
+				this.getView().getModel("newBillOfMaterialItem"),
+				this.getView().getModel("materials"));
 		},
 
 
