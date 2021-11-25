@@ -135,7 +135,7 @@ sap.ui.define([
 				return;
 			}
 						
-			oMaterial = MaterialController.getMaterialById(oSelectedItem.getKey(), oMaterials.oData.material);
+			oMaterial = MaterialController.getMaterialById(oSelectedItem.getKey(), oMaterials);
 			oWsMaterial = this.getMaterialForWebService(oMaterial);
 				
 			//Set the model of the view according to the selected material to allow binding of the UI elements.

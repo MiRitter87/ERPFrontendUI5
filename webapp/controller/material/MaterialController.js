@@ -71,11 +71,11 @@ sap.ui.define([
 		 */
 		getMaterialById : function(iMaterialId, oMaterials) {
 			//Get the selected material from the array of all materials according to the id.
-			for(var i = 0; i < oMaterials.length; i++) {
-    			var oTempMaterial = oMaterials[i];
+			for(var i = 0; i < oMaterials.oData.material.length; i++) {
+    			var tempMaterial = oMaterials.oData.material[i];
     			
-				if(oTempMaterial.id == iMaterialId) {
-					return oTempMaterial;
+				if(tempMaterial.id == iMaterialId) {
+					return tempMaterial;
 				}
 			}
 			
