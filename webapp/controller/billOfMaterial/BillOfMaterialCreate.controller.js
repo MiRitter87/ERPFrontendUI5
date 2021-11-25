@@ -2,9 +2,10 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"../material/MaterialController",
 	"./BillOfMaterialController",
+	"../MainController",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast"
-], function (Controller, MaterialController, BillOfMaterialController, JSONModel, MessageToast) {
+], function (Controller, MaterialController, BillOfMaterialController, MainController, JSONModel, MessageToast) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.billOfMaterial.BillOfMaterialCreate", {
@@ -31,6 +32,26 @@ sap.ui.define([
 			this.initializeBillOfMaterialModel();
 			BillOfMaterialController.initializeBillOfMaterialItemModel(this);
     	},
+
+
+		/**
+		 * Opens the dialog to add a new bill of material item.
+		 */
+		onAddItemPressed : function () {
+			BillOfMaterialController.setIdOfNewItem(this.getView().getModel("newBillOfMaterial"), this);
+			MainController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.billOfMaterial.BillOfMaterialItemCreate");
+		},
+		
+		
+		/**
+		 * Handles the closing by cancelation of the new item Dialog.
+		 */
+		onCancelDialog : function () {
+			this.byId("newItemDialog").close();
+			//TODO 
+			//PurchaseOrderController.clearItemPopUpFields(this);
+			BillOfMaterialController.initializeBillOfMaterialItemModel(this);
+		},
 
 
 		/**

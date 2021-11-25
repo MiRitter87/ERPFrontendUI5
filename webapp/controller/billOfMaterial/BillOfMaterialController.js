@@ -13,6 +13,18 @@ sap.ui.define([
 			//Load and set item model
 			oItemModel.loadData("model/billOfMaterial/billOfMaterialItemCreate.json");
 			oController.getView().setModel(oItemModel, "newBillOfMaterialItem");	
-		}
+		},
+		
+		
+		/**
+		 * Sets the ID of the new bill of material item based on the number of already existing items.
+		 */
+		setIdOfNewItem : function (oBillOfMaterialModel, oController) {
+			var iExistingItemCount;
+			var oBillOfMaterialItemModel = oController.getView().getModel("newBillOfMaterialItem");
+			
+			iExistingItemCount = oBillOfMaterialModel.oData.items.length;
+			oBillOfMaterialItemModel.setProperty("/itemId", iExistingItemCount + 1);
+		},
 	};
 });
