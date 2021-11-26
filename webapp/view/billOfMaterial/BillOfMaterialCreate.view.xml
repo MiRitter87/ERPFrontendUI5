@@ -38,7 +38,7 @@
 						
 						<f:FormElement label="{i18n>billOfMaterial.description}">
 							<f:fields>
-								<Input maxLength="250" value="{newBillOfMaterial>/description}" required="true"/>
+								<Input maxLength="250" value="{newBillOfMaterial>/description}" required="false"/>
 							</f:fields>
 						</f:FormElement>
 					

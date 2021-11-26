@@ -36,6 +36,19 @@ sap.ui.define([
 
 
 		/**
+		 * Handles a click at the save button.
+		 */
+		onSavePressed : function () {
+			var bInputValid = this.verifyObligatoryFields();
+			
+			if(bInputValid == false)
+				return;
+				
+			BillOfMaterialController.createBillOfMaterialByWebService(this.getView().getModel("newBillOfMaterial"), this.saveBillOfMaterialCallback, this);
+		},
+
+
+		/**
 		 * Handles a click at the cancel button.
 		 */
 		onCancelPressed : function () {
@@ -124,6 +137,17 @@ sap.ui.define([
 			
 			this.byId("newItemDialog").close();
 			BillOfMaterialController.clearItemPopUpFields(this);
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the material ComboBox.
+		 */
+		onMaterialSelectionChange : function (oControlEvent) {
+			var oBillOfMaterialModel = this.getView().getModel("newBillOfMaterial");
+			var iMaterialId = MainController.getSelectedCBItemKey(oControlEvent);
+			
+			oBillOfMaterialModel.setData({materialId: iMaterialId}, true);
 		},
 		
 		
@@ -237,6 +261,33 @@ sap.ui.define([
 		
 		
 		/**
+		 * Verifies input of obligatory fields.
+		 * Returns true if input is valid. Returns false if input is invalid.
+		 */
+		verifyObligatoryFields : function() {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var iExistingItemCount;
+			var oBillOfMaterialModel;
+			
+			if(this.getView().byId("materialComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("billOfMaterialCreate.noMaterialSelected"));
+				return false;
+			}
+			
+			//The bill of material has to have at least one item.
+			oBillOfMaterialModel = this.getView().getModel("newBillOfMaterial");
+			iExistingItemCount = oBillOfMaterialModel.oData.items.length;
+			
+			if(iExistingItemCount < 1) {
+				MessageBox.error(oResourceBundle.getText("billOfMaterialCreate.noItemsExist"));
+				return false;
+			}
+			
+			return true;
+		},
+		
+		
+		/**
 		 * Callback function of the queryMaterialsByWebService RESTful WebService call in the MaterialController.
 		 */
 		queryMaterialsCallback : function(oReturnData, oCallingController) {
@@ -251,6 +302,29 @@ sap.ui.define([
 			}
 			
 			oCallingController.getView().setModel(oModel, "materials");
+		},
+		
+		
+		/**
+		 * Callback function of the createBillOfMaterialByWebService RESTful WebService call in theBillOfMaterialController.
+		 */
+		saveBillOfMaterialCallback : function (oReturnData, callingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					callingController.resetFormFields();
+					callingController.initializeBillOfMaterialModel();
+					BillOfMaterialController.initializeBillOfMaterialItemModel(callingController);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			} 
 		}
 	});
 });
