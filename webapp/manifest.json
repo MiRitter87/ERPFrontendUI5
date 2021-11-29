@@ -189,6 +189,10 @@
 				"pattern": "billOfMaterialCreate",
 				"name": "billOfMaterialCreateRoute",
 				"target": "billOfMaterialCreateTarget"
+			}, {
+				"pattern": "billOfMaterialEdit",
+				"name": "billOfMaterialEditRoute",
+				"target": "billOfMaterialEditTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -349,6 +353,11 @@
 				"billOfMaterialCreateTarget": {
 					"viewId": "billOfMaterialCreate",
 					"viewName": "billOfMaterial.BillOfMaterialCreate",
+					"viewLevel" : 1
+				},
+				"billOfMaterialEditTarget": {
+					"viewId": "billOfMaterialEdit",
+					"viewName": "billOfMaterial.BillOfMaterialEdit",
 					"viewLevel" : 1
 				}
          	}
