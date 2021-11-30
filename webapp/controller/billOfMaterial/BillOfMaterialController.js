@@ -113,6 +113,23 @@ sap.ui.define([
 		
 		
 		/**
+		 * Gets the bill of material data of the bill of material with the given ID.
+		 */
+		getBillOfMaterialById : function(iBillOfMaterialId, oBillOfMaterials) {
+			//Get the selected bill of material from the array of all bill of materials according to the id.
+			for(var i = 0; i < oBillOfMaterials.length; i++) {
+    			var oTempBillOfMaterial = oBillOfMaterials[i];
+    			
+				if(oTempBillOfMaterial.id == iBillOfMaterialId) {
+					return oTempBillOfMaterial;
+				}
+			}
+			
+			return null;
+		},
+		
+		
+		/**
 		 * Calls a WebService operation to create a bill of material.
 		 */
 		createBillOfMaterialByWebService : function(oBillOfMaterialModel, callbackFunction, oCallingController) {

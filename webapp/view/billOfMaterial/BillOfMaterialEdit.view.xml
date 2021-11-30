@@ -13,7 +13,7 @@
 			<l:VerticalLayout>
 				<Label text="{i18n>billOfMaterialEdit.selectionDescription}"/>
 				<ComboBox id="billOfMaterialComboBox" items="{path: 'billOfMaterials>/billOfMaterial/'}" selectionChange=".onBillOfMaterialSelectionChange">
-					<core:Item key="{billOfMaterials>id}" text="{billOfMaterials>id}"/>
+					<core:Item key="{billOfMaterials>id}" text="{billOfMaterials>id} - {billOfMaterials>name}"/>
 				</ComboBox>
 			</l:VerticalLayout>
 			
@@ -49,20 +49,20 @@
 						
 						<f:FormElement label="{i18n>billOfMaterial.name}">
 							<f:fields>
-								<Input maxLength="50" value="{selectedBillOfMaterial>/name}" required="true"/>
+								<Input id="nameInput" maxLength="50" value="{selectedBillOfMaterial>/name}" required="true"/>
 							</f:fields>
 						</f:FormElement>
 						
 						<f:FormElement label="{i18n>billOfMaterial.description}">
 							<f:fields>
-								<Input maxLength="250" value="{selectedBillOfMaterial>/description}" required="false"/>
+								<TextArea id="descriptionTextArea" value="{selectedBillOfMaterial>/description}" required="false" rows="5"/>
 							</f:fields>
 						</f:FormElement>
 					
 						<f:FormElement label="{i18n>billOfMaterial.material}">
 							<f:fields>
 								<ComboBox id="materialComboBox" items="{path: 'materials>/material/'}" 
-									selectionChange=".onMaterialSelectionChange" required="true">
+									selectionChange=".onMaterialSelectionChange" selectedKey="{selectedBillOfMaterial>/materialId}" required="true">
 								
 									<core:Item key="{materials>id}" text="{materials>id} - {materials>name}"/>
 								</ComboBox>
