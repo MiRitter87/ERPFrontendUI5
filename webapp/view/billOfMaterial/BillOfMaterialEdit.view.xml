@@ -55,7 +55,7 @@
 						
 						<f:FormElement label="{i18n>billOfMaterial.description}">
 							<f:fields>
-								<TextArea id="descriptionTextArea" value="{selectedBillOfMaterial>/description}" required="false" rows="5"/>
+								<TextArea id="descriptionTextArea" maxLength="250" rows="5" value="{selectedBillOfMaterial>/description}" required="false"/>
 							</f:fields>
 						</f:FormElement>
 					
