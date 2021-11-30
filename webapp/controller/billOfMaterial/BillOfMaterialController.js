@@ -131,5 +131,24 @@ sap.ui.define([
 				}
 			});
 		},
+		
+		
+		/**
+		 * Queries the bill of material WebService for all bill of materials.
+		 */
+		queryBillOfMaterialsByWebService : function(callbackFunction, oCallingController, bShowSuccessMessage) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/billOfMaterial");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			
+			jQuery.ajax({
+				type : "GET", 
+				contentType : "application/json", 
+				url : sQueryUrl, 
+				dataType : "json", 
+				success : function(data) {
+					callbackFunction(data, oCallingController, bShowSuccessMessage);
+				}
+			});                                                                 
+		}
 	};
 });
