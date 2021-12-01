@@ -87,6 +87,40 @@ sap.ui.define([
 		
 		
 		/**
+		 * Deletes the given item from the bill of material model.
+		 */
+		deleteItemFromBomModel : function(oBillOfMaterialItem, oBillOfMaterialModel) {
+			var oBillOfMaterialModel, oBillOfMaterialItems;
+			
+			oBillOfMaterialItems = oBillOfMaterialModel.getProperty("/items");
+			
+			for(var i = 0; i < oBillOfMaterialItems.length; i++) {
+    			var oTempItem = oBillOfMaterialItems[i];
+    			
+				if(oTempItem.itemId == oBillOfMaterialItem.itemId) {
+					oBillOfMaterialItems.splice(i, 1);
+				}
+			}
+		},
+		
+		
+		/**
+		 * Updates the IDs of the bill of material items incrementally.
+	     * The item IDs range from 1 to n, where n is the number of items.
+		 */
+		updateItemIds : function(oBillOfMaterialModel) {
+			var oBillOfMaterialItems, oBillOfMaterialModel;
+
+			oBillOfMaterialItems = oBillOfMaterialModel.getProperty("/items");
+			
+			for(var i = 0; i < oBillOfMaterialItems.length; i++) {
+				var oTempItem = oBillOfMaterialItems[i];
+				oTempItem.itemId = i+1;
+			}
+		},
+		
+		
+		/**
 		 * Formatter of the material text in the item table. Provides the name of a material based on the given ID.
 		 */
 		materialNameFormatter : function(iMaterialId, oMaterials) {

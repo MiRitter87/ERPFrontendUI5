@@ -109,8 +109,8 @@ sap.ui.define([
 				return;
 			}
 			
-			this.deleteItemFromBomModel(this.getSelectedItem());
-			this.updateItemIds();
+			BillOfMaterialController.deleteItemFromBomModel(this.getSelectedItem(), this.getView().getModel("selectedBillOfMaterial"));
+			BillOfMaterialController.updateItemIds(this.getView().getModel("selectedBillOfMaterial"));
 			this.updateItemTable();
 		},
 		
@@ -223,42 +223,6 @@ sap.ui.define([
 			var oSelectedItem = oContext.getProperty(null, oContext);
 			
 			return oSelectedItem;
-		},
-		
-		
-		/**
-		 * Deletes the given item from the bill of material model.
-		 */
-		deleteItemFromBomModel : function(oBillOfMaterialItem) {
-			var oBillOfMaterialModel, oBillOfMaterialItems;
-			
-			oBillOfMaterialModel = this.getView().getModel("selectedBillOfMaterial");
-			oBillOfMaterialItems = oBillOfMaterialModel.getProperty("/items");
-			
-			for(var i = 0; i < oBillOfMaterialItems.length; i++) {
-    			var oTempItem = oBillOfMaterialItems[i];
-    			
-				if(oTempItem.itemId == oBillOfMaterialItem.itemId) {
-					oBillOfMaterialItems.splice(i, 1);
-				}
-			}
-		},
-		
-		
-		/**
-		 * Updates the IDs of the bill of material items incrementally.
-	     * The item IDs range from 1 to n, where n is the number of items.
-		 */
-		updateItemIds : function() {
-			var oBillOfMaterialItems, oBillOfMaterialModel;
-
-			oBillOfMaterialModel = this.getView().getModel("selectedBillOfMaterial");
-			oBillOfMaterialItems = oBillOfMaterialModel.getProperty("/items");
-			
-			for(var i = 0; i < oBillOfMaterialItems.length; i++) {
-				var oTempItem = oBillOfMaterialItems[i];
-				oTempItem.itemId = i+1;
-			}
 		},
 		
 		
