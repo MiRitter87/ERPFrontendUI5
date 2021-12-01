@@ -58,6 +58,27 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the selection of an item in the material ComboBox.
+		 */
+		onMaterialSelectionChange : function (oControlEvent) {
+			var oBillOfMaterialModel = this.getView().getModel("selectedBillOfMaterial");
+			var iMaterialId = MainController.getSelectedCBItemKey(oControlEvent);
+			
+			oBillOfMaterialModel.setData({materialId: iMaterialId}, true);
+		},
+		
+		
+		/**
+		 * Handles the selection of an item in the material ComboBox of the "new item"-PopUp".
+		 */
+		onItemMaterialSelectionChange : function (oControlEvent) {
+			BillOfMaterialController.onItemMaterialSelectionChange(oControlEvent, this,
+				this.getView().getModel("newBillOfMaterialItem"),
+				this.getView().getModel("materials"));
+		},
+		
+		
+		/**
 		 * Opens the dialog to add a new bill of material item.
 		 */
 		onAddItemPressed : function () {
