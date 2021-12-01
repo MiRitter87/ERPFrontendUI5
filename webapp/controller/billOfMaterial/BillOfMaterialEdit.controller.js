@@ -86,12 +86,55 @@ sap.ui.define([
 			
 			if(this.byId("billOfMaterialComboBox").getSelectedKey() == "") {
 				oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-				MessageBox.error(oResourceBundle.getText("businessPartnerEdit.noBillOfMaterialSelected"));
+				MessageBox.error(oResourceBundle.getText("billOfMaterialEdit.noBillOfMaterialSelected"));
 				return;
 			}			
 			
 			BillOfMaterialController.setIdOfNewItem(this.getView().getModel("selectedBillOfMaterial"), this);
 			MainController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.billOfMaterial.BillOfMaterialItemCreate");
+		},
+		
+		
+		/**
+		 * Handles the saving of the new item Dialog.
+		 */
+		onSaveDialog : function () {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oItemData = this.getView().getModel("newBillOfMaterialItem");
+			var oBillOfMaterialModel = this.getView().getModel("selectedBillOfMaterial");
+			var oBillOfMaterialItems = oBillOfMaterialModel.getProperty("/items");
+			var itemWithMaterialExists;
+			
+			//Check if a material has been selected.
+			if(this.getView().byId("itemMaterialComboBox").getSelectedItem() == null) {
+				MessageBox.error(oResourceBundle.getText("billOfMaterialEdit.noItemMaterialSelected"));
+				return;
+			}
+			
+			//Do not allow adding an item with quantity 0.
+			if(oItemData.oData.quantity < 1) {
+				MessageBox.error(oResourceBundle.getText("billOfMaterialEdit.quantityIsZero"));
+				return;
+			}
+			
+			//Check if a bill of material item with the same material already exists.
+			itemWithMaterialExists = BillOfMaterialController.isItemWithMaterialExisting(oBillOfMaterialItems, oItemData.oData.materialId);
+			if(itemWithMaterialExists == true) {
+				MessageBox.error(oResourceBundle.getText("billOfMaterialEdit.itemWithMaterialExists", [oItemData.oData.materialId]));
+				return;
+			}
+			
+			//Remove the binding of the UI to the selectedItemMaterial. 
+			//Otherwhise the selectedItemMaterial is updated by databinding when the input fields are being cleared.
+			this.getView().setModel(null, "selectedItemMaterial");
+			
+			//Add the item to the bill of material model. Then re-initialize the item model that is bound to the "new item PopUp".
+			oBillOfMaterialItems.push(oItemData.oData);
+			oBillOfMaterialModel.setProperty("/items", oBillOfMaterialItems);
+			BillOfMaterialController.initializeBillOfMaterialItemModel(this);
+			
+			this.byId("newItemDialog").close();
+			BillOfMaterialController.clearItemPopUpFields(this);
 		},
 		
 		
