@@ -2,9 +2,11 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"../material/MaterialController",
 	"./BillOfMaterialController",
+	"../MainController",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/MessageToast"
-], function (Controller, MaterialController, BillOfMaterialController, JSONModel, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/m/MessageBox"
+], function (Controller, MaterialController, BillOfMaterialController, MainController, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.billOfMaterial.BillOfMaterialEdit", {		
@@ -52,6 +54,32 @@ sap.ui.define([
 			this.getView().setModel(wsBillOfMaterial, "selectedBillOfMaterial");
 			
 			BillOfMaterialController.initializeBillOfMaterialItemModel(this);
+		},
+		
+		
+		/**
+		 * Opens the dialog to add a new bill of material item.
+		 */
+		onAddItemPressed : function () {
+			var oResourceBundle;
+			
+			if(this.byId("billOfMaterialComboBox").getSelectedKey() == "") {
+				oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+				MessageBox.error(oResourceBundle.getText("businessPartnerEdit.noBillOfMaterialSelected"));
+				return;
+			}			
+			
+			BillOfMaterialController.setIdOfNewItem(this.getView().getModel("selectedBillOfMaterial"), this);
+			MainController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.billOfMaterial.BillOfMaterialItemCreate");
+		},
+		
+		
+		/**
+		 * Handles the closing by cancelation of the new item Dialog.
+		 */
+		onCancelDialog : function () {
+			this.byId("newItemDialog").close();
+			BillOfMaterialController.clearItemPopUpFields(this);
 		},
 		
 		
