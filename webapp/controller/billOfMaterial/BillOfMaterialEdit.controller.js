@@ -96,6 +96,26 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the deletion of an item.
+		 */
+		onDeleteItemPressed : function () {
+			var oSelectedItem, oResourceBundle;
+			
+			//Check if an item has been selected.
+			oSelectedItem = this.getView().byId("itemTable").getSelectedItem();
+			if(oSelectedItem == null) {
+				oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+				MessageBox.error(oResourceBundle.getText("billOfMaterialEdit.noItemSelected"));
+				return;
+			}
+			
+			this.deleteItemFromBomModel(this.getSelectedItem());
+			this.updateItemIds();
+			this.updateItemTable();
+		},
+		
+		
+		/**
 		 * Handles the saving of the new item Dialog.
 		 */
 		onSaveDialog : function () {
@@ -191,6 +211,69 @@ sap.ui.define([
 			}
 			
 			return wsBillOfMaterial;
+		},
+		
+		
+		/**
+		 * Gets the the selected bill of material item.
+		 */
+		getSelectedItem : function () {
+			var oListItem = this.getView().byId("itemTable").getSelectedItem();
+			var oContext = oListItem.getBindingContext("selectedBillOfMaterial");
+			var oSelectedItem = oContext.getProperty(null, oContext);
+			
+			return oSelectedItem;
+		},
+		
+		
+		/**
+		 * Deletes the given item from the bill of material model.
+		 */
+		deleteItemFromBomModel : function(oBillOfMaterialItem) {
+			var oBillOfMaterialModel, oBillOfMaterialItems;
+			
+			oBillOfMaterialModel = this.getView().getModel("selectedBillOfMaterial");
+			oBillOfMaterialItems = oBillOfMaterialModel.getProperty("/items");
+			
+			for(var i = 0; i < oBillOfMaterialItems.length; i++) {
+    			var oTempItem = oBillOfMaterialItems[i];
+    			
+				if(oTempItem.itemId == oBillOfMaterialItem.itemId) {
+					oBillOfMaterialItems.splice(i, 1);
+				}
+			}
+		},
+		
+		
+		/**
+		 * Updates the IDs of the bill of material items incrementally.
+	     * The item IDs range from 1 to n, where n is the number of items.
+		 */
+		updateItemIds : function() {
+			var oBillOfMaterialItems, oBillOfMaterialModel;
+
+			oBillOfMaterialModel = this.getView().getModel("selectedBillOfMaterial");
+			oBillOfMaterialItems = oBillOfMaterialModel.getProperty("/items");
+			
+			for(var i = 0; i < oBillOfMaterialItems.length; i++) {
+				var oTempItem = oBillOfMaterialItems[i];
+				oTempItem.itemId = i+1;
+			}
+		},
+		
+		
+		/**
+		 * Updates the item table in order to display changes of the underlying model.
+		 */
+		updateItemTable : function() {
+			var oBillOfMaterialModel;
+			
+			//Assures that the changes of the underlying model are being displayed in the view.
+			oBillOfMaterialModel = this.getView().getModel("selectedBillOfMaterial");
+			oBillOfMaterialModel.refresh();						
+			
+			//Assures that the formatters are called again.
+			this.getView().byId("itemTable").rerender();	
 		},
 		
 		
