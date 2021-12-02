@@ -40,6 +40,40 @@ sap.ui.define([
 		
 		
 		/**
+		 * Deletes the given sales order item from the sales order model.
+		 */
+		deleteItemFromOrderModel : function(oSalesOrderItem, oSalesOrderModel) {
+			var oSalesOrderModel, oSalesOrderItems;
+			
+			oSalesOrderItems = oSalesOrderModel.getProperty("/items");
+			
+			for(var i = 0; i < oSalesOrderItems.length; i++) {
+    			var oTempItem = oSalesOrderItems[i];
+    			
+				if(oTempItem.itemId == oSalesOrderItem.itemId) {
+					oSalesOrderItems.splice(i, 1);
+				}
+			}
+		},
+		
+		
+		/**
+		 * Updates the IDs of the sales order items incrementally.
+	     * The item IDs range from 1 to n, where n is the number of items.
+		 */
+		updateItemIds : function(oSalesOrderModel) {
+			var oSalesOrderItems, oSalesOrderModel;
+
+			oSalesOrderItems = oSalesOrderModel.getProperty("/items");
+			
+			for(var i = 0; i < oSalesOrderItems.length; i++) {
+				var oTempItem = oSalesOrderItems[i];
+				oTempItem.itemId = i+1;
+			}
+		},
+		
+		
+		/**
 		 * Updates the total price of the sales order item based on the materials price per unit and the quantity ordered.
 		 */
 		updatePriceTotal : function (oSelectedMaterialModel, oItemModel) {

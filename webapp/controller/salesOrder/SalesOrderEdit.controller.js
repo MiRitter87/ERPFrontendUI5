@@ -140,8 +140,8 @@ sap.ui.define([
 				return;
 			}
 			
-			this.deleteItemFromOrderModel(this.getSelectedItem());
-			this.updateItemIds();
+			SalesOrderController.deleteItemFromOrderModel(this.getSelectedItem(), this.getView().getModel("selectedSalesOrder"));
+			SalesOrderController.updateItemIds(this.getView().getModel("selectedSalesOrder"));
 			this.updateItemTable();
 		},
 		
@@ -493,42 +493,6 @@ sap.ui.define([
 			}
 			
 			return true;
-		},
-		
-		
-		/**
-		 * Deletes the given sales order item from the sales order model.
-		 */
-		deleteItemFromOrderModel : function(oSalesOrderItem) {
-			var oSalesOrderModel, oSalesOrderItems;
-			
-			oSalesOrderModel = this.getView().getModel("selectedSalesOrder");
-			oSalesOrderItems = oSalesOrderModel.getProperty("/items");
-			
-			for(var i = 0; i < oSalesOrderItems.length; i++) {
-    			var oTempItem = oSalesOrderItems[i];
-    			
-				if(oTempItem.itemId == oSalesOrderItem.itemId) {
-					oSalesOrderItems.splice(i, 1);
-				}
-			}
-		},
-		
-		
-		/**
-		 * Updates the IDs of the sales order items incrementally.
-	     * The item IDs range from 1 to n, where n is the number of items.
-		 */
-		updateItemIds : function() {
-			var oSalesOrderItems, oSalesOrderModel;
-
-			oSalesOrderModel = this.getView().getModel("selectedSalesOrder");
-			oSalesOrderItems = oSalesOrderModel.getProperty("/items");
-			
-			for(var i = 0; i < oSalesOrderItems.length; i++) {
-				var oTempItem = oSalesOrderItems[i];
-				oTempItem.itemId = i+1;
-			}
 		},
 		
 		
