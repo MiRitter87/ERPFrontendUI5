@@ -200,6 +200,27 @@ sap.ui.define([
 					callbackFunction(data, oCallingController, bShowSuccessMessage);
 				}
 			});                                                                 
-		}
+		},
+		
+		
+		/**
+		 * Updates changes of the bill of material data using the WebService.
+		 */
+		saveBillOfMaterialByWebService : function(oBillOfMaterialModel, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/billOfMaterial");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var sJSONData = oBillOfMaterialModel.getJSON();
+			
+			//Use "PUT" to update an existing resource.
+			jQuery.ajax({
+				type : "PUT", 
+				contentType : "application/json", 
+				url : sQueryUrl,
+				data : sJSONData, 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			}); 
+		},
 	};
 });
