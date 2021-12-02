@@ -10,7 +10,95 @@
 	
 	<Page title="{i18n>billOfMaterialDisplay.header}">
 		<content>
-
+			<l:VerticalLayout>
+				<Label text="{i18n>billOfMaterialDisplay.selectionDescription}"/>
+				<ComboBox id="billOfMaterialComboBox" items="{path: 'billOfMaterials>/billOfMaterial/'}" selectionChange=".onBillOfMaterialSelectionChange">
+					<core:Item key="{billOfMaterials>id}" text="{billOfMaterials>id} - {billOfMaterials>name}"/>
+				</ComboBox>
+			</l:VerticalLayout>
+			
+			<f:Form editable="true">
+				<f:title>
+					<core:Title text="{i18n>billOfMaterialDisplay.dataHeader}" />
+				</f:title>
+				
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>billOfMaterialDisplay.titleGeneralData}">
+						<f:FormElement label="{i18n>billOfMaterial.id}">
+							<f:fields>
+								<Text id="idText" text="{selectedBillOfMaterial>/billOfMaterialId}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>billOfMaterial.name}">
+							<f:fields>
+								<Text id="nameText" text="{selectedBillOfMaterial>/name}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>billOfMaterial.description}">
+							<f:fields>
+								<Text id="descriptionText" text="{selectedBillOfMaterial>/description}"/>
+							</f:fields>
+						</f:FormElement>
+					
+						<f:FormElement label="{i18n>billOfMaterial.material}">
+							<f:fields>
+								<Text id="materialText" text="{selectedBillOfMaterial>/material/name}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			
+			<Table id="itemTable" items="{path: 'selectedBillOfMaterial>/items/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>billOfMaterialDisplay.titleItems}"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>billOfMaterial.itemId}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>billOfMaterial.material}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>billOfMaterial.itemQuantity}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{selectedBillOfMaterial>itemId}"/>
+							<Text text="{path: 'selectedBillOfMaterial>materialId', formatter: '.materialNameFormatter'}"/>
+							<ObjectNumber unit="{path: 'selectedBillOfMaterial>materialId', formatter: '.materialUnitFormatter'}" number="{
+										parts:[{path:'selectedBillOfMaterial>quantity'}],
+										type: 'sap.ui.model.type.Unit',
+										formatOptions: {showMeasure: false}}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
 	</Page>
 </mvc:View>
