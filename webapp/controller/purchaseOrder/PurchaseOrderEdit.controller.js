@@ -119,8 +119,8 @@ sap.ui.define([
 				return;
 			}
 			
-			this.deleteItemFromOrderModel(this.getSelectedItem());
-			this.updateItemIds();
+			PurchaseOrderController.deleteItemFromOrderModel(this.getSelectedItem(), this.getView().getModel("selectedPurchaseOrder"));
+			PurchaseOrderController.updateItemIds(this.getView().getModel("selectedPurchaseOrder"));
 			this.updateItemTable();
 		},
 		
@@ -349,42 +349,6 @@ sap.ui.define([
 			}
 			
 			return true;
-		},
-		
-		
-		/**
-		 * Deletes the given purchase order item from the purchase order model.
-		 */
-		deleteItemFromOrderModel : function(oPurchaseOrderItem) {
-			var oPurchaseOrderModel, oPurchaseOrderItems;
-			
-			oPurchaseOrderModel = this.getView().getModel("selectedPurchaseOrder");
-			oPurchaseOrderItems = oPurchaseOrderModel.getProperty("/items");
-			
-			for(var i = 0; i < oPurchaseOrderItems.length; i++) {
-    			var oTempItem = oPurchaseOrderItems[i];
-    			
-				if(oTempItem.itemId == oPurchaseOrderItem.itemId) {
-					oPurchaseOrderItems.splice(i, 1);
-				}
-			}
-		},
-		
-		
-		/**
-		 * Updates the IDs of the purchase order items incrementally.
-	     * The item IDs range from 1 to n, where n is the number of items.
-		 */
-		updateItemIds : function() {
-			var oPurchaseOrderItems, oPurchaseOrderModel;
-
-			oPurchaseOrderModel = this.getView().getModel("selectedPurchaseOrder");
-			oPurchaseOrderItems = oPurchaseOrderModel.getProperty("/items");
-			
-			for(var i = 0; i < oPurchaseOrderItems.length; i++) {
-				var oTempItem = oPurchaseOrderItems[i];
-				oTempItem.itemId = i+1;
-			}
 		},
 		
 		

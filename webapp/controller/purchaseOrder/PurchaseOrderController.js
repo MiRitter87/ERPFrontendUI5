@@ -40,6 +40,40 @@ sap.ui.define([
 		
 		
 		/**
+		 * Deletes the given item from the purchase order model.
+		 */
+		deleteItemFromOrderModel : function(oPurchaseOrderItem, oPurchaseOrderModel) {
+			var oPurchaseOrderModel, oPurchaseOrderItems;
+			
+			oPurchaseOrderItems = oPurchaseOrderModel.getProperty("/items");
+			
+			for(var i = 0; i < oPurchaseOrderItems.length; i++) {
+    			var oTempItem = oPurchaseOrderItems[i];
+    			
+				if(oTempItem.itemId == oPurchaseOrderItem.itemId) {
+					oPurchaseOrderItems.splice(i, 1);
+				}
+			}
+		},
+		
+		
+		/**
+		 * Updates the IDs of the purchase order items incrementally.
+	     * The item IDs range from 1 to n, where n is the number of items.
+		 */
+		updateItemIds : function(oPurchaseOrderModel) {
+			var oPurchaseOrderItems, oPurchaseOrderModel;
+
+			oPurchaseOrderItems = oPurchaseOrderModel.getProperty("/items");
+			
+			for(var i = 0; i < oPurchaseOrderItems.length; i++) {
+				var oTempItem = oPurchaseOrderItems[i];
+				oTempItem.itemId = i+1;
+			}
+		},
+		
+		
+		/**
 		 * Updates the total price of the purchase order item based on the materials price per unit and the quantity ordered.
 		 */
 		updatePriceTotal : function (oSelectedMaterialModel, oItemModel) {
