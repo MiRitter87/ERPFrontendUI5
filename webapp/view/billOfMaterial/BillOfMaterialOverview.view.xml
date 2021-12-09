@@ -9,7 +9,40 @@
 	
 	<Page title="{i18n>billOfMaterialOverview.header}">
 		<content>
-
+			<Table id="billOfMaterialTable" items="{path: 'billOfMaterials>/billOfMaterial/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://detail-view" tooltip="{i18n>billOfMaterialOverview.showDetails}" press=".onShowDetailsPressed"/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>billOfMaterialOverview.deleteSelected}" press=".onDeletePressed"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>billOfMaterial.id}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>billOfMaterial.name}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>billOfMaterial.description}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>billOfMaterial.material}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{billOfMaterials>id}"/>
+							<Text text="{billOfMaterials>name}"/>
+							<Text text="{billOfMaterials>description}"/>
+							<Text text="{billOfMaterials>material/name}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
 	</Page>
 </mvc:View>

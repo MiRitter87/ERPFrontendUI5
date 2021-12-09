@@ -43,7 +43,7 @@
 					<f:FormContainer title="{i18n>billOfMaterialDisplay.titleGeneralData}">
 						<f:FormElement label="{i18n>billOfMaterial.id}">
 							<f:fields>
-								<Text id="idText" text="{selectedBillOfMaterial>/billOfMaterialId}"/>
+								<Text id="idText" text="{selectedBillOfMaterial>/id}"/>
 							</f:fields>
 						</f:FormElement>
 						
