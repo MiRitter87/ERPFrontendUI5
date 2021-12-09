@@ -105,6 +105,9 @@ sap.ui.define([
 			else if(item.getKey() == "billOfMaterialDisplay") {
 				oRouter.navTo("billOfMaterialDisplayRoute");
 			}
+			else if(item.getKey() == "billOfMaterialOverview") {
+				oRouter.navTo("billOfMaterialOverviewRoute");
+			}
 		},
 		
 		

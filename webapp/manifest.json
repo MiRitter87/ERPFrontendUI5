@@ -197,6 +197,10 @@
 				"pattern": "billOfMaterialDisplay",
 				"name": "billOfMaterialDisplayRoute",
 				"target": "billOfMaterialDisplayTarget"
+			}, {
+				"pattern": "billOfMaterialOverview",
+				"name": "billOfMaterialOverviewRoute",
+				"target": "billOfMaterialOverviewTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -367,6 +371,11 @@
 				"billOfMaterialDisplayTarget": {
 					"viewId": "billOfMaterialDisplay",
 					"viewName": "billOfMaterial.BillOfMaterialDisplay",
+					"viewLevel" : 1
+				},
+				"billOfMaterialOverviewTarget": {
+					"viewId": "billOfMaterialOverview",
+					"viewName": "billOfMaterial.BillOfMaterialOverview",
 					"viewLevel" : 1
 				}
          	}
