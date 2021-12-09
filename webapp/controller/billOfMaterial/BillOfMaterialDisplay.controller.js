@@ -55,7 +55,14 @@ sap.ui.define([
 		 * Resets the UI elements.
 		 */
 		resetUIElements : function () {
-			//TODO
+			this.getView().byId("billOfMaterialComboBox").setSelectedItem(null);
+			
+			this.getView().byId("idText").setText("");
+			this.getView().byId("nameText").setText("");
+			this.getView().byId("descriptionText").setText("");
+			this.getView().byId("materialText").setText("");
+			
+			this.getView().byId("itemTable").destroyItems();
 		},
 
 
