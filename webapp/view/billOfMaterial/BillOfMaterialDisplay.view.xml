@@ -89,9 +89,9 @@
 				<items>
 					<ColumnListItem>
 						<cells>
-							<ObjectIdentifier text="{selectedBillOfMaterial>itemId}"/>
-							<Text text="{path: 'selectedBillOfMaterial>materialId', formatter: '.materialNameFormatter'}"/>
-							<ObjectNumber unit="{path: 'selectedBillOfMaterial>materialId', formatter: '.materialUnitFormatter'}" number="{
+							<ObjectIdentifier text="{selectedBillOfMaterial>id}"/>
+							<Text text="{selectedBillOfMaterial>material/name}"/>
+							<ObjectNumber unit="{selectedBillOfMaterial>material/unit}" number="{
 										parts:[{path:'selectedBillOfMaterial>quantity'}],
 										type: 'sap.ui.model.type.Unit',
 										formatOptions: {showMeasure: false}}"/>
