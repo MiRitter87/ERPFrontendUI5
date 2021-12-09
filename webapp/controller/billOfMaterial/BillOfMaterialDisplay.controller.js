@@ -24,9 +24,39 @@ sap.ui.define([
 			BillOfMaterialController.queryBillOfMaterialsByWebService(this.queryBillOfMaterialsCallback, this, true);
 			
 			this.getView().setModel(null, "selectedBillOfMaterial");
-			//TODO
-			//this.resetUIElements();
+			this.resetUIElements();
     	},
+
+	
+		/**
+		 * Handles the selection of an item in the bill of material ComboBox.
+		 */
+		onBillOfMaterialSelectionChange : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oBillOfMaterialsModel = this.getView().getModel("billOfMaterials");
+			var oBillOfMaterial;
+			var oBillOfMaterialModel = new JSONModel();
+			
+			if(oSelectedItem == null) {
+				this.getView().setModel(oBillOfMaterialModel, "selectedBillOfMaterial");
+				this.resetUIElements();
+				return;
+			}
+			
+			oBillOfMaterial = oBillOfMaterial = BillOfMaterialController.getBillOfMaterialById(oSelectedItem.getKey(), oBillOfMaterialsModel.oData.billOfMaterial);
+			oBillOfMaterialModel.setData(oBillOfMaterial);
+			
+			//Set the model of the view according to the selected bill of material to allow binding of the UI elements.
+			this.getView().setModel(oBillOfMaterialModel, "selectedBillOfMaterial");
+		},
+		
+		
+		/**
+		 * Resets the UI elements.
+		 */
+		resetUIElements : function () {
+			//TODO
+		},
 
 
 		/**
