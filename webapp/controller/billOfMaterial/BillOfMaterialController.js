@@ -222,5 +222,25 @@ sap.ui.define([
 				}
 			}); 
 		},
+		
+		
+		/**
+		 * Deletes the given bill of material using the WebService.
+		 */
+		deleteBillOfMaterialByWebService : function(oBillOfMaterial, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/billOfMaterial");
+			var sQueryUrl = sWebServiceBaseUrl + "/" + oBillOfMaterial.id;
+			
+			//Use "DELETE" to delete an existing resource.
+			jQuery.ajax({
+				type : "DELETE", 
+				contentType : "application/json", 
+				url : sQueryUrl, 
+				dataType : "json", 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			});
+		}
 	};
 });

@@ -54,6 +54,22 @@ sap.ui.define([
 		onCloseDialog : function () {
 			this.byId("billOfMaterialDetailsDialog").close();
 		},
+		
+		
+		/**
+		 * Handles the press-event of the delete button.
+		 */
+		onDeletePressed : function () {
+			var oResourceBundle;
+			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
+			if(this.isBillOfMaterialSelected() == false) {
+				MessageBox.error(oResourceBundle.getText("billOfMaterialOverview.noBillOfMaterialSelected"));
+				return;
+			}
+			
+			BillOfMaterialController.deleteBillOfMaterialByWebService(this.getSelectedBillOfMaterial(), this.deleteBillOfMaterialCallback, this);
+		},
 
 
 		/**
@@ -75,6 +91,27 @@ sap.ui.define([
 			}                                                               
 			
 			oCallingController.getView().setModel(oModel, "billOfMaterials");
+		},
+		
+		
+		/**
+		 * Callback function of the deleteBillOfMaterial RESTful WebService call in the BillOfMaterial.
+		 */
+		deleteBillOfMaterialCallback : function(oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					BillOfMaterialController.queryBillOfMaterialsByWebService(oCallingController.queryBillOfMaterialsCallback, oCallingController, false);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}
 		},
 		
 		
