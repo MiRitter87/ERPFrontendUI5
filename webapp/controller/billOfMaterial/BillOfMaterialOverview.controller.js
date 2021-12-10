@@ -1,9 +1,11 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./BillOfMaterialController",
+	"../MainController",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/MessageToast"
-], function (Controller, BillOfMaterialController, JSONModel, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/m/MessageBox"
+], function (Controller, BillOfMaterialController, MainController, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.billOfMaterial.BillOfMaterialOverview", {
@@ -26,6 +28,35 @@ sap.ui.define([
 
 
 		/**
+		 * Handles the press-event of the show details button.
+		 */
+		onShowDetailsPressed : function () {
+			var oResourceBundle;
+			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oSelectedBillOfMaterialModel;
+			
+			if(this.isBillOfMaterialSelected() == false) {
+				MessageBox.error(oResourceBundle.getText("billOfMaterialOverview.noBillOfMaterialSelected"));
+				return;
+			}
+			
+			oSelectedBillOfMaterialModel = new JSONModel();
+			oSelectedBillOfMaterialModel.setData(this.getSelectedBillOfMaterial());
+			this.getView().setModel(oSelectedBillOfMaterialModel, "selectedBillOfMaterial");		
+			
+			MainController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.billOfMaterial.BillOfMaterialOverviewDetails");
+		},
+		
+		
+		/**
+		 * Handles a click at the close button of the account details fragment.
+		 */
+		onCloseDialog : function () {
+			this.byId("billOfMaterialDetailsDialog").close();
+		},
+
+
+		/**
 		 * Callback function of the queryBillOfMaterials RESTful WebService call in the BillOfMaterialController.
 		 */
 		queryBillOfMaterialsCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
@@ -44,6 +75,29 @@ sap.ui.define([
 			}                                                               
 			
 			oCallingController.getView().setModel(oModel, "billOfMaterials");
+		},
+		
+		
+		/**
+		 * Checks if a bill of material has been selected.
+		 */
+		isBillOfMaterialSelected : function () {
+			if(this.getView().byId("billOfMaterialTable").getSelectedItem() == null)
+				return false;
+			else
+				return true;
+		},
+		
+		
+		/**
+		 * Gets the the selected bill of material.
+		 */
+		getSelectedBillOfMaterial : function () {
+			var oListItem = this.getView().byId("billOfMaterialTable").getSelectedItem();
+			var oContext = oListItem.getBindingContext("billOfMaterials");
+			var oSelectedBillOfMaterial = oContext.getProperty(null, oContext);
+			
+			return oSelectedBillOfMaterial;
 		}
 	});
 });
