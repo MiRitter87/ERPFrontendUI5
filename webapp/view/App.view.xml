@@ -13,7 +13,15 @@
 		<tnt:header>
 			<tnt:ToolHeader>
 				<core:Icon src="sap-icon://home" tooltip="{i18n>mainApp.homeIconTooltip}" press=".onHomeIconPressed"/>
+				<ToolbarSpacer />
 				<Text text="Micha's ERP"/>
+				<ToolbarSpacer />
+				<Select id="navigationMethodSelect">
+					<items>
+						<core:ListItem text="{i18n>navigation.methodSelect.tree}" icon="sap-icon://list" />
+						<core:ListItem text="{i18n>navigation.methodSelect.tile}" icon="sap-icon://grid" />
+					</items>
+				</Select>
 			</tnt:ToolHeader>
 		</tnt:header>
 		
