@@ -11,8 +11,10 @@
 	<tnt:ToolPage id="toolPage">
 		<!-- Application header -->
 		<tnt:header>
-			<f:ShellBar title="Micha's ERP" homeIcon="./resources/logo_ui5.png" 
-				homeIconPressed=".onHomeIconPressed" homeIconTooltip="{i18n>mainApp.homeIconTooltip}"/>
+			<tnt:ToolHeader>
+				<core:Icon src="sap-icon://home" tooltip="{i18n>mainApp.homeIconTooltip}" press=".onHomeIconPressed"/>
+				<Text text="Micha's ERP"/>
+			</tnt:ToolHeader>
 		</tnt:header>
 		
 		<!-- Navigation menu -->
