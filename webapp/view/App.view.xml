@@ -16,10 +16,10 @@
 				<ToolbarSpacer />
 				<Text text="Micha's ERP"/>
 				<ToolbarSpacer />
-				<Select id="navigationMethodSelect">
+				<Select id="navigationMethodSelect" change=".onNavigationMethodChange">
 					<items>
-						<core:ListItem text="{i18n>navigation.methodSelect.tree}" icon="sap-icon://list" />
-						<core:ListItem text="{i18n>navigation.methodSelect.tile}" icon="sap-icon://grid" />
+						<core:ListItem text="{i18n>navigation.methodSelect.tree}" icon="sap-icon://list" key="tree"/>
+						<core:ListItem text="{i18n>navigation.methodSelect.tile}" icon="sap-icon://grid" key="tile"/>
 					</items>
 				</Select>
 			</tnt:ToolHeader>
@@ -27,7 +27,7 @@
 		
 		<!-- Navigation menu -->
 		<tnt:sideContent>
-			<tnt:SideNavigation itemSelect="onItemSelect">
+			<tnt:SideNavigation id="sideNavigation" itemSelect="onItemSelect">
 				<tnt:NavigationList>
 					<tnt:NavigationListItem text="{i18n>navigation.employee}" expanded="false" icon="sap-icon://employee" key="employee">
 						<tnt:NavigationListItem text="{i18n>navigation.object.create}" key="employeeCreate"/>

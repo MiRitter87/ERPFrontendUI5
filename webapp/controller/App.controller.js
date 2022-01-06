@@ -4,7 +4,6 @@ sap.ui.define([
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.App", {
-		
 		/**
 		 * Handles the selection of an item in the navigation menu.
 		 */
@@ -114,9 +113,25 @@ sap.ui.define([
 		/**
 		 * Handles the press-event of the home icon.
 		 */
-		onHomeIconPressed: function(oEvent) {
+		onHomeIconPressed: function() {
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.navTo("startPageRoute");	
+		},
+		
+		
+		/**
+		 * Handles changes of the navigation method.
+		 */
+		onNavigationMethodChange : function(oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			
+			if(oSelectedItem.getKey() == "tile"){
+				this.getView().byId("sideNavigation").setVisible(false);
+			}
+			
+			if(oSelectedItem.getKey() == "tree"){
+				this.getView().byId("sideNavigation").setVisible(true);
+			}
 		}
 	});
 
