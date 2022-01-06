@@ -8,9 +8,23 @@
 	xmlns:f="sap.ui.layout.form"
 	xmlns:core="sap.ui.core">
 	
-	<Panel headerText="!Startseite mit Kacheln">
-		<content>
-
-		</content>
-	</Panel>
+	<IconTabBar	id="iconTabBar" class="sapUiResponsiveContentPadding">
+		<items>
+			<IconTabFilter text="{i18n>navigation.tiles.hr}" key="hr">
+				<Text text="!Personal" />
+			</IconTabFilter>
+			<IconTabFilter text="{i18n>navigation.tiles.materialManagement}" key="material">
+				<Text text="!Material" />
+			</IconTabFilter>
+			<IconTabFilter text="{i18n>navigation.tiles.sales}" key="sales">
+				<Text text="!Vertrieb" />
+			</IconTabFilter>
+			<IconTabFilter text="{i18n>navigation.tiles.procurement}" key="procurement">
+				<Text text="!Einkauf" />
+			</IconTabFilter>
+			<IconTabFilter text="{i18n>navigation.tiles.finance}" key="finance">
+				<Text text="!Finanzen" />
+			</IconTabFilter>
+		</items>
+	</IconTabBar>
 </mvc:View>
