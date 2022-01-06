@@ -115,7 +115,15 @@ sap.ui.define([
 		 */
 		onHomeIconPressed: function() {
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			oRouter.navTo("startPageRoute");	
+			var oSelect = this.getView().byId("navigationMethodSelect");
+			var sSelectedKey = oSelect.getSelectedKey();
+			
+			if(sSelectedKey == "tree") {
+				oRouter.navTo("startPageRoute");				
+			}
+			if(sSelectedKey == "tile") {
+				oRouter.navTo("startPageTilesRoute");				
+			}
 		},
 		
 		
@@ -124,13 +132,16 @@ sap.ui.define([
 		 */
 		onNavigationMethodChange : function(oControlEvent) {
 			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			
 			if(oSelectedItem.getKey() == "tile"){
 				this.getView().byId("sideNavigation").setVisible(false);
+				oRouter.navTo("startPageTilesRoute");
 			}
 			
 			if(oSelectedItem.getKey() == "tree"){
 				this.getView().byId("sideNavigation").setVisible(true);
+				oRouter.navTo("startPageRoute");
 			}
 		}
 	});

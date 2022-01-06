@@ -66,6 +66,10 @@
 				"name": "startPageRoute",
 				"target": "startPageTarget"
 			}, {
+				"pattern": "startPageTiles",
+				"name": "startPageTilesRoute",
+				"target": "startPageTilesTarget"
+			}, {
 				"pattern": "employeeCreate",
 				"name": "employeeCreateRoute",
 				"target": "employeeCreateTarget"
@@ -206,6 +210,11 @@
 				"startPageTarget": {
 					"viewId": "startPage",
 					"viewName": "navigation.StartPage",
+					"viewLevel" : 1
+            	},
+            	"startPageTilesTarget": {
+					"viewId": "startPageTiles",
+					"viewName": "navigation.StartPageTiles",
 					"viewLevel" : 1
             	},
             	"employeeCreateTarget": {
