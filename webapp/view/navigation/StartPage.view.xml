@@ -1,6 +1,6 @@
 <!DOCTYPE xml>
 <mvc:View
-	controllerName="ERPFrontendUI5.controller.StartPage"
+	controllerName="ERPFrontendUI5.controller.navigation.StartPage"
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"

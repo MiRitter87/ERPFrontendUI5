@@ -205,7 +205,7 @@
 			"targets": {
 				"startPageTarget": {
 					"viewId": "startPage",
-					"viewName": "StartPage",
+					"viewName": "navigation.StartPage",
 					"viewLevel" : 1
             	},
             	"employeeCreateTarget": {
