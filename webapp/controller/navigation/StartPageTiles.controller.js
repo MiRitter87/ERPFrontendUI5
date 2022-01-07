@@ -79,6 +79,42 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.navTo("departmentOverviewRoute");	
 		},
+		
+		
+		/**
+		 * Handles click at the material create tile.
+		 */
+		onMaterialCreatePressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("materialCreateRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the material edit tile.
+		 */
+		onMaterialEditPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("materialEditRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the material display tile.
+		 */
+		onMaterialDisplayPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("materialDisplayRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the material overview tile.
+		 */
+		onMaterialOverviewPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("materialOverviewRoute");	
+		},
 	});
 
 });
