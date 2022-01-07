@@ -43,6 +43,42 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.navTo("employeeOverviewRoute");	
 		},
+		
+		
+		/**
+		 * Handles click at the department create tile.
+		 */
+		onDepartmentCreatePressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("departmentCreateRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the department edit tile.
+		 */
+		onDepartmentEditPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("departmentEditRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the department display tile.
+		 */
+		onDepartmentDisplayPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("departmentDisplayRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the department overview tile.
+		 */
+		onDepartmentOverviewPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("departmentOverviewRoute");	
+		},
 	});
 
 });
