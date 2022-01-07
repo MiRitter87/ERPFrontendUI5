@@ -115,6 +115,78 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.navTo("materialOverviewRoute");	
 		},
+		
+		
+		/**
+		 * Handles click at the bill of material create tile.
+		 */
+		onBillOfMaterialCreatePressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("billOfMaterialCreateRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the bill of material edit tile.
+		 */
+		onBillOfMaterialEditPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("billOfMaterialEditRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the bill of material display tile.
+		 */
+		onBillOfMaterialDisplayPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("billOfMaterialDisplayRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the bill of material overview tile.
+		 */
+		onBillOfMaterialOverviewPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("billOfMaterialOverviewRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the sales order create tile.
+		 */
+		onSalesOrderCreatePressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("salesOrderCreateRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the sales order edit tile.
+		 */
+		onSalesOrderEditPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("salesOrderEditRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the sales order display tile.
+		 */
+		onSalesOrderDisplayPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("salesOrderDisplayRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the sales order overview tile.
+		 */
+		onSalesOrderOverviewPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("salesOrderOverviewRoute");	
+		},
 	});
 
 });

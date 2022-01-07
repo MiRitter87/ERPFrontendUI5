@@ -71,6 +71,7 @@
 					</GenericTile>
 				</Panel>
 			</IconTabFilter>
+			
 			<IconTabFilter text="{i18n>navigation.tiles.materialManagement}" key="material">
 				<Panel headerText="{i18n>navigation.tiles.materialManagement.material}">
 					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{i18n>navigation.tiles.materialManagement.material}"
@@ -101,10 +102,70 @@
 						</TileContent>
 					</GenericTile>
 				</Panel>
+				
+				<Panel headerText="{i18n>navigation.tiles.materialManagement.billOfMaterial}">
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{i18n>navigation.tiles.materialManagement.billOfMaterial}"
+						subheader="{i18n>navigation.object.create}" press="onBillOfMaterialCreatePressed">
+						<TileContent>
+							<ImageContent src="sap-icon://add" />
+						</TileContent>
+					</GenericTile>
+					
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{i18n>navigation.tiles.materialManagement.billOfMaterial}"
+						subheader="{i18n>navigation.object.edit}" press="onBillOfMaterialEditPressed">
+						<TileContent>
+							<ImageContent src="sap-icon://edit" />
+						</TileContent>
+					</GenericTile>
+					
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{i18n>navigation.tiles.materialManagement.billOfMaterial}"
+						subheader="{i18n>navigation.object.display}" press="onBillOfMaterialDisplayPressed">
+						<TileContent>
+							<ImageContent src="sap-icon://display" />
+						</TileContent>
+					</GenericTile>
+					
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{i18n>navigation.tiles.materialManagement.billOfMaterial}"
+						subheader="{i18n>navigation.object.overview}" press="onBillOfMaterialOverviewPressed">
+						<TileContent>
+							<ImageContent src="sap-icon://list" />
+						</TileContent>
+					</GenericTile>
+				</Panel>
 			</IconTabFilter>
+			
 			<IconTabFilter text="{i18n>navigation.tiles.sales}" key="sales">
-				<Text text="!Vertrieb" />
+				<Panel headerText="{i18n>navigation.tiles.sales.salesOrder}">
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{i18n>navigation.tiles.sales.salesOrder}"
+						subheader="{i18n>navigation.object.create}" press="onSalesOrderCreatePressed">
+						<TileContent>
+							<ImageContent src="sap-icon://add" />
+						</TileContent>
+					</GenericTile>
+					
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{i18n>navigation.tiles.sales.salesOrder}"
+						subheader="{i18n>navigation.object.edit}" press="onSalesOrderEditPressed">
+						<TileContent>
+							<ImageContent src="sap-icon://edit" />
+						</TileContent>
+					</GenericTile>
+					
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{i18n>navigation.tiles.sales.salesOrder}"
+						subheader="{i18n>navigation.object.display}" press="onSalesOrderDisplayPressed">
+						<TileContent>
+							<ImageContent src="sap-icon://display" />
+						</TileContent>
+					</GenericTile>
+					
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{i18n>navigation.tiles.sales.salesOrder}"
+						subheader="{i18n>navigation.object.overview}" press="onSalesOrderOverviewPressed">
+						<TileContent>
+							<ImageContent src="sap-icon://list" />
+						</TileContent>
+					</GenericTile>
+				</Panel>
 			</IconTabFilter>
+			
 			<IconTabFilter text="{i18n>navigation.tiles.procurement}" key="procurement">
 				<Text text="!Einkauf" />
 			</IconTabFilter>
