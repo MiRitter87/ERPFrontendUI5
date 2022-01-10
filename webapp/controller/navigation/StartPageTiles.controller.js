@@ -258,6 +258,42 @@ sap.ui.define([
 		onBusinessPartnerOverviewPressed : function () {
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.navTo("businessPartnerOverviewRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the account create tile.
+		 */
+		onAccountCreatePressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("accountCreateRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the account edit tile.
+		 */
+		onAccountEditPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("accountEditRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the account display tile.
+		 */
+		onAccountDisplayPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("accountDisplayRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the account overview tile.
+		 */
+		onAccountOverviewPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("accountOverviewRoute");	
 		}
 	});
 
