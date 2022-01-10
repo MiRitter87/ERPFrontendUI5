@@ -187,6 +187,42 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.navTo("salesOrderOverviewRoute");	
 		},
+		
+		
+		/**
+		 * Handles click at the purchase order create tile.
+		 */
+		onPurchaseOrderCreatePressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("purchaseOrderCreateRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the purchase order edit tile.
+		 */
+		onPurchaseOrderEditPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("purchaseOrderEditRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the purchase order display tile.
+		 */
+		onPurchaseOrderDisplayPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("purchaseOrderDisplayRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the purchase order overview tile.
+		 */
+		onPurchaseOrderOverviewPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("purchaseOrderOverviewRoute");	
+		},
 	});
 
 });
