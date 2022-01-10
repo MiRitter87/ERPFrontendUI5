@@ -223,6 +223,42 @@ sap.ui.define([
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.navTo("purchaseOrderOverviewRoute");	
 		},
+		
+		
+		/**
+		 * Handles click at the business partner create tile.
+		 */
+		onBusinessPartnerCreatePressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("businessPartnerCreateRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the business partner edit tile.
+		 */
+		onBusinessPartnerEditPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("businessPartnerEditRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the business partner display tile.
+		 */
+		onBusinessPartnerDisplayPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("businessPartnerDisplayRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the business partner overview tile.
+		 */
+		onBusinessPartnerOverviewPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("businessPartnerOverviewRoute");	
+		}
 	});
 
 });

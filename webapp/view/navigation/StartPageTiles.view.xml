@@ -199,7 +199,35 @@
 			</IconTabFilter>
 			
 			<IconTabFilter text="{i18n>navigation.tiles.finance}" key="finance">
-				<Text text="!Finanzen" />
+				<Panel headerText="{i18n>navigation.tiles.finance.businessPartner}">
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{i18n>navigation.tiles.finance.businessPartner}"
+						subheader="{i18n>navigation.object.create}" press="onBusinessPartnerCreatePressed">
+						<TileContent>
+							<ImageContent src="sap-icon://add" />
+						</TileContent>
+					</GenericTile>
+					
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{i18n>navigation.tiles.finance.businessPartner}"
+						subheader="{i18n>navigation.object.edit}" press="onBusinessPartnerEditPressed">
+						<TileContent>
+							<ImageContent src="sap-icon://edit" />
+						</TileContent>
+					</GenericTile>
+					
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{i18n>navigation.tiles.finance.businessPartner}"
+						subheader="{i18n>navigation.object.display}" press="onBusinessPartnerDisplayPressed">
+						<TileContent>
+							<ImageContent src="sap-icon://display" />
+						</TileContent>
+					</GenericTile>
+					
+					<GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout" header="{i18n>navigation.tiles.finance.businessPartner}"
+						subheader="{i18n>navigation.object.overview}" press="onBusinessPartnerOverviewPressed">
+						<TileContent>
+							<ImageContent src="sap-icon://list" />
+						</TileContent>
+					</GenericTile>
+				</Panel>
 			</IconTabFilter>
 		</items>
 	</IconTabBar>
