@@ -5,6 +5,15 @@ sap.ui.define([
 
 	return Controller.extend("ERPFrontendUI5.controller.App", {
 		/**
+		 * Initializes the controller.
+		 */
+		onInit : function () {
+			//Initially switch to the startpage that is defined in the navigation configuration file.
+			this.onNavigationMethodChange();
+		},
+		
+		
+		/**
 		 * Handles the selection of an item in the navigation menu.
 		 */
 		onItemSelect : function(oEvent) {
@@ -134,16 +143,16 @@ sap.ui.define([
 		/**
 		 * Handles changes of the navigation method.
 		 */
-		onNavigationMethodChange : function(oControlEvent) {
-			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+		onNavigationMethodChange : function() {
+			var oSelectedKey = this.getView().byId("navigationMethodSelect").getSelectedKey();
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			
-			if(oSelectedItem.getKey() == "tile"){
+			if(oSelectedKey == "tile"){
 				this.getView().byId("sideNavigation").setVisible(false);
 				oRouter.navTo("startPageTilesRoute");
 			}
 			
-			if(oSelectedItem.getKey() == "tree"){
+			if(oSelectedKey == "tree"){
 				this.getView().byId("sideNavigation").setVisible(true);
 				oRouter.navTo("startPageRoute");
 			}

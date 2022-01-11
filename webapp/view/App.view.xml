@@ -16,7 +16,7 @@
 				<ToolbarSpacer />
 				<Text text="Micha's ERP"/>
 				<ToolbarSpacer />
-				<Select id="navigationMethodSelect" change=".onNavigationMethodChange">
+				<Select id="navigationMethodSelect" change=".onNavigationMethodChange" selectedKey="{navigation>/type}">
 					<items>
 						<core:ListItem text="{i18n>navigation.methodSelect.tree}" icon="sap-icon://list" key="tree"/>
 						<core:ListItem text="{i18n>navigation.methodSelect.tile}" icon="sap-icon://grid" key="tile"/>
