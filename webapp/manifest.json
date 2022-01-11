@@ -13,6 +13,10 @@
 			"webServiceBaseUrls_dataSource": {
 				"uri": "model/webServiceBaseUrls.json",
 				"type": "JSON"
+			},
+			"navigation_dataSource": {
+				"uri": "model/configuration/navigation.json",
+				"type": "JSON"
 			}
 		}
 	},
@@ -49,6 +53,10 @@
 	  		"webServiceBaseUrls": {
 	  			"type": "sap.ui.model.json.JSONModel",
 				"dataSource": "webServiceBaseUrls_dataSource"
+	  		},
+	  		"navigation": {
+	  			"type": "sap.ui.model.json.JSONModel",
+				"dataSource": "navigation_dataSource"
 	  		}
 		},
 		"routing": {

@@ -118,6 +118,10 @@ sap.ui.define([
 			var oSelect = this.getView().byId("navigationMethodSelect");
 			var sSelectedKey = oSelect.getSelectedKey();
 			
+			//TODO Test retrieval of navigation type from manifest.json
+			var oNavigationModel = this.getOwnerComponent().getModel("navigation");
+			alert(oNavigationModel.oData.type);
+			
 			if(sSelectedKey == "tree") {
 				oRouter.navTo("startPageRoute");				
 			}
