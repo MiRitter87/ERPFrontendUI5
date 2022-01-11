@@ -8,8 +8,10 @@ sap.ui.define([
 		 * Initializes the controller.
 		 */
 		onInit : function () {
+			var oSelectedKey = this.getView().byId("navigationMethodSelect").getSelectedKey();
+			
 			//Initially switch to the startpage that is defined in the navigation configuration file.
-			this.onNavigationMethodChange();
+			this.navigateToStartpage(oSelectedKey);
 		},
 		
 		
@@ -124,17 +126,13 @@ sap.ui.define([
 		 */
 		onHomeIconPressed: function() {
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			var oSelect = this.getView().byId("navigationMethodSelect");
-			var sSelectedKey = oSelect.getSelectedKey();
-			
-			//TODO Test retrieval of navigation type from manifest.json
 			var oNavigationModel = this.getOwnerComponent().getModel("navigation");
-			alert(oNavigationModel.oData.type);
+			var sNavigationType = oNavigationModel.getProperty("/type");
 			
-			if(sSelectedKey == "tree") {
+			if(sNavigationType == "tree") {
 				oRouter.navTo("startPageRoute");				
 			}
-			if(sSelectedKey == "tile") {
+			if(sNavigationType == "tile") {
 				oRouter.navTo("startPageTilesRoute");				
 			}
 		},
@@ -145,14 +143,33 @@ sap.ui.define([
 		 */
 		onNavigationMethodChange : function() {
 			var oSelectedKey = this.getView().byId("navigationMethodSelect").getSelectedKey();
+			
+			this.updateNavigationModel(oSelectedKey);
+			this.navigateToStartpage(oSelectedKey);
+		},
+		
+		
+		/**
+		 * Updates the application model for navigation configuration.
+		 */
+		updateNavigationModel : function(sNavigationType) {
+			var oNavigationModel = this.getOwnerComponent().getModel("navigation");
+			oNavigationModel.setProperty("/type", sNavigationType);
+		},
+		
+		
+		/**
+		 * Navigates to the startpage that is defined in the navigation configuration.
+		 */
+		navigateToStartpage : function(sNavigationType) {
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			
-			if(oSelectedKey == "tile"){
+			if(sNavigationType == "tile"){
 				this.getView().byId("sideNavigation").setVisible(false);
 				oRouter.navTo("startPageTilesRoute");
 			}
 			
-			if(oSelectedKey == "tree"){
+			if(sNavigationType == "tree"){
 				this.getView().byId("sideNavigation").setVisible(true);
 				oRouter.navTo("startPageRoute");
 			}
