@@ -3,8 +3,9 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
 	"sap/ui/model/json/JSONModel",
-	"./EmployeeController"
-], function (Controller, MessageToast, MessageBox, JSONModel, EmployeeController) {
+	"./EmployeeController",
+	"../MainController"
+], function (Controller, MessageToast, MessageBox, JSONModel, EmployeeController, MainController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.employee.EmployeeCreate", {
@@ -47,10 +48,8 @@ sap.ui.define([
 		 * Handles a click at the cancel button.
 		 */
 		onCancelPressed : function () {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			
 			this.initializeEmployeeModel();
-			oRouter.navTo("startPageRoute");
+			MainController.navigateToStartpage(sap.ui.core.UIComponent.getRouterFor(this), this.getOwnerComponent().getModel("navigation"));
 		},
 		
 		
