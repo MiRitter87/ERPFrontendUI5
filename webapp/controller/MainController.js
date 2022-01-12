@@ -39,6 +39,21 @@ sap.ui.define([
 				return null;
 				
 			return oSelectedItem.getKey();
+		},
+		
+		
+		/**
+		 * Navigates to the startpage.
+		 */
+		navigateToStartpage : function(oRouter, oNavigationModel) {
+			var sNavigationType = oNavigationModel.getProperty("/type");
+			
+			if(sNavigationType == "tree") {
+				oRouter.navTo("startPageRoute");				
+			}
+			if(sNavigationType == "tile") {
+				oRouter.navTo("startPageTilesRoute");				
+			}
 		}
 	};
 });

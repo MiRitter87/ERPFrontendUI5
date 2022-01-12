@@ -1,6 +1,7 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller"
-], function (Controller) {
+	"sap/ui/core/mvc/Controller",
+	"./MainController"
+], function (Controller, MainController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.App", {
@@ -8,10 +9,9 @@ sap.ui.define([
 		 * Initializes the controller.
 		 */
 		onInit : function () {
-			var oSelectedKey = this.getView().byId("navigationMethodSelect").getSelectedKey();
-			
 			//Initially switch to the startpage that is defined in the navigation configuration file.
-			this.navigateToStartpage(oSelectedKey);
+			this.updateNavigationTreeVisibility();
+			MainController.navigateToStartpage(sap.ui.core.UIComponent.getRouterFor(this), this.getOwnerComponent().getModel("navigation"));
 		},
 		
 		
@@ -125,16 +125,7 @@ sap.ui.define([
 		 * Handles the press-event of the home icon.
 		 */
 		onHomeIconPressed: function() {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			var oNavigationModel = this.getOwnerComponent().getModel("navigation");
-			var sNavigationType = oNavigationModel.getProperty("/type");
-			
-			if(sNavigationType == "tree") {
-				oRouter.navTo("startPageRoute");				
-			}
-			if(sNavigationType == "tile") {
-				oRouter.navTo("startPageTilesRoute");				
-			}
+			MainController.navigateToStartpage(sap.ui.core.UIComponent.getRouterFor(this), this.getOwnerComponent().getModel("navigation"));
 		},
 		
 		
@@ -145,7 +136,8 @@ sap.ui.define([
 			var oSelectedKey = this.getView().byId("navigationMethodSelect").getSelectedKey();
 			
 			this.updateNavigationModel(oSelectedKey);
-			this.navigateToStartpage(oSelectedKey);
+			this.updateNavigationTreeVisibility();
+			MainController.navigateToStartpage(sap.ui.core.UIComponent.getRouterFor(this), this.getOwnerComponent().getModel("navigation"));
 		},
 		
 		
@@ -159,21 +151,18 @@ sap.ui.define([
 		
 		
 		/**
-		 * Navigates to the startpage that is defined in the navigation configuration.
+		 * Updates the visibility of the navigation tree depending on the selected navigation method.
 		 */
-		navigateToStartpage : function(sNavigationType) {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+		updateNavigationTreeVisibility : function() {
+			var oSelectedKey = this.getView().byId("navigationMethodSelect").getSelectedKey();
 			
-			if(sNavigationType == "tile"){
+			if(oSelectedKey == "tile"){
 				this.getView().byId("sideNavigation").setVisible(false);
-				oRouter.navTo("startPageTilesRoute");
 			}
 			
-			if(sNavigationType == "tree"){
+			if(oSelectedKey == "tree"){
 				this.getView().byId("sideNavigation").setVisible(true);
-				oRouter.navTo("startPageRoute");
 			}
 		}
 	});
-
 });
