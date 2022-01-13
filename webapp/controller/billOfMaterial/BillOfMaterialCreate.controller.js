@@ -15,9 +15,7 @@ sap.ui.define([
 		 */
 		onInit : function () {
 			//Register an event handler that gets called every time the router navigates to this view.
-			var oRouter;
-			
-			oRouter = this.getOwnerComponent().getRouter();
+			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("billOfMaterialCreateRoute").attachMatched(this._onRouteMatched, this);
 		},
 		
@@ -29,7 +27,7 @@ sap.ui.define([
 			//Query material data every time a user navigates to this view. This assures that changes are being displayed in the ComboBoxes.
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
 			
-			this.resetFormFields();
+			this.resetUIElements();
 			this.initializeBillOfMaterialModel();
 			BillOfMaterialController.initializeBillOfMaterialItemModel(this);
     	},
@@ -188,9 +186,9 @@ sap.ui.define([
 		
 		
 		/**
-		 * Resets the form fields to the initial state.
+		 * Resets the UI elements.
 		 */
-		resetFormFields : function () {
+		resetUIElements : function () {
 			this.getView().byId("materialComboBox").setSelectedItem(null);
 		},
 		
@@ -274,7 +272,7 @@ sap.ui.define([
 			if(oReturnData.message != null) {
 				if(oReturnData.message[0].type == 'S') {
 					MessageToast.show(oReturnData.message[0].text);
-					callingController.resetFormFields();
+					callingController.resetUIElements();
 					callingController.initializeBillOfMaterialModel();
 					BillOfMaterialController.initializeBillOfMaterialItemModel(callingController);
 				}
