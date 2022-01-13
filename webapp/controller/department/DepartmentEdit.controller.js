@@ -3,8 +3,9 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
 	"sap/ui/model/json/JSONModel",
-	"./DepartmentController"
-], function (Controller, MessageToast, MessageBox, JSONModel, DepartmentController) {
+	"./DepartmentController",
+	"../MainController"
+], function (Controller, MessageToast, MessageBox, JSONModel, DepartmentController, MainController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.department.DepartmentEdit", {
@@ -93,9 +94,7 @@ sap.ui.define([
 		 * Handles a click at the cancel button.
 		 */
 		onCancelPressed : function () {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			
-			oRouter.navTo("startPageRoute");	
+			MainController.navigateToStartpage(sap.ui.core.UIComponent.getRouterFor(this), this.getOwnerComponent().getModel("navigation"));		
 		},
 		
 		
