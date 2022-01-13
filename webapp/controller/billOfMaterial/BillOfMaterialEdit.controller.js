@@ -184,9 +184,7 @@ sap.ui.define([
 		 * Handles a click at the cancel button.
 		 */
 		onCancelPressed : function () {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			
-			oRouter.navTo("startPageRoute");
+			MainController.navigateToStartpage(sap.ui.core.UIComponent.getRouterFor(this), this.getOwnerComponent().getModel("navigation"));
 		},
 		
 		
