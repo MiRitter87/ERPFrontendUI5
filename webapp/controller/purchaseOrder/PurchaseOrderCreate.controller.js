@@ -18,9 +18,7 @@ sap.ui.define([
 		 */
 		onInit : function () {
 			//Register an event handler that gets called every time the router navigates to this view.
-			var oRouter;
-			
-			oRouter = this.getOwnerComponent().getRouter();
+			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("purchaseOrderCreateRoute").attachMatched(this._onRouteMatched, this);
 		},
 		
@@ -29,12 +27,13 @@ sap.ui.define([
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
 		_onRouteMatched: function () {
-			//Query business partner and material data every time a user navigates to this view. This assures that changes are being displayed in the ComboBoxes.
+			//Query business partner, material and account data every time a user navigates to this view. 
+			//This assures that changes are being displayed in the ComboBoxes.
 			BusinessPartnerController.queryBusinessPartnersByWebService(this.queryBusinessPartnersCallback, this, false, "VENDOR");
 			MaterialController.queryMaterialsByWebService(this.queryMaterialsCallback, this, false);
 			AccountController.queryAccountsByWebService(this.queryAccountsCallback, this, false);
 			
-			this.resetFormFields();
+			this.resetUIElements();
 			this.initializePurchaseOrderModel();
 			PurchaseOrderController.initializePurchaseOrderItemModel(this);
     	},
@@ -293,9 +292,9 @@ sap.ui.define([
 		
 		
 		/**
-		 * Resets the form fields to the initial state.
+		 * Resets the UI elements..
 		 */
-		resetFormFields : function () {
+		resetUIElements : function () {
 			this.getView().byId("vendorComboBox").setSelectedItem(null);
 			this.getView().byId("paymentAccountComboBox").setSelectedItem(null);
 		},
@@ -362,7 +361,7 @@ sap.ui.define([
 			if(oReturnData.message != null) {
 				if(oReturnData.message[0].type == 'S') {
 					MessageToast.show(oReturnData.message[0].text);
-					callingController.resetFormFields();
+					callingController.resetUIElements();
 					callingController.initializePurchaseOrderModel();
 					PurchaseOrderController.initializePurchaseOrderItemModel(callingController);
 				}
