@@ -5,7 +5,8 @@ sap.ui.define([
 	"sap/ui/model/json/JSONModel",
 	"./MaterialController",
 	"../image/ImageController",
-], function (Controller, MessageToast, MessageBox, JSONModel, MaterialController, ImageController) {
+	"../MainController"
+], function (Controller, MessageToast, MessageBox, JSONModel, MaterialController, ImageController, MainController) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.material.MaterialEdit", {		
@@ -66,9 +67,7 @@ sap.ui.define([
 		 * Handles a click at the cancel button.
 		 */
 		onCancelPressed : function () {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			
-			oRouter.navTo("startPageRoute");	
+			MainController.navigateToStartpage(sap.ui.core.UIComponent.getRouterFor(this), this.getOwnerComponent().getModel("navigation"));
 		},
 		
 		
