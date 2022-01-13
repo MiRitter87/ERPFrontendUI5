@@ -1,10 +1,11 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./AccountController",
+	"../MainController",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageBox",
 	"sap/m/MessageToast"
-], function (Controller, AccountController, JSONModel, MessageBox, MessageToast) {
+], function (Controller, AccountController, MainController, JSONModel, MessageBox, MessageToast) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.account.AccountCreate", {
@@ -57,9 +58,7 @@ sap.ui.define([
 		 * Handles a click at the cancel button.
 		 */
 		onCancelPressed : function () {
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			
-			oRouter.navTo("startPageRoute");	
+			MainController.navigateToStartpage(sap.ui.core.UIComponent.getRouterFor(this), this.getOwnerComponent().getModel("navigation"));
 		},
 		
 		
