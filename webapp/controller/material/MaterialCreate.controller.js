@@ -14,10 +14,9 @@ sap.ui.define([
 		 * Initializes the controller.
 		 */
 		onInit : function () {
-			var oRouter;
+			var oRouter = this.getOwnerComponent().getRouter();
 			
 			//Register an event handler that gets called every time the router navigates to this view.
-			oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("materialCreateRoute").attachMatched(this._onRouteMatched, this);
 			
 			MaterialController.initializeUnitComboBox(this.getView().byId("unitComboBox"), 
@@ -29,7 +28,7 @@ sap.ui.define([
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
 		_onRouteMatched: function () {
-			this.resetFormFields();
+			this.resetUIElements();
 			this.initializeMaterialModel();
 			this.initializeImageMetaDataModel();
 			this.initializeImageDisplayModel();
@@ -204,7 +203,7 @@ sap.ui.define([
 				if(oReturnData.message[0].type == 'S') {
 					MessageToast.show(oReturnData.message[0].text);
 					//"this" is unknown in the success function of the ajax call. Therefore the calling controller is provided.
-					oCallingController.resetFormFields();
+					oCallingController.resetUIElements();
 					oCallingController.resetModelData();
 				}
 				
@@ -250,9 +249,9 @@ sap.ui.define([
 		
 		
 		/**
-		 * Resets the form fields to the initial state.
+		 * Resets the UI elements.
 		 */
-		resetFormFields : function () {
+		resetUIElements : function () {
 			this.getView().byId("unitComboBox").setSelectedItem(null);
 			this.getView().byId("priceInput").setValue(0);
 			this.getView().byId("priceInput").setValueState(sap.ui.core.ValueState.None);
