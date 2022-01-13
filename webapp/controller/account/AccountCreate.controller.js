@@ -13,10 +13,9 @@ sap.ui.define([
 		 * Initializes the controller.
 		 */
 		onInit : function () {
-			var oRouter;
+			var oRouter = this.getOwnerComponent().getRouter();
 			
 			//Register an event handler that gets called every time the router navigates to this view.
-			oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("accountCreateRoute").attachMatched(this._onRouteMatched, this);
 			
 			AccountController.initializeCurrencyComboBox(this.getView().byId("currencyComboBox"), 
@@ -28,7 +27,7 @@ sap.ui.define([
 		 * Handles the routeMatched-event when the router navigates to this view.
 		 */
 		_onRouteMatched: function () {
-			this.resetFormFields();
+			this.resetUIElements();
 			this.initializeAccountModel();
     	},
 
@@ -69,7 +68,7 @@ sap.ui.define([
 			if(oReturnData.message != null) {
 				if(oReturnData.message[0].type == 'S') {
 					MessageToast.show(oReturnData.message[0].text);
-					oCallingController.resetFormFields();
+					oCallingController.resetUIElements();
 					oCallingController.initializeAccountModel();
 				}
 				
@@ -96,9 +95,9 @@ sap.ui.define([
 
 
 		/**
-		 * Resets the form fields to the initial state.
+		 * Resets the UI elements.
 		 */
-		resetFormFields : function () {
+		resetUIElements : function () {
 			this.getView().byId("balanceInput").setValue(0);
 			this.getView().byId("balanceInput").setValueState(sap.ui.core.ValueState.None);
 			this.getView().byId("currencyComboBox").setSelectedItem(null);
