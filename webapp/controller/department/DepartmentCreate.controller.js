@@ -16,8 +16,6 @@ sap.ui.define([
 			//Register an event handler that gets called every time the router navigates to this view.
 			var oRouter = this.getOwnerComponent().getRouter();
 			oRouter.getRoute("departmentCreateRoute").attachMatched(this._onRouteMatched, this);
-			
-			this.initializeDepartmentModel();
 		},
 		
 		
@@ -28,7 +26,9 @@ sap.ui.define([
 			//Load all employees. Those are the candidates that can be selected in the head selection ComboBox.
 			//Query employee data every time a user navigates to this view. This assures that changes are being displayed in the ComboBox.
 			DepartmentController.queryEmployeesByWebService(this.queryEmployeesCallback, this, "NO_HEAD_ONLY");
-			this.deselectHeadSelection();
+			
+			this.initializeDepartmentModel();
+			this.resetUIElements();
     	},
 		
 		
@@ -117,7 +117,7 @@ sap.ui.define([
 				if(oReturnData.message[0].type == 'S') {
 					MessageToast.show(oReturnData.message[0].text);
 					oCallingController.initializeDepartmentModel();	//Resets the input fields to the initial state.
-					oCallingController.deselectHeadSelection();
+					oCallingController.resetUIElements();
 				}
 				
 				if(oReturnData.message[0].type == 'E') {
@@ -132,9 +132,9 @@ sap.ui.define([
 		
 		
 		/**
-		 * Resets the selection of the head of department. No item in the ComboBox is selected afterwards.
+		 * Resets the UI elements.
 		 */
-		deselectHeadSelection : function () {
+		resetUIElements : function () {
 			this.getView().byId("headComboBox").setSelectedItem(null);
 		}
 	});
