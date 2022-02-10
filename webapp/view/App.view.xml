@@ -84,6 +84,13 @@
 						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="billOfMaterialDisplay"/>
 						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="billOfMaterialOverview"/>
 					</tnt:NavigationListItem>
+					
+					<tnt:NavigationListItem text="{i18n>navigation.productionOrder}" expanded="false" icon="sap-icon://machine" key="productionOrder">
+						<tnt:NavigationListItem text="{i18n>navigation.object.create}" key="productionOrderCreate"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.edit}" key="productionOrderEdit"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.display}" key="productionOrderDisplay"/>
+						<tnt:NavigationListItem text="{i18n>navigation.object.overview}" key="productionOrderOverview"/>
+					</tnt:NavigationListItem>
 				</tnt:NavigationList>
 			</tnt:SideNavigation>
 		</tnt:sideContent>

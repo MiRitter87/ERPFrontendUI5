@@ -213,6 +213,10 @@
 				"pattern": "billOfMaterialOverview",
 				"name": "billOfMaterialOverviewRoute",
 				"target": "billOfMaterialOverviewTarget"
+			}, {
+				"pattern": "productionOrderCreate",
+				"name": "productionOrderCreateRoute",
+				"target": "productionOrderCreateTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -393,6 +397,11 @@
 				"billOfMaterialOverviewTarget": {
 					"viewId": "billOfMaterialOverview",
 					"viewName": "billOfMaterial.BillOfMaterialOverview",
+					"viewLevel" : 1
+				},
+				"productionOrderCreateTarget": {
+					"viewId": "productionOrderCreate",
+					"viewName": "productionOrder.ProductionOrderCreate",
 					"viewLevel" : 1
 				}
          	}

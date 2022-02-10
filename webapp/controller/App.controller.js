@@ -118,6 +118,9 @@ sap.ui.define([
 			else if(item.getKey() == "billOfMaterialOverview") {
 				oRouter.navTo("billOfMaterialOverviewRoute");
 			}
+			else if(item.getKey() == "productionOrderCreate") {
+				oRouter.navTo("productionOrderCreateRoute");
+			}
 		},
 		
 		
