@@ -25,6 +25,15 @@ sap.ui.define([
 			
 			iExistingItemCount = oProductionOrderModel.oData.items.length;
 			oProductionOrderItemModel.setProperty("/itemId", iExistingItemCount + 1);
-		}
+		},
+		
+		
+		/**
+		 * Clears the fields and CheckBox of the PopUp for item creation.
+		 */
+		clearItemPopUpFields : function (oController) {
+			oController.byId("materialComboBox").setSelectedItem(null);
+			oController.byId("itemUnitText").setText("");
+		},
 	};
 });

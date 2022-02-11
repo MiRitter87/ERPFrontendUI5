@@ -39,6 +39,16 @@ sap.ui.define([
 			ProductionOrderController.setIdOfNewItem(this.getView().getModel("newProductionOrder"), this);
 			MainController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.productionOrder.ProductionOrderItemCreate");
 		},
+		
+		
+		/**
+		 * Handles the closing by cancelation of the new item Dialog.
+		 */
+		onCancelDialog : function () {
+			this.byId("newItemDialog").close();
+			ProductionOrderController.clearItemPopUpFields(this);
+			ProductionOrderController.initializeProductionOrderItemModel(this);	
+		},
 
 		
 		/**
