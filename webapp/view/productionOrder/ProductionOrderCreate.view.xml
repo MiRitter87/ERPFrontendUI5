@@ -10,7 +10,80 @@
 	
 	<Page title="{i18n>productionOrderCreate.header}">
 		<content>
+			<f:Form editable="true">
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>productionOrderCreate.titleDates}">
+						<f:FormElement label="{i18n>productionOrder.orderDate}">
+							<f:fields>
+								<DatePicker id="orderDatePicker" value="{path: 'newProductionOrder>/orderDate', type:'sap.ui.model.type.Date', 
+									formatOptions: { style: 'medium', strictParsing: true}}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>productionOrder.plannedExecutionDate}">
+							<f:fields>
+								<DatePicker id="plannedExecutionDatePicker" value="{path: 'newProductionOrder>/plannedExecutionDate', type:'sap.ui.model.type.Date', 
+									formatOptions: { style: 'medium', strictParsing: true}}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
 			
+			<Table id="itemTable" items="{path: 'newProductionOrder>/items/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>productionOrderCreate.titleItems}"/>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>productionOrderCreate.deleteSelected}" press=".onDeleteItemPressed"/>
+						<Button icon="sap-icon://add" tooltip="{i18n>productionOrderCreate.addItem}" press=".onAddItemPressed"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>productionOrder.itemId}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>productionOrder.itemMaterial}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>productionOrder.itemQuantity}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{newProductionOrder>itemId}"/>
+							<Text text="{path: 'newProductionOrder>materialId', formatter: '.materialNameFormatter'}"/>
+							<ObjectNumber unit="{path: 'newProductionOrder>materialId', formatter: '.materialUnitFormatter'}" number="{
+										parts:[{path:'newProductionOrder>quantity'}],
+										type: 'sap.ui.model.type.Unit',
+										formatOptions: {showMeasure: false}}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
+		
+		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
+		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 	</Page>
 </mvc:View>
