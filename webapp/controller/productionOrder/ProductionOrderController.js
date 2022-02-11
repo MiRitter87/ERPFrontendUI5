@@ -14,5 +14,17 @@ sap.ui.define([
 			oItemModel.loadData("model/productionOrder/productionOrderItemCreate.json");
 			oController.getView().setModel(oItemModel, "newProductionOrderItem");	
 		},
+		
+		
+		/**
+		 * Sets the ID of the new production order item based on the number of already existing items.
+		 */
+		setIdOfNewItem : function (oProductionOrderModel, oController) {
+			var iExistingItemCount;
+			var oProductionOrderItemModel = oController.getView().getModel("newProductionOrderItem");
+			
+			iExistingItemCount = oProductionOrderModel.oData.items.length;
+			oProductionOrderItemModel.setProperty("/itemId", iExistingItemCount + 1);
+		}
 	};
 });

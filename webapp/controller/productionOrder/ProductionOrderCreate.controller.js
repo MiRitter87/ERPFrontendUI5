@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"../material/MaterialController",
 	"./ProductionOrderController",
+	"../MainController",
 	"sap/ui/model/json/JSONModel"
-], function (Controller, MaterialController, ProductionOrderController, JSONModel) {
+], function (Controller, MaterialController, ProductionOrderController, MainController, JSONModel) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.productionOrder.ProductionOrderCreate", {
@@ -29,6 +30,15 @@ sap.ui.define([
 			this.initializeProductionOrderModel();
 			ProductionOrderController.initializeProductionOrderItemModel(this);
     	},
+
+
+		/**
+		 * Opens the dialog to add a new sales order item.
+		 */
+		onAddItemPressed : function () {
+			ProductionOrderController.setIdOfNewItem(this.getView().getModel("newProductionOrder"), this);
+			MainController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.productionOrder.ProductionOrderItemCreate");
+		},
 
 		
 		/**
