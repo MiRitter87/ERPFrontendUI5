@@ -82,6 +82,40 @@ sap.ui.define([
 			}
 			
 			return false;
-		}
+		},
+		
+		
+		/**
+		 * Deletes the given item from the production order model.
+		 */
+		deleteItemFromOrderModel : function(oProductionOrderItem, oProductionOrderModel) {
+			var oProductionOrderItems;
+			
+			oProductionOrderItems = oProductionOrderModel.getProperty("/items");
+			
+			for(var i = 0; i < oProductionOrderItems.length; i++) {
+    			var oTempItem = oProductionOrderItems[i];
+    			
+				if(oTempItem.itemId == oProductionOrderItem.itemId) {
+					oProductionOrderItems.splice(i, 1);
+				}
+			}
+		},
+		
+		
+		/**
+		 * Updates the IDs of the production order items incrementally.
+	     * The item IDs range from 1 to n, where n is the number of items.
+		 */
+		updateItemIds : function(oProductionOrderModel) {
+			var oProductionOrderItems;
+
+			oProductionOrderItems = oProductionOrderModel.getProperty("/items");
+			
+			for(var i = 0; i < oProductionOrderItems.length; i++) {
+				var oTempItem = oProductionOrderItems[i];
+				oTempItem.itemId = i+1;
+			}
+		},
 	};
 });
