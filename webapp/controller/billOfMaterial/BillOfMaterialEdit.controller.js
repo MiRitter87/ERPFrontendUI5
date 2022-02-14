@@ -192,7 +192,7 @@ sap.ui.define([
 		 * Formatter of the material text in the item table. Provides the name of a material based on the given ID.
 		 */
 		materialNameFormatter : function(iMaterialId) {
-			return BillOfMaterialController.materialNameFormatter(iMaterialId, this.getView().getModel("materials"));
+			return MaterialController.materialNameFormatter(iMaterialId, this.getView().getModel("materials"));
 		},
 		
 		
@@ -200,7 +200,7 @@ sap.ui.define([
 		 * Formatter of the material unit in the item table. Provides the unit of a material based on the given ID.
 		 */
 		materialUnitFormatter: function(iMaterialId) {
-			return BillOfMaterialController.materialUnitFormatter(iMaterialId, this.getView().getModel("materials"));
+			return MaterialController.materialUnitFormatter(iMaterialId, this.getView().getModel("materials"));
 		},
 		
 		
