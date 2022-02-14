@@ -140,5 +140,21 @@ sap.ui.define([
 			
 			this.getView().setModel(oProductionOrderModel, "newProductionOrder");	
 		},
+		
+		
+		/**
+		 * Formatter of the material text in the item table. Provides the name of a material based on the given ID.
+		 */
+		materialNameFormatter : function(iMaterialId) {
+			return ProductionOrderController.materialNameFormatter(iMaterialId, this.getView().getModel("materials"));
+		},
+		
+		
+		/**
+		 * Formatter of the material unit in the item table. Provides the unit of a material based on the given ID.
+		 */
+		materialUnitFormatter: function(iMaterialId) {
+			return ProductionOrderController.materialUnitFormatter(iMaterialId, this.getView().getModel("materials"));
+		}
 	});
 });

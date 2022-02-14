@@ -1,6 +1,7 @@
 sap.ui.define([
+	"../material/MaterialController",
 	"sap/ui/model/json/JSONModel"
-], function (JSONModel) {
+], function (MaterialController, JSONModel) {
 	"use strict";
 	return {
 		/**
@@ -83,5 +84,31 @@ sap.ui.define([
 			
 			return false;
 		},
+		
+		
+		/**
+		 * Formatter of the material text in the item table. Provides the name of a material based on the given ID.
+		 */
+		materialNameFormatter : function(iMaterialId, oMaterials) {
+			var oMaterial = MaterialController.getMaterialById(iMaterialId, oMaterials);
+			
+			if(oMaterial != null)	
+				return oMaterial.name;
+			else
+				return "";
+		},
+		
+		
+		/**
+		 * Formatter of the material unit in the item table. Provides the unit of a material based on the given ID.
+		 */
+		materialUnitFormatter: function(iMaterialId, oMaterials) {
+			var oMaterial = MaterialController.getMaterialById(iMaterialId, oMaterials);
+			
+			if(oMaterial != null)	
+				return oMaterial.unit;
+			else
+				return "";
+		}
 	};
 });
