@@ -97,13 +97,26 @@ sap.ui.define([
 		
 		
 		/**
-		 * Formatter of the material unit in the item table. Provides the unit of a material based on the given ID.
+		 * Formatter of the material unit in an item table. Provides the unit of a material based on the given ID.
 		 */
 		materialUnitFormatter: function(iMaterialId, oMaterials) {
 			var oMaterial = this.getMaterialById(iMaterialId, oMaterials);
 			
 			if(oMaterial != null)	
 				return oMaterial.unit;
+			else
+				return "";
+		},
+		
+		
+		/**
+		 * Formatter of the material currency in an item table. Provides the currency of a material based on the given ID.
+		 */
+		materialCurrencyFormatter: function(iMaterialId, oMaterials) {
+			var oMaterial = this.getMaterialById(iMaterialId, oMaterials);
+			
+			if(oMaterial != null)	
+				return oMaterial.currency;
 			else
 				return "";
 		},
