@@ -130,6 +130,14 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles a click at the cancel button.
+		 */
+		onCancelPressed : function () {
+			MainController.navigateToStartpage(sap.ui.core.UIComponent.getRouterFor(this), this.getOwnerComponent().getModel("navigation"));
+		},
+		
+		
+		/**
 		 * Handles the selection of an item in the material ComboBox.
 		 */
 		onMaterialSelectionChange : function (oControlEvent) {
