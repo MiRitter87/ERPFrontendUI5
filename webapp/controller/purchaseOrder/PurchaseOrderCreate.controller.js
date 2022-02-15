@@ -292,7 +292,7 @@ sap.ui.define([
 		
 		
 		/**
-		 * Resets the UI elements..
+		 * Resets the UI elements.
 		 */
 		resetUIElements : function () {
 			this.getView().byId("vendorComboBox").setSelectedItem(null);

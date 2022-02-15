@@ -7,5 +7,6 @@
 	"image": "http://127.0.0.1:8080/backend/services/rest/images",
 	"purchaseOrder": "http://127.0.0.1:8080/backend/services/rest/purchaseOrders",
 	"account": "http://127.0.0.1:8080/backend/services/rest/accounts",
-	"billOfMaterial": "http://127.0.0.1:8080/backend/services/rest/billOfMaterials"
+	"billOfMaterial": "http://127.0.0.1:8080/backend/services/rest/billOfMaterials",
+	"productionOrder": "http://127.0.0.1:8080/backend/services/rest/productionOrders"
 }

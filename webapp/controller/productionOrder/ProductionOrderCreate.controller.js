@@ -117,6 +117,19 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles a click at the save button.
+		 */
+		onSavePressed : function () {
+			var bInputValid = this.verifyObligatoryFields();
+			
+			if(bInputValid == false)
+				return;
+				
+			ProductionOrderController.createProductionOrderByWebService(this.getView().getModel("newProductionOrder"), this.saveProductionOrderCallback, this);
+		},
+		
+		
+		/**
 		 * Handles the selection of an item in the material ComboBox.
 		 */
 		onMaterialSelectionChange : function (oControlEvent) {
@@ -141,6 +154,28 @@ sap.ui.define([
 			}
 			
 			oCallingController.getView().setModel(oModel, "materials");
+		},
+		
+		
+		/**
+		 * Callback function of the createProductionOrderbyWebService RESTful WebService call in the ProductionOrderController.
+		 */
+		saveProductionOrderCallback : function (oReturnData, callingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					callingController.initializeProductionOrderModel();
+					ProductionOrderController.initializeProductionOrderItemModel(callingController);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			} 
 		},
 		
 		
@@ -203,5 +238,34 @@ sap.ui.define([
 			//Assures that the formatters are called again.
 			this.getView().byId("itemTable").rerender();	
 		},
+		
+		
+		/**
+		 * Verifies input of obligatory fields.
+		 * Returns true if input is valid. Returns false if input is invalid.
+		 */
+		verifyObligatoryFields : function() {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var iExistingItemCount;
+			var oProductionOrderModel;
+			
+			if(this.getView().byId("plannedExecutionDatePicker").isValidValue() == false || 
+				this.getView().byId("plannedExecutionDatePicker").getValue() == "") {
+					
+				MessageBox.error(oResourceBundle.getText("productionOrderCreate.noPlannedDateSelected"));
+				return false;
+			}
+			
+			//The order has to have at least one item.
+			oProductionOrderModel = this.getView().getModel("newProductionOrder");
+			iExistingItemCount = oProductionOrderModel.oData.items.length;
+			
+			if(iExistingItemCount < 1) {
+				MessageBox.error(oResourceBundle.getText("productionOrderCreate.noItemsExist"));
+				return false;
+			}
+			
+			return true;
+		}
 	});
 });

@@ -117,5 +117,26 @@ sap.ui.define([
 				oTempItem.itemId = i+1;
 			}
 		},
+		
+		
+		/**
+		 * Calls a WebService operation to create a production order.
+		 */
+		createProductionOrderByWebService : function(oProductionOrderModel, callbackFunction, oCallingController) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/productionOrder");
+			var sQueryUrl = sWebServiceBaseUrl + "/";
+			var sJSONData = oProductionOrderModel.getJSON();
+			
+			//Use "POST" to create a resource.
+			jQuery.ajax({
+				type : "POST", 
+				contentType : "application/json", 
+				url : sQueryUrl,
+				data : sJSONData, 
+				success : function(data) {
+					callbackFunction(data, oCallingController);
+				}
+			});
+		}
 	};
 });
