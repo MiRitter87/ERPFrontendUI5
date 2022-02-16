@@ -217,6 +217,11 @@
 				"pattern": "productionOrderCreate",
 				"name": "productionOrderCreateRoute",
 				"target": "productionOrderCreateTarget"
+			}
+			, {
+				"pattern": "productionOrderEdit",
+				"name": "productionOrderEditRoute",
+				"target": "productionOrderEditTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -402,6 +407,11 @@
 				"productionOrderCreateTarget": {
 					"viewId": "productionOrderCreate",
 					"viewName": "productionOrder.ProductionOrderCreate",
+					"viewLevel" : 1
+				}				,
+				"productionOrderEditTarget": {
+					"viewId": "productionOrderEdit",
+					"viewName": "productionOrder.ProductionOrderEdit",
 					"viewLevel" : 1
 				}
          	}

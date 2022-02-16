@@ -121,6 +121,9 @@ sap.ui.define([
 			else if(item.getKey() == "productionOrderCreate") {
 				oRouter.navTo("productionOrderCreateRoute");
 			}
+			else if(item.getKey() == "productionOrderEdit") {
+				oRouter.navTo("productionOrderEditRoute");
+			}
 		},
 		
 		
