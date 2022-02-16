@@ -10,7 +10,112 @@
 	
 	<Page title="{i18n>productionOrderEdit.header}">
 		<content>
+			<l:VerticalLayout>
+				<Label text="{i18n>productionOrderEdit.selectionDescription}"/>
+				<ComboBox id="productionOrderComboBox" items="{path: 'productionOrders>/productionOrder/'}" selectionChange=".onProductionOrderSelectionChange">
+					<core:Item key="{productionOrders>id}" text="{productionOrders>id}"/>
+				</ComboBox>
+			</l:VerticalLayout>
 			
+			<f:Form id="productionOrderForm" editable="true">
+				<f:title>
+					<core:Title text="{i18n>productionOrderEdit.dataHeader}" />
+				</f:title>
+				
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>productionOrderEdit.titleGeneralData}">
+						<f:FormElement label="{i18n>productionOrder.id}">
+							<f:fields>
+								<Text id="idText" text="{selectedProductionOrder>/productionOrderId}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>productionOrder.status}">
+							<f:fields>
+								<ComboBox id="statusComboBox" selectedKey="{selectedProductionOrder>/status}" required="true"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>productionOrderEdit.titleDates}">
+						<f:FormElement label="{i18n>productionOrder.orderDate}">
+							<f:fields>
+								<DatePicker id="orderDatePicker" enabled="false" value="{path: 'selectedProductionOrder>/orderDate', 
+									type:'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true}}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>productionOrder.plannedExecutionDate}">
+							<f:fields>
+								<DatePicker id="plannedExecutionDatePicker" value="{path: 'selectedProductionOrder>/plannedExecutionDate', 
+									type:'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true}}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>productionOrder.executionDate}">
+							<f:fields>
+								<DatePicker id="executionDatePicker" enabled="false" value="{path: 'selectedProductionOrder>/executionDate', 
+									type:'sap.ui.model.type.Date', formatOptions: { style: 'medium', strictParsing: true}}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			
+			<Table id="itemTable" items="{path: 'selectedProductionOrder>/items/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>productionOrderEdit.titleItems}"/>
+						<ToolbarSpacer/>
+						<Button icon="sap-icon://delete" tooltip="{i18n>productionOrderEdit.deleteSelected}" press=".onDeleteItemPressed"/>
+						<Button icon="sap-icon://add" tooltip="{i18n>productionOrderEdit.addItem}" press=".onAddItemPressed"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>productionOrder.itemId}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>productionOrder.itemMaterial}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>productionOrder.itemQuantity}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{selectedProductionOrder>itemId}"/>
+							<Text text="{path: 'selectedProductionOrder>materialId', formatter: '.materialNameFormatter'}"/>
+							<ObjectNumber unit="{path: 'selectedProductionOrder>materialId', formatter: '.materialUnitFormatter'}" number="{
+										parts:[{path:'selectedProductionOrder>quantity'}],
+										type: 'sap.ui.model.type.Unit',
+										formatOptions: {showMeasure: false}}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
+		
+		<Button text="{i18n>button.save}" press=".onSavePressed" class="sapUiSmallMargin"/>
+		<Button type="Reject" text="{i18n>button.cancel}" press=".onCancelPressed" class="sapUiSmallMargin"/>
 	</Page>
 </mvc:View>
