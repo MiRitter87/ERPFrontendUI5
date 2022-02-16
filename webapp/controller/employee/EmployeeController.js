@@ -1,6 +1,6 @@
 sap.ui.define([
-	"sap/ui/core/Item"
-], function (Item) {
+	"../MainController"
+], function (MainController) {
 	"use strict";
 	return {
 		/**
@@ -24,8 +24,8 @@ sap.ui.define([
 		 * Initializes the given ComboBox with items for gender selection.
 		 */
 		initializeGenderComboBox : function(oComboBox, oResourceBundle) {
-			this.addItemToComboBox(oComboBox, oResourceBundle, "MALE");
-			this.addItemToComboBox(oComboBox, oResourceBundle, "FEMALE");
+			MainController.addItemToComboBox(oComboBox, oResourceBundle, "MALE", "employee.gender.male");
+			MainController.addItemToComboBox(oComboBox, oResourceBundle, "FEMALE", "employee.gender.female");
 		},
 		
 		
@@ -39,18 +39,6 @@ sap.ui.define([
 				return oResourceBundle.getText("employee.gender.female");
 			else
 				return "";
-		},
-		
-		
-		/**
-		 * Adds an item to the given ComboBox.
-		 */
-		addItemToComboBox : function(oComboBox, oResourceBundle, sItemKey) {
-			var oComboBoxItem = new Item();
-			
-			oComboBoxItem.setKey(sItemKey);
-			oComboBoxItem.setText(this.getLocalizedGenderText(sItemKey, oResourceBundle));
-			oComboBox.addItem(oComboBoxItem);
 		},
 		
 		

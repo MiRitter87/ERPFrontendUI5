@@ -1,7 +1,7 @@
 sap.ui.define([
 	"sap/ui/model/json/JSONModel",
-	"sap/ui/core/Item"
-], function (JSONModel, Item) {
+	"../MainController"
+], function (JSONModel, MainController) {
 	"use strict";
 	return {
 		/**
@@ -181,22 +181,10 @@ sap.ui.define([
 		 * Initializes the given ComboBox with items for sales order status selection.
 		 */
 		initializeStatusComboBox : function(oComboBox, oResourceBundle) {
-			this.addItemToComboBox(oComboBox, oResourceBundle, "OPEN", "salesOrder.status.open");
-			this.addItemToComboBox(oComboBox, oResourceBundle, "IN_PROCESS", "salesOrder.status.inProcess");
-			this.addItemToComboBox(oComboBox, oResourceBundle, "FINISHED", "salesOrder.status.finished");
-			this.addItemToComboBox(oComboBox, oResourceBundle, "CANCELED", "salesOrder.status.canceled");
-		},
-		
-		
-		/**
-		 * Adds an item to the ComboBox.
-		 */
-		addItemToComboBox : function(oComboBox, oResourceBundle, sItemKey, sTextKey) {
-			var oComboBoxItem = new Item();
-			
-			oComboBoxItem.setKey(sItemKey);
-			oComboBoxItem.setText(oResourceBundle.getText(sTextKey));
-			oComboBox.addItem(oComboBoxItem);
+			MainController.addItemToComboBox(oComboBox, oResourceBundle, "OPEN", "salesOrder.status.open");
+			MainController.addItemToComboBox(oComboBox, oResourceBundle, "IN_PROCESS", "salesOrder.status.inProcess");
+			MainController.addItemToComboBox(oComboBox, oResourceBundle, "FINISHED", "salesOrder.status.finished");
+			MainController.addItemToComboBox(oComboBox, oResourceBundle, "CANCELED", "salesOrder.status.canceled");
 		},
 		
 		

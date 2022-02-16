@@ -1,7 +1,7 @@
 sap.ui.define([
 	"sap/ui/model/json/JSONModel",
-	"sap/ui/core/Item"
-], function (JSONModel, Item) {
+	"../MainController"
+], function (JSONModel, MainController) {
 	"use strict";
 	return {
 		/**
@@ -130,22 +130,10 @@ sap.ui.define([
 		 * Initializes the given ComboBox with items for purchase order detail status selection.
 		 */
 		initializeDetailStatusComboBox : function(oComboBox, oResourceBundle) {
-			this.addItemToComboBox(oComboBox, oResourceBundle, "INVOICE_RECEIPT", "purchaseOrder.detailStatus.invoiceReceipt");
-			this.addItemToComboBox(oComboBox, oResourceBundle, "GOODS_RECEIPT", "purchaseOrder.detailStatus.goodsReceipt");
-			this.addItemToComboBox(oComboBox, oResourceBundle, "INVOICE_SETTLED", "purchaseOrder.detailStatus.invoiceSettled");
-			this.addItemToComboBox(oComboBox, oResourceBundle, "CANCELED", "purchaseOrder.detailStatus.canceled");
-		},
-		
-		
-		/**
-		 * Adds an item to the ComboBox.
-		 */
-		addItemToComboBox : function(oComboBox, oResourceBundle, sItemKey, sTextKey) {
-			var oComboBoxItem = new Item();
-			
-			oComboBoxItem.setKey(sItemKey);
-			oComboBoxItem.setText(oResourceBundle.getText(sTextKey));
-			oComboBox.addItem(oComboBoxItem);
+			MainController.addItemToComboBox(oComboBox, oResourceBundle, "INVOICE_RECEIPT", "purchaseOrder.detailStatus.invoiceReceipt");
+			MainController.addItemToComboBox(oComboBox, oResourceBundle, "GOODS_RECEIPT", "purchaseOrder.detailStatus.goodsReceipt");
+			MainController.addItemToComboBox(oComboBox, oResourceBundle, "INVOICE_SETTLED", "purchaseOrder.detailStatus.invoiceSettled");
+			MainController.addItemToComboBox(oComboBox, oResourceBundle, "CANCELED", "purchaseOrder.detailStatus.canceled");
 		},
 		
 		

@@ -1,26 +1,14 @@
 sap.ui.define([
-	"sap/ui/core/Item"
-], function (Item) {
+	"../MainController"
+], function (MainController) {
 	"use strict";
 	return {
 		/**
 		 * Initializes the given ComboBox with items for type selection.
 		 */
 		initializeTypeComboBox : function(oComboBox, oResourceBundle) {
-			this.addItemToComboBox(oComboBox, oResourceBundle, "CUSTOMER", "businessPartner.type.customer");
-			this.addItemToComboBox(oComboBox, oResourceBundle, "VENDOR", "businessPartner.type.vendor");
-		},
-		
-		
-		/**
-		 * Adds an item to the given ComboBox.
-		 */
-		addItemToComboBox : function(oComboBox, oResourceBundle, sItemKey, sTextKey) {
-			var oComboBoxItem = new Item();
-			
-			oComboBoxItem.setKey(sItemKey);
-			oComboBoxItem.setText(oResourceBundle.getText(sTextKey));
-			oComboBox.addItem(oComboBoxItem);
+			MainController.addItemToComboBox(oComboBox, oResourceBundle, "CUSTOMER", "businessPartner.type.customer");
+			MainController.addItemToComboBox(oComboBox, oResourceBundle, "VENDOR", "businessPartner.type.vendor");
 		},
 		
 		

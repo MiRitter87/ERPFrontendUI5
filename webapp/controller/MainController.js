@@ -1,6 +1,7 @@
 sap.ui.define([
-	"sap/ui/core/Fragment"
-], function (Fragment) {
+	"sap/ui/core/Fragment",
+	"sap/ui/core/Item"
+], function (Fragment, Item) {
 	"use strict";
 	return {
 		/**
@@ -39,6 +40,18 @@ sap.ui.define([
 				return null;
 				
 			return oSelectedItem.getKey();
+		},
+		
+		
+		/**
+		 * Adds an item to a ComboBox.
+		 */
+		addItemToComboBox : function(oComboBox, oResourceBundle, sItemKey, sTextKey) {
+			var oComboBoxItem = new Item();
+			
+			oComboBoxItem.setKey(sItemKey);
+			oComboBoxItem.setText(oResourceBundle.getText(sTextKey));
+			oComboBox.addItem(oComboBoxItem);
 		},
 		
 		
