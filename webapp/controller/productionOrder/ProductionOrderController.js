@@ -1,6 +1,7 @@
 sap.ui.define([
-	"sap/ui/model/json/JSONModel"
-], function (JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"sap/ui/core/Item"
+], function (JSONModel, Item) {
 	"use strict";
 	return {
 		/**
@@ -116,6 +117,29 @@ sap.ui.define([
 				var oTempItem = oProductionOrderItems[i];
 				oTempItem.itemId = i+1;
 			}
+		},
+		
+		
+		/**
+		 * Initializes the given ComboBox with items for production order status selection.
+		 */
+		initializeStatusComboBox : function(oComboBox, oResourceBundle) {
+			this.addItemToComboBox(oComboBox, oResourceBundle, "OPEN", "productionOrder.status.open");
+			this.addItemToComboBox(oComboBox, oResourceBundle, "IN_PROCESS", "productionOrder.status.inProcess");
+			this.addItemToComboBox(oComboBox, oResourceBundle, "FINISHED", "productionOrder.status.finished");
+			this.addItemToComboBox(oComboBox, oResourceBundle, "CANCELED", "productionOrder.status.canceled");
+		},
+		
+		
+		/**
+		 * Adds an item to the ComboBox.
+		 */
+		addItemToComboBox : function(oComboBox, oResourceBundle, sItemKey, sTextKey) {
+			var oComboBoxItem = new Item();
+			
+			oComboBoxItem.setKey(sItemKey);
+			oComboBoxItem.setText(oResourceBundle.getText(sTextKey));
+			oComboBox.addItem(oComboBoxItem);
 		},
 		
 		
