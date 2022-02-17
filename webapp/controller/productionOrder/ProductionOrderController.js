@@ -132,6 +132,33 @@ sap.ui.define([
 		
 		
 		/**
+		 * The WebService provides dates as milliseconds since 01.01.1970.
+	     * This function initializes the date properties as Date objects based on the given values.
+		 */
+		initializeDatesAsObject : function(oProductionOrders) {			
+			for(var i = 0; i < oProductionOrders.length; i++) {
+    			var oTempProductionOrder = oProductionOrders[i];
+				var oDate;
+    			
+				if(oTempProductionOrder.orderDate != null) {
+					oDate = new Date(oTempProductionOrder.orderDate);
+					oTempProductionOrder.orderDate = oDate;					
+				}
+				
+				if(oTempProductionOrder.plannedExecutionDate != null) {
+					oDate = new Date(oTempProductionOrder.plannedExecutionDate);
+					oTempProductionOrder.plannedExecutionDate = oDate;					
+				}
+				
+				if(oTempProductionOrder.executionDate != null) {
+					oDate = new Date(oTempProductionOrder.executionDate);
+					oTempProductionOrder.executionDate = oDate;					
+				}
+			}
+		},
+		
+		
+		/**
 		 * Calls a WebService operation to create a production order.
 		 */
 		createProductionOrderByWebService : function(oProductionOrderModel, callbackFunction, oCallingController) {
@@ -149,6 +176,30 @@ sap.ui.define([
 					callbackFunction(data, oCallingController);
 				}
 			});
+		},
+		
+		
+		/**
+		 * Queries the production order WebService for all production orders.
+		 */
+		queryProductionOrdersByWebService : function(callbackFunction, oCallingController, bShowSuccessMessage, sOrderStatusQuery) {
+			var sWebServiceBaseUrl = oCallingController.getOwnerComponent().getModel("webServiceBaseUrls").getProperty("/productionOrder");
+			var sQueryUrl;
+			
+			if(sOrderStatusQuery == undefined || sOrderStatusQuery == null)
+				sQueryUrl = sWebServiceBaseUrl + "/";
+			else
+			 	sQueryUrl= sWebServiceBaseUrl + "/" + "?orderStatusQuery=" + sOrderStatusQuery;
+			
+			jQuery.ajax({
+				type : "GET", 
+				contentType : "application/json", 
+				url : sQueryUrl, 
+				dataType : "json", 
+				success : function(data) {
+					callbackFunction(data, oCallingController, bShowSuccessMessage);
+				}
+			});                                                                 
 		}
 	};
 });
