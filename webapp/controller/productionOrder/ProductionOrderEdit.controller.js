@@ -35,6 +35,30 @@ sap.ui.define([
 
 
 		/**
+		 * Handles the selection of an item in the production order ComboBox.
+		 */
+		onProductionOrderSelectionChange : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oProductionOrdersModel = this.getView().getModel("productionOrders");
+			var oProductionOrder, wsProductionOrder;
+			
+			if(oSelectedItem == null) {
+				this.resetUIElements();				
+				return;
+			}
+				
+			oProductionOrder = ProductionOrderController.getProductionOrderById(oSelectedItem.getKey(), oProductionOrdersModel.oData.productionOrder);
+			if(oProductionOrder != null)
+				wsProductionOrder = this.getProductionOrderForWebService(oProductionOrder);
+			
+			//Set the model of the view according to the selected production order to allow binding of the UI elements.
+			this.getView().setModel(wsProductionOrder, "selectedProductionOrder");
+			
+			ProductionOrderController.initializeProductionOrderItemModel(this);
+		},
+
+
+		/**
 		 * Callback function of the queryMaterialsByWebService RESTful WebService call in the MaterialController.
 		 */
 		queryMaterialsCallback : function(oReturnData, oCallingController) {
@@ -89,6 +113,38 @@ sap.ui.define([
 			this.getView().byId("executionDatePicker").setDateValue(null);
 			
 			this.getView().byId("itemTable").destroyItems();
+		},
+		
+		
+		/**
+		 * Creates a representation of a production order that can be processed by the WebService.
+		 */
+		getProductionOrderForWebService : function(oProductionOrder) {
+			var wsProductionOrder = new JSONModel();
+			var wsProductionOrderItem;
+			
+			//Data at head level
+			wsProductionOrder.setProperty("/productionOrderId", oProductionOrder.id);
+			wsProductionOrder.setProperty("/orderDate", oProductionOrder.orderDate);
+			wsProductionOrder.setProperty("/plannedExecutionDate", oProductionOrder.plannedExecutionDate);
+			wsProductionOrder.setProperty("/executionDate", oProductionOrder.executionDate);
+			wsProductionOrder.setProperty("/status", oProductionOrder.status);
+			
+			//Data at item level
+			wsProductionOrder.setProperty("/items", new Array());
+			
+			for(var i = 0; i < oProductionOrder.items.length; i++) {
+				var oTempProductionOrderItem = oProductionOrder.items[i];
+				
+				wsProductionOrderItem = new JSONModel();
+				wsProductionOrderItem.setProperty("/itemId", oTempProductionOrderItem.id);
+				wsProductionOrderItem.setProperty("/materialId", oTempProductionOrderItem.material.id);
+				wsProductionOrderItem.setProperty("/quantity", oTempProductionOrderItem.quantity);
+				
+				wsProductionOrder.oData.items.push(wsProductionOrderItem.oData);
+			}
+			
+			return wsProductionOrder;
 		},
 	});
 });

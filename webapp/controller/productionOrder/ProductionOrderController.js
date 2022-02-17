@@ -121,6 +121,23 @@ sap.ui.define([
 		
 		
 		/**
+		 * Gets the production order data of the production order with the given ID.
+		 */
+		getProductionOrderById : function(iProductionOrderId, oProductionOrders) {
+			//Get the selected production order from the array of all production orders according to the id.
+			for(var i = 0; i < oProductionOrders.length; i++) {
+    			var oTempProductionOrder = oProductionOrders[i];
+    			
+				if(oTempProductionOrder.id == iProductionOrderId) {
+					return oTempProductionOrder;
+				}
+			}
+			
+			return null;
+		},
+		
+		
+		/**
 		 * Initializes the given ComboBox with items for production order status selection.
 		 */
 		initializeStatusComboBox : function(oComboBox, oResourceBundle) {
