@@ -35,7 +35,7 @@ sap.ui.define([
 
 
 		/**
-		 * Opens the dialog to add a new sales order item.
+		 * Opens the dialog to add a new production order item.
 		 */
 		onAddItemPressed : function () {
 			ProductionOrderController.setIdOfNewItem(this.getView().getModel("newProductionOrder"), this);

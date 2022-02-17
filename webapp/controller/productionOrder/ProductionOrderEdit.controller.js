@@ -2,9 +2,11 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./ProductionOrderController",
 	"../material/MaterialController",
+	"../MainController",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/MessageToast"
-], function (Controller, ProductionOrderController, MaterialController, JSONModel, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/m/MessageBox"
+], function (Controller, ProductionOrderController, MaterialController, MainController, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.productionOrder.ProductionOrderEdit", {		
@@ -55,6 +57,32 @@ sap.ui.define([
 			this.getView().setModel(wsProductionOrder, "selectedProductionOrder");
 			
 			ProductionOrderController.initializeProductionOrderItemModel(this);
+		},
+		
+		
+		/**
+		 * Opens the dialog to add a new production order item.
+		 */
+		onAddItemPressed : function () {
+			var oResourceBundle;
+			
+			if(this.byId("productionOrderComboBox").getSelectedKey() == "") {
+				oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+				MessageBox.error(oResourceBundle.getText("productionOrderEdit.noOrderSelected"));
+				return;
+			}
+			
+			ProductionOrderController.setIdOfNewItem(this.getView().getModel("selectedProductionOrder"), this);
+			MainController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.productionOrder.ProductionOrderItemCreate");
+		},
+		
+		
+		/**
+		 * Handles the closing by cancelation of the new item Dialog.
+		 */
+		onCancelDialog : function () {
+			this.byId("newItemDialog").close();
+			this.byId("materialComboBox").setSelectedItem(null);
 		},
 
 
