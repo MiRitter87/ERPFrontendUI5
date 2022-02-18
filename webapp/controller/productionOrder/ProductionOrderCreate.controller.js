@@ -168,12 +168,12 @@ sap.ui.define([
 		/**
 		 * Callback function of the createProductionOrderbyWebService RESTful WebService call in the ProductionOrderController.
 		 */
-		saveProductionOrderCallback : function (oReturnData, callingController) {
+		saveProductionOrderCallback : function (oReturnData, oCallingController) {
 			if(oReturnData.message != null) {
 				if(oReturnData.message[0].type == 'S') {
 					MessageToast.show(oReturnData.message[0].text);
-					callingController.initializeProductionOrderModel();
-					ProductionOrderController.initializeProductionOrderItemModel(callingController);
+					oCallingController.initializeProductionOrderModel();
+					ProductionOrderController.initializeProductionOrderItemModel(oCallingController);
 				}
 				
 				if(oReturnData.message[0].type == 'E') {

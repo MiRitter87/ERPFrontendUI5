@@ -69,7 +69,15 @@ sap.ui.define([
 			if(bInputValid == false)
 				return;
 				
-			//SalesOrderController.saveSalesOrderByWebService(this.getView().getModel("selectedSalesOrder"), this.saveSalesOrderCallback, this);
+			ProductionOrderController.saveProductionOrderByWebService(this.getView().getModel("selectedProductionOrder"), this.saveProductionOrderCallback, this);
+		},
+		
+		
+		/**
+		 * Handles a click at the cancel button.
+		 */
+		onCancelPressed : function () {
+			MainController.navigateToStartpage(sap.ui.core.UIComponent.getRouterFor(this), this.getOwnerComponent().getModel("navigation"));
 		},
 		
 		
@@ -210,6 +218,37 @@ sap.ui.define([
 			}                                                               
 			
 			oCallingController.getView().setModel(oModel, "productionOrders");
+		},
+		
+		
+		/**
+		 *  Callback function of the saveProductionOrder RESTful WebService call in the ProductionOrderController.
+		 */
+		saveProductionOrderCallback : function(oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					//Update the data source of the ComboBox with the new production order data.
+					ProductionOrderController.queryProductionOrdersByWebService(oCallingController.queryProductionOrdersCallback, oCallingController, false);
+					
+					oCallingController.getView().setModel(null, "selectedProductionOrder");
+					ProductionOrderController.initializeProductionOrderItemModel(oCallingController);
+					oCallingController.resetUIElements();
+					
+					MessageToast.show(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'I') {
+					MessageToast.show(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}
 		},
 		
 		
