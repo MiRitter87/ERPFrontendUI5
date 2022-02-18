@@ -61,6 +61,19 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles a click at the save button.
+		 */
+		onSavePressed : function () {
+			var bInputValid = this.verifyObligatoryFields();
+			
+			if(bInputValid == false)
+				return;
+				
+			//SalesOrderController.saveSalesOrderByWebService(this.getView().getModel("selectedSalesOrder"), this.saveSalesOrderCallback, this);
+		},
+		
+		
+		/**
 		 * Opens the dialog to add a new production order item.
 		 */
 		onAddItemPressed : function () {
@@ -243,5 +256,39 @@ sap.ui.define([
 			
 			return wsProductionOrder;
 		},
+		
+		
+		/**
+		 * Verifies input of obligatory fields.
+		 * Returns true if input is valid. Returns false if input is invalid.
+		 */
+		verifyObligatoryFields : function() {
+			var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var iExistingItemCount;
+			var oProductionOrderModel;
+			
+			if(this.getView().byId("statusComboBox").getSelectedKey() == "") {
+				MessageBox.error(oResourceBundle.getText("productionOrderEdit.noStatusSelected"));
+				return false;
+			}
+			
+			if(this.getView().byId("plannedExecutionDatePicker").isValidValue() == false || 
+				this.getView().byId("plannedExecutionDatePicker").getValue() == "") {
+					
+				MessageBox.error(oResourceBundle.getText("productionOrderEdit.noPlannedDateSelected"));
+				return false;
+			}
+			
+			//The order has to have at least one item.
+			oProductionOrderModel = this.getView().getModel("selectedProductionOrder");
+			iExistingItemCount = oProductionOrderModel.oData.items.length;
+			
+			if(iExistingItemCount < 1) {
+				MessageBox.error(oResourceBundle.getText("productionOrderEdit.noItemsExist"));
+				return false;
+			}
+			
+			return true;
+		}
 	});
 });
