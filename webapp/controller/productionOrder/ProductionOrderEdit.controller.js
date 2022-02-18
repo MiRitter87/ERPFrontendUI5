@@ -91,6 +91,26 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the deletion of an item.
+		 */
+		onDeleteItemPressed : function () {
+			var oSelectedItem, oResourceBundle;
+			
+			//Check if an item has been selected.
+			oSelectedItem = this.getView().byId("itemTable").getSelectedItem();
+			if(oSelectedItem == null) {
+				oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+				MessageBox.error(oResourceBundle.getText("productionOrderEdit.noItemSelected"));
+				return;
+			}
+			
+			ProductionOrderController.deleteItemFromOrderModel(this.getSelectedItem(), this.getView().getModel("selectedProductionOrder"));
+			ProductionOrderController.updateItemIds(this.getView().getModel("selectedProductionOrder"));
+			this.updateItemTable();
+		},
+		
+		
+		/**
 		 * Handles the closing by cancelation of the new item Dialog.
 		 */
 		onCancelDialog : function () {
@@ -289,6 +309,33 @@ sap.ui.define([
 			}
 			
 			return true;
+		},
+		
+		
+		/**
+		 * Gets the the selected production order item.
+		 */
+		getSelectedItem : function () {
+			var oListItem = this.getView().byId("itemTable").getSelectedItem();
+			var oContext = oListItem.getBindingContext("selectedProductionOrder");
+			var oSelectedItem = oContext.getProperty(null, oContext);
+			
+			return oSelectedItem;
+		},
+		
+		
+		/**
+		 * Updates the item table in order to display changes of the underlying model.
+		 */
+		updateItemTable : function() {
+			var oProductionOrderModel;
+			
+			//Assures that the changes of the underlying model are being displayed in the view.
+			oProductionOrderModel = this.getView().getModel("selectedProductionOrder");
+			oProductionOrderModel.refresh();						
+			
+			//Assures that the formatters are called again.
+			this.getView().byId("itemTable").rerender();	
 		}
 	});
 });
