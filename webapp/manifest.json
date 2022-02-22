@@ -217,11 +217,14 @@
 				"pattern": "productionOrderCreate",
 				"name": "productionOrderCreateRoute",
 				"target": "productionOrderCreateTarget"
-			}
-			, {
+			}, {
 				"pattern": "productionOrderEdit",
 				"name": "productionOrderEditRoute",
 				"target": "productionOrderEditTarget"
+			}, {
+				"pattern": "productionOrderDisplay",
+				"name": "productionOrderDisplayRoute",
+				"target": "productionOrderDisplayTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -408,10 +411,15 @@
 					"viewId": "productionOrderCreate",
 					"viewName": "productionOrder.ProductionOrderCreate",
 					"viewLevel" : 1
-				}				,
+				},
 				"productionOrderEditTarget": {
 					"viewId": "productionOrderEdit",
 					"viewName": "productionOrder.ProductionOrderEdit",
+					"viewLevel" : 1
+				},
+				"productionOrderDisplayTarget": {
+					"viewId": "productionOrderDisplay",
+					"viewName": "productionOrder.ProductionOrderDisplay",
 					"viewLevel" : 1
 				}
          	}
