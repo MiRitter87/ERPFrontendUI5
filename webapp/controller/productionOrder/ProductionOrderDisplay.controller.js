@@ -1,12 +1,15 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./ProductionOrderController",
+	"../../model/formatter",
 	"sap/ui/model/json/JSONModel",
 	"sap/m/MessageToast"
-], function (Controller, ProductionOrderController, JSONModel, MessageToast) {
+], function (Controller, ProductionOrderController, formatter, JSONModel, MessageToast) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.productionOrder.ProductionOrderDisplay", {
+		formatter: formatter,
+		
 		/**
 		 * Initializes the controller.
 		 */
@@ -26,6 +29,29 @@ sap.ui.define([
 			this.getView().setModel(null, "selectedProductionOrder");
 			//this.resetUIElements();
     	},
+
+
+		/**
+		 * Handles the selection of an item in the production order ComboBox.
+		 */
+		onProductionOrderSelectionChange : function (oControlEvent) {
+			var oSelectedItem = oControlEvent.getParameters().selectedItem;
+			var oProductionOrdersModel = this.getView().getModel("productionOrders");
+			var oProductionOrder;
+			var oProductionOrderModel = new JSONModel();;
+			
+			if(oSelectedItem == null) {
+				this.getView().setModel(oProductionOrder, "selectedProductionOrder");
+				this.resetUIElements();
+				return;
+			}
+						
+			oProductionOrder = ProductionOrderController.getProductionOrderById(oSelectedItem.getKey(), oProductionOrdersModel.oData.productionOrder);
+			oProductionOrderModel.setData(oProductionOrder);
+			
+			//Set the model of the view according to the selected production order to allow binding of the UI elements.
+			this.getView().setModel(oProductionOrderModel, "selectedProductionOrder");
+		},
 
 
 		/**
