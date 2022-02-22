@@ -10,7 +10,107 @@
 	
 	<Page title="{i18n>productionOrderDisplay.header}">
 		<content>
+			<l:VerticalLayout>
+				<Label text="{i18n>productionOrderDisplay.selectionDescription}"/>
+				<ComboBox id="productionOrderComboBox" items="{path: 'productionOrders>/productionOrder/'}" selectionChange=".onProductionOrderSelectionChange">
+					<core:Item key="{productionOrders>id}" text="{productionOrders>id}"/>
+				</ComboBox>
+			</l:VerticalLayout>
 			
+			<f:Form id="productionOrderForm" editable="false">
+				<f:title>
+					<core:Title text="{i18n>productionOrderDisplay.dataHeader}" />
+				</f:title>
+				
+				<f:layout>
+					<f:ResponsiveGridLayout
+						labelSpanXL="3"
+						labelSpanL="3"
+						labelSpanM="3"
+						labelSpanS="12"
+						adjustLabelSpan="false"
+						emptySpanXL="2"
+						emptySpanL="4"
+						emptySpanM="4"
+						emptySpanS="0"
+						columnsXL="2"
+						columnsL="1"
+						columnsM="1"
+						singleContainerFullSize="false" />
+				</f:layout>
+				
+				<f:formContainers>
+					<f:FormContainer title="{i18n>productionOrderDisplay.titleGeneralData}">
+						<f:FormElement label="{i18n>productionOrder.id}">
+							<f:fields>
+								<Text id="idText" text="{selectedProductionOrder>/id}"/>
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>productionOrder.status}">
+							<f:fields>
+								<ObjectStatus id="orderStatus" text="{path: 'selectedProductionOrder>/status', formatter: '.orderStatusTextFormatter'}"
+												state="{path: 'selectedProductionOrder>/status', formatter: '.orderStatusStateFormatter'}"/>
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+					
+					<f:FormContainer title="{i18n>productionOrderDisplay.titleDates}">
+						<f:FormElement label="{i18n>productionOrder.orderDate}">
+							<f:fields>
+								<Text id="orderDateText" text="{path: 'selectedProductionOrder>/orderDate', 
+									formatter: '.formatter.wsDateFormatter'}" />
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>productionOrder.plannedExecutionDate}">
+							<f:fields>
+								<Text id="plannedExecutionDateText" text="{path: 'selectedProductionOrder>/plannedExecutionDate', 
+									formatter: '.formatter.wsDateFormatter'}" />
+							</f:fields>
+						</f:FormElement>
+						
+						<f:FormElement label="{i18n>productionOrder.executionDate}">
+							<f:fields>
+								<Text id="executionDateText" text="{path: 'selectedProductionOrder>/executionDate', 
+									formatter: '.formatter.wsDateFormatter'}" />
+							</f:fields>
+						</f:FormElement>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+			
+			<Table id="itemTable" items="{path: 'selectedProductionOrder>/items/'}" mode="SingleSelectMaster">
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title text="{i18n>productionOrderDisplay.titleItems}"/>
+					</OverflowToolbar>
+				</headerToolbar>
+			
+				<columns>
+					<Column>
+						<Text text="{i18n>productionOrder.itemId}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>productionOrder.itemMaterial}"/>
+					</Column>
+					<Column>
+						<Text text="{i18n>productionOrder.itemQuantity}"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectIdentifier text="{selectedProductionOrder>id}"/>
+							<Text text="{selectedProductionOrder>material/name}"/>
+							<ObjectNumber unit="{selectedProductionOrder>material/unit}" number="{
+										parts:[{path:'selectedProductionOrder>quantity'}],
+										type: 'sap.ui.model.type.Unit',
+										formatOptions: {showMeasure: false}}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
 	</Page>
 </mvc:View>
