@@ -73,6 +73,22 @@ sap.ui.define([
 			}                                                               
 			
 			oCallingController.getView().setModel(oModel, "productionOrders");
+		},
+		
+		
+		/**
+		 * Formatter of the production order status text.
+		 */
+		orderStatusTextFormatter: function(sStatus) {
+			return ProductionOrderController.orderStatusTextFormatter(sStatus, this.getOwnerComponent().getModel("i18n").getResourceBundle());
+		},
+		
+		
+		/**
+		 * Formatter of the production order status state.
+		 */
+		orderStatusStateFormatter: function(sStatus) {
+			return ProductionOrderController.orderStatusStateFormatter(sStatus);
 		}
 	});
 });

@@ -176,6 +176,40 @@ sap.ui.define([
 		
 		
 		/**
+		 * Formatter of the production order status text.
+		 */
+		orderStatusTextFormatter: function(sStatus, oResourceBundle) {
+			switch(sStatus) {
+				case "OPEN":
+					return oResourceBundle.getText("productionOrder.status.open");
+				case "IN_PROCESS":
+					return oResourceBundle.getText("productionOrder.status.inProcess");
+				case "FINISHED":
+					return oResourceBundle.getText("productionOrder.status.finished");
+				case "CANCELED":
+					return oResourceBundle.getText("productionOrder.status.canceled");
+			}
+		},
+		
+		
+		/**
+		 * Formatter of the production order status state.
+		 */
+		orderStatusStateFormatter: function(sStatus) {
+			switch(sStatus) {
+				case "OPEN":
+					return "Information";
+				case "IN_PROCESS":
+					return "Information";
+				case "FINISHED":
+					return "Success";
+				case "CANCELED":
+					return "Error";
+			}
+		},
+		
+		
+		/**
 		 * Calls a WebService operation to create a production order.
 		 */
 		createProductionOrderByWebService : function(oProductionOrderModel, callbackFunction, oCallingController) {
