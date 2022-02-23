@@ -55,7 +55,7 @@ sap.ui.define([
 		
 		
 		/**
-		 * Resets the selection of the business partners. No item in the ComboBox is selected afterwards.
+		 * Resets the selection of the sales order. No item in the ComboBox is selected afterwards.
 		 */
 		resetUIElements : function () {
 			this.getView().byId("salesOrderComboBox").setSelectedItem(null);

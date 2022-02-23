@@ -27,7 +27,7 @@ sap.ui.define([
 			ProductionOrderController.queryProductionOrdersByWebService(this.queryProductionOrdersCallback, this, true);
 			
 			this.getView().setModel(null, "selectedProductionOrder");
-			//this.resetUIElements();
+			this.resetUIElements();
     	},
 
 
@@ -89,6 +89,24 @@ sap.ui.define([
 		 */
 		orderStatusStateFormatter: function(sStatus) {
 			return ProductionOrderController.orderStatusStateFormatter(sStatus);
-		}
+		},
+		
+		
+		/**
+		 * Resets the selection of the production order. No item in the ComboBox is selected afterwards.
+		 */
+		resetUIElements : function () {
+			this.getView().byId("productionOrderComboBox").setSelectedItem(null);
+			
+			this.getView().byId("idText").setText("");
+			this.getView().byId("orderStatus").setText("");
+			
+			this.getView().byId("orderDateText").setText("");
+			this.getView().byId("plannedExecutionDateText").setText("");
+			this.getView().byId("executionDateText").setText("");
+			
+			
+			this.getView().byId("itemTable").destroyItems();
+		},
 	});
 });
