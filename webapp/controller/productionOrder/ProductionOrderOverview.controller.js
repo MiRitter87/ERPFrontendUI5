@@ -30,7 +30,33 @@ sap.ui.define([
 
 
 		/**
-		 * Callback function of the queryProductionOrder RESTful WebService call in the ProductionOrderController.
+		 * Handles a selection of an icon in the IconTabBar for production order filtering.
+		 */
+		onFilterSelect: function (oEvent) {
+			var	sKey = oEvent.getParameter("key");
+
+			//Values for status query.
+			var sOpen = "OPEN";
+			var sInProcess = "IN_PROCESS";
+			var sFinished = "FINISHED";
+			var sCanceled = "CANCELED";
+
+			if (sKey === "All") {
+				ProductionOrderController.queryProductionOrdersByWebService(this.queryProductionOrdersCallback, this, true);
+			} else if (sKey === "Open") {
+				ProductionOrderController.queryProductionOrdersByWebService(this.queryProductionOrdersCallback, this, true, sOpen);
+			} else if (sKey === "In_Process") {
+				ProductionOrderController.queryProductionOrdersByWebService(this.queryProductionOrdersCallback, this, true, sInProcess);
+			} else if (sKey === "Finished") {
+				ProductionOrderController.queryProductionOrdersByWebService(this.queryProductionOrdersCallback, this, true, sFinished);
+			} else if (sKey === "Canceled") {
+				ProductionOrderController.queryProductionOrdersByWebService(this.queryProductionOrdersCallback, this, true, sCanceled);
+			}
+		},
+
+
+		/**
+		 * Callback function of the queryProductionOrders RESTful WebService call in the ProductionOrderController.
 		 */
 		queryProductionOrdersCallback : function(oReturnData, oCallingController, bShowSuccessMessage) {
 			var oModel = new JSONModel();
