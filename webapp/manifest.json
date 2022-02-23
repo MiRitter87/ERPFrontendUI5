@@ -225,6 +225,10 @@
 				"pattern": "productionOrderDisplay",
 				"name": "productionOrderDisplayRoute",
 				"target": "productionOrderDisplayTarget"
+			}, {
+				"pattern": "productionOrderOverview",
+				"name": "productionOrderOverviewRoute",
+				"target": "productionOrderOverviewTarget"
 			}],
 			"targets": {
 				"startPageTarget": {
@@ -420,6 +424,11 @@
 				"productionOrderDisplayTarget": {
 					"viewId": "productionOrderDisplay",
 					"viewName": "productionOrder.ProductionOrderDisplay",
+					"viewLevel" : 1
+				},
+				"productionOrderOverviewTarget": {
+					"viewId": "productionOrderOverview",
+					"viewName": "productionOrder.ProductionOrderOverview",
 					"viewLevel" : 1
 				}
          	}
