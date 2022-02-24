@@ -79,6 +79,22 @@ sap.ui.define([
 		
 		
 		/**
+		 * Handles the press-event of the delete button.
+		 */
+		onDeletePressed : function () {
+			var oResourceBundle;
+			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			
+			if(this.isProductionOrderSelected() == false) {
+				MessageBox.error(oResourceBundle.getText("productionOrderOverview.noProductionOrderSelected"));
+				return;
+			}
+			
+			ProductionOrderController.deleteProductionOrderByWebService(this.getSelectedProductionOrder(), this.deleteProductionOrderCallback, this);
+		},
+		
+		
+		/**
 		 * Handles a click at the close button of the production order details fragment.
 		 */
 		onCloseDialog : function () {
@@ -105,6 +121,27 @@ sap.ui.define([
 			}                                                               
 			
 			oCallingController.getView().setModel(oModel, "productionOrders");
+		},
+		
+		
+		/**
+		 * Callback function of the deleteProductionOrder RESTful WebService call in the ProductionOrderController.
+		 */
+		deleteProductionOrderCallback : function(oReturnData, oCallingController) {
+			if(oReturnData.message != null) {
+				if(oReturnData.message[0].type == 'S') {
+					MessageToast.show(oReturnData.message[0].text);
+					ProductionOrderController.queryProductionOrdersByWebService(oCallingController.queryProductionOrdersCallback, oCallingController, false);
+				}
+				
+				if(oReturnData.message[0].type == 'E') {
+					MessageBox.error(oReturnData.message[0].text);
+				}
+				
+				if(oReturnData.message[0].type == 'W') {
+					MessageBox.warning(oReturnData.message[0].text);
+				}
+			}
 		},
 		
 		
