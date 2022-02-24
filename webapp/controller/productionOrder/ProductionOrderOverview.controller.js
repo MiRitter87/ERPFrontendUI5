@@ -1,10 +1,12 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"./ProductionOrderController",
+	"../MainController",
 	"../../model/formatter",
 	"sap/ui/model/json/JSONModel",
-	"sap/m/MessageToast"
-], function (Controller, ProductionOrderController, formatter, JSONModel, MessageToast) {
+	"sap/m/MessageToast",
+	"sap/m/MessageBox"
+], function (Controller, ProductionOrderController, MainController, formatter, JSONModel, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("ERPFrontendUI5.controller.productionOrder.ProductionOrderOverview", {
@@ -53,6 +55,35 @@ sap.ui.define([
 				ProductionOrderController.queryProductionOrdersByWebService(this.queryProductionOrdersCallback, this, true, sCanceled);
 			}
 		},
+		
+		
+		/**
+		 * Handles the press-event of the show details button.
+		 */
+		onShowDetailsPressed : function () {
+			var oResourceBundle;
+			oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+			var oSelectedProductionOrderModel;
+			
+			if(this.isProductionOrderSelected() == false) {
+				MessageBox.error(oResourceBundle.getText("productionOrderOverview.noProductionOrderSelected"));
+				return;
+			}
+			
+			oSelectedProductionOrderModel = new JSONModel();
+			oSelectedProductionOrderModel.setData(this.getSelectedProductionOrder());
+			this.getView().setModel(oSelectedProductionOrderModel, "selectedProductionOrder");		
+			
+			MainController.openFragmentAsPopUp(this, "ERPFrontendUI5.view.productionOrder.ProductionOrderOverviewDetails");
+		},
+		
+		
+		/**
+		 * Handles a click at the close button of the production order details fragment.
+		 */
+		onCloseDialog : function () {
+			this.byId("orderDetailsDialog").close();
+		},
 
 
 		/**
@@ -91,5 +122,28 @@ sap.ui.define([
 		orderStatusStateFormatter: function(sStatus) {
 			return ProductionOrderController.orderStatusStateFormatter(sStatus);
 		},
+		
+		
+		/**
+		 * Checks if a production order has been selected.
+		 */
+		isProductionOrderSelected : function () {
+			if(this.getView().byId("productionOrderTable").getSelectedItem() == null)
+				return false;
+			else
+				return true;
+		},
+		
+		
+		/**
+		 * Gets the the selected production order.
+		 */
+		getSelectedProductionOrder : function () {
+			var oListItem = this.getView().byId("productionOrderTable").getSelectedItem();
+			var oContext = oListItem.getBindingContext("productionOrders");
+			var oSelectedProductionOrder = oContext.getProperty(null, oContext);
+			
+			return oSelectedProductionOrder;
+		}
 	});
 });
