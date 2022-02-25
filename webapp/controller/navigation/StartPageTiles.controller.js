@@ -294,6 +294,42 @@ sap.ui.define([
 		onAccountOverviewPressed : function () {
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.navTo("accountOverviewRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the production order create tile.
+		 */
+		onProductionOrderCreatePressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("productionOrderCreateRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the production order edit tile.
+		 */
+		onProductionOrderEditPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("productionOrderEditRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the production order display tile.
+		 */
+		onProductionOrderDisplayPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("productionOrderDisplayRoute");	
+		},
+		
+		
+		/**
+		 * Handles click at the production order overview tile.
+		 */
+		onProductionOrderOverviewPressed : function () {
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.navTo("productionOrderOverviewRoute");	
 		}
 	});
 
