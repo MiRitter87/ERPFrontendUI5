@@ -82,6 +82,12 @@ sap.ui.define([
 			var oImageMetaDataModel = this.getView().getModel("imageMetaData");
 			var oImageForDisplayModel = this.getView().getModel("newImage");
 			
+			if(this.getView().byId("materialComboBox").getSelectedKey() == "") {
+				var oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+				MessageBox.error(oResourceBundle.getText("materialEdit.noMaterialForImageUpload"));
+				return;
+			}
+			
 			oFileUploader.setUploadUrl(sWebServiceBaseUrl + "/data");
 			
 			oFileUploader.checkFileReadable().then(function() {
