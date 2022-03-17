@@ -69,7 +69,8 @@
 				</f:FormContainer>
 			</f:Form>
 			
-			<Table id="postingTable" items="{path: 'selectedAccount>/postings/'}" mode="SingleSelectMaster">
+			<Table id="postingTable" items="{path: 'selectedAccount>/postings/', sorter: {path: 'id'}}" mode="SingleSelectMaster">
+				
 				<headerToolbar>
 					<OverflowToolbar>
 						<Title text="{i18n>accountDisplay.titlePostings}"/>
