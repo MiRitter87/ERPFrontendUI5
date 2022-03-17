@@ -79,7 +79,7 @@
 				</f:formContainers>
 			</f:Form>
 			
-			<Table id="itemTable" items="{path: 'selectedPurchaseOrder>/items/'}" mode="SingleSelectMaster">
+			<Table id="itemTable" items="{path: 'selectedPurchaseOrder>/items/', sorter: {path: 'id'}}" mode="SingleSelectMaster">
 				<headerToolbar>
 					<OverflowToolbar>
 						<Title text="{i18n>purchaseOrderOverview.titleItems}"/>
